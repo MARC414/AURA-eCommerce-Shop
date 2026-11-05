@@ -228,6 +228,20 @@ test('enhancement script contains no network, payment, order, or customer-data p
   assert.doesNotMatch(script, /querySelector\('\[data-gallery-caption\]'\)/);
 });
 
+test('product pages emit canonical, JSON-LD, and no fake offers', () => {
+  assert.match(shopPage, /<link rel="canonical" href="\/shop\/turmeric-cleansing-soap\/">/);
+  assert.match(shopPage, /application\/ld\+json/);
+  assert.match(shopPage, /"@type":"Product"/);
+  assert.match(shopPage, /"@type":"BreadcrumbList"/);
+  // No price => no Offer block (Google penalises fake offers)
+  assert.doesNotMatch(shopPage, /"@type":"Offer"/);
+  assert.match(affiliatePage, /rel="sponsored noopener noreferrer"/);
+  assert.match(shopPage, /property="og:image"/);
+  // Blocked claims appear only in the "Claims we will not make" panel, never as AURA copy.
+  const head = shopPage.split('</head>')[0];
+  assert.doesNotMatch(head, /anti-acne|brighten|whitening|melanin|oil control/i);
+});
+
 test('styles include visible focus, responsive layouts, and reduced-motion support', async () => {
   const css = await readFile(new URL('../public/assets/product-pages.css', import.meta.url), 'utf8');
   assert.match(css, /:focus-visible/);

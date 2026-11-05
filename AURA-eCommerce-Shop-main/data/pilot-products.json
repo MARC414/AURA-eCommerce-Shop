@@ -32,15 +32,38 @@
     "currency": "GBP",
     "variants": [],
     "specifications": [
-      { "label": "Listed size", "value": "100g — supplier-stated" },
-      { "label": "Full ingredients", "value": "Awaiting supplier confirmation" },
-      { "label": "Available options", "value": "Awaiting supplier confirmation" },
-      { "label": "Availability", "value": "Not open for ordering on AURA" }
+      {
+        "label": "Listed size",
+        "value": "100g — supplier-stated"
+      },
+      {
+        "label": "Full ingredients",
+        "value": "Awaiting supplier confirmation"
+      },
+      {
+        "label": "Available options",
+        "value": "Awaiting supplier confirmation"
+      },
+      {
+        "label": "Availability",
+        "value": "Not open for ordering on AURA"
+      }
     ],
     "deliveryNote": "Destinations, shipping charges, and delivery estimates will be confirmed before AURA accepts orders. No dispatch or arrival date is promised in this preview.",
     "returnsNote": "AURA’s returns and support terms will be published before sales open. The supplier’s policy is not presented as AURA’s policy.",
     "usageNote": "Supplier directions, the full ingredient list, and relevant warnings need checking before publication. This page does not make treatment or skin-lightening claims.",
-    "dataNote": "This is a display-only product page. The selected listing is a sourcing reference, not a confirmed supply agreement."
+    "dataNote": "This is a display-only product page. The selected listing is a sourcing reference, not a confirmed supply agreement.",
+    "seo": {
+      "title": "Turmeric Cleansing Soap 100g — AURA shop preview",
+      "description": "A 100g turmeric cleansing soap bar in AURA shop preview. Ingredients and price pending supplier confirmation. No treatment claims.",
+      "keywords": [
+        "turmeric soap bar",
+        "turmeric cleansing soap",
+        "100g soap bar",
+        "everyday cleansing bar"
+      ],
+      "note": "Draft keywords for structure only. No search-volume data held; do not treat as researched. No medical or skin-tone claims."
+    }
   },
   {
     "id": "cj-2114448810729783298",
@@ -75,16 +98,38 @@
     "currency": "GBP",
     "variants": [],
     "specifications": [
-      { "label": "Listing format", "value": "Cleansing pads — draft from the URL" },
-      { "label": "Ingredients and quantity", "value": "Check the current CJ listing" },
-      { "label": "Options and availability", "value": "Confirmed on CJ, not on AURA" },
-      { "label": "Purchase location", "value": "External CJ website" }
+      {
+        "label": "Listing format",
+        "value": "Cleansing pads — draft from the URL"
+      },
+      {
+        "label": "Ingredients and quantity",
+        "value": "Check the current CJ listing"
+      },
+      {
+        "label": "Options and availability",
+        "value": "Confirmed on CJ, not on AURA"
+      },
+      {
+        "label": "Purchase location",
+        "value": "External CJ website"
+      }
     ],
     "disclosure": "This is the referral link supplied for AURA’s preview. AURA may earn a commission only if the referral qualifies under CJ’s program. Commission eligibility has not yet been verified.",
     "deliveryNote": "Any purchase takes place on CJ. Check the destination-specific delivery options and charges there; AURA does not dispatch this item.",
     "returnsNote": "Check the actual seller and the return, refund, and support terms on CJ before purchasing. This item is not sold through AURA’s checkout.",
     "usageNote": "Read the current merchant description, ingredient list, directions, and warnings. AURA has not independently tested or reviewed this product.",
-    "dataNote": "This page demonstrates the affiliate/referral layout. It does not confirm that an ordinary product purchase earns a commission."
+    "dataNote": "This page demonstrates the affiliate/referral layout. It does not confirm that an ordinary product purchase earns a commission.",
+    "seo": {
+      "title": "Turmeric Cleansing Pads — Discover with CJ",
+      "description": "External CJ listing for turmeric cleansing pads. AURA introduces the listing and links out; availability and price are confirmed on CJ.",
+      "keywords": [
+        "turmeric cleansing pads",
+        "facial cleansing pads",
+        "CJ turmeric pads"
+      ],
+      "note": "Draft keywords for structure only. Listing identity unverified; no search-volume data held. No efficacy claims."
+    }
   },
   {
     "id": "aliexpress-1005008143754192",
@@ -127,20 +172,59 @@
     "price": null,
     "currency": "GBP",
     "variants": [
-      { "label": "Pack of 1", "sku": null, "price": null },
-      { "label": "Pack of 3", "sku": null, "price": null },
-      { "label": "Pack of 5", "sku": null, "price": null }
+      {
+        "label": "Pack of 1",
+        "sku": null,
+        "price": null
+      },
+      {
+        "label": "Pack of 3",
+        "sku": null,
+        "price": null
+      },
+      {
+        "label": "Pack of 5",
+        "sku": null,
+        "price": null
+      }
     ],
     "specifications": [
-      { "label": "Net weight", "value": "100 g / 3.5 oz — supplier-stated" },
-      { "label": "Format", "value": "Solid soap bar" },
-      { "label": "Options", "value": "Pack of 1, 3, or 5 — prices pending" },
-      { "label": "Period after opening", "value": "12 months — supplier-stated" },
-      { "label": "Shelf life", "value": "36 months — supplier-stated" },
-      { "label": "Country of origin", "value": "China — supplier-stated" },
-      { "label": "Full ingredient list (INCI)", "value": "Not supplied — required before sale" },
-      { "label": "Product identifier", "value": "12000043973353662-WK-aloe-vera-soapX1 — supplier-stated" },
-      { "label": "Availability", "value": "Not open for ordering on AURA" }
+      {
+        "label": "Net weight",
+        "value": "100 g / 3.5 oz — supplier-stated"
+      },
+      {
+        "label": "Format",
+        "value": "Solid soap bar"
+      },
+      {
+        "label": "Options",
+        "value": "Pack of 1, 3, or 5 — prices pending"
+      },
+      {
+        "label": "Period after opening",
+        "value": "12 months — supplier-stated"
+      },
+      {
+        "label": "Shelf life",
+        "value": "36 months — supplier-stated"
+      },
+      {
+        "label": "Country of origin",
+        "value": "China — supplier-stated"
+      },
+      {
+        "label": "Full ingredient list (INCI)",
+        "value": "Not supplied — required before sale"
+      },
+      {
+        "label": "Product identifier",
+        "value": "12000043973353662-WK-aloe-vera-soapX1 — supplier-stated"
+      },
+      {
+        "label": "Availability",
+        "value": "Not open for ordering on AURA"
+      }
     ],
     "deliveryNote": "The supplier listing showed free standard shipping to the United Kingdom with a delivery window of 19–24 November. AURA has not confirmed a destination list, a shipping rate, or a dispatch commitment, and promises no delivery date in this preview.",
     "returnsNote": "AURA’s returns and support terms will be published before sales open. The supplier advertises 90-day free returns; that is the supplier’s policy, not AURA’s, and has not been verified.",
@@ -150,6 +234,17 @@
       "The supplier listing states a maximum of one piece per shopper at the displayed price. Confirm whether a business can order multiple units before treating this as a dropshipping candidate.",
       "The listing is sold by the brand’s own store at retail price including VAT, which leaves little or no resale margin.",
       "Only 9 units sold and 5 reviews were shown, which is thin evidence of demand and of stock reliability."
-    ]
+    ],
+    "seo": {
+      "title": "Aloe Vera Cleansing Bar 100g — AURA shop preview",
+      "description": "A 100g aloe vera soap bar in AURA shop preview. Full ingredient list, safety report and price are pending. No treatment or skin-tone claims are made.",
+      "keywords": [
+        "aloe vera soap bar",
+        "aloe vera cleansing bar",
+        "100g soap bar",
+        "solid soap bar"
+      ],
+      "note": "Draft keywords for structure only. No search-volume data held. Blocked claims (acne, brightening, oil control) are never used as keywords."
+    }
   }
 ]

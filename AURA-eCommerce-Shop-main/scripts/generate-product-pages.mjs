@@ -38,4 +38,23 @@ for (const page of pages) {
   console.log(`Generated ${page.path}`);
 }
 
+// Preview robots/sitemap: pages are noindex until launch. When the site goes
+// live, replace robots.txt with an allow rule and make sitemap URLs absolute.
+await writeFile(
+  join(projectRoot, 'public/robots.txt'),
+  '# AURA preview — do not index until launch\nUser-agent: *\nDisallow: /\n',
+  'utf8'
+);
+console.log('Generated /robots.txt (preview: disallow all)');
+
+const sitemapUrls = pages
+  .map(page => `  <url><loc>${page.path}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>`)
+  .join('\n');
+await writeFile(
+  join(projectRoot, 'public/sitemap.xml'),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<!-- Preview sitemap. Pages are noindex until launch. Make loc absolute at go-live. -->\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapUrls}\n</urlset>\n`,
+  'utf8'
+);
+console.log('Generated /sitemap.xml');
+
 console.log('Preview pages are display-only and noindex. No orders, payment calls, or supplier API calls were made.');

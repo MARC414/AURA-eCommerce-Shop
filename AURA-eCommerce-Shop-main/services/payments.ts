@@ -49,6 +49,15 @@ export const PAYMENT_PROVIDERS: PaymentProvider[] = [
     unavailableReason: 'No wallet provider is connected yet.',
     settlementCountries: [],
     note: 'For bKash, Nagad, or a similar wallet once a merchant account exists.'
+  },
+  {
+    id: 'payoneer',
+    name: 'Payoneer',
+    kind: 'manual',
+    enabled: false,
+    unavailableReason: 'Owner holds Payoneer. Not yet connected as a settlement route.',
+    settlementCountries: [],
+    note: 'Payoneer can RECEIVE money (e.g. via USD bank details / payment requests) but it is not a hosted checkout: it cannot take a customer card payment on the AURA page. Usable only as: AURA invoices the customer, customer pays to the Payoneer-linked account, AURA confirms receipt, then fulfils. Requires: trading entity details on the invoice and confirmation that the Payoneer account can issue receiving details for that entity/country. Until then it stays disabled.'
   }
 ];
 

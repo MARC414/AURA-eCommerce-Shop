@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} · {{category}} — AURA</title>
+    <meta name="description" content="{{description}}">
+    <meta name="keywords" content="{{keywords}}">
+    <meta property="og:title" content="{{title}} · {{category}} — AURA">
+    <meta property="og:description" content="{{description}}">
+    <meta property="og:image" content="{{imageUrl}}">
+    <meta property="og:url" content="{{url}}">
+    <meta property="og:type" content="product">
+    <meta property="og:price:currency" content="{{currency}}">
+    <meta property="og:price:amount" content="{{price}}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{title}} · {{category}} — AURA">
+    <meta name="twitter:description" content="{{description}}">
+    <meta name="twitter:image" content="{{imageUrl}}">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": "{{title}}",
+        "description": "{{description}}",
+        "image": "{{imageUrl}}",
+        "url": "{{url}}",
+        "brand": {
+            "@type": "Brand",
+            "name": "AURA"
+        },
+        {{#if price}}
+        "offers": {
+            "@type": "Offer",
+            "priceCurrency": "{{currency}}",
+            "price": "{{price}}",
+            "availability": "https://schema.org/InStock",
+            "itemCondition": "https://schema.org/NewCondition"
+        },
+        {{/if}}
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "{{ratingValue}}",
+            "reviewCount": "{{reviewCount}}"
+        }
+    }
+    </script>
+
+    <link rel="stylesheet" href="/assets/product-detail.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- Header -->
+    <header class="site-header" role="banner">
+        <div class="header-container">
+            <div class="header-left">
+                <a href="/" class="logo" aria-label="AURA Home">
+                    <span class="logo-text">AURA</span>
+                    <span class="tagline">Quiet Living</span>
+                </a>
+            </div>
+
+            <nav class="main-nav" aria-label="Main Navigation">
+                <ul class="nav-list">
+                    <li><a href="/shop/" class="nav-link">Shop</a></li>
+                    <li><a href="/discover/" class="nav-link">Discover</a></li>
+                    <li><a href="/library/" class="nav-link">Library</a></li>
+                    <li><a href="/about/" class="nav-link">About</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-right">
+                <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+                    <span class="hamburger"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <div class="breadcrumb-container">
+            <ol class="breadcrumb-list">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{categoryUrl}}">{{category}}</a></li>
+                <li class="breadcrumb-item current" aria-current="page">{{title}}</li>
+            </ol>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main-content">
+        <div class="product-container">
+            <!-- Product Gallery -->
+            <section class="product-gallery" aria-labelledby="gallery-heading">
+                <h2 id="gallery-heading" class="visually-hidden">Product Images</h2>
+
+                <!-- Main Image -->
+                <div class="image-main">
+                    <img id="main-product-image"
+                         src="{{imageUrl}}"
+                         alt="{{title}}"
+                         loading="lazy"
+                         fetchpriority="high"
+                         width="800"
+                         height="800">
+                </div>
+
+                <!-- Thumbnail Gallery -->
+                <div class="thumbnail-gallery" role="tablist" aria-label="Product thumbnails">
+                    {{#each images}}
+                    <button class="thumbnail"
+                            role="tab"
+                            aria-selected="{{@index === 0}}"
+                            data-index="{{@index}}"
+                            data-src="{{this}}"
+                            data-alt="{{../title}} - Image {{@index}}">
+                        <img src="{{this}}"
+                             alt="{{../title}} - Image {{@index}}"
+                             width="100"
+                             height="100">
+                    </button>
+                    {{/each}}
+                </div>
+
+                <!-- Product Badges -->
+                <div class="product-badges">
+                    {{#if isNew}}
+                    <span class="badge badge-new">New</span>
+                    {{/if}}
+                    {{#if isBestseller}}
+                    <span class="badge badge-bestseller">Bestseller</span>
+                    {{/if}}
+                    {{#if isLimited}}
+                    <span class="badge badge-limited">Limited Edition</span>
+                    {{/if}}
+                </div>
+            </section>
+
+            <!-- Product Information -->
+            <section class="product-info" aria-labelledby="product-heading">
+                <h1 id="product-heading" class="product-title">{{title}}</h1>
+
+                <!-- Category and Meta -->
+                <div class="product-meta">
+                    <span class="category">{{category}}</span>
+                    {{#if sku}}
+                    <span class="sku">SKU: {{sku}}</span>
+                    {{/if}}
+                </div>
+
+                <!-- Rating -->
+                {{#if ratingValue}}
+                <div class="product-rating" aria-label="Product rating">
+                    <div class="stars">
+                        {{#times 5}}
+                        {{#if @index < ratingValue}}
+                        <span class="star filled">★</span>
+                        {{else}}
+                        <span class="star empty">☆</span>
+                        {{/if}}
+                        {{/times}}
+                    </div>
+                    <span class="rating-text">{{ratingValue}} out of 5 ({{reviewCount}} reviews)</span>
+                </div>
+                {{/if}}
+
+                <!-- Price -->
+                <div class="price-section">
+                    {{#if price}}
+                    <div class="price-container">
+                        <span class="price">{{currencySymbol}}{{price}}</span>
+                        {{#if originalPrice}}
+                        <span class="original-price">{{currencySymbol}}{{originalPrice}}</span>
+                        <span class="discount-badge">{{discount}}% OFF</span>
+                        {{/if}}
+                    </div>
+                    {{else}}
+                    <div class="price-pending">
+                        <span class="price-label">Price</span>
+                        <span class="price-value">Contact for pricing</span>
+                    </div>
+                    {{/if}}
+                </div>
+
+                <!-- Purchase Options -->
+                <div class="purchase-options">
+                    {{#if variants}}
+                    <div class="variant-selector">
+                        <label for="variant-select">Choose option:</label>
+                        <select id="variant-select" class="variant-select">
+                            {{#each variants}}
+                            <option value="{{this.value}}" data-price="{{this.price}}">{{this.label}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    {{/if}}
+
+                    <div class="quantity-selector">
+                        <label for="quantity">Quantity:</label>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" aria-label="Decrease quantity" data-action="decrease">−</button>
+                            <input type="number" id="quantity" class="quantity-input" min="1" value="1">
+                            <button class="quantity-btn" aria-label="Increase quantity" data-action="increase">+</button>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        {{#if price}}
+                        <button class="btn btn-primary add-to-cart" data-product-id="{{id}}">
+                            <span class="btn-text">Add to Cart</span>
+                            <span class="btn-icon">🛒</span>
+                        </button>
+                        <button class="btn btn-secondary buy-now" data-product-id="{{id}}">
+                            <span class="btn-text">Buy Now</span>
+                            <span class="btn-icon">💳</span>
+                        </button>
+                        {{else}}
+                        <button class="btn btn-primary request-quote" data-product-id="{{id}}">
+                            <span class="btn-text">Request Quote</span>
+                            <span class="btn-icon">📧</span>
+                        </button>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="payment-methods">
+                    <p class="payment-text">We accept:</p>
+                    <div class="payment-icons">
+                        <span class="payment-icon">💳</span>
+                        <span class="payment-icon">🏦</span>
+                        <span class="payment-icon">📱</span>
+                    </div>
+                </div>
+
+                <!-- Shipping Info -->
+                <div class="shipping-info">
+                    <p class="shipping-text">Free shipping on orders over {{currencySymbol}}{{freeShippingThreshold}}</p>
+                    <p class="delivery-time">Estimated delivery: 3-5 business days</p>
+                </div>
+
+                <!-- Action Links -->
+                <div class="action-links">
+                    <button class="btn-link wishlist-btn" data-product-id="{{id}}">
+                        <span class="icon">❤️</span>
+                        <span class="text">Add to Wishlist</span>
+                    </button>
+                    <button class="btn-link compare-btn" data-product-id="{{id}}">
+                        <span class="icon">⚖️</span>
+                        <span class="text">Compare</span>
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- Product Tabs -->
+        <section class="product-tabs" aria-labelledby="tabs-heading">
+            <h2 id="tabs-heading" class="visually-hidden">Product Details</h2>
+
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-tab="description" aria-selected="true">Description</button>
+                    <button class="tab-btn" data-tab="details" aria-selected="false">Details</button>
+                    <button class="tab-btn" data-tab="shipping" aria-selected="false">Shipping & Returns</button>
+                    <button class="tab-btn" data-tab="reviews" aria-selected="false">Reviews ({{reviewCount}})</button>
+                </div>
+
+                <div class="tabs-content">
+                    <!-- Description Tab -->
+                    <div class="tab-pane active" id="description" role="tabpanel">
+                        <div class="description-content">
+                            <h3>{{title}}</h3>
+                            <div class="description-text">
+                                {{{description}}}
+                            </div>
+
+                            <div class="features-list">
+                                <h4>Key Features</h4>
+                                <ul>
+                                    {{#each features}}
+                                    <li>{{this}}</li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Details Tab -->
+                    <div class="tab-pane" id="details" role="tabpanel">
+                        <div class="details-content">
+                            <h3>Product Specifications</h3>
+                            <div class="specs-grid">
+                                {{#each specifications}}
+                                <div class="spec-item">
+                                    <dt>{{this.label}}</dt>
+                                    <dd>{{this.value}}</dd>
+                                </div>
+                                {{/each}}
+                            </div>
+
+                            <div class="ingredients-section">
+                                <h4>Ingredients</h4>
+                                <div class="ingredients-list">
+                                    {{#each ingredients}}
+                                    <div class="ingredient">{{this}}</div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Tab -->
+                    <div class="tab-pane" id="shipping" role="tabpanel">
+                        <div class="shipping-content">
+                            <h3>Shipping Information</h3>
+                            <div class="shipping-section">
+                                <h4>Delivery Options</h4>
+                                <ul>
+                                    <li>Standard Delivery: 3-5 business days</li>
+                                    <li>Express Delivery: 1-2 business days</li>
+                                    <li>International Delivery: 7-14 business days</li>
+                                </ul>
+
+                                <h4>Returns Policy</h4>
+                                <p>30-day return policy. Items must be in original condition with tags attached.</p>
+
+                                <h4>Customs & Duties</h4>
+                                <p>International customers are responsible for customs duties and taxes.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reviews Tab -->
+                    <div class="tab-pane" id="reviews" role="tabpanel">
+                        <div class="reviews-content">
+                            <div class="review-summary">
+                                <h3>Customer Reviews</h3>
+                                <div class="review-rating">
+                                    <div class="stars">
+                                        {{#times 5}}
+                                        {{#if @index < ratingValue}}
+                                        <span class="star filled">★</span>
+                                        {{else}}
+                                        <span class="star empty">☆</span>
+                                        {{/if}}
+                                        {{/times}}
+                                    </div>
+                                    <span class="rating-value">{{ratingValue}} out of 5</span>
+                                </div>
+
+                                <div class="review-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-label">Quality</span>
+                                        <div class="stat-bar">
+                                            <div class="stat-fill" style="width: {{qualityRating}}%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Value</span>
+                                        <div class="stat-bar">
+                                            <div class="stat-fill" style="width: {{valueRating}}%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Satisfaction</span>
+                                        <div class="stat-bar">
+                                            <div class="stat-fill" style="width: {{satisfactionRating}}%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="review-form">
+                                <h4>Write a Review</h4>
+                                <form class="review-form">
+                                    <div class="form-group">
+                                        <label for="review-name">Name</label>
+                                        <input type="text" id="review-name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="review-email">Email</label>
+                                        <input type="email" id="review-email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="review-rating">Rating</label>
+                                        <div class="rating-input">
+                                            <span class="star-input" data-rating="1">☆</span>
+                                            <span class="star-input" data-rating="2">☆</span>
+                                            <span class="star-input" data-rating="3">☆</span>
+                                            <span class="star-input" data-rating="4">☆</span>
+                                            <span class="star-input" data-rating="5">☆</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="review-text">Review</label>
+                                        <textarea id="review-text" rows="4" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Affiliate Section -->
+        {{#if affiliateLink}}
+        <section class="affiliate-section" aria-labelledby="affiliate-heading">
+            <h2 id="affiliate-heading">Find this product elsewhere</h2>
+            <p class="affiliate-text">You can also purchase this product through our trusted partners:</p>
+            <div class="affiliate-links">
+                <a href="{{affiliateLink}}" target="_blank" rel="noopener noreferrer" class="affiliate-link">
+                    <span class="affiliate-logo">Partner Logo</span>
+                    <span class="affiliate-name">{{affiliateName}}</span>
+                    <span class="affiliate-discount">{{affiliateDiscount}}% off</span>
+                    <span class="affiliate-arrow">→</span>
+                </a>
+            </div>
+            <p class="affiliate-note">Purchases through these links support AURA at no additional cost to you.</p>
+        </section>
+        {{/if}}
+
+        <!-- Related Products -->
+        <section class="related-products" aria-labelledby="related-heading">
+            <h2 id="related-heading">You May Also Like</h2>
+            <div class="related-products-grid">
+                {{#each relatedProducts}}
+                <article class="product-card">
+                    <a href="{{this.url}}" class="product-link">
+                        <div class="product-image">
+                            <img src="{{this.image}}" alt="{{this.title}}" loading="lazy">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">{{this.title}}</h3>
+                            <p class="product-category">{{this.category}}</p>
+                            <p class="product-price">{{this.price}}</p>
+                        </div>
+                    </a>
+                </article>
+                {{/each}}
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About AURA</h3>
+                <p>Objects and knowledge for a slower, more sensory life.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="/contact">Contact Us</a></li>
+                    <li><a href="/shipping">Shipping Information</a></li>
+                    <li><a href="/returns">Returns & Exchanges</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/cookies">Cookie Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul>
+                    <li><a href="/instagram">Instagram</a></li>
+                    <li><a href="/pinterest">Pinterest</a></li>
+                    <li><a href="/newsletter">Newsletter</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 AURA. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Newsletter Popup -->
+    <div class="newsletter-popup" id="newsletter-popup" role="dialog" aria-modal="true" aria-labelledby="newsletter-title">
+        <div class="popup-content">
+            <button class="popup-close" aria-label="Close popup">&times;</button>
+            <h3 id="newsletter-title">Join Our Newsletter</h3>
+            <p>Get 10% off your first order and stay updated with our latest products and stories.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Your email address" required>
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/assets/product-detail.js" defer></script>
+</body>
+</html>

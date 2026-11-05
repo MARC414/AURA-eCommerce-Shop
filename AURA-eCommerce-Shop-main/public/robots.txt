@@ -1,0 +1,3 @@
+# AURA preview — do not index until launch
+User-agent: *
+Disallow: /

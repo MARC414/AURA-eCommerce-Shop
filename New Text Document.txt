@@ -1,0 +1,205 @@
+১. সম্পূর্ণ Premium Website তৈরির Master Prompt
+**Prompt:**
+Act as a world-class web designer, senior frontend developer, and creative director with 15+ years of experience building award-winning websites.
+Build a visually stunning, ultra-premium website for my business.
+Business Name: [YOUR BUSINESS NAME]
+Business Type: [YOUR BUSINESS TYPE]
+Target Audience: [YOUR TARGET AUDIENCE]
+Primary Goal: [GET LEADS / SELL PRODUCTS / SHOWCASE SERVICES]
+Website Language: [ENGLISH / BANGLA]
+Design Requirements:
+- Premium, minimalist, sophisticated visual identity.
+- Modern typography with beautiful font pairings.
+- Elegant spacing, clean layouts, and strong visual hierarchy.
+- Smooth scrolling and subtle interactive animations.
+- Fully responsive design for mobile, tablet, and desktop.
+- Visually appealing hero section with compelling headlines.
+- Professional service sections, testimonials, FAQ, and footer.
+- Clear calls to action designed to increase conversions.
+Use React and Tailwind CSS if supported by the environment. Otherwise, use clean HTML, CSS, and JavaScript.
+Create the actual working website in an interactive preview, not just a description or design concept.
+Use editable placeholder content wherever business information is missing. Never invent customer testimonials or business achievements.
+Make the result feel like a premium website created by an experienced digital agency.
+Reply
+AI with Kabir - Bangla
+  ·
+  ·
+Author
+২. Website-এ Apple-এর মতো Premium Design আনুন
+**Prompt:**
+Act as an award-winning UI/UX designer specializing in luxury digital experiences.
+Redesign my existing website to achieve the visual quality and attention to detail associated with premium technology brands.
+Focus on:
+1. Elegant typography and exceptional readability.
+2. Sophisticated neutral colors with one carefully chosen accent color.
+3. Generous whitespace and balanced composition.
+4. Beautiful product or service presentation.
+5. Consistent spacing, alignment, and component styling.
+6. Subtle shadows, refined borders, and tasteful visual depth.
+7. Minimalist navigation and intuitive content hierarchy.
+8. Smooth, restrained transitions and hover effects.
+Avoid generic templates, excessive gradients, unnecessary decorations, and overcrowded sections.
+Create a distinctive brand identity rather than copying any existing company's website.
+Preserve the existing business information and functional features.
+Implement the redesigned interface directly and show the updated preview.
+Reply
+AI with Kabir - Bangla
+  ·
+  ·
+Author
+৩. এমন Hero Section বানান, যা দেখেই Visitor আগ্রহী হবে
+**Prompt:**
+Act as an expert conversion-focused landing page designer and direct-response copywriter.
+Redesign the hero section of my website to immediately capture attention and communicate the value of my business.
+My main product or service: [YOUR PRODUCT OR SERVICE]
+My ideal customer: [YOUR TARGET CUSTOMER]
+My biggest customer benefit: [MAIN BENEFIT]
+Create a hero section featuring:
+- A short, powerful, benefit-driven headline.
+- A clear supporting description.
+- One compelling primary call-to-action button.
+- One secondary call-to-action if appropriate.
+- A distinctive visual element demonstrating the product or service.
+- A tasteful animation that improves the experience.
+- Trust signals only when real information is available.
+- Excellent readability and spacing on mobile devices.
+First generate three headline options and select the strongest one with a brief explanation.
+Then implement the complete hero section directly into my website.
+Make it visually memorable, professional, and optimized for clarity and conversions.
+Reply
+AI with Kabir - Bangla
+  ·
+  ·
+Author
+৪. Website-এর Content ও Sales Copy Professional করুন
+**Prompt:**
+Act as a senior website copywriter, brand strategist, and conversion optimization specialist.
+Rewrite all the content on my website to make it clearer, more persuasive, professional, and customer-focused.
+Business Information: [DESCRIBE YOUR BUSINESS]
+Target Audience: [DESCRIBE YOUR IDEAL CUSTOMERS]
+Main Offer: [DESCRIBE YOUR PRODUCT OR SERVICE]
+Brand Voice: [PROFESSIONAL / FRIENDLY / PREMIUM]
+Website Language: [ENGLISH / NATURAL BANGLA]
+Improve the following sections:
+1. Hero headline and supporting text.
+2. About Us section.
+3. Services and benefits.
+4. Why Choose Us section.
+5. How It Works section.
+6. Pricing or packages, if applicable.
+7. Frequently Asked Questions.
+8. Contact section and CTA buttons.
+Use clear language, strong value propositions, and specific customer benefits.
+Avoid generic marketing phrases, unrealistic promises, fabricated statistics, and fake testimonials.
+Keep paragraphs concise and easy to scan.
+Implement the improved copy into the current website without damaging the existing layout or functionality.
+Reply
+AI with Kabir - Bangla
+  ·
+  ·
+Author
+৫. Website-এ Premium Animation ও Interactive Features যোগ করুন
+**Prompt:**
+Act as a senior frontend animation engineer and interactive experience designer.
+Upgrade my current website with sophisticated interactions that make it feel modern, engaging, and premium.
+Implement the following wherever appropriate:
+- Smooth section navigation.
+- Subtle scroll-triggered reveal animations.
+- Elegant button hover states.
+- Refined card hover interactions.
+- An animated mobile navigation menu.
+- Functional FAQ accordion components.
+- Smooth transitions between interactive states.
+- Interactive pricing or service selection if relevant.
+- Clear form validation and error feedback.
+- Reduced-motion support for accessibility.
+Animations should be subtle, purposeful, and performant.
+Avoid distracting effects, excessive motion, unnecessary libraries, and anything that slows down the website.
+Make every visible interactive element work correctly.
+If a feature needs an external backend or API, clearly label it as requiring integration instead of pretending it works.
+Implement all improvements directly in the existing website and preserve its premium aesthetic.
+Reply
+AI with Kabir - Bangla
+  ·
+  ·
+Author
+৬. Website-কে Mobile, Tablet ও Desktop-এর জন্য Perfect করুন
+**Prompt:**
+Act as an expert responsive web designer and frontend quality assurance engineer.
+Audit and optimize my entire website to provide an outstanding user experience across mobile phones, tablets, laptops, and large desktop screens.
+Carefully review these viewport widths:
+320px, 375px, 430px, 768px, 1024px, and 1440px.
+Optimize:
+1. Responsive typography and text wrapping.
+2. Navigation and mobile menu usability.
+3. Hero section layout.
+4. Images, illustrations, and visual elements.
+5. Button sizes and touch accessibility.
+6. Cards, grids, and content spacing.
+7. Forms and interactive components.
+8. Footer and contact information.
+Eliminate horizontal scrolling, overlapping elements, clipped content, and awkward spacing.
+Ensure interactive targets are comfortable to use on touchscreens.
+Maintain a consistent premium visual identity across all devices.
+Apply the necessary fixes directly to the existing code.
+Explain any issues that cannot be verified without testing in a real browser.
+Reply
+AI with Kabir - Bangla
+  ·
+  ·
+Author
+৭. Website-এর SEO, Loading Speed ও Accessibility উন্নত করুন
+**Prompt:**
+Act as a technical SEO specialist, web performance engineer, and accessibility consultant.
+Perform a comprehensive technical optimization of my current website.
+Your objectives are to improve search engine discoverability, loading performance, accessibility, and code quality.
+Focus on:
+SEO:
+- Descriptive page titles and meta descriptions.
+- Proper H1, H2, and H3 hierarchy.
+- Semantic HTML structure.
+- Meaningful internal links.
+- Appropriate image alt text.
+- Basic Open Graph metadata.
+- Structured data only when accurate and relevant.
+Performance:
+- Remove unnecessary dependencies.
+- Optimize image delivery.
+- Implement lazy loading where appropriate.
+- Reduce render-blocking resources.
+- Minimize layout shifts.
+- Improve mobile loading performance.
+Accessibility:
+- Keyboard-friendly navigation.
+- Proper form labels.
+- Sufficient color contrast.
+- Visible focus indicators.
+- Accessible interactive components.
+Implement all improvements that can be made directly in the code.
+Do not claim specific performance scores without actual testing.
+Provide a concise list of changes and recommend any remaining tests using Lighthouse or PageSpeed Insights.
+Reply
+AI with Kabir - Bangla
+  ·
+  ·
+Author
+৮. Website-এর Final Audit করে Launch-এর জন্য প্রস্তুত করুন
+**Prompt:**
+Act as a senior frontend engineer, website quality assurance specialist, and deployment consultant.
+My website is now designed. Perform a final professional review and prepare it for deployment.
+Complete these tasks:
+1. Review the entire codebase for errors and broken functionality.
+2. Check navigation links and interactive components.
+3. Review mobile responsiveness.
+4. Fix visual inconsistencies.
+5. Remove unused code and unnecessary dependencies.
+6. Check accessibility and basic SEO requirements.
+7. Identify missing assets, placeholder content, and unfinished features.
+8. Verify contact forms and external integrations where testing is possible.
+9. Ensure that no API keys, passwords, or secrets are exposed in frontend code.
+10. Prepare the final website files for export or deployment.
+Then provide clear, beginner-friendly instructions for publishing the website using a suitable hosting service such as Vercel or Netlify.
+If the project is a static HTML website, explain the simplest suitable deployment method instead.
+Include any required build commands, environment variables, and configuration steps.
+Clearly distinguish between features that are complete, features that still require integration, and tests that have not been performed.
+Do not claim the website is live until it has actually been deployed and verified.

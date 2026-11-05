@@ -1,0 +1,67 @@
+1. Create a Cinematic Creative Direction
+Act as an award-winning digital creative director. Transform [BRAND/PRODUCT/IDEA] into a distinctive, cinematic, premium website concept that feels crafted by a world-class digital agency.
+Define the creative vision, visual storytelling, art direction, typography, color palette, composition, imagery, lighting, textures, depth, atmosphere, and motion language.
+Avoid generic templates, predictable SaaS layouts, and overused design trends. Make every design decision intentional, cohesive, emotionally engaging, and visually memorable.
+Deliver a complete creative direction that can be translated into a real, high-end website—not just a mood board or design description.
+Reply
+AI Mastery
+  ·
+  ·
+Author
+2. Architect the Complete Website Experience
+Act as an elite UX/UI designer and interactive experience architect. Design the complete user journey for [WEBSITE], from the initial loading screen to the final conversion.
+Map every section in order, including its purpose, headline, supporting copy, layout, visual elements, interactions, animations, transitions, and CTA.
+Build a compelling narrative that guides visitors naturally through the experience while balancing visual impact, clarity, usability, accessibility, and conversion.
+Specify the responsive behavior for desktop, tablet, and mobile. Deliver a complete, implementation-ready website blueprint with no unnecessary sections or disconnected design elements.
+Reply
+AI Mastery
+  ·
+  ·
+Author
+3. Design an Unforgettable Cinematic Hero
+Act as a world-class digital art director and conversion-focused UX designer. Create an unforgettable cinematic hero section for [BRAND/PRODUCT].
+Define the central visual concept, composition, headline, subheadline, typography, imagery or 3D elements, lighting, depth, entrance animations, hover interactions, scroll behavior, and primary CTA.
+Make the first screen instantly communicate the brand's value while creating a powerful emotional impression.
+Avoid generic hero layouts and decorative effects without purpose. Deliver a distinctive, premium design that captures attention, communicates clearly, loads quickly, and encourages visitors to take action.
+Reply
+AI Mastery
+  ·
+  ·
+Author
+4. Engineer a Cinematic Motion System
+Act as an expert motion designer and creative frontend engineer. Design a complete cinematic animation system for [WEBSITE].
+Specify the loading sequence, text reveals, image transitions, parallax, depth effects, scroll-triggered animations, pinned sections, hover states, micro-interactions, scene transitions, easing curves, durations, and timing.
+Make every movement feel smooth, purposeful, and consistent with the brand's visual identity. Avoid excessive motion, distracting effects, and animations that interfere with navigation or readability.
+Define the implementation approach, performance requirements, mobile alternatives, and reduced-motion behavior. Ensure the entire experience remains responsive, accessible, and smooth across supported devices.
+Reply
+AI Mastery
+  ·
+  ·
+Author
+5. Build the Website Step by Step
+Act as a senior frontend engineer and award-winning creative developer. Build [WEBSITE] step by step, turning the approved creative direction and website blueprint into a working, production-ready experience.
+Start by inspecting the existing project, identifying its framework, architecture, dependencies, and constraints. Then implement the layout, reusable components, responsive styling, visual assets, animations, interactions, and navigation in logical stages.
+After each stage, test the implementation, identify errors, fix regressions, and preserve all working functionality. Optimize loading speed, accessibility, SEO, and browser compatibility throughout development.
+Do not stop at a plan or code snippets. Implement the actual website in the available environment, verify what works, and clearly identify anything that still requires manual setup.
+Reply
+AI Mastery
+  ·
+  ·
+Author
+6. Upgrade the Website to Premium Agency Quality
+Act as the creative director of an elite digital design agency. Audit [WEBSITE/SCREENSHOTS] and identify everything that makes the experience look generic, amateur, cluttered, inconsistent, or unfinished.
+Evaluate typography, spacing, visual hierarchy, composition, imagery, color harmony, contrast, depth, animations, transitions, micro-interactions, storytelling, and overall design consistency.
+Rank the issues by severity, visual impact, and implementation priority. For every issue, explain why it weakens the experience and provide a precise, actionable improvement.
+Then implement the highest-impact improvements wherever the working environment allows. Preserve the brand's identity while elevating the website into a cohesive, sophisticated, cinematic experience with exceptional attention to detail.
+Reply
+AI Mastery
+  ·
+  ·
+Author
+7. Run the Final Website Quality Audit
+Act as my creative director, UX specialist, frontend engineer, motion designer, accessibility reviewer, and performance auditor.
+Conduct a comprehensive final audit of [WEBSITE] covering visual quality, storytelling, navigation, responsiveness, animations, scrolling, accessibility, SEO, loading speed, browser compatibility, security basics, and conversion paths.
+Test the actual implementation wherever possible. Identify each issue, assign a severity and priority, explain its impact, and provide an exact fix. Distinguish verified problems from items that could not be tested.
+Finish with a practical pre-launch checklist covering mobile layouts, fallback behavior, links, forms, CTAs, assets, performance, accessibility, metadata, analytics, error handling, cross-browser testing, and deployment.
+Fix the issues you can safely resolve, retest the affected functionality, and report the remaining blockers. Never claim the website is production-ready unless the available evidence supports that conclusion.
+Reply
