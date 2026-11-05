@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "lastReviewed": "2026-11-06",
+  "greeting": "Hello. I can explain how the shop works, what is available, and what is still being prepared. I will not guess about stock, delivery dates, or ingredients.",
+  "fallback": "I do not have a verified answer for that. The honest option is to ask a person: write to concierge@aurastudios.co and the owner will reply. I will not invent an answer.",
+  "entries": [
+    {
+      "id": "shop-status",
+      "tags": ["buy", "order", "purchase", "checkout", "available", "in stock", "stock", "when", "open", "closed", "coming soon"],
+      "question": "Can I buy something now?",
+      "answer": "Not yet. The shop pages are previews. Ordering is switched off because AURA has no confirmed supplier terms, no stock, and no payment provider connected. You can browse the layouts and the product details, but nothing can be charged."
+    },
+    {
+      "id": "shop-vs-discover",
+      "tags": ["shop", "discover", "difference", "affiliate", "dropship", "dropshipping", "partner", "external", "why two"],
+      "question": "What is the difference between Shop and Discover?",
+      "answer": "Shop is for items AURA sells itself, where AURA would take the order, the payment, and the responsibility. Discover is for items sold by another merchant: AURA introduces the listing and links out, and you buy on their site. A product appears in one place, never both, so there is only ever one price and one seller per page."
+    },
+    {
+      "id": "affiliate-disclosure",
+      "tags": ["commission", "affiliate", "referral", "sponsored", "earn", "token", "cj"],
+      "question": "Does AURA earn from the Discover links?",
+      "answer": "It may, if the referral qualifies under the merchant's programme. That is disclosed on the page. Commission eligibility has not been verified yet, so the disclosure says so rather than claiming income AURA has not earned."
+    },
+    {
+      "id": "payment",
+      "tags": ["pay", "payment", "card", "visa", "mastercard", "bkash", "nagad", "paypal", "stripe", "bank", "invoice", "wallet"],
+      "question": "How will payment work?",
+      "answer": "Card payment is not connected. When it is, you will enter card details on the provider's own secure page, never on an AURA page. Until then the only available option is to request an invoice, which records the order as awaiting payment and lets AURA confirm stock and shipping first."
+    },
+    {
+      "id": "card-safety",
+      "tags": ["safe", "secure", "card number", "cvv", "details", "ssl", "encrypted"],
+      "question": "Is it safe to enter my card details here?",
+      "answer": "You cannot enter card details here, by design. AURA does not collect card numbers or security codes. Any card payment will happen on a payment provider's own hosted page. If a site ever asks for a card number in its own form, that is a warning sign."
+    },
+    {
+      "id": "delivery",
+      "tags": ["delivery", "shipping", "how long", "arrive", "dispatch", "tracking", "postage", "cost", "free shipping"],
+      "question": "How long does delivery take and what does it cost?",
+      "answer": "No delivery time or price has been confirmed, so none is promised. Supplier listings show their own estimates, but those belong to the supplier, not to AURA. Delivery terms will be published per product before any order is accepted."
+    },
+    {
+      "id": "returns",
+      "tags": ["return", "refund", "exchange", "cancel", "money back", "warranty"],
+      "question": "What is the returns policy?",
+      "answer": "AURA's own returns policy is still being written and will be published before sales open. For a Discover item, the merchant's policy applies because the merchant is the seller. AURA will not present a supplier's policy as its own."
+    },
+    {
+      "id": "ingredients",
+      "tags": ["ingredient", "inci", "contains", "chemical", "safe for skin", "allergy", "allergen", "paraben", "sulfate"],
+      "question": "What is in the product?",
+      "answer": "For the cosmetics in the preview, the full ingredient list has not been supplied, so it is not published. A partial list is not an ingredient list. Nothing will be sold until the complete list is confirmed and recorded in the verification register."
+    },
+    {
+      "id": "claims",
+      "tags": ["acne", "spots", "brighten", "whiten", "oil control", "cure", "treat", "medical", "clinically", "dermatologist"],
+      "question": "Does it treat acne or brighten skin?",
+      "answer": "AURA makes no such claim. Supplier listings use words like anti-acne and brightening; those are medicinal-style or skin-tone claims that need evidence AURA does not hold. Each product page lists the claims AURA will not make, and why."
+    },
+    {
+      "id": "verification",
+      "tags": ["verified", "certificate", "lab test", "accreditation", "organic", "certified", "evidence", "compliance", "safety report"],
+      "question": "Are the products certified or lab tested?",
+      "answer": "No certificate, laboratory report, or accreditation is held yet, so no badge appears anywhere on the site. The verification register records each requirement as verified, pending, not provided, or not applicable. A badge only appears when the matching evidence exists and is in date."
+    },
+    {
+      "id": "health-food",
+      "tags": ["supplement", "vitamin", "herbal", "medicine", "health", "food", "edible", "homeopathy", "ayurveda"],
+      "question": "Do you sell supplements, herbs, or food?",
+      "answer": "No. AURA does not sell supplements, medicinal herbs, homeopathic products, or food, and does not publish health claims. If that changes, each item would need its own evidence file, and any food item would need allergen and labelling work first."
+    },
+    {
+      "id": "books",
+      "tags": ["book", "library", "pdf", "read", "download", "edition", "isbn"],
+      "question": "Is there a book library?",
+      "answer": "A reading room is planned but not published. Only titles with clearly established rights for the exact edition and territory can be hosted. A file being available elsewhere is not permission to redistribute it."
+    },
+    {
+      "id": "wishlist",
+      "tags": ["wishlist", "save", "favourite", "favorite", "heart", "later"],
+      "question": "How does the wishlist work?",
+      "answer": "The heart button saves an item on this device. It is stored in your browser, not in an account, so it will not follow you to another device and it is lost if you clear site data."
+    },
+    {
+      "id": "account",
+      "tags": ["account", "login", "sign up", "register", "password", "profile"],
+      "question": "Do I need an account?",
+      "answer": "No customer accounts exist yet. Browsing, the cart, and the wishlist all work without signing in. Accounts will only be added alongside a real backend, because a login that lives only in the browser is not a login."
+    },
+    {
+      "id": "contact",
+      "tags": ["contact", "email", "human", "person", "help", "support", "complaint", "speak"],
+      "question": "How do I reach a person?",
+      "answer": "Write to concierge@aurastudios.co. A person reads it. There is no phone line and no live chat queue yet, and this assistant cannot pass a message on."
+    },
+    {
+      "id": "privacy",
+      "tags": ["privacy", "data", "gdpr", "cookie", "tracking", "store my data"],
+      "question": "What data is collected?",
+      "answer": "Browsing does not create a server record. Cart, wishlist, and newsletter sign-ups are stored in your own browser. A newsletter address is only sent to a mailing provider once one is connected, and the form says so before you submit."
+    },
+    {
+      "id": "wholesale",
+      "tags": ["wholesale", "bulk", "trade", "reseller", "b2b", "stockist"],
+      "question": "Do you offer wholesale?",
+      "answer": "Not yet. There is no wholesale price list and no trade terms. The fastest route is to write to concierge@aurastudios.co and say what you need."
+    },
+    {
+      "id": "brand",
+      "tags": ["aura", "who", "about", "brand", "story", "what do you sell"],
+      "question": "What is AURA?",
+      "answer": "AURA is a small shop for objects and knowledge meant for a slower, more sensory life: instruments, art, books, quiet technology, and practice materials. It is at an early stage. Some pages describe what will exist rather than what exists today."
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "lastReviewed": "2026-11-06",
+  "purpose": "A single register of every claim AURA makes and the evidence behind it. A product may only be sold, and a claim may only be published, when the matching record is 'verified'. Missing evidence is recorded as missing, never implied.",
+  "statusMeaning": {
+    "verified": "Evidence held, checked against the exact product and edition, and in date. The claim may be published.",
+    "pending": "Evidence requested or expected but not yet received. No claim may be published.",
+    "not-provided": "The supplier or owner has not supplied this and no request is open. Treat as absent.",
+    "not-applicable": "This control does not apply to this product, with the reason recorded."
+  },
+  "categories": {
+    "product-safety": "Safety assessment, hazard data, and any statutory product file.",
+    "labelling": "Mandatory label content, language, batch coding, and responsible-person details.",
+    "claims": "Substantiation for every efficacy or ingredient claim published on the site.",
+    "lab-test": "Third-party laboratory reports: composition, purity, contaminant, and microbiological testing.",
+    "accreditation": "Certificates from recognised bodies: organic, fair trade, GOTS, FSC, ISO, and similar.",
+    "medical-report": "Clinical or toxicological reports. Only relevant where a product makes a health claim; not a substitute for regulatory approval.",
+    "origin": "Traceability from supplier to declared country of manufacture.",
+    "ethical": "Supply-chain audits, animal-testing statements, and labour standards.",
+    "food-safety": "For any future food or edible item: composition, allergen, shelf-life, and labelling evidence.",
+    "image-rights": "Written permission to publish each supplied photograph."
+  },
+  "records": [
+    {
+      "id": "cmp-turmeric-soap",
+      "productId": "aliexpress-1005007532901889",
+      "productName": "Turmeric Cleansing Soap",
+      "riskTier": "regulated",
+      "riskReason": "A cosmetic applied to skin. Selling it in the UK or EU creates labelling, responsible-person, and claims obligations that AURA has not yet met.",
+      "responsiblePerson": null,
+      "items": [
+        { "id": "ts-safety", "category": "product-safety", "label": "Cosmetic product safety report", "status": "not-provided", "note": "Required before any sale into the UK or EU. Not requested from the supplier yet." },
+        { "id": "ts-inci", "category": "labelling", "label": "Full INCI ingredient list", "status": "not-provided", "note": "The listing names some ingredients but does not provide an ordered INCI list." },
+        { "id": "ts-rp", "category": "labelling", "label": "Responsible person and label review", "status": "not-provided", "note": "No responsible person has been confirmed for this item." },
+        { "id": "ts-claims", "category": "claims", "label": "Claim substantiation", "status": "not-provided", "note": "No efficacy claim will be published. AURA will not repeat supplier claims." },
+        { "id": "ts-lab", "category": "lab-test", "label": "Microbiological and heavy-metal testing", "status": "not-provided", "note": "No laboratory report held." },
+        { "id": "ts-origin", "category": "origin", "label": "Country of manufacture", "status": "pending", "note": "Listing states a Chinese origin. Manufacturer identity not yet confirmed." },
+        { "id": "ts-image", "category": "image-rights", "label": "Permission to use supplier photographs", "status": "not-provided", "note": "Image is used in a local mockup only." }
+      ],
+      "blockedClaims": ["Treats or prevents acne", "Reduces spots", "Skin lightening or whitening", "Clinically proven", "Dermatologist approved", "Handmade"],
+      "publicSummary": "This is a cosmetic. AURA holds no safety report, no full ingredient list, and no image permission for it, so it is shown as a preview and cannot be sold."
+    },
+    {
+      "id": "cmp-cleansing-pads",
+      "productId": "cj-2114448810729783298",
+      "productName": "Turmeric Cleansing Pads",
+      "riskTier": "regulated",
+      "riskReason": "A cosmetic sold by a third party. AURA is not the seller, so the merchant carries the product obligations, but AURA still may not publish unverified claims.",
+      "responsiblePerson": null,
+      "items": [
+        { "id": "cp-identity", "category": "origin", "label": "Confirmed listing identity", "status": "not-provided", "note": "CJ requires human verification; the title is a draft taken from the URL." },
+        { "id": "cp-inci", "category": "labelling", "label": "Ingredient and quantity confirmation", "status": "not-provided", "note": "Not read from the live listing." },
+        { "id": "cp-claims", "category": "claims", "label": "Claim substantiation", "status": "not-applicable", "note": "AURA publishes no claim about a partner product. Descriptions link to the merchant." },
+        { "id": "cp-commission", "category": "ethical", "label": "Referral commission eligibility", "status": "pending", "note": "The supplied token may be a merchant referral rather than a product-sale commission. Unverified." },
+        { "id": "cp-image", "category": "image-rights", "label": "Permission to use supplier photographs", "status": "not-provided", "note": "A labelled illustration is used instead." }
+      ],
+      "blockedClaims": ["Any efficacy claim", "Any price claim", "Any delivery promise", "Any stock statement"],
+      "publicSummary": "AURA is not the seller. The page introduces the listing, links out, and makes no claim about the product."
+    },
+    {
+      "id": "cmp-aloe-soap",
+      "productId": "aliexpress-1005008143754192",
+      "productName": "Aloe Vera Cleansing Bar",
+      "riskTier": "regulated",
+      "riskReason": "A cosmetic applied to skin. The supplier listing makes medicinal-style claims, which increases both regulatory and advertising risk.",
+      "responsiblePerson": {
+        "name": "GAVIMOSA CONSULTORIA, SOCIEDAD LIMITADA",
+        "country": "Spain",
+        "role": "EU responsible person, as stated by the supplier",
+        "status": "supplier-stated",
+        "note": "Recorded as the supplier states it. The address as displayed (‘CASTELLANA 9141, 28046 Madrid’) looks malformed and must be verified before it is relied on. A UK responsible person is a separate requirement and is not covered by an EU appointment."
+      },
+      "items": [
+        { "id": "as-inci", "category": "labelling", "label": "Full INCI ingredient list", "status": "not-provided", "note": "The listing names niacinamide, tea tree oil, vitamin E, vitamin B5, aloe vera and plant oils. That is a marketing summary, not an ordered INCI list." },
+        { "id": "as-safety", "category": "product-safety", "label": "Cosmetic product safety report", "status": "not-provided", "note": "The supplier names an EU responsible person, which implies a file exists. AURA has not seen it." },
+        { "id": "as-label", "category": "labelling", "label": "Label and batch coding", "status": "not-provided", "note": "PAO of 12 months and shelf life of 36 months are stated. The physical label has not been inspected." },
+        { "id": "as-claims", "category": "claims", "label": "Claim substantiation", "status": "not-provided", "note": "Supplier claims include anti-acne and brightening. Neither will be published." },
+        { "id": "as-lab", "category": "lab-test", "label": "Third-party laboratory report", "status": "not-provided", "note": "No report held for composition, microbiology, or heavy metals." },
+        { "id": "as-uk-rp", "category": "labelling", "label": "UK responsible person", "status": "not-provided", "note": "Only an EU appointment is stated. Selling into Great Britain needs a UK-based responsible person." },
+        { "id": "as-origin", "category": "origin", "label": "Manufacturer identity and country", "status": "pending", "note": "Supplier states Yihai boshi (Guangzhou) Trading Co., Ltd, Guangdong, China. Not independently checked." },
+        { "id": "as-image", "category": "image-rights", "label": "Permission to use supplier photographs", "status": "not-provided", "note": "Image is used in a local mockup only." },
+        { "id": "as-maxqty", "category": "ethical", "label": "Resale permission and order limits", "status": "not-provided", "note": "Listing states a maximum of one piece per shopper at the displayed price. Resale terms unknown." }
+      ],
+      "blockedClaims": [
+        "Treats or prevents acne",
+        "Reduces spots or breakouts",
+        "Brightens, whitens, or evens skin tone",
+        "Controls oil",
+        "Inhibits melanin production",
+        "Clinically proven",
+        "Dermatologist tested",
+        "Handmade",
+        "Natural or chemical-free"
+      ],
+      "publicSummary": "The supplier makes claims AURA will not repeat. Without a full ingredient list, a safety report, and a UK responsible person, this bar cannot be sold."
+    }
+  ],
+  "storeLevel": [
+    { "id": "store-entity", "category": "labelling", "label": "Trading entity, address, and contact details", "status": "not-provided", "note": "Needed on every invoice, returns page, and legal notice. Bangladesh trade licence, TIN, and BIN are the near-term blockers." },
+    { "id": "store-food", "category": "food-safety", "label": "Food business registration and allergen process", "status": "not-applicable", "note": "No food is sold yet. Required before any edible item is listed." },
+    { "id": "store-health", "category": "medical-report", "label": "Health-claim policy", "status": "verified", "note": "AURA does not publish treatment, cure, or prevention claims. Any future health-adjacent product needs its own evidence file before a claim is written." },
+    { "id": "store-accreditation", "category": "accreditation", "label": "Certificate register", "status": "not-provided", "note": "No organic, fair-trade, or quality certificates are held. No certificate badge will appear on the site until one is verified." },
+    { "id": "store-image", "category": "image-rights", "label": "Photography rights register", "status": "not-provided", "note": "Tracks written permission per image. Supplier photographs are currently mockup-only." }
+  ]
+}

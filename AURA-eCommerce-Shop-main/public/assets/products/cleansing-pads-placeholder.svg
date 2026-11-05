@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-labelledby="title description">
+  <title id="title">Cleansing pad illustration</title>
+  <desc id="description">An editorial drawing of a simple jar and two round pads, not an actual supplier product.</desc>
+  <defs>
+    <linearGradient id="paper" x2="0" y2="1"><stop stop-color="#eeeae1"/><stop offset="1" stop-color="#e4ddd1"/></linearGradient>
+    <linearGradient id="jar" x2="1" y2="0"><stop stop-color="#d7c1a0"/><stop offset=".45" stop-color="#f0e3cd"/><stop offset="1" stop-color="#cab18d"/></linearGradient>
+    <radialGradient id="shadow"><stop stop-color="#9c8c75" stop-opacity=".22"/><stop offset="1" stop-color="#9c8c75" stop-opacity="0"/></radialGradient>
+  </defs>
+  <path fill="url(#paper)" d="M0 0h1000v1000H0z"/>
+  <circle cx="755" cy="224" r="280" fill="#f5f2eb" opacity=".38"/>
+  <ellipse cx="500" cy="749" rx="325" ry="89" fill="url(#shadow)"/>
+  <rect x="275" y="385" width="385" height="335" rx="24" fill="url(#jar)" stroke="#b49b79" stroke-width="2"/>
+  <ellipse cx="468" cy="389" rx="191" ry="43" fill="#eadbc3" stroke="#b49b79" stroke-width="2"/>
+  <rect x="281" y="322" width="373" height="62" rx="12" fill="#ded3c2" stroke="#a99a84" stroke-width="2"/>
+  <ellipse cx="468" cy="324" rx="186" ry="31" fill="#ebe5d8" stroke="#b2a48e" stroke-width="2"/>
+  <rect x="323" y="478" width="289" height="140" rx="2" fill="#f5f2eb" opacity=".75"/>
+  <path d="M374 526h184m-158 32h134m-112 26h90" stroke="#b39a77" stroke-width="3" opacity=".6"/>
+  <ellipse cx="700" cy="701" rx="112" ry="35" transform="rotate(-17 700 701)" fill="#f5f2eb" stroke="#c6bda9" stroke-width="2"/>
+  <ellipse cx="718" cy="676" rx="104" ry="35" transform="rotate(-20 718 676)" fill="#faf8f3" stroke="#cfc6b6" stroke-width="2"/>
+  <path d="M641 687l144-44m-134 53l144-44" stroke="#e1dbcf" stroke-width="2"/>
+  <text x="500" y="874" text-anchor="middle" fill="#735b40" font-family="Arial,sans-serif" font-size="13" letter-spacing="3">ILLUSTRATION ONLY</text>
+  <text x="500" y="903" text-anchor="middle" fill="#5d5a53" font-family="Arial,sans-serif" font-size="13">Supplier photography to follow</text>
+</svg>

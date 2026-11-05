@@ -1,0 +1,19 @@
+# Archives (owner instruction: ignore the two project ZIPs, work from extracted project)
+*.zip
+
+# In-copyright / rights-unverified book material — never commit
+Book/
+
+# Dependencies and build output
+node_modules/
+dist/
+out/
+
+# Local environment / secrets
+.env
+.env.*
+!.env.example
+
+# OS / editor noise
+.DS_Store
+Thumbs.db

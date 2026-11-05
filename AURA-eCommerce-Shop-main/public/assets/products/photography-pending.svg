@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-labelledby="title description">
+  <title id="title">Product photography pending</title>
+  <desc id="description">A neutral image placeholder. This is not a photograph of a product.</desc>
+  <rect width="1000" height="1000" fill="#ebe7de"/>
+  <rect x="135" y="165" width="730" height="670" fill="#f1eee7" stroke="#d6d1c7" stroke-width="2"/>
+  <rect x="356" y="335" width="288" height="240" rx="4" fill="none" stroke="#a38d70" stroke-width="3"/>
+  <circle cx="424" cy="407" r="24" fill="none" stroke="#a38d70" stroke-width="3"/>
+  <path d="M357 539l90-90 69 66 56-55 72 80" fill="none" stroke="#a38d70" stroke-width="3"/>
+  <text x="500" y="655" text-anchor="middle" fill="#735b40" font-family="Arial,sans-serif" font-size="14" letter-spacing="3">A CLOSER LOOK, SOON</text>
+  <text x="500" y="691" text-anchor="middle" fill="#5d5a53" font-family="Arial,sans-serif" font-size="15">Product photography is being prepared</text>
+</svg>

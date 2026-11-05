@@ -1,0 +1,155 @@
+[
+  {
+    "id": "aliexpress-1005007532901889",
+    "slug": "turmeric-cleansing-soap",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "listingStatus": "preview",
+    "complianceId": "cmp-turmeric-soap",
+    "name": "Turmeric Cleansing Soap",
+    "category": "Everyday Care",
+    "tagline": "A small addition to the everyday.",
+    "description": "The first product selected for AURA’s shop preview. The AliExpress listing describes a 100g turmeric and kojic-acid soap. Ingredients, available options, and selling terms are still to be confirmed.",
+    "sourceName": "AliExpress",
+    "sourceProductId": "1005007532901889",
+    "sourceUrl": "https://www.aliexpress.com/item/1005007532901889.html",
+    "sourceTitle": "100g Turmeric Hand Made Soap, Lemon Kojic Acid Soap, Shower and Facial Soap",
+    "sourceTitleStatus": "Read from the public listing on 5 November 2026; supplier claims are not independently verified.",
+    "images": [
+      {
+        "src": "/assets/products/aliexpress-turmeric-soap.jpg",
+        "sourceImageUrl": "https://ae-pic-a1.aliexpress-media.com/kf/S4dd8e3668bf44d19a2ffae3bcb663949g.jpg",
+        "alt": "Supplier listing photograph of the selected turmeric soap",
+        "caption": "Supplier photograph used for this local mockup. Image-use permission needs confirmation before public launch."
+      },
+      {
+        "src": "/assets/products/photography-pending.svg",
+        "alt": "Placeholder for a packaging photograph; not an actual product image",
+        "caption": "Packaging photograph to be added. This is a placeholder, not a product photograph."
+      }
+    ],
+    "price": null,
+    "currency": "GBP",
+    "variants": [],
+    "specifications": [
+      { "label": "Listed size", "value": "100g — supplier-stated" },
+      { "label": "Full ingredients", "value": "Awaiting supplier confirmation" },
+      { "label": "Available options", "value": "Awaiting supplier confirmation" },
+      { "label": "Availability", "value": "Not open for ordering on AURA" }
+    ],
+    "deliveryNote": "Destinations, shipping charges, and delivery estimates will be confirmed before AURA accepts orders. No dispatch or arrival date is promised in this preview.",
+    "returnsNote": "AURA’s returns and support terms will be published before sales open. The supplier’s policy is not presented as AURA’s policy.",
+    "usageNote": "Supplier directions, the full ingredient list, and relevant warnings need checking before publication. This page does not make treatment or skin-lightening claims.",
+    "dataNote": "This is a display-only product page. The selected listing is a sourcing reference, not a confirmed supply agreement."
+  },
+  {
+    "id": "cj-2114448810729783298",
+    "slug": "turmeric-cleansing-pads",
+    "model": "affiliate",
+    "purchaseOwner": "partner",
+    "listingStatus": "preview",
+    "complianceId": "cmp-cleansing-pads",
+    "name": "Turmeric Cleansing Pads",
+    "category": "Everyday Care",
+    "tagline": "Discover the details with CJ.",
+    "description": "A CJ listing selected for AURA’s external-offer page. The supplied URL describes facial cleansing pads; the exact title, ingredients, quantity, and available options have not yet been checked.",
+    "sourceName": "CJ",
+    "sourceProductId": "2114448810729783298",
+    "sourceUrl": "https://www.cjdropshipping.com/product/facial-soap-turmeric-acid-cleansing-pad-p-2114448810729783298.html",
+    "externalUrl": "https://www.cjdropshipping.com/product/facial-soap-turmeric-acid-cleansing-pad-p-2114448810729783298.html?token=3fe96b97-b2fd-4a9e-ad71-cb7b6683a6b4",
+    "sourceTitle": "Facial Soap Turmeric Acid Cleansing Pad",
+    "sourceTitleStatus": "Draft title derived from the supplied URL. CJ’s page requires human verification; listing details remain unverified.",
+    "images": [
+      {
+        "src": "/assets/products/cleansing-pads-placeholder.svg",
+        "alt": "Editorial illustration of a jar and cleansing pads; not the actual CJ product",
+        "caption": "Illustration only. CJ product photographs have not been added."
+      },
+      {
+        "src": "/assets/products/photography-pending.svg",
+        "alt": "Placeholder for a supplier product photograph",
+        "caption": "Supplier photography to be added."
+      }
+    ],
+    "price": null,
+    "currency": "GBP",
+    "variants": [],
+    "specifications": [
+      { "label": "Listing format", "value": "Cleansing pads — draft from the URL" },
+      { "label": "Ingredients and quantity", "value": "Check the current CJ listing" },
+      { "label": "Options and availability", "value": "Confirmed on CJ, not on AURA" },
+      { "label": "Purchase location", "value": "External CJ website" }
+    ],
+    "disclosure": "This is the referral link supplied for AURA’s preview. AURA may earn a commission only if the referral qualifies under CJ’s program. Commission eligibility has not yet been verified.",
+    "deliveryNote": "Any purchase takes place on CJ. Check the destination-specific delivery options and charges there; AURA does not dispatch this item.",
+    "returnsNote": "Check the actual seller and the return, refund, and support terms on CJ before purchasing. This item is not sold through AURA’s checkout.",
+    "usageNote": "Read the current merchant description, ingredient list, directions, and warnings. AURA has not independently tested or reviewed this product.",
+    "dataNote": "This page demonstrates the affiliate/referral layout. It does not confirm that an ordinary product purchase earns a commission."
+  },
+  {
+    "id": "aliexpress-1005008143754192",
+    "slug": "aloe-vera-soap",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "listingStatus": "preview",
+    "complianceId": "cmp-aloe-soap",
+    "name": "Aloe Vera Cleansing Bar",
+    "category": "Everyday Care",
+    "tagline": "A plain bar, described plainly.",
+    "description": "A 100 g aloe vera soap bar selected for AURA’s shop preview. The supplier listing reports niacinamide, tea tree oil, vitamin E, vitamin B5, aloe vera and plant oils. The full ingredient list, the supplier’s selling terms, and every marketing claim are still under review, so this page makes no claim about what the bar does.",
+    "sourceName": "AliExpress",
+    "sourceProductId": "1005008143754192",
+    "sourceUrl": "https://www.aliexpress.com/item/1005008143754192.html",
+    "sourceTitle": "WK JALY aloe vera soap bar, 100 g — supplier title withheld",
+    "sourceTitleRaw": "WK JALY Natural Aloe Vera Soap Bar, Clean Skin, Anti Acne, Oil Control, Brighten, With Vitamin E, Olive Oil, For Face, Body",
+    "sourceTitleStatus": "Read from the public listing on 6 November 2026. The supplier’s original title and benefit list make medicinal-style claims, so the wording is recorded internally and not republished.",
+    "supplierBrand": "WK’JALY",
+    "supplierStore": "WK’JALY Official Store",
+    "supplierRetail": {
+      "amount": 7.57,
+      "currency": "GBP",
+      "vatIncluded": true,
+      "note": "Supplier retail price observed on 6 November 2026, including VAT. This is not AURA’s cost and not AURA’s selling price. A struck-through ‘was’ price also appeared on the listing and is deliberately not reproduced."
+    },
+    "images": [
+      {
+        "src": "/assets/products/aliexpress-aloe-soap.jpg",
+        "sourceImageUrl": "https://ae-pic-a1.aliexpress-media.com/kf/S5c38ba7565c3471e8e517194dc27842ah.jpg",
+        "alt": "Supplier listing photograph of the selected aloe vera soap bar",
+        "caption": "Supplier photograph used for this local mockup. Image-use permission needs confirmation before public launch."
+      },
+      {
+        "src": "/assets/products/photography-pending.svg",
+        "alt": "Placeholder for an AURA photograph; not an actual product image",
+        "caption": "AURA’s own photograph to be added. This is a placeholder."
+      }
+    ],
+    "price": null,
+    "currency": "GBP",
+    "variants": [
+      { "label": "Pack of 1", "sku": null, "price": null },
+      { "label": "Pack of 3", "sku": null, "price": null },
+      { "label": "Pack of 5", "sku": null, "price": null }
+    ],
+    "specifications": [
+      { "label": "Net weight", "value": "100 g / 3.5 oz — supplier-stated" },
+      { "label": "Format", "value": "Solid soap bar" },
+      { "label": "Options", "value": "Pack of 1, 3, or 5 — prices pending" },
+      { "label": "Period after opening", "value": "12 months — supplier-stated" },
+      { "label": "Shelf life", "value": "36 months — supplier-stated" },
+      { "label": "Country of origin", "value": "China — supplier-stated" },
+      { "label": "Full ingredient list (INCI)", "value": "Not supplied — required before sale" },
+      { "label": "Product identifier", "value": "12000043973353662-WK-aloe-vera-soapX1 — supplier-stated" },
+      { "label": "Availability", "value": "Not open for ordering on AURA" }
+    ],
+    "deliveryNote": "The supplier listing showed free standard shipping to the United Kingdom with a delivery window of 19–24 November. AURA has not confirmed a destination list, a shipping rate, or a dispatch commitment, and promises no delivery date in this preview.",
+    "returnsNote": "AURA’s returns and support terms will be published before sales open. The supplier advertises 90-day free returns; that is the supplier’s policy, not AURA’s, and has not been verified.",
+    "usageNote": "Read the current supplier description, full ingredient list, directions, and warnings before use. This page makes no treatment, prevention, or skin-tone claim.",
+    "dataNote": "Display-only preview. The listing is a sourcing reference. AURA has not tested this product, has no stock, and has no supply agreement for it.",
+    "operationalNotes": [
+      "The supplier listing states a maximum of one piece per shopper at the displayed price. Confirm whether a business can order multiple units before treating this as a dropshipping candidate.",
+      "The listing is sold by the brand’s own store at retail price including VAT, which leaves little or no resale margin.",
+      "Only 9 units sold and 5 reviews were shown, which is thin evidence of demand and of stock reliability."
+    ]
+  }
+]
