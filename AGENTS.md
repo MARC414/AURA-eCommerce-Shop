@@ -18,6 +18,7 @@ Do not re-derive context from scratch. Do not ask questions already answered in 
 - **Planning first.** Do not edit the storefront, deploy, install packages, change configs, or run automations without explicit approval in the current session.
 - **Book publication.** Never upload, host, mirror, or redistribute in-copyright material. Check exact-edition evidence in `planning/BOOKS.md`; a candidate or archive metadata flag is not publication approval.
 - **No medical content.** Homeopathy, supplements, herbs-as-treatment, iridology, and health claims were deliberately removed. Do not reintroduce them, even as "traditional use".
+  - *Owner correction 2026-11-06 (D-019):* supplements ban reversed for herbal botanicals only (e.g. Ashwagandha powder/root). Still forbidden: homeopathy, iridology, disease-treatment claims, and any health claim without authorised evidence. Herbal products are preview-only until compliance record is `verified`.
 - **Preserve the storefront design.** Code lives in `AURA-eCommerce-Shop-main` (React 19 + Vite). Respect the owner's HTML/CSS/JavaScript preference; the rendering approach requires an explicit decision.
 - **Current hosting state.** As of 2026-11-04 the owner has not deployed to Cloudflare. It is a temporary preview option, not a settled production/subdomain strategy.
 - **Supplier-neutral hubs.** Classify each product as affiliate or dropshipping independently of AliExpress/CJ/other supplier. Start with one of each; numeric price bands were not approved.

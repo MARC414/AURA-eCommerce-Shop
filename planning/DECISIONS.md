@@ -149,3 +149,15 @@ Implementation honors all hard rules: planning first (no deploy/install/config c
 - `INITIAL_ORDERS` and `INITIAL_REVIEWS` in `services/storeService.ts` contained invented customers, `paymentStatus: 'paid'`, tracking numbers, and `verified: true` reviews. Cleared to empty arrays so admin metrics and product pages cannot present fake sales/reviews as real. Existing browser localStorage copies are not migrated — clearing site data removes them.
 - `INITIAL_SETTINGS.adminPin: 'admin123'` removed (set to empty, deprecated). The only lock is now `AdminGate`/`auth.ts` passphrase with no default. The old PIN field is retained only for type compatibility.
 - `constants.ts` Ashwagandha/health-claim demo products were NOT removed in this edit — that is a catalogue decision requiring explicit owner approval (see STATUS open item). No new medical content was added.
+
+## D-019 — Owner reverses supplements ban for herbal botanicals (powder/root)
+**2026-11-06 · OWNER DECISION (reverses D-003 in part)**
+
+Owner explicitly instructed: change the rules and add Ashwagandha as powder or herb roots (capsule form not wanted / not found).
+
+Scope of reversal (narrow, not a full repeal):
+- ALLOWED: herbal botanicals in powder/root form (Ashwagandha) as a product category, preview-only.
+- STILL FORBIDDEN: homeopathy, iridology, disease-treatment/cure/prevention claims, and any health claim without authorised evidence. "Traditional use" framing does not authorise a claim.
+- Guardrails retained: every herbal product requires a compliance record (`food-safety`, `lab-test`, `labelling`, `claims`) with status `not-provided` until documents are collected; blocked claims listed on the page; no sale until record is `verified`; no "organic"/"certified" badge without accreditation evidence.
+- Capsule link supplied on 2026-11-06 (AliExpress `1005013385024290`, 30 caps, £8.49) was NOT added — owner requested powder/root form instead, and capsule claims were unverified.
+- Ashwagandha powder/root product link still needed from owner before intake can proceed.
