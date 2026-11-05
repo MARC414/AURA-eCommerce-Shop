@@ -9,16 +9,21 @@ const complianceFor = product => register.records.find(record => record.productI
 const shopProduct = products.find(product => product.model === 'dropshipping');
 const affiliateProduct = products.find(product => product.model === 'affiliate');
 const aloeProduct = products.find(product => product.slug === 'aloe-vera-soap');
+const ashwagandhaProduct = products.find(product => product.sourceProductId === '1898627038642925570');
 const shopPage = renderDropshippingPage(shopProduct, products, complianceFor(shopProduct));
 const affiliatePage = renderAffiliatePage(affiliateProduct, products, complianceFor(affiliateProduct));
 const aloePage = renderDropshippingPage(aloeProduct, products, complianceFor(aloeProduct));
+const ashwagandhaPage = renderDropshippingPage(ashwagandhaProduct, products, complianceFor(ashwagandhaProduct));
+const productPages = new Map([[shopProduct, shopPage], [affiliateProduct, affiliatePage], [aloeProduct, aloePage], [ashwagandhaProduct, ashwagandhaPage]]);
 const clone = product => structuredClone(product);
 
-test('the pilot contains exactly the three products supplied by the owner', () => {
-  assert.equal(products.length, 3);
+test('the catalogue contains the four selected product listings with unique routes', () => {
+  assert.equal(products.length, 4);
   assert.equal(shopProduct.sourceProductId, '1005007532901889');
   assert.equal(affiliateProduct.sourceProductId, '2114448810729783298');
   assert.equal(aloeProduct.sourceProductId, '1005008143754192');
+  assert.equal(ashwagandhaProduct.sourceSku, 'CJHP232030301AZ');
+  assert.equal(new Set(products.map(productPath)).size, products.length);
   products.forEach(product => assert.doesNotThrow(() => validateProduct(product)));
 });
 
@@ -75,9 +80,10 @@ test('compliance statuses are shown honestly and never upgraded', () => {
   assert.doesNotMatch(aloePage, /status-verified/);
 });
 
-test('both products have individual, model-specific routes', () => {
+test('products have individual, model-specific routes', () => {
   assert.equal(productPath(shopProduct), '/shop/turmeric-cleansing-soap/');
   assert.equal(productPath(affiliateProduct), '/discover/turmeric-cleansing-pads/');
+  assert.equal(productPath(ashwagandhaProduct), '/shop/ashwagandha-with-black-pepper/');
 });
 
 test('the dropshipping action is explicitly disabled and never creates an order', () => {
@@ -143,9 +149,9 @@ test('supplier and selling model are independent', () => {
 });
 
 test('the gallery is labelled and has keyboard-operable thumbnail buttons', () => {
-  for (const page of [shopPage, affiliatePage]) {
+  for (const [product, page] of productPages) {
     assert.match(page, /role="group" aria-label="Product gallery"/);
-    assert.equal((page.match(/data-gallery-src=/g) || []).length, 2);
+    assert.equal((page.match(/data-gallery-src=/g) || []).length, product.images.length);
     assert.match(page, /aria-pressed="true"/);
     assert.match(page, /width="1000" height="1000"/);
     assert.match(page, /data-fallback="\/assets\/products\/photography-pending.svg"/);
@@ -154,7 +160,7 @@ test('the gallery is labelled and has keyboard-operable thumbnail buttons', () =
 });
 
 test('static HTML contains meaningful content and unique metadata before JavaScript', () => {
-  for (const [page, product] of [[shopPage, shopProduct], [affiliatePage, affiliateProduct]]) {
+  for (const [product, page] of productPages) {
     assert.equal((page.match(/<h1>/g) || []).length, 1);
     assert.match(page, /<meta name="robots" content="noindex, follow">/);
     assert.match(page, /<meta name="description"/);
@@ -172,12 +178,15 @@ test('collection pages keep the selected product models separate', () => {
   assert.ok(!shop.includes(affiliateProduct.name));
   assert.ok(discover.includes(affiliateProduct.name));
   assert.ok(!discover.includes(shopProduct.name));
+  assert.ok(shop.includes(productPath(ashwagandhaProduct)));
+  assert.ok(!discover.includes(ashwagandhaProduct.name));
 });
 
 test('the preview index links to both individual pages and collections', () => {
   const page = renderPreviewIndex(products);
   assert.ok(page.includes(productPath(shopProduct)));
   assert.ok(page.includes(productPath(affiliateProduct)));
+  assert.ok(page.includes(productPath(ashwagandhaProduct)));
   assert.match(page, /Browse the shop preview/);
   assert.match(page, /Browse external offers/);
 });
@@ -233,13 +242,54 @@ test('product pages emit canonical, JSON-LD, and no fake offers', () => {
   assert.match(shopPage, /application\/ld\+json/);
   assert.match(shopPage, /"@type":"Product"/);
   assert.match(shopPage, /"@type":"BreadcrumbList"/);
-  // No price => no Offer block (Google penalises fake offers)
+  // A pending selling price must not become an Offer.
   assert.doesNotMatch(shopPage, /"@type":"Offer"/);
   assert.match(affiliatePage, /rel="sponsored noopener noreferrer"/);
   assert.match(shopPage, /property="og:image"/);
   // Blocked claims appear only in the "Claims we will not make" panel, never as AURA copy.
   const head = shopPage.split('</head>')[0];
   assert.doesNotMatch(head, /anti-acne|brighten|whitening|melanin|oil control/i);
+});
+
+test('Ashwagandha preserves capsule identity and label serving amounts without enabling sales', () => {
+  assert.equal(ashwagandhaProduct.price, null);
+  assert.equal(ashwagandhaProduct.purchaseOwner, 'aura');
+  assert.match(ashwagandhaPage, /60 capsules/);
+  assert.match(ashwagandhaPage, /1,300 mg Withania somnifera root per 2 capsules/);
+  assert.match(ashwagandhaPage, /10 mg Piper nigrum fruit per 2 capsules/);
+  assert.match(ashwagandhaPage, /113 g[^<]*gross|Gross package weight[\s\S]*113 g/);
+  assert.match(ashwagandhaPage, /not net powder weight/);
+  assert.match(ashwagandhaPage, /Powder[^<]*conflicts/);
+  assert.match(ashwagandhaPage, /<button[^>]+disabled[^>]*>Coming soon/);
+  assert.match(ashwagandhaPage, /Price being prepared/);
+  assert.doesNotMatch(ashwagandhaPage, /\$15\.00|Inventory: 999|500 mg|brand[^<]*NOW|external-cta/);
+});
+
+test('label artwork cannot become a verified laboratory or organic certificate', () => {
+  const record = complianceFor(ashwagandhaProduct);
+  assert.equal(record.items.find(item => item.id === 'abp-label').status, 'pending');
+  assert.equal(record.items.find(item => item.id === 'abp-lab').status, 'not-provided');
+  assert.equal(record.items.find(item => item.id === 'abp-organic').status, 'not-provided');
+  assert.ok(record.items.every(item => item.status !== 'verified'));
+  assert.match(ashwagandhaPage, /0 verified/);
+  assert.doesNotMatch(ashwagandhaPage, /class="status-pill status-verified"|(?:href|src)="[^"]*\.pdf/);
+  const publicDescription = ashwagandhaPage.split('class="compliance-section"')[0];
+  assert.doesNotMatch(publicDescription, /reduces stress|promotes restful sleep|boosts immunity|enhance absorption|supports hormones|certified organic|gluten free|allergen free|vegan/i);
+});
+
+test('supplement structured data parses without an invented brand, product photo, rating, or offer', () => {
+  const script = ashwagandhaPage.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1];
+  assert.ok(script);
+  const graph = JSON.parse(script);
+  const product = graph.find(node => node['@type'] === 'Product');
+  assert.equal(product.name, ashwagandhaProduct.name);
+  assert.equal(product.sku, 'CJHP232030301AZ');
+  assert.equal(product.url, '/shop/ashwagandha-with-black-pepper/');
+  for (const key of ['brand', 'image', 'offers', 'aggregateRating', 'review']) {
+    assert.equal(Object.hasOwn(product, key), false, `Unexpected ${key} in supplement schema`);
+  }
+  assert.doesNotMatch(ashwagandhaPage, /property="og:image"/);
+  assert.match(ashwagandhaPage, /<meta name="robots" content="noindex, follow">/);
 });
 
 test('styles include visible focus, responsive layouts, and reduced-motion support', async () => {

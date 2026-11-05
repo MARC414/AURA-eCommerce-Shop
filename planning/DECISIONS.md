@@ -3,7 +3,7 @@
 Append-only. Each entry records what was decided, why, and whether it is reversible.
 Status values: **APPROVED** (owner), **PROPOSED** (agent suggestion, not approved), **REJECTED**, **SUPERSEDED / CORRECTED**.
 
-**Current reading note (2026-11-06):** Read D-016 for the approved frontend build, and D-014/D-015 for earlier corrections. Several older entries labelled assistant advice as owner approval. They are retained as history, not as current authority where corrected.
+**Current reading note (2026-11-06):** Read D-020 first: it corrects the mistaken powder/root-only interpretation in D-019 and records the CJ capsule selection. D-017 covers the frontend structure request; D-014/D-015 correct earlier assumptions. Older entries remain history, not current authority where corrected.
 
 ---
 
@@ -151,7 +151,7 @@ Implementation honors all hard rules: planning first (no deploy/install/config c
 - `constants.ts` Ashwagandha/health-claim demo products were NOT removed in this edit — that is a catalogue decision requiring explicit owner approval (see STATUS open item). No new medical content was added.
 
 ## D-019 — Owner reverses supplements ban for herbal botanicals (powder/root)
-**2026-11-06 · OWNER DECISION (reverses D-003 in part)**
+**2026-11-06 · CORRECTED BY D-020: the agent misread the requested product form**
 
 Owner explicitly instructed: change the rules and add Ashwagandha as powder or herb roots (capsule form not wanted / not found).
 
@@ -161,3 +161,15 @@ Scope of reversal (narrow, not a full repeal):
 - Guardrails retained: every herbal product requires a compliance record (`food-safety`, `lab-test`, `labelling`, `claims`) with status `not-provided` until documents are collected; blocked claims listed on the page; no sale until record is `verified`; no "organic"/"certified" badge without accreditation evidence.
 - Capsule link supplied on 2026-11-06 (AliExpress `1005013385024290`, 30 caps, £8.49) was NOT added — owner requested powder/root form instead, and capsule claims were unverified.
 - Ashwagandha powder/root product link still needed from owner before intake can proceed.
+
+## D-020 — Correct the capsule preference and intake CJ Ashwagandha with Black Pepper
+**2026-11-06 · OWNER CORRECTION + SUPPLIED LISTING; SHOP ROUTE IS AN IMPLEMENTATION ASSUMPTION**
+
+- The owner asked to change the rules and add Ashwagandha **because powder or roots were not found**. D-019 incorrectly recorded this as rejecting capsules. Factual previews of owner-selected herbal supplements may include capsules. Homeopathy, iridology, disease-treatment claims, and unsupported health/certification claims remain excluded; preview approval does not activate sales.
+- Latest selected listing: CJ `1898627038642925570`, SKU `CJHP232030301AZ`, Ashwagandha with Black Pepper. The owner supplied listing text and a PDF. It is **60 capsules**. The `Powder` attribute conflicts with the description; **113 g is gross package weight**. Do not call it loose powder or carry over the earlier AliExpress product's 500 mg amount or brand.
+- The live CJ URL returned human verification. Listing information is owner-supplied supplier text, not an independent live-listing check. The PDF reader failed, but the one-page PDF was rendered with the existing Windows PDF renderer and visually reviewed locally.
+- **Verified document observation:** the PDF is label artwork, not a laboratory report or accreditation. Its Supplement Facts state 2 capsules per serving, 30 servings, 1,300 mg Ashwagandha root and 10 mg black pepper fruit per serving, and pullulan capsules as the inactive ingredient. These are transcribed label statements, not verified composition or dosing advice. The artwork names Vendercart; exact SKU/batch linkage and the physical label remain unverified.
+- **Implementation assumption:** use `/shop/ashwagandha-with-black-pepper/` for the supplied sourcing listing. This is not a supplier-to-hub rule; an affiliate entry would need the owner's appropriate tracking URL. No referral token was invented.
+- Selling price remains `null`. Supplier cost, inventory, and domestic shipping estimates are not imported as AURA price, stock, or promises. Label review is `pending`; batch tests, organic/free-from evidence, image permission, and selling terms remain outstanding. The original PDF and its rendered image stay outside the repo.
+- Product category: **Herbal Botanicals**. This supplement is separate from the requested cosmetics collection; no organic category or certification badge is inferred.
+- Reuse the existing generated HTML template and homepage pilot links. Add the matching compliance record and update the local concierge's answers. The legacy React demo catalogue remains a separately recorded follow-up, not verified supplier data.

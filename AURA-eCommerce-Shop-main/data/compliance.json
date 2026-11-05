@@ -93,11 +93,40 @@
         "Natural or chemical-free"
       ],
       "publicSummary": "The supplier makes claims AURA will not repeat. Without a full ingredient list, a safety report, and a UK responsible person, this bar cannot be sold."
+    },
+    {
+      "id": "cmp-ashwagandha-black-pepper",
+      "productId": "cj-1898627038642925570",
+      "productName": "Ashwagandha with Black Pepper",
+      "riskTier": "regulated",
+      "riskReason": "An ingestible supplement. The finished-product label, formulation, batch evidence, and intended selling markets still need review.",
+      "responsiblePerson": null,
+      "items": [
+        { "id": "abp-identity", "category": "origin", "label": "Manufacturer and exact-product identity", "status": "pending", "note": "The supplier states USA manufacture. The label artwork names Vendercart, but does not show CJ SKU CJHP232030301AZ or a batch number. Confirm the manufacturer and exact-product link." },
+        { "id": "abp-format", "category": "labelling", "label": "Capsule format and pack measurements", "status": "pending", "note": "Description and label state 60 capsules; CJ’s Powder attribute conflicts. The 113 g figure is gross package weight. The listed 57 × 1 × 98 mm dimensions need confirmation." },
+        { "id": "abp-label", "category": "labelling", "label": "Supplement Facts and physical-pack label", "status": "pending", "reference": "Owner-supplied Ashwagandha label artwork, reviewed locally on 2026-11-06; original not hosted", "note": "One-page PDF read: 2 capsules per serving, 30 servings, 1,300 mg Ashwagandha root and 10 mg black pepper fruit per serving, with pullulan capsules. Artwork is not a laboratory report. Physical-pack photographs, batch linkage, expiry, and final label review are outstanding." },
+        { "id": "abp-lab", "category": "lab-test", "label": "Batch-specific laboratory report / certificate of analysis", "status": "not-provided", "note": "No batch-linked test results supplied for ingredient identity, stated amounts, microbiology, or contaminants. Laboratory identity, methods, results, and the tested batch are needed for review." },
+        { "id": "abp-food", "category": "food-safety", "label": "Manufacturing, traceability, and destination review", "status": "not-provided", "note": "Manufacturing evidence and an intended-market review have not been supplied. A US-to-US shipping quote does not establish suitability for sale in other countries." },
+        { "id": "abp-organic", "category": "accreditation", "label": "Organic certification", "status": "not-provided", "note": "The supplier copy and label use organic. The supplied PDF is label artwork, not an organic certificate. Certificate issuer, validity, scope, and product linkage remain unverified." },
+        { "id": "abp-free-from", "category": "labelling", "label": "Allergen, vegan, and free-from evidence", "status": "not-provided", "note": "The supplier lists several free-from and vegan features. Supporting ingredient, manufacturing, and allergen documentation has not been supplied." },
+        { "id": "abp-claims", "category": "claims", "label": "Product-claim review", "status": "not-provided", "note": "Supplier benefit copy is not adopted by AURA. No substantiation for the exact finished formulation has been supplied. Label artwork alone does not substantiate a health claim." },
+        { "id": "abp-image", "category": "image-rights", "label": "Product photography and publication permission", "status": "not-provided", "note": "No product photograph or permission has been supplied for this entry. A labelled placeholder is used; the PDF artwork is not republished." },
+        { "id": "abp-terms", "category": "ethical", "label": "Supply and selling terms", "status": "not-provided", "note": "The supplied listing describes domestic US fulfilment. AURA’s supply agreement, destinations, charges, and return arrangements remain unconfirmed." }
+      ],
+      "blockedClaims": [
+        "Stress, anxiety, sleep, or cognitive benefits",
+        "Immune, hormone, energy, or absorption benefits",
+        "Organic certification",
+        "Vegan or allergen-free guarantees",
+        "Other free-from guarantees",
+        "100% natural"
+      ],
+      "publicSummary": "The supplied PDF is label artwork. It records ingredient amounts but does not verify the contents of a batch or substantiate certification claims. This 60-capsule listing remains a preview while the evidence is checked."
     }
   ],
   "storeLevel": [
     { "id": "store-entity", "category": "labelling", "label": "Trading entity, address, and contact details", "status": "not-provided", "note": "Needed on every invoice, returns page, and legal notice. Bangladesh trade licence, TIN, and BIN are the near-term blockers." },
-    { "id": "store-food", "category": "food-safety", "label": "Food business registration and allergen process", "status": "not-applicable", "note": "No food is sold yet. Required before any edible item is listed." },
+    { "id": "store-food", "category": "food-safety", "label": "Supplement / food operations and allergen review", "status": "pending", "note": "A herbal-supplement preview has been added. Seller, destination-specific requirements, traceability, and allergen handling must be reviewed before sales are enabled. AURA is not accepting orders for it." },
     { "id": "store-health", "category": "medical-report", "label": "Health-claim policy", "status": "verified", "note": "AURA does not publish treatment, cure, or prevention claims. Any future health-adjacent product needs its own evidence file before a claim is written." },
     { "id": "store-accreditation", "category": "accreditation", "label": "Certificate register", "status": "not-provided", "note": "No organic, fair-trade, or quality certificates are held. No certificate badge will appear on the site until one is verified." },
     { "id": "store-image", "category": "image-rights", "label": "Photography rights register", "status": "not-provided", "note": "Tracks written permission per image. Supplier photographs are currently mockup-only." }

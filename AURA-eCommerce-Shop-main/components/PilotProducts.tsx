@@ -15,7 +15,7 @@ const PilotProducts: React.FC = () => (
           <span className="text-xs uppercase tracking-widest text-[#735B40] font-medium block mb-3">AURA · Product-page previews</span>
           <h2 className="text-3xl md:text-5xl font-serif text-[#2C2A26]">Two ways to discover.</h2>
         </div>
-        <p className="text-sm text-[#5D5A53] leading-relaxed max-w-md">Our first shop page and our first external-offer page. These layouts are for browsing; AURA orders and payments are not enabled.</p>
+        <p className="text-sm text-[#5D5A53] leading-relaxed max-w-md">Browse the current shop previews and external listings. Each product has its own detail page. AURA orders and payments are not enabled.</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-5xl">
         {products.map(product => {
@@ -29,7 +29,7 @@ const PilotProducts: React.FC = () => (
                   const target = event.currentTarget;
                   if (!target.src.endsWith('/assets/products/photography-pending.svg')) target.src = '/assets/products/photography-pending.svg';
                 }} />
-                <span className="absolute top-4 left-4 px-3 py-1.5 text-[10px] uppercase tracking-wider bg-[#F5F2EB] text-[#2C2A26] border border-[#D6D1C7]">{affiliate ? 'Affiliate / referral' : 'Dropshipping · Preview'}</span>
+                <span className="absolute top-4 left-4 px-3 py-1.5 text-[10px] uppercase tracking-wider bg-[#F5F2EB] text-[#2C2A26] border border-[#D6D1C7]">{affiliate ? 'Affiliate / referral' : 'AURA shop · Preview'}</span>
               </a>
               <div className="pt-5">
                 <span className="text-[11px] uppercase tracking-widest text-[#735B40]">{product.category}</span>

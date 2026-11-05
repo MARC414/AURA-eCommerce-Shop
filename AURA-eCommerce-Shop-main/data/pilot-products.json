@@ -246,5 +246,67 @@
       ],
       "note": "Draft keywords for structure only. No search-volume data held. Blocked claims (acne, brightening, oil control) are never used as keywords."
     }
+  },
+  {
+    "id": "cj-1898627038642925570",
+    "slug": "ashwagandha-with-black-pepper",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "listingStatus": "preview",
+    "complianceId": "cmp-ashwagandha-black-pepper",
+    "name": "Ashwagandha with Black Pepper",
+    "category": "Herbal Botanicals",
+    "tagline": "A 60-capsule pack with Ashwagandha root and black pepper.",
+    "description": "CJ lists this supplement as 60 capsules. The supplied label artwork lists Ashwagandha root and black pepper, with pullulan capsules as the inactive ingredient. Product checks and AURA’s selling price are pending.",
+    "sourceName": "CJ",
+    "sourceProductId": "1898627038642925570",
+    "sourceSku": "CJHP232030301AZ",
+    "sourceUrl": "https://www.cjdropshipping.com/product/ashwagandha-with-black-pepper-p-1898627038642925570.html",
+    "sourceTitle": "ASHWAGANDHA WITH BLACK PEPPER",
+    "sourceTitleStatus": "Listing text supplied by the owner on 6 November 2026. CJ’s live page returned a human-verification screen. The supplied label artwork was read locally; the physical pack and exact batch have not been checked.",
+    "images": [
+      {
+        "src": "/assets/products/photography-pending.svg",
+        "alt": "Placeholder for the Ashwagandha with Black Pepper product photograph",
+        "caption": "Product photograph pending. This placeholder does not depict the CJ product.",
+        "isPlaceholder": true
+      }
+    ],
+    "price": null,
+    "currency": "GBP",
+    "variants": [
+      { "label": "60 capsules", "sku": "CJHP232030301AZ", "price": null }
+    ],
+    "specifications": [
+      { "label": "Product form", "value": "Capsules, according to the listing description and supplied label. CJ’s separate ‘Powder’ attribute conflicts with this description." },
+      { "label": "Pack quantity", "value": "60 capsules (listing and label-stated)" },
+      { "label": "Label serving size", "value": "2 capsules; 30 servings per container. These are label details, not an AURA dosing recommendation." },
+      { "label": "Ashwagandha per label serving", "value": "1,300 mg Withania somnifera root per 2 capsules (label-stated; not independently tested)" },
+      { "label": "Black pepper per label serving", "value": "10 mg Piper nigrum fruit per 2 capsules (label-stated; not independently tested)" },
+      { "label": "Inactive ingredient", "value": "Pullulan capsules (label-stated)" },
+      { "label": "Gross package weight", "value": "0.25 lb / 113 g (supplier-stated); this is not net powder weight" },
+      { "label": "Manufacturing country", "value": "USA (supplier-stated; manufacturer and batch traceability pending)" },
+      { "label": "Supplier SKU", "value": "CJHP232030301AZ" },
+      { "label": "Available documents", "value": "One supplied label-artwork PDF reviewed. Batch laboratory reports and certification evidence remain outstanding." },
+      { "label": "Availability", "value": "Not open for ordering on AURA" }
+    ],
+    "deliveryNote": "The supplied CJ quote covers dispatch from the United States to a US address. AURA’s destinations, delivery charges, and estimates have not been confirmed. Supplier inventory and transit estimates are not an AURA stock or delivery promise.",
+    "returnsNote": "AURA’s returns and support terms will be confirmed before orders open. Return arrangements for this supplier listing are still pending.",
+    "usageNote": "Directions and warnings require review against the physical pack. The ingredient amounts above are transcribed from supplied artwork. AURA makes no health-benefit claim or dosing recommendation for this preview.",
+    "dataNote": "Display-only product preview based on owner-supplied listing text and label artwork. The supplier listing is a sourcing reference; AURA has not confirmed a supply agreement.",
+    "operationalNotes": [
+      "Shop is the intake assumption for this sourcing link; no affiliate tracking URL was supplied for this product.",
+      "The listing attribute says Powder, but both the description and label say 60 capsules. Do not list this as loose powder or roots.",
+      "The supplied package size of 57 × 1 × 98 mm needs confirmation before use in shipping calculations.",
+      "The label artwork names Vendercart, but it does not display the CJ SKU or a batch identifier. Confirm its link to the exact supplied product.",
+      "The supplier description refers to black pepper extract; the label says black pepper fruit. Extract status and standardisation have not been confirmed.",
+      "Supplier pricing is not AURA’s selling price and is not stored in this public catalogue. The PDF is retained outside the repository."
+    ],
+    "seo": {
+      "title": "Ashwagandha with Black Pepper, 60 Capsules",
+      "description": "Ashwagandha with Black Pepper, listed as 60 capsules. View label-stated ingredient amounts and verification status in AURA’s shop preview.",
+      "keywords": ["ashwagandha capsules", "ashwagandha with black pepper", "ashwagandha 60 capsules"],
+      "note": "Descriptive draft terms only, not measured keyword research. No health, organic-certification, or free-from claims are used as search targets."
+    }
   }
 ]

@@ -8,7 +8,7 @@ export const MODELS = {
   dropshipping: {
     path: '/shop/',
     label: 'Shop',
-    badge: 'Dropshipping · Preview',
+    badge: 'AURA shop · Preview',
     heading: 'The AURA shop',
     description: 'A small, considered collection taking shape. These products are not yet available to order from AURA.'
   },
@@ -119,11 +119,13 @@ export function productJsonLd(product, canonicalPath) {
     name: product.name,
     description: product.description,
     category: product.category,
-    image: product.images[0].src,
     url: canonicalPath,
-    keywords: product.seo?.keywords?.join(', ') || '',
-    brand: { '@type': 'Brand', name: product.supplierBrand || 'AURA (preview)' }
+    keywords: product.seo?.keywords?.join(', ') || ''
   };
+  const photograph = product.images.find(image => !image.isPlaceholder);
+  if (photograph) schema.image = photograph.src;
+  if (product.supplierBrand) schema.brand = { '@type': 'Brand', name: product.supplierBrand };
+  if (product.sourceSku) schema.sku = product.sourceSku;
   if (product.price !== null && product.price !== undefined) {
     schema.offers = {
       '@type': 'Offer',
@@ -157,7 +159,7 @@ function documentPage({ title, description, active, content, canonical = null, j
   <title>${escapeHtml(title)} — AURA</title>
   <meta name="description" content="${escapeHtml(description)}">
   ${keywords ? `<meta name="keywords" content="${escapeHtml(keywords)}">\n  ` : ''}${canonical ? `<link rel="canonical" href="${escapeHtml(canonical)}">\n  ` : ''}<meta name="robots" content="noindex, follow">
-  <meta property="og:type" content="product">
+  <meta property="og:type" content="${jsonLd ? 'product' : 'website'}">
   <meta property="og:title" content="${escapeHtml(title)} — AURA">
   <meta property="og:description" content="${escapeHtml(description)}">
   ${image ? `<meta property="og:image" content="${escapeHtml(image)}">\n  ` : ''}${canonical ? `<meta property="og:url" content="${escapeHtml(canonical)}">\n  ` : ''}<meta name="theme-color" content="#F5F2EB">${jsonLdTag}
@@ -173,7 +175,7 @@ function documentPage({ title, description, active, content, canonical = null, j
   ${footer()}
 </body>
 </html>
-`;
+`.replace(/[\t ]+$/gm, '');
 }
 
 function gallery(product) {
@@ -299,9 +301,9 @@ function complianceSection(product, compliance) {
         </div>
         <aside class="claims-panel" aria-labelledby="claims-heading">
           <h3 id="claims-heading">Claims we will not make</h3>
-          <p>These words appear on the supplier listing. AURA does not repeat them, because no evidence has been provided for them.</p>
+          <p>These claims remain unverified. They are recorded here for review and are not used in AURA’s product description.</p>
           <ul>${compliance.blockedClaims.map(claim => `<li>${escapeHtml(claim)}</li>`).join('')}</ul>
-          <p class="small-note">A claim leaves this list only when matching evidence is verified and recorded.</p>
+          <p class="small-note">Any claim review must match the exact product and intended market. AURA does not publish disease-treatment claims.</p>
         </aside>
       </div>
     </section>`;
@@ -336,7 +338,7 @@ function productDocument(product, products, actions, compliance = null) {
     canonical,
     jsonLd: productJsonLd(product, canonical),
     keywords: product.seo?.keywords?.join(', ') || null,
-    image: product.images[0]?.src || null,
+    image: product.images.find(image => !image.isPlaceholder)?.src || null,
     content: `
       <div class="page-shell">
         <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="${model.path}">${model.label}</a></li><li aria-current="page">${escapeHtml(product.name)}</li></ol></nav>
@@ -386,9 +388,9 @@ export function renderCollection(modelName, products) {
 export function renderPreviewIndex(products) {
   return documentPage({
     title: 'Two ways to discover · Product-page previews',
-    description: 'Explore AURA’s separate dropshipping and external-offer layouts, before checkout and fulfilment are connected.',
+    description: 'Explore AURA’s shop and external-offer previews, before checkout and fulfilment are connected.',
     active: 'templates',
-    content: `<div class="page-shell collection-page"><div class="collection-heading"><span class="eyebrow">AURA · Product-page previews</span><h1>Two ways to discover.</h1><p>One visual identity, two clear purchase paths. Explore the first shop page and the first external-offer page.</p></div>
+    content: `<div class="page-shell collection-page"><div class="collection-heading"><span class="eyebrow">AURA · Product-page previews</span><h1>Two ways to discover.</h1><p>Browse AURA shop previews and clearly labelled external listings. Each product has its own detail page.</p></div>
       <div class="preview-notice"><span class="eyebrow">Presentation, not transactions</span><p>These layouts do not collect orders or payments. Supplier details and publication permissions are still being checked.</p></div>
       <div class="product-cards preview-cards">${products.map(card).join('')}</div>
       <div class="preview-hubs"><a class="text-link" href="/shop/">Browse the shop preview ${arrow}</a><a class="text-link" href="/discover/">Browse external offers ${arrow}</a></div>

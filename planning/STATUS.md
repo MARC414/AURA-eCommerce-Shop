@@ -1,7 +1,17 @@
 # AURA — Status
 
 **Updated:** 2026-11-06  
-**Phase:** Site structure complete — payment, cart, wishlist, admin panel, newsletter, chatbot, compliance register all implemented. Awaiting git resolution before commit/push.  
+**Phase:** Four generated product previews; current intake is CJ Ashwagandha with Black Pepper. Commerce/admin remain local prototypes. Git is working and the remote is configured.
+
+## Current intake (D-020 takes precedence over older notes)
+
+- Added `/shop/ashwagandha-with-black-pepper/`, CJ `1898627038642925570`, SKU `CJHP232030301AZ`, under **Herbal Botanicals**. Shop is the intake assumption for this sourcing link; no affiliate token was supplied.
+- **60 capsules**, not loose powder. The supplier's `Powder` attribute conflicts with the description and label; **113 g is gross package weight**. AURA selling price remains `null` and ordering is disabled.
+- Corrected the agent's earlier misreading: the owner wanted Ashwagandha added because powder/root was unavailable. D-019's powder/root-only restriction is superseded. Factual capsule previews are allowed; unsupported health/certification claims remain excluded.
+- The PDF reader failed, but the one-page file was rendered with the existing Windows PDF renderer and reviewed locally. It is **label artwork**, not a lab report or organic certificate. It states 2 capsules per serving, 30 servings, 1,300 mg Ashwagandha root and 10 mg black pepper fruit per serving, plus pullulan capsules. Actual composition and SKU/batch linkage remain unverified.
+- `cmp-ashwagandha-black-pepper` records **0 verified / 10 outstanding** checks. Artwork/identity/format review is pending. Supplier cost, live inventory, and quoted shipping are not imported as AURA selling terms. Original PDF stays outside the repo; product photography is a labelled placeholder.
+- Verification this intake: **30/30 template tests passed**, seven HTML pages regenerated, PilotProducts/concierge compiled with the existing esbuild tool, and three concierge-answer smoke checks passed. Browser DOM checks at **375 px and 1425 px content widths** found no horizontal overflow; the quantity control worked and ordering stayed disabled. A screenshot could not be captured because the desktop browser window was not visible.
+- Handoff: `AURA-eCommerce-Shop-main/docs/COMPLIANCE.md` contains the label evidence summary and fingerprint. `AGENTS.md`, `CLAUDE.md`, `.agents/product-marketing.md`, and the concierge corpus use the corrected scope.
 
 ## Current facts
 
@@ -12,14 +22,15 @@
 - Pilot products: 
   * AliExpress item `1005007532901889` (turmeric cleansing soap, dropshipping)
   * AliExpress item `1005008143754192` (aloe vera cleansing bar, dropshipping) 
-  * CJ item `2114448810729783298` (turmeric cleansing pads, affiliate/referral)
+   * CJ item `2114448810729783298` (turmeric cleansing pads, affiliate/referral)
+   * CJ item `1898627038642925570` (Ashwagandha with Black Pepper, Shop preview)
 - CJ commission eligibility remains unverified; token may be merchant-referral not product-sale.
 - Books must have documented publication rights. Prior candidates need further edition/territory checks; access and pricing are undecided.
 
 ## Completed work since last status
 
 ### Storefront & product structure
-- Three pilot products implemented with individual URLs under `/shop/` (dropshipping) and `/discover/` (affiliate).
+- Four pilot products implemented with individual URLs under `/shop/` (AURA sells) and `/discover/` (partner sells).
 - Each product has its own page with compliant pricing (`price: null` pending owner decision), variant handling, and sourcing details.
 - Two distinct templates enforce model-specific UI rules: no cart/quantity controls on affiliate pages, no invented prices.
 - All static pages are `noindex` and display-only; no live offers or payment processing.
@@ -51,18 +62,18 @@
 - Footer: all unverified claims removed; honest copy only about data handling and preview state.
 
 ### Technical health
-- `npm run build:templates` → 7 HTML pages generated (3 product pages + shop/index + discover/index + templates/)
-- `npm run test:templates` → 26 tests pass (includes compliance, pricing, variant rendering, blocked claims, etc.)
+- `npm run build:templates` → 7 HTML pages generated (4 products + 2 collections + preview index).
+- `npm run test:templates` → 30 tests pass, including capsule identity, per-serving amounts, pending evidence, and metadata.
 - Services compile: concierge, commerce, auth, payments bundles produced by esbuild.
 - Types updated: PurchaseOwner, PaymentMethod, PaymentStatus, VerificationStatus, AdminRole/AdminSession, etc. with detailed JSDoc.
-- No medical/homeopathy/supplement/health-claim content introduced.
+- Selected herbal-supplement previews are now allowed under D-020. New product copy omits supplier health and certification claims; the legacy React demo catalogue still needs a separate content cleanup.
 
-## Next task (awaiting resolution)
+## Next work
 
-**Git blocker must be resolved before commit/push.**
-- Git binary missing despite being registered in winget.
-- Need git installed + remote repository configured + credentials supplied.
-- Once resolved: commit this work, push to agreed remote, then owner can review in context.
+- Ask the supplier for the exact-product physical label, a batch-linked certificate of analysis, and any actual organic certificate. The current PDF only provides label content.
+- Add the product photograph when supplied with publication permission. The page is usable as a preview meanwhile.
+- Keep taking owner-selected links through the same factual intake. Decide the remaining category structure and reconcile the legacy React demo catalogue with the generated catalogue before launch.
+- Git: use `E:\OLD Client and Projects\A\Git\cmd\git.exe`; repo root is the outer AURA folder and origin is `https://github.com/MARC414/AURA-eCommerce-Shop.git`. Stage explicit paths and use fast-forward pushes. No further force-push approval is implied.
 
 ## Inputs still needed (future phases)
 
@@ -75,7 +86,7 @@
 | Books | Exact editions with established hosting rights for full publication/sale. |
 | Wider site | Library placement, additional categories, and any rendering changes beyond pilot pages. |
 
-These do not block resolving the git blocker and committing the completed structure.
+These do not block product-preview intake. Live payments, deployment, and new installations need their own approval.
 
 ## Implemented pilot pages
 
@@ -84,6 +95,7 @@ Project directory: `AURA-eCommerce-Shop-main`.
 - `/shop/turmeric-cleansing-soap/` — dropshipping preview, pending price/options, compliance section.
 - `/shop/aloe-vera-soap/` — dropshipping preview, pending price/options, compliance section, supplier facts.
 - `/discover/turmeric-cleansing-pads/` — affiliate/referral page, exact CJ token disclosed, external purchase explanation, no cart.
+- `/shop/ashwagandha-with-black-pepper/` — 60-capsule herbal supplement preview; label-stated facts and pending evidence.
 - `/shop/` and `/discover/` — collection pages browsable by model.
 - `/templates/` — combined preview index linking to all pages.
 - Product pages generated from `data/pilot-products.json` via `templates/product-pages.mjs`; static assets in `public/assets/`.
@@ -93,25 +105,24 @@ All preview pages respect the core rules: card fields absent, payment status hon
 ## Verification
 
 - `npm run build:templates`: seven HTML pages generated.
-- `npm run test:templates`: 26 tests passed.
+- `npm run test:templates`: 30 tests passed.
 - Services compiled successfully via esbuild.
-- Browser checks: galleries, quantity limits, disabled ordering on affiliate pages, exact referral links preserved, no JS console errors.
-- Responsive checks: standard breakpoints; no horizontal overflow or missing images.
+- Current browser checks: the new page has one H1 and parseable JSON-LD, the quantity control works, ordering stays disabled, and there is no horizontal overflow at the checked widths above. Affiliate-link preservation is covered by template tests.
 - All preview pages are `noindex`. No production domain or live offer schema added.
 
 ## Scope affirmations
 
 - Existing design is the baseline; distinct product templates share the AURA identity.
-- Medical and homeopathy content remain strictly excluded per owner direction.
+- Factual herbal-supplement previews are permitted; homeopathy, iridology, disease-treatment claims, and unsupported health/certification claims remain excluded.
 - No deployment, package installation, supplier order, or payment action attempted.
 - Cloudflare remains a temporary preview option only; not a settled production/subdomain strategy.
 - Work is traceable via commits so AI Studio and Claude Desktop can continue.
 
-## Owner-authorized frontend development complete
+## Frontend status
 
-The storefront structure (product pages, cart, wishlist, payment flow, admin panel for multiple users, newsletter signup, deterministic chatbot, compliance/verification space) is finished and ready for version control pending git resolution.
+Generated product previews are usable for review. React cart, wishlist, order-request, newsletter, and admin features are browser-local prototypes, not live services. Prior esbuild compilation was not a full TypeScript or end-to-end check of the application. Production canonical/sitemap URLs and preview crawling rules still need a launch review.
 
-## Addendum 2026-11-06 (continuation session)
+## Earlier 2026-11-06 notes (history; current intake above takes precedence)
 
 - Handoff docs created in `AURA-eCommerce-Shop-main/docs/`: `HANDOFF.md`, `ARCHITECTURE.md`, `PAYMENTS.md`, `COMPLIANCE.md`. Other tools should read these + this file before acting.
 - Honesty fixes (D-018): fake seeded orders/reviews cleared; default `admin123` PIN removed. `paymentStatus: 'paid'` now only appears in code that filters for it, never as seeded data.
@@ -119,4 +130,4 @@ The storefront structure (product pages, cart, wishlist, payment flow, admin pan
 - **Ashwagandha decision (owner, 2026-11-06):** Owner will supply separate product links later. Keep the existing demo products as-is for now; do NOT add new medical/health-claim content. Replacement will happen when owner links arrive. Recorded as a pending catalogue swap, not an exemption.
 - **Git resolved 2026-11-06:** git found at `E:\OLD Client and Projects\A\Git\cmd\git.exe` (v2.55.0). Local repo initialised at `E:\e-COMMERCE BUSINESS\AURA` with `.gitignore` excluding ZIPs, `Book/`, `node_modules/`. Remote: `https://github.com/MARC414/AURA-eCommerce-Shop.git`. First commit `741a02a` pushed. Remote `main` previously held the old root-level layout; owner approved replacing `main` with `master` (`git push --force origin master:main`). Both `main` and `master` now point to `741a02a`. Ashwagandha catalogue swap pending owner-supplied product links (see above).
 - **Product detail page — production SEO layer added 2026-11-06 (27/27 tests):** canonical links, JSON-LD Product + BreadcrumbList (Offer only when a real price exists), Open Graph image/url, per-product `seo` fields in `pilot-products.json` (draft descriptive keywords only — no search-volume data held, no blocked claims used as keywords), `public/robots.txt` (preview disallow-all) + generated `public/sitemap.xml`. Affiliate CTA keeps `rel="sponsored noopener noreferrer"` + disclosure — no blind redirect. Pages remain `noindex` until launch. Owner confirmed Payoneer account; added as a disabled provider entry — receiving rail only, not a checkout. See `docs/PAYMENTS.md`.
-- **D-019 (2026-11-06, owner decision):** supplements ban reversed in part for herbal botanicals only (Ashwagandha powder/root). Homeopathy/iridology/disease claims remain forbidden; herbal products preview-only until compliance `verified`. Capsule link (AliExpress `1005013385024290`) not added. **Awaiting:** Ashwagandha powder/root product link from owner to start intake.
+- **D-019 corrected by D-020:** the powder/root-only interpretation was an agent error. The latest CJ capsule listing is now added as a preview; the earlier AliExpress capsule listing remains unlisted.

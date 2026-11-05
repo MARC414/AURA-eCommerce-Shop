@@ -62,13 +62,19 @@
       "id": "verification",
       "tags": ["verified", "certificate", "lab test", "accreditation", "organic", "certified", "evidence", "compliance", "safety report"],
       "question": "Are the products certified or lab tested?",
-      "answer": "No certificate, laboratory report, or accreditation is held yet, so no badge appears anywhere on the site. The verification register records each requirement as verified, pending, not provided, or not applicable. A badge only appears when the matching evidence exists and is in date."
+      "answer": "The product previews do not have verified laboratory or certification evidence. The Ashwagandha PDF supplied so far is label artwork, not a test report or organic certificate. The verification register records what was received and which checks remain outstanding."
     },
     {
       "id": "health-food",
-      "tags": ["supplement", "vitamin", "herbal", "medicine", "health", "food", "edible", "homeopathy", "ayurveda"],
+      "tags": ["supplement", "supplements", "vitamin", "herbal", "medicine", "health", "food", "edible", "homeopathy", "ayurveda"],
       "question": "Do you sell supplements, herbs, or food?",
-      "answer": "No. AURA does not sell supplements, medicinal herbs, homeopathic products, or food, and does not publish health claims. If that changes, each item would need its own evidence file, and any food item would need allergen and labelling work first."
+      "answer": "Selected herbal supplements can now appear as factual previews. Ashwagandha with Black Pepper is listed as 60 capsules under Herbal Botanicals. Ordering remains closed while the product evidence and selling arrangements are reviewed. AURA makes no health-benefit claims for this preview."
+    },
+    {
+      "id": "ashwagandha-format",
+      "tags": ["ashwagandha", "black pepper", "powder", "capsules", "60 capsules", "root", "113g"],
+      "question": "Is the Ashwagandha product powder or capsules?",
+      "answer": "The CJ description and supplied label both say 60 capsules, although a separate CJ attribute says Powder. The 113 g figure is gross package weight. The label lists 1,300 mg Ashwagandha root and 10 mg black pepper per two-capsule serving, plus pullulan capsules. These are label-stated details, not an AURA dosing recommendation. The product page is /shop/ashwagandha-with-black-pepper/ and ordering is closed."
     },
     {
       "id": "books",

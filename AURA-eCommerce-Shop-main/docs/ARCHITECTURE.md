@@ -7,7 +7,7 @@
 
 ## Purchase model (the core distinction)
 Split by `purchaseOwner: "aura" | "partner"`, not by supplier:
-- Shop `/shop/` — AURA sells (dropshipping). Cart, checkout (invoice request), order record.
+- Shop `/shop/` — AURA is the intended seller. The generated HTML pages are previews with ordering disabled; the separate React checkout is a browser-local order-request prototype.
 - Discover `/discover/` — partner sells (affiliate/referral). Links out, no cart, no quantity, token disclosed.
 - One canonical URL per product. Never show "drop ship" publicly. Cart is the contract: anything that cannot enter AURA's cart never gets cart affordances. No mixed shoppable grid.
 
@@ -27,10 +27,11 @@ Split by `purchaseOwner: "aura" | "partner"`, not by supplier:
 
 ## Verification
 - `npm run build:templates` → generates product + collection pages.
-- `npm run test:templates` → 26 tests (compliance, pricing, variants, blocked claims, affiliate token, no card/order in static JS).
-- esbuild compile check on `services/*.ts` (see HANDOFF.md for command).
+- `npm run test:templates` → 30 tests, including capsule form, label-stated serving amounts, evidence statuses, and schema checks for the CJ Ashwagandha entry.
+- esbuild compilation is a smoke check, not a full TypeScript or end-to-end application test. The latest intake checked PilotProducts and concierge; see `planning/STATUS.md` at the outer repo root.
 
-## Known gaps (not fixed without owner decision)
-- `constants.ts` still contains Ashwagandha/health-claim demo products — conflicts with no-medical rule. Awaiting owner decision on removal vs. quarantine.
+## Known gaps and current scope
+- D-020 allows owner-selected herbal-supplement previews, including capsules. `constants.ts` still contains a separate legacy demo catalogue with unsupported claims; it is not verified product data. Catalogue reconciliation remains a follow-up.
 - Fake seeded orders/reviews in `storeService.ts` — see fix applied 2026-11-06 (empty seed, no default PIN).
-- Git binary missing in this environment; commit/push blocked pending install + remote URL.
+- Git and origin are configured (outer AURA repo root). Use explicit staging and ordinary fast-forward pushes; user files and duplicate templates remain untracked.
+- Preview SEO still uses relative canonical/sitemap URLs and development crawling rules. Review these against the confirmed origin before any public launch.

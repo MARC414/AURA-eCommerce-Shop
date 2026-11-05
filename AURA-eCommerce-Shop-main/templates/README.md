@@ -3,9 +3,11 @@
 Two reusable, pre-rendered HTML layouts alongside the existing React storefront:
 
 - `/shop/turmeric-cleansing-soap/` — AliExpress dropshipping preview; ordering disabled.
+- `/shop/aloe-vera-soap/` — aloe bar preview; price pending.
+- `/shop/ashwagandha-with-black-pepper/` — CJ herbal supplement preview, **60 capsules**, not loose powder. Ingredient amounts are label-stated; product checks remain outstanding.
 - `/discover/turmeric-cleansing-pads/` — external CJ referral listing; no AURA cart or checkout.
 - `/shop/` and `/discover/` — separate collection pages.
-- `/templates/` — review both pilot pages in one place.
+- `/templates/` — review all four product previews in one place.
 
 ## Local review without installing anything
 
@@ -28,6 +30,8 @@ Edit `data/pilot-products.json`, then regenerate. Set `model` to `dropshipping` 
 - Use exact, confirmed descriptions, variants, and image permissions.
 - Keep `price: null` when the AURA price is not set. A numeric price is labelled a preview, never a live offer.
 - An affiliate entry needs `externalUrl` and a truthful `disclosure`.
+- Give every product a matching `data/compliance.json` record. A supplied label is recorded as received/pending review, not upgraded to verified certification or batch testing.
+- Mark placeholder images with `isPlaceholder: true`; they remain visible as placeholders but are omitted from Product and Open Graph product-image metadata. An unknown brand is omitted rather than fabricated.
 - Empty variants display a disabled "Options awaiting confirmation" field.
 - Generated HTML should not be edited directly; edit `templates/product-pages.mjs` instead.
 
@@ -39,5 +43,5 @@ Edit `data/pilot-products.json`, then regenerate. Set `model` to `dropshipping` 
 - The CJ link is preserved exactly as provided. Its commission eligibility has not been confirmed.
 - The soap title and one image were read from AliExpress public metadata. "Handmade," ingredients, safety, and other supplier claims are not independently verified. No supplier price or delivery promise was imported.
 - The CJ title is a draft from the URL. Its artwork is explicitly labelled an illustration, not a supplier photograph.
-- All five pages have `noindex` during development. Canonical domains and live structured offers are intentionally absent until the production setup and listing facts are decided.
+- Seven HTML pages are generated (four products, two collections, one index), all `noindex`. Product metadata and JSON-LD are present, but preview-relative canonical/sitemap URLs still need a confirmed production origin. Preview crawling/indexing rules also need a launch review. The pending-price products emit no offers or ratings.
 - This is not a site-wide React migration or a production checkout. Existing prototype components outside the pilot remain unchanged.

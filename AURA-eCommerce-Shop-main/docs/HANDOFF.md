@@ -1,19 +1,41 @@
 AURA — Handoff Summary (v2026-11-06)
 =====================================
 
-This document is the single source of truth for AI Studio and Claude Desktop
-so they can continue without asking the same questions.
+Read the outer `AGENTS.md`, `.agents/product-marketing.md`, and `planning/STATUS.md`
+first. They hold current decisions; this file maps the implementation for AI Studio
+and Claude Desktop.
+
+LATEST INTAKE (D-020, 2026-11-06)
+-------------------------------
+- Added CJ `1898627038642925570`, SKU `CJHP232030301AZ`, at
+  `/shop/ashwagandha-with-black-pepper/`, category Herbal Botanicals. Shop is the
+  intake assumption for the sourcing link. Selling price is pending; ordering is disabled.
+- This is **60 capsules**, despite CJ's `Powder` attribute. 113 g is gross package
+  weight. The owner wanted capsules because powder/root was unavailable; D-019
+  recorded the preference backwards and is corrected by D-020.
+- Supplied PDF was rendered and read locally after the direct reader failed. It
+  is label artwork, not a laboratory report or accreditation. Per two-capsule
+  serving it states 1,300 mg Ashwagandha root and 10 mg black pepper, with pullulan
+  capsules as inactive ingredient. These are label statements, not verified test results.
+- Evidence review: 0 verified / 10 outstanding. Label, identity, and form are pending;
+  tests/certificates/physical pack/image permission remain outstanding. Original PDF
+  is not hosted. `docs/COMPLIANCE.md` records its fingerprint and limitations.
+- 30 template tests passed; generated seven HTML pages. PilotProducts and concierge
+  compile; three updated-answer smoke checks pass. DOM checks at 375/1425 px content
+  widths pass without horizontal overflow; order action stays disabled.
+- New product automatically appears in the existing homepage preview cards and Shop
+  collection. The main React demo catalogue is still separate and contains older
+  sample claims; it is not the source of verified supplier facts.
 
 WHAT IS DONE
 ------------
-- Storefront: static product pages generated for all three pilot products
-  (turmeric soap, turmeric cleansing pads, aloe vera soap) under /shop/ and /discover/.
+- Storefront: four static product pages (turmeric soap, cleansing pads, aloe bar,
+  Ashwagandha capsules) under /shop/ and /discover/.
 - Compliance register: data/compliance.json records every verification item
   per product. A claim may only be published when the matching record is
   'verified'. Missing evidence is recorded as missing, never implied.
-- Three purchase models:
-  * /shop/ → dropshipping products (AURA sells, order goes through cart,
-    payment method = invoice or bank transfer; never card details collected).
+- Two purchase paths:
+  * /shop/ → AURA sells once activated; current HTML previews cannot create orders.
   * /discover/ → affiliate products (partner sells, links out; no cart,
     no quantity controls, token disclosed per page).
   * One canonical URL per product; never mixed in the same grid.
@@ -43,12 +65,14 @@ WHAT IS DONE
 - Two template models: `renderDropshippingPage` and `renderAffiliatePage`; each
   enforces model-specific UI rules (no card form on affiliate, no quantity
   controls on partner, etc.).
-- 26 template tests all pass; esbuild compiles 4 service bundles.
+- 30 template tests pass. esbuild checks are compilation smoke checks, not a full
+  TypeScript or end-to-end verification of the React app.
 
 REMAINING BLOCKERS
 -----------------
-- Git binary not found in this environment (registered in winget but missing).
-  Commit/push/merge cannot run without git install + remote URL.
+- Git is resolved: `E:\OLD Client and Projects\A\Git\cmd\git.exe`.
+  Origin: `https://github.com/MARC414/AURA-eCommerce-Shop.git`.
+  Stage explicit files only; local user files and duplicate templates are untracked.
 - Payment gateway for Bangladesh operator unresolved; only manual invoice /
   bank transfer live. No Stripe/PayPal standard list includes Bangladesh.
 - Affiliate payout eligibility from Bangladesh unverified (AliExpress, CJ,
@@ -59,8 +83,8 @@ REMAINING BLOCKERS
 - EU responsible-person address for aloe soap displayed as "CASTELLANA 9141,
   28046 Madrid" looks malformed; recorded as supplier-stated, must be
   verified before relied on. UK responsible person is separate.
-- No deployment, no remote repository configured. Cloudflare is only a
-  temporary preview option, not settled hosting.
+- The remote repository is configured. No public deployment has been performed;
+  Cloudflare remains a temporary preview option, not settled hosting.
 
 FILES CREATED OR MODIFIED THIS SESSION
 --------------------------------------
@@ -81,18 +105,18 @@ FILES CREATED OR MODIFIED THIS SESSION
 - components/AdminGate.tsx — passphrase setup/login, user selection.
 - components/AdminDashboard.tsx — multi-user panel, compliance tab, team, settings.
 - types.ts — PurchaseOwner, SourcingModel, PaymentStatus, PaymentMethod, etc.
-- tests/product-pages.test.mjs — updated to 26 tests, new compliance checks.
+- tests/product-pages.test.mjs — 30 tests including the capsule and evidence regressions.
 
 PLANNING FILES REFERENCED
 ------------------------
-- planning/STATUS.md — current phase (structure complete, awaiting git approval).
+- planning/STATUS.md — current product intake, verification, and remaining prototype work.
 - planning/DECISIONS.md — decision history reviewed.
 - .agents/product-marketing.md — product context, audience, positioning.
 
-NEXT APPROVED TASKS (in planning order)
+NEXT WORK (future integrations still need approval)
 ---------------------------------------
-1. Install git + configure remote — then commit/push this work.
-2. Decide what to do about constants.ts Ashwagandha health-claim products.
+1. Obtain the exact-product physical label, batch-linked analysis, and certificate evidence.
+2. Reconcile the legacy React demo catalogue with the generated product pages.
 3. Finalize EU/UK responsible-person verification for aloe soap.
 4. If partner in Belgium can supply a payment method, integrate it.
 5. Consider a small UI clean-up of the Ashwagandha references visible in
@@ -101,11 +125,11 @@ NEXT APPROVED TASKS (in planning order)
 HOW TO REBUILD FROM SCRATCH (for AI Studio / Claude Desktop)
 -----------------------------------------------------------
 - Run `npm run build:templates` → generates all shop pages.
-- Run `npm run test:templates` → 26 tests.
+- Run `npm run test:templates` → 30 tests.
 - Run `npm run preview:templates` (port 4173) to view the storefront.
 - To add a new product: edit data/pilot-products.json, then re-run the build
-  script. A compliance record must exist in data/compliance.json or the page
-  will flag outstanding items.
+  script. Add a matching record in data/compliance.json; tests require a record
+  for every pilot product. Keep unavailable evidence pending or not-provided.
 - The chatbot is ready: Assistant uses askConcierge; add Q&A entries in
   data/knowledge-base.json as needed.
 - The admin panel requires a passphrase; set one via AdminGate on first load.
