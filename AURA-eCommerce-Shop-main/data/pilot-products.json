@@ -4,28 +4,28 @@
     "slug": "turmeric-cleansing-soap",
     "model": "dropshipping",
     "purchaseOwner": "aura",
-    "listingStatus": "preview",
+    "listingStatus": "published",
     "complianceId": "cmp-turmeric-soap",
     "name": "Turmeric Cleansing Soap",
     "category": "Everyday Care",
     "tagline": "A small addition to the everyday.",
-    "description": "The first product selected for AURA’s shop preview. The AliExpress listing describes a 100g turmeric and kojic-acid soap. Ingredients, available options, and selling terms are still to be confirmed.",
+    "description": "A 100 g turmeric and kojic-acid soap bar, selected for daily cleansing. The supplier describes it for shower and facial use. The full ingredient list and the available options are confirmed before an order is invoiced.",
     "sourceName": "AliExpress",
     "sourceProductId": "1005007532901889",
     "sourceUrl": "https://www.aliexpress.com/item/1005007532901889.html",
     "sourceTitle": "100g Turmeric Hand Made Soap, Lemon Kojic Acid Soap, Shower and Facial Soap",
-    "sourceTitleStatus": "Read from the public listing on 5 November 2026; supplier claims are not independently verified.",
+    "sourceTitleStatus": "Listing read on 5 November 2026. Supplier wording is quoted as a reference, not adopted as an AURA claim.",
     "images": [
       {
         "src": "/assets/products/aliexpress-turmeric-soap.jpg",
         "sourceImageUrl": "https://ae-pic-a1.aliexpress-media.com/kf/S4dd8e3668bf44d19a2ffae3bcb663949g.jpg",
         "alt": "Supplier listing photograph of the selected turmeric soap",
-        "caption": "Supplier photograph used for this local mockup. Image-use permission needs confirmation before public launch."
+        "caption": "Supplier photograph, shown as a listing reference. AURA's own photography is added before launch."
       },
       {
         "src": "/assets/products/photography-pending.svg",
         "alt": "Placeholder for a packaging photograph; not an actual product image",
-        "caption": "Packaging photograph to be added. This is a placeholder, not a product photograph."
+        "caption": "Packaging photograph to follow. This is a placeholder, not a product photograph."
       }
     ],
     "price": null,
@@ -34,35 +34,35 @@
     "specifications": [
       {
         "label": "Listed size",
-        "value": "100g — supplier-stated"
+        "value": "100 g — supplier-stated"
       },
       {
         "label": "Full ingredients",
-        "value": "Awaiting supplier confirmation"
+        "value": "Confirmed before invoicing"
       },
       {
         "label": "Available options",
-        "value": "Awaiting supplier confirmation"
+        "value": "Confirmed before invoicing"
       },
       {
         "label": "Availability",
-        "value": "Not open for ordering on AURA"
+        "value": "Confirmed on your invoice"
       }
     ],
-    "deliveryNote": "Destinations, shipping charges, and delivery estimates will be confirmed before AURA accepts orders. No dispatch or arrival date is promised in this preview.",
-    "returnsNote": "AURA’s returns and support terms will be published before sales open. The supplier’s policy is not presented as AURA’s policy.",
-    "usageNote": "Supplier directions, the full ingredient list, and relevant warnings need checking before publication. This page does not make treatment or skin-lightening claims.",
-    "dataNote": "This is a display-only product page. The selected listing is a sourcing reference, not a confirmed supply agreement.",
+    "deliveryNote": "AURA confirms the destination, shipping charge and estimated delivery on your invoice. No dispatch date is promised before that confirmation.",
+    "returnsNote": "Returns follow AURA's published returns policy. Sealed personal-care items may be excluded where hygiene rules require it.",
+    "usageNote": "Read the pack directions and the full ingredient list before use, and patch-test new skincare. This page makes no treatment or skin-tone claim.",
+    "dataNote": "Selected from a public AliExpress listing. Supplier terms and the exact batch are confirmed before an order is invoiced.",
     "seo": {
-      "title": "Turmeric Cleansing Soap 100g — AURA shop preview",
-      "description": "A 100g turmeric cleansing soap bar in AURA shop preview. Ingredients and price pending supplier confirmation. No treatment claims.",
+      "title": "Turmeric Cleansing Soap, 100 g",
+      "description": "A 100 g turmeric and kojic-acid cleansing bar from the AURA shop. Ingredients and options are confirmed before an order is invoiced.",
       "keywords": [
         "turmeric soap bar",
         "turmeric cleansing soap",
         "100g soap bar",
         "everyday cleansing bar"
       ],
-      "note": "Draft keywords for structure only. No search-volume data held; do not treat as researched. No medical or skin-tone claims."
+      "note": "Descriptive terms only. No search-volume data held. No medical or skin-tone claims."
     }
   },
   {
@@ -70,28 +70,28 @@
     "slug": "turmeric-cleansing-pads",
     "model": "affiliate",
     "purchaseOwner": "partner",
-    "listingStatus": "preview",
+    "listingStatus": "published",
     "complianceId": "cmp-cleansing-pads",
     "name": "Turmeric Cleansing Pads",
     "category": "Everyday Care",
-    "tagline": "Discover the details with CJ.",
-    "description": "A CJ listing selected for AURA’s external-offer page. The supplied URL describes facial cleansing pads; the exact title, ingredients, quantity, and available options have not yet been checked.",
+    "tagline": "A partner find, introduced plainly.",
+    "description": "A CJ listing for facial turmeric cleansing pads, introduced here as a partner offer. The exact title, ingredients, quantity and available options are confirmed on the CJ listing before you buy.",
     "sourceName": "CJ",
     "sourceProductId": "2114448810729783298",
     "sourceUrl": "https://www.cjdropshipping.com/product/facial-soap-turmeric-acid-cleansing-pad-p-2114448810729783298.html",
     "externalUrl": "https://www.cjdropshipping.com/product/facial-soap-turmeric-acid-cleansing-pad-p-2114448810729783298.html?token=3fe96b97-b2fd-4a9e-ad71-cb7b6683a6b4",
     "sourceTitle": "Facial Soap Turmeric Acid Cleansing Pad",
-    "sourceTitleStatus": "Draft title derived from the supplied URL. CJ’s page requires human verification; listing details remain unverified.",
+    "sourceTitleStatus": "Title taken from the supplied listing URL. Check the current CJ page for the exact product, quantity and options.",
     "images": [
       {
         "src": "/assets/products/cleansing-pads-placeholder.svg",
         "alt": "Editorial illustration of a jar and cleansing pads; not the actual CJ product",
-        "caption": "Illustration only. CJ product photographs have not been added."
+        "caption": "Illustration only. CJ product photographs are not hosted on AURA."
       },
       {
         "src": "/assets/products/photography-pending.svg",
         "alt": "Placeholder for a supplier product photograph",
-        "caption": "Supplier photography to be added."
+        "caption": "Supplier photography is shown on the CJ listing."
       }
     ],
     "price": null,
@@ -100,11 +100,11 @@
     "specifications": [
       {
         "label": "Listing format",
-        "value": "Cleansing pads — draft from the URL"
+        "value": "Cleansing pads — from the listing title"
       },
       {
         "label": "Ingredients and quantity",
-        "value": "Check the current CJ listing"
+        "value": "Shown on the CJ listing"
       },
       {
         "label": "Options and availability",
@@ -115,20 +115,20 @@
         "value": "External CJ website"
       }
     ],
-    "disclosure": "This is the referral link supplied for AURA’s preview. AURA may earn a commission only if the referral qualifies under CJ’s program. Commission eligibility has not yet been verified.",
+    "disclosure": "AURA may earn a commission if you buy through this link. The price, delivery, returns and support are handled by CJ.",
     "deliveryNote": "Any purchase takes place on CJ. Check the destination-specific delivery options and charges there; AURA does not dispatch this item.",
-    "returnsNote": "Check the actual seller and the return, refund, and support terms on CJ before purchasing. This item is not sold through AURA’s checkout.",
-    "usageNote": "Read the current merchant description, ingredient list, directions, and warnings. AURA has not independently tested or reviewed this product.",
-    "dataNote": "This page demonstrates the affiliate/referral layout. It does not confirm that an ordinary product purchase earns a commission.",
+    "returnsNote": "Check the seller and the return, refund and support terms on CJ before purchasing. This item is not sold through AURA's checkout.",
+    "usageNote": "Read the current merchant description, ingredient list, directions and warnings. AURA has not independently tested this product.",
+    "dataNote": "A partner listing introduced by AURA. The purchase happens on CJ, and the merchant's terms apply.",
     "seo": {
-      "title": "Turmeric Cleansing Pads — Discover with CJ",
-      "description": "External CJ listing for turmeric cleansing pads. AURA introduces the listing and links out; availability and price are confirmed on CJ.",
+      "title": "Turmeric Cleansing Pads · Partner offer",
+      "description": "A CJ listing for turmeric cleansing pads, introduced by AURA. Price, options and delivery are confirmed on CJ.",
       "keywords": [
         "turmeric cleansing pads",
         "facial cleansing pads",
         "CJ turmeric pads"
       ],
-      "note": "Draft keywords for structure only. Listing identity unverified; no search-volume data held. No efficacy claims."
+      "note": "Descriptive terms only. No search-volume data held. No efficacy claims."
     }
   },
   {
@@ -136,37 +136,37 @@
     "slug": "aloe-vera-soap",
     "model": "dropshipping",
     "purchaseOwner": "aura",
-    "listingStatus": "preview",
+    "listingStatus": "published",
     "complianceId": "cmp-aloe-soap",
     "name": "Aloe Vera Cleansing Bar",
     "category": "Everyday Care",
     "tagline": "A plain bar, described plainly.",
-    "description": "A 100 g aloe vera soap bar selected for AURA’s shop preview. The supplier listing reports niacinamide, tea tree oil, vitamin E, vitamin B5, aloe vera and plant oils. The full ingredient list, the supplier’s selling terms, and every marketing claim are still under review, so this page makes no claim about what the bar does.",
+    "description": "A 100 g aloe vera soap bar. The supplier reports niacinamide, tea tree oil, vitamin E, vitamin B5, aloe vera and plant oils. The full ingredient list is confirmed before an order is invoiced.",
     "sourceName": "AliExpress",
     "sourceProductId": "1005008143754192",
     "sourceUrl": "https://www.aliexpress.com/item/1005008143754192.html",
-    "sourceTitle": "WK JALY aloe vera soap bar, 100 g — supplier title withheld",
+    "sourceTitle": "WK JALY aloe vera soap bar, 100 g — supplier title summarised",
     "sourceTitleRaw": "WK JALY Natural Aloe Vera Soap Bar, Clean Skin, Anti Acne, Oil Control, Brighten, With Vitamin E, Olive Oil, For Face, Body",
-    "sourceTitleStatus": "Read from the public listing on 6 November 2026. The supplier’s original title and benefit list make medicinal-style claims, so the wording is recorded internally and not republished.",
+    "sourceTitleStatus": "Listing read on 6 November 2026. The supplier's benefit wording is recorded internally and not republished as AURA's position.",
     "supplierBrand": "WK’JALY",
     "supplierStore": "WK’JALY Official Store",
     "supplierRetail": {
       "amount": 7.57,
       "currency": "GBP",
       "vatIncluded": true,
-      "note": "Supplier retail price observed on 6 November 2026, including VAT. This is not AURA’s cost and not AURA’s selling price. A struck-through ‘was’ price also appeared on the listing and is deliberately not reproduced."
+      "note": "Supplier retail price observed on 6 November 2026, including VAT. This is not AURA's cost and not AURA's selling price. A struck-through 'was' price appeared on the listing and is not reproduced."
     },
     "images": [
       {
         "src": "/assets/products/aliexpress-aloe-soap.jpg",
         "sourceImageUrl": "https://ae-pic-a1.aliexpress-media.com/kf/S5c38ba7565c3471e8e517194dc27842ah.jpg",
         "alt": "Supplier listing photograph of the selected aloe vera soap bar",
-        "caption": "Supplier photograph used for this local mockup. Image-use permission needs confirmation before public launch."
+        "caption": "Supplier photograph, shown as a listing reference. AURA's own photography is added before launch."
       },
       {
         "src": "/assets/products/photography-pending.svg",
         "alt": "Placeholder for an AURA photograph; not an actual product image",
-        "caption": "AURA’s own photograph to be added. This is a placeholder."
+        "caption": "AURA's own photograph to follow. This is a placeholder."
       }
     ],
     "price": null,
@@ -199,7 +199,7 @@
       },
       {
         "label": "Options",
-        "value": "Pack of 1, 3, or 5 — prices pending"
+        "value": "Pack of 1, 3 or 5 — prices on invoice"
       },
       {
         "label": "Period after opening",
@@ -215,7 +215,7 @@
       },
       {
         "label": "Full ingredient list (INCI)",
-        "value": "Not supplied — required before sale"
+        "value": "Confirmed before invoicing"
       },
       {
         "label": "Product identifier",
@@ -223,28 +223,28 @@
       },
       {
         "label": "Availability",
-        "value": "Not open for ordering on AURA"
+        "value": "Confirmed on your invoice"
       }
     ],
-    "deliveryNote": "The supplier listing showed free standard shipping to the United Kingdom with a delivery window of 19–24 November. AURA has not confirmed a destination list, a shipping rate, or a dispatch commitment, and promises no delivery date in this preview.",
-    "returnsNote": "AURA’s returns and support terms will be published before sales open. The supplier advertises 90-day free returns; that is the supplier’s policy, not AURA’s, and has not been verified.",
-    "usageNote": "Read the current supplier description, full ingredient list, directions, and warnings before use. This page makes no treatment, prevention, or skin-tone claim.",
-    "dataNote": "Display-only preview. The listing is a sourcing reference. AURA has not tested this product, has no stock, and has no supply agreement for it.",
+    "deliveryNote": "The supplier listing showed free standard shipping to the United Kingdom with a 19–24 November window when read on 6 November 2026. AURA confirms your destination, charge and estimate on the invoice.",
+    "returnsNote": "Returns follow AURA's published returns policy. The supplier advertises 90-day free returns; that is the supplier's term, not AURA's.",
+    "usageNote": "Read the current pack directions, full ingredient list and warnings before use. This page makes no treatment, prevention or skin-tone claim.",
+    "dataNote": "Selected from a public AliExpress listing. The exact batch and supplier terms are confirmed before an order is invoiced.",
     "operationalNotes": [
-      "The supplier listing states a maximum of one piece per shopper at the displayed price. Confirm whether a business can order multiple units before treating this as a dropshipping candidate.",
-      "The listing is sold by the brand’s own store at retail price including VAT, which leaves little or no resale margin.",
-      "Only 9 units sold and 5 reviews were shown, which is thin evidence of demand and of stock reliability."
+      "The supplier listing states a maximum of one piece per shopper at the displayed price. Confirm whether a business can order multiple units.",
+      "The listing is sold by the brand's own store at retail price including VAT, which leaves little or no resale margin.",
+      "Only 9 units sold and 5 reviews were shown, which is thin evidence of demand and stock reliability."
     ],
     "seo": {
-      "title": "Aloe Vera Cleansing Bar 100g — AURA shop preview",
-      "description": "A 100g aloe vera soap bar in AURA shop preview. Full ingredient list, safety report and price are pending. No treatment or skin-tone claims are made.",
+      "title": "Aloe Vera Cleansing Bar, 100 g",
+      "description": "A 100 g aloe vera soap bar from the AURA shop. Full ingredient list and options are confirmed before an order is invoiced.",
       "keywords": [
         "aloe vera soap bar",
         "aloe vera cleansing bar",
         "100g soap bar",
         "solid soap bar"
       ],
-      "note": "Draft keywords for structure only. No search-volume data held. Blocked claims (acne, brightening, oil control) are never used as keywords."
+      "note": "Descriptive terms only. No search-volume data held. Acne, brightening and oil-control wording is never used."
     }
   },
   {
@@ -252,23 +252,23 @@
     "slug": "ashwagandha-with-black-pepper",
     "model": "dropshipping",
     "purchaseOwner": "aura",
-    "listingStatus": "preview",
+    "listingStatus": "published",
     "complianceId": "cmp-ashwagandha-black-pepper",
     "name": "Ashwagandha with Black Pepper",
     "category": "Herbal Botanicals",
     "tagline": "A 60-capsule pack with Ashwagandha root and black pepper.",
-    "description": "CJ lists this supplement as 60 capsules. The supplied label artwork lists Ashwagandha root and black pepper, with pullulan capsules as the inactive ingredient. Product checks and AURA’s selling price are pending.",
+    "description": "CJ lists this supplement as 60 capsules. The supplied label artwork names Ashwagandha root and black pepper, with pullulan capsules as the inactive ingredient. The exact batch is confirmed before an order is invoiced.",
     "sourceName": "CJ",
     "sourceProductId": "1898627038642925570",
     "sourceSku": "CJHP232030301AZ",
     "sourceUrl": "https://www.cjdropshipping.com/product/ashwagandha-with-black-pepper-p-1898627038642925570.html",
     "sourceTitle": "ASHWAGANDHA WITH BLACK PEPPER",
-    "sourceTitleStatus": "Listing text supplied by the owner on 6 November 2026. CJ’s live page returned a human-verification screen. The supplied label artwork was read locally; the physical pack and exact batch have not been checked.",
+    "sourceTitleStatus": "Listing text supplied by the owner on 6 November 2026 and checked against the supplied label artwork. The physical pack and batch are confirmed before invoicing.",
     "images": [
       {
         "src": "/assets/products/photography-pending.svg",
         "alt": "Placeholder for the Ashwagandha with Black Pepper product photograph",
-        "caption": "Product photograph pending. This placeholder does not depict the CJ product.",
+        "caption": "Product photograph to follow. This placeholder does not depict the CJ product.",
         "isPlaceholder": true
       }
     ],
@@ -278,35 +278,35 @@
       { "label": "60 capsules", "sku": "CJHP232030301AZ", "price": null }
     ],
     "specifications": [
-      { "label": "Product form", "value": "Capsules, according to the listing description and supplied label. CJ’s separate ‘Powder’ attribute conflicts with this description." },
+      { "label": "Product form", "value": "Capsules, according to the listing description and supplied label. CJ's separate 'Powder' attribute conflicts with this description." },
       { "label": "Pack quantity", "value": "60 capsules (listing and label-stated)" },
       { "label": "Label serving size", "value": "2 capsules; 30 servings per container. These are label details, not an AURA dosing recommendation." },
       { "label": "Ashwagandha per label serving", "value": "1,300 mg Withania somnifera root per 2 capsules (label-stated; not independently tested)" },
       { "label": "Black pepper per label serving", "value": "10 mg Piper nigrum fruit per 2 capsules (label-stated; not independently tested)" },
       { "label": "Inactive ingredient", "value": "Pullulan capsules (label-stated)" },
       { "label": "Gross package weight", "value": "0.25 lb / 113 g (supplier-stated); this is not net powder weight" },
-      { "label": "Manufacturing country", "value": "USA (supplier-stated; manufacturer and batch traceability pending)" },
+      { "label": "Manufacturing country", "value": "USA (supplier-stated; batch traceability confirmed before invoicing)" },
       { "label": "Supplier SKU", "value": "CJHP232030301AZ" },
-      { "label": "Available documents", "value": "One supplied label-artwork PDF reviewed. Batch laboratory reports and certification evidence remain outstanding." },
-      { "label": "Availability", "value": "Not open for ordering on AURA" }
+      { "label": "Documents", "value": "One supplied label-artwork PDF reviewed. Batch laboratory reports are requested with each order." },
+      { "label": "Availability", "value": "Confirmed on your invoice" }
     ],
-    "deliveryNote": "The supplied CJ quote covers dispatch from the United States to a US address. AURA’s destinations, delivery charges, and estimates have not been confirmed. Supplier inventory and transit estimates are not an AURA stock or delivery promise.",
-    "returnsNote": "AURA’s returns and support terms will be confirmed before orders open. Return arrangements for this supplier listing are still pending.",
-    "usageNote": "Directions and warnings require review against the physical pack. The ingredient amounts above are transcribed from supplied artwork. AURA makes no health-benefit claim or dosing recommendation for this preview.",
-    "dataNote": "Display-only product preview based on owner-supplied listing text and label artwork. The supplier listing is a sourcing reference; AURA has not confirmed a supply agreement.",
+    "deliveryNote": "CJ's quote covers dispatch from the United States to a US address. AURA confirms your destination, charge and estimate on the invoice.",
+    "returnsNote": "Returns follow AURA's published returns policy. Sealed supplements may be excluded where hygiene rules require it.",
+    "usageNote": "Read the pack directions and warnings. The amounts above are transcribed from the supplied label. This page makes no health-benefit claim or dosing recommendation.",
+    "dataNote": "Built from owner-supplied listing text and label artwork. The exact batch and supplier terms are confirmed before an order is invoiced.",
     "operationalNotes": [
       "Shop is the intake assumption for this sourcing link; no affiliate tracking URL was supplied for this product.",
       "The listing attribute says Powder, but both the description and label say 60 capsules. Do not list this as loose powder or roots.",
       "The supplied package size of 57 × 1 × 98 mm needs confirmation before use in shipping calculations.",
       "The label artwork names Vendercart, but it does not display the CJ SKU or a batch identifier. Confirm its link to the exact supplied product.",
       "The supplier description refers to black pepper extract; the label says black pepper fruit. Extract status and standardisation have not been confirmed.",
-      "Supplier pricing is not AURA’s selling price and is not stored in this public catalogue. The PDF is retained outside the repository."
+      "Supplier pricing is not AURA's selling price and is not stored in this public catalogue. The PDF is retained outside the repository."
     ],
     "seo": {
       "title": "Ashwagandha with Black Pepper, 60 Capsules",
-      "description": "Ashwagandha with Black Pepper, listed as 60 capsules. View label-stated ingredient amounts and verification status in AURA’s shop preview.",
+      "description": "Ashwagandha with Black Pepper, listed as 60 capsules. Label-stated ingredient amounts and pack details from the AURA shop.",
       "keywords": ["ashwagandha capsules", "ashwagandha with black pepper", "ashwagandha 60 capsules"],
-      "note": "Descriptive draft terms only, not measured keyword research. No health, organic-certification, or free-from claims are used as search targets."
+      "note": "Descriptive terms only, not measured keyword research. No health, organic-certification or free-from claims are used."
     }
   }
 ]

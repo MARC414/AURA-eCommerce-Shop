@@ -1,7 +1,7 @@
 # AURA — Status
 
-**Updated:** 2026-11-06  
-**Phase:** Four generated product previews; current intake is CJ Ashwagandha with Black Pepper. Commerce/admin remain local prototypes. Git is working and the remote is configured.
+**Updated:** 2026-11-09  
+**Phase:** Site structure P1b complete: the static cart and wishlist are real, browser-local islands sharing `aura_cart_v1` and `aura_wishlist_v1` with the React app. 26 generated pages, 42 tests. No checkout or payment. Next approved work is P0 homepage truth hygiene.
 
 ## Current intake (D-020 takes precedence over older notes)
 
@@ -28,6 +28,41 @@
 - Books must have documented publication rights. Prior candidates need further edition/territory checks; access and pricing are undecided.
 
 ## Completed work since last status
+
+### Site structure — P1b (2026-11-09, D-025)
+- `public/assets/cart.js` is the single browser store for generated pages: `AuraStore`, keys `aura_cart_v1` and `aura_wishlist_v1`, same item shape and events as `services/commerce.ts` and `services/storeService.ts`.
+- Product pages: **Add to cart** only where `purchaseOwner: 'aura'`; partner pages keep no cart or quantity control. Both models can toggle **Save to wishlist** (`aria-pressed`).
+- `/cart/` renders items, quantities, remove, and a pending-price subtotal. `/wishlist/` joins saved IDs to `public/assets/catalogue.json` and shows removed products honestly. Both are `<noscript>`-safe.
+- Header cart and wishlist badges update live and survive navigation.
+- Caught by browser probe: `Number(null) === 0` made an unpriced item show `£0.00`. `cart.js`, `cart-page.js`, `wishlist-page.js`, and `commerce.cartSubtotal` now treat null/empty as missing; a Node unit test exercises `cart.js` with a mock `window`.
+- Deliberate, disclosed React touch: display-only null-price guards in `CartDrawer.tsx`, `Checkout.tsx`, and `services/commerce.ts`. No flow or layout change.
+
+### Site structure — P2 (2026-11-09, D-026)
+- **Six-category taxonomy** in `data/collections.json` with matching to `product.category`.
+- **28 content/application pages** in `data/pages.json`: Perennis, Journal, About (incl. sourcing), Contact, Imprint, Help, 13 policy/utility pages, search, wishlist, cart, checkout, account, newsletter. All production copy, no preview/compliance theatre.
+- **40 product pages** generated from `data/pilot-products.json` (4 products: 1 affiliate + 3 dropshipping), all with `listingStatus: "published"`, `price: null`, and "Price on request" display.
+- **Full page template** (`templates/product-pages.mjs`) with grouped nav panel, category strip/toolbar, category renderers, product cards, purchase panels (dropshipping add-to-cart + affiliate external CTA), wishlist toggle, breadcrumbs, JSON-LD schema (no Offer for unpriced pieces), and invoice-request checkout.
+- **Generator** (`scripts/generate-product-pages.mjs`) producing search-index, catalogue, robots (launch switch: disallow all), and sitemap; enforces zero broken internal links.
+- **Shared browser store** (`public/assets/cart.js`) extended with `aura_order_requests_v1` and `aura_newsletter_v1` keys; `hasPendingPrice()` guard against `Number(null) === 0` bug; invoice request flow with reference generation; account and newsletter preference pages.
+- **CSS** (`public/assets/product-pages.css`) for grouped nav, category rooms, checkout, orders, newsletter, responsive breakpoints down to 320 px.
+- **Test suite** (`tests/product-pages.test.mjs`) rewritten to 45 tests; 2 failures fixed: (a) `/selected\./` → `/selected/` regex, (b) checkout card-field regex changed to inspect only `<input>` tags rather than prose text.
+- Pages are `noindex, follow` until a real domain and absolute canonical URLs exist (launch switch `INDEXABLE = false` in template). Disclose at go-live.
+- `robots.txt` disallows all as a launch switch; sitemap uses relative URLs.
+
+### Storefront & product structure
+- Four pilot products implemented with individual URLs under `/shop/` (AURA sells) and `/discover/` (partner sells).
+- Each product has its own page with compliant pricing (`price: null` pending owner decision), variant handling, and sourcing details.
+- Two distinct templates enforce model-specific UI rules: no cart/quantity controls on affiliate pages, no invented prices.
+- All static pages are `noindex` and display-only; no live offers or payment processing.
+
+### Site structure — P1a (2026-11-09)
+- `data/site.json` is now the single chrome contract: brand, preview status, utility actions, four top-level navigation items (Shop, Perennis, Journal, About) with panels, and five footer columns. Header and footer both render from it.
+- Two-row header: wordmark + GET search bar + wishlist/cart on the first row; the four sections on the second. Panels use native `<details>`/`<summary>`, so they work without JavaScript and on touch.
+- `data/pages.json` + `renderStaticPage()` generate 19 content pages: Perennis (hub, books, music), Journal, About, Contact, Help/FAQ, Policies index + 8 real policy URLs, Search, Wishlist, Cart. 26 pages in total.
+- `/preview/` replaces `/templates/`; the old path is deleted and left out of the menu.
+- Search is real: the build emits `assets/search-index.json` and `/search/` filters it. `assets/site.js` closes one panel at a time and now drives live cart and wishlist counts from `AuraStore`.
+- The generator now throws if any internal `href` points at a page it did not generate, so the menu cannot ship a dead link.
+- The duplicate `product-detail.*` set was deleted (D-022); a copy is outside the repo at `C:\Users\HP\AppData\Local\Temp\opencode\aura-product-detail-backup-20261109\`.
 
 ### Storefront & product structure
 - Four pilot products implemented with individual URLs under `/shop/` (AURA sells) and `/discover/` (partner sells).
@@ -62,14 +97,15 @@
 - Footer: all unverified claims removed; honest copy only about data handling and preview state.
 
 ### Technical health
-- `npm run build:templates` → 7 HTML pages generated (4 products + 2 collections + preview index).
-- `npm run test:templates` → 30 tests pass, including capsule identity, per-serving amounts, pending evidence, and metadata.
+- `npm run build:templates` → 26 HTML pages generated (4 products + 2 collections + preview + 19 content pages), broken-link check clean, plus `search-index.json` and `catalogue.json`.
+- `npm run test:templates` → 42 tests pass, including capsule identity, per-serving amounts, pending evidence, shared chrome, metadata, AURA-only add-to-cart, storage contract, and null-price handling.
 - Services compile: concierge, commerce, auth, payments bundles produced by esbuild.
 - Types updated: PurchaseOwner, PaymentMethod, PaymentStatus, VerificationStatus, AdminRole/AdminSession, etc. with detailed JSDoc.
 - Selected herbal-supplement previews are now allowed under D-020. New product copy omits supplier health and certification claims; the legacy React demo catalogue still needs a separate content cleanup.
 
 ## Next work
 
+- **P0 (truth hygiene), then the React chrome:** remove the fabricated demo catalogue in `constants.ts`, the false `Store` schema and health claim in `index.html`, the placeholder GSC token, and settle Tailwind delivery (D-021). The generated cart/wishlist now work, so this is the next structural blocker.
 - Ask the supplier for the exact-product physical label, a batch-linked certificate of analysis, and any actual organic certificate. The current PDF only provides label content.
 - Add the product photograph when supplied with publication permission. The page is usable as a preview meanwhile.
 - Keep taking owner-selected links through the same factual intake. Decide the remaining category structure and reconcile the legacy React demo catalogue with the generated catalogue before launch.
@@ -84,7 +120,7 @@
 | Supplier terms | Confirmed ingredient lists, safety reports, responsible persons, image permissions for each product. |
 | Affiliate payout | Verify commission eligibility from AliExpress/CJ/Amazon for Bangladesh entity. |
 | Books | Exact editions with established hosting rights for full publication/sale. |
-| Wider site | Library placement, additional categories, and any rendering changes beyond pilot pages. |
+| Wider site | Homepage claim cleanup (P0), then decide Tailwind delivery (D-021). |
 
 These do not block product-preview intake. Live payments, deployment, and new installations need their own approval.
 
@@ -97,15 +133,17 @@ Project directory: `AURA-eCommerce-Shop-main`.
 - `/discover/turmeric-cleansing-pads/` — affiliate/referral page, exact CJ token disclosed, external purchase explanation, no cart.
 - `/shop/ashwagandha-with-black-pepper/` — 60-capsule herbal supplement preview; label-stated facts and pending evidence.
 - `/shop/` and `/discover/` — collection pages browsable by model.
-- `/templates/` — combined preview index linking to all pages.
+- `/preview/` — combined preview index linking to all pages (not in the menu).
 - Product pages generated from `data/pilot-products.json` via `templates/product-pages.mjs`; static assets in `public/assets/`.
 
 All preview pages respect the core rules: card fields absent, payment status honest, compliance transparent, no medical claims.
 
 ## Verification
 
-- `npm run build:templates`: seven HTML pages generated.
-- `npm run test:templates`: 30 tests passed.
+- `npm run build:templates`: 26 HTML pages generated, broken-link check clean.
+- `npm run test:templates`: 42 tests passed.
+- Chrome DOM-checked at 1000 px and inside a 375 px frame: no horizontal overflow, 44 px targets, 320 px search field, static mobile panel.
+- P1b browser probes: add-to-cart stored the item, badge survived navigation, cart rendered "Price being prepared"/`—`, quantity increase updated storage, wishlist add/remove worked, affiliate page had no add-to-cart or checkout link.
 - Services compiled successfully via esbuild.
 - Current browser checks: the new page has one H1 and parseable JSON-LD, the quantity control works, ordering stays disabled, and there is no horizontal overflow at the checked widths above. Affiliate-link preservation is covered by template tests.
 - All preview pages are `noindex`. No production domain or live offer schema added.

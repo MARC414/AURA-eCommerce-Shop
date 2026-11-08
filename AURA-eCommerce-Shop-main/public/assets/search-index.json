@@ -1,0 +1,411 @@
+[
+  {
+    "title": "AURA home",
+    "description": "Objects and knowledge for a slower, more awake life.",
+    "href": "/",
+    "type": "Home",
+    "keywords": [
+      "aura",
+      "shop",
+      "library",
+      "perennis",
+      "journal"
+    ]
+  },
+  {
+    "title": "Herbal Botanicals",
+    "description": "Herbal botanicals selected for AURA: capsules, loose herbs and single-ingredient preparations with a clear source.",
+    "href": "/shop/herbal-botanicals/",
+    "type": "Category",
+    "keywords": [
+      "Herbal Botanicals",
+      "Plants, roots and resins",
+      "Herbal Botanicals",
+      "pieces"
+    ]
+  },
+  {
+    "title": "Everyday Care",
+    "description": "Everyday cleansing and care pieces selected for AURA, with plain descriptions and no treatment claims.",
+    "href": "/shop/everyday-care/",
+    "type": "Category",
+    "keywords": [
+      "Everyday Care",
+      "Soap, skin and small rituals",
+      "Everyday Care",
+      "pieces"
+    ]
+  },
+  {
+    "title": "Sacred Sound",
+    "description": "Sound objects and recordings for practice, ceremony and quiet attention.",
+    "href": "/shop/sacred-sound/",
+    "type": "Category",
+    "keywords": [
+      "Sacred Sound",
+      "Instruments and listening",
+      "Sacred Sound",
+      "Sacred Sound & Music",
+      "coming soon"
+    ]
+  },
+  {
+    "title": "Yoga & Practice",
+    "description": "Practice objects for yoga, breath and daily movement.",
+    "href": "/shop/yoga-practice/",
+    "type": "Category",
+    "keywords": [
+      "Yoga & Practice",
+      "Ground, breath, repetition",
+      "Yoga & Practice",
+      "Yoga & Sacred Materials",
+      "Yoga & Eastern Wisdom",
+      "coming soon"
+    ]
+  },
+  {
+    "title": "Art & Craft",
+    "description": "Handmade art and craft objects selected for their material honesty.",
+    "href": "/shop/art-craft/",
+    "type": "Category",
+    "keywords": [
+      "Art & Craft",
+      "Made by hand",
+      "Art & Craft",
+      "coming soon"
+    ]
+  },
+  {
+    "title": "Quiet Living",
+    "description": "Quiet objects for the home, chosen for material and usefulness.",
+    "href": "/shop/quiet-living/",
+    "type": "Category",
+    "keywords": [
+      "Quiet Living",
+      "Objects that lower the volume",
+      "Quiet Living",
+      "Organic Quiet Tech",
+      "coming soon"
+    ]
+  },
+  {
+    "title": "Turmeric Cleansing Soap",
+    "description": "A small addition to the everyday.",
+    "href": "/shop/turmeric-cleansing-soap/",
+    "type": "AURA shop",
+    "keywords": [
+      "Everyday Care",
+      "turmeric soap bar",
+      "turmeric cleansing soap",
+      "100g soap bar",
+      "everyday cleansing bar"
+    ]
+  },
+  {
+    "title": "Turmeric Cleansing Pads",
+    "description": "A partner find, introduced plainly.",
+    "href": "/discover/turmeric-cleansing-pads/",
+    "type": "Partner offer",
+    "keywords": [
+      "Everyday Care",
+      "turmeric cleansing pads",
+      "facial cleansing pads",
+      "CJ turmeric pads"
+    ]
+  },
+  {
+    "title": "Aloe Vera Cleansing Bar",
+    "description": "A plain bar, described plainly.",
+    "href": "/shop/aloe-vera-soap/",
+    "type": "AURA shop",
+    "keywords": [
+      "Everyday Care",
+      "aloe vera soap bar",
+      "aloe vera cleansing bar",
+      "100g soap bar",
+      "solid soap bar"
+    ]
+  },
+  {
+    "title": "Ashwagandha with Black Pepper",
+    "description": "A 60-capsule pack with Ashwagandha root and black pepper.",
+    "href": "/shop/ashwagandha-with-black-pepper/",
+    "type": "AURA shop",
+    "keywords": [
+      "Herbal Botanicals",
+      "ashwagandha capsules",
+      "ashwagandha with black pepper",
+      "ashwagandha 60 capsules"
+    ]
+  },
+  {
+    "title": "A library given freely.",
+    "description": "Perennis is AURA's free library: books and music collected for their clarity, each with a short note on why it is here.",
+    "href": "/perennis/",
+    "type": "Perennis",
+    "keywords": [
+      "Perennis",
+      "Perennis"
+    ]
+  },
+  {
+    "title": "Books kept close.",
+    "description": "The Perennis book collection, with an edition note and a short review for each title. Reading is public; downloads ask for an email address.",
+    "href": "/perennis/books/",
+    "type": "Perennis",
+    "keywords": [
+      "Perennis · Books",
+      "Books"
+    ]
+  },
+  {
+    "title": "Listening, with credit.",
+    "description": "Ragas, classical recordings and quiet music listened to through official embeds rather than copied files.",
+    "href": "/perennis/music/",
+    "type": "Perennis",
+    "keywords": [
+      "Perennis · Music",
+      "Music"
+    ]
+  },
+  {
+    "title": "Notes, not claims.",
+    "description": "Notes on herbs, practice and the ordinary work of looking after a mind and a body.",
+    "href": "/journal/",
+    "type": "Journal",
+    "keywords": [
+      "Journal",
+      "Journal"
+    ]
+  },
+  {
+    "title": "Plants, and the work of tending them.",
+    "description": "Notes on herbs, growing, preparation and the daily practices that keep a body close to the earth.",
+    "href": "/journal/plants-and-practice/",
+    "type": "Journal",
+    "keywords": [
+      "Journal · Plants & practice",
+      "Plants & practice"
+    ]
+  },
+  {
+    "title": "The mind is not separate from the body.",
+    "description": "Essays on attention, rest, breath and the ordinary work of looking after a mind and a body.",
+    "href": "/journal/mind-and-body/",
+    "type": "Journal",
+    "keywords": [
+      "Journal · Mind & body",
+      "Mind & body"
+    ]
+  },
+  {
+    "title": "A house can hold both.",
+    "description": "Notes on meaning, ritual, beauty and the commerce of things that carry more than a price.",
+    "href": "/journal/worldly-and-divine/",
+    "type": "Journal",
+    "keywords": [
+      "Journal · Worldly & divine",
+      "Worldly & divine"
+    ]
+  },
+  {
+    "title": "Chosen slowly.",
+    "description": "AURA is a small independent project built around objects and knowledge for a slower, more sensory life.",
+    "href": "/about/",
+    "type": "AURA",
+    "keywords": [
+      "About",
+      "About"
+    ]
+  },
+  {
+    "title": "Where things come from.",
+    "description": "How AURA chooses pieces, what a partner offer means, and which details are published for each object.",
+    "href": "/about/sourcing/",
+    "type": "AURA",
+    "keywords": [
+      "About · Sourcing",
+      "Sourcing & makers"
+    ]
+  },
+  {
+    "title": "Talk to the house.",
+    "description": "How to reach AURA about a piece, an invoice or the library.",
+    "href": "/contact/",
+    "type": "AURA",
+    "keywords": [
+      "Contact",
+      "Contact"
+    ]
+  },
+  {
+    "title": "Imprint.",
+    "description": "Who publishes AURA, how the house can be reached, and the law that applies to this site.",
+    "href": "/imprint/",
+    "type": "AURA",
+    "keywords": [
+      "Imprint",
+      "Imprint"
+    ]
+  },
+  {
+    "title": "Questions, answered plainly.",
+    "description": "Honest answers about ordering, partner offers, the cart, delivery and the free library.",
+    "href": "/help/",
+    "type": "AURA",
+    "keywords": [
+      "Help",
+      "Help & FAQ"
+    ]
+  },
+  {
+    "title": "The rules, in public.",
+    "description": "AURA's privacy, terms, shipping, returns, accessibility and disclosure pages.",
+    "href": "/policies/",
+    "type": "Policy",
+    "keywords": [
+      "Policies",
+      "Policies"
+    ]
+  },
+  {
+    "title": "Privacy.",
+    "description": "What AURA stores in your browser, and what a full privacy notice covers.",
+    "href": "/policies/privacy/",
+    "type": "Policy",
+    "keywords": [
+      "Policies · Privacy",
+      "Privacy"
+    ]
+  },
+  {
+    "title": "Terms of use.",
+    "description": "The terms that apply to AURA's website, invoices and partner offers.",
+    "href": "/policies/terms/",
+    "type": "Policy",
+    "keywords": [
+      "Policies · Terms",
+      "Terms of use"
+    ]
+  },
+  {
+    "title": "Cookies, and what we actually use.",
+    "description": "AURA sets no advertising or analytics cookies. Cart, wishlist, request and newsletter state live in local storage.",
+    "href": "/policies/cookies/",
+    "type": "Policy",
+    "keywords": [
+      "Policies · Cookies",
+      "Cookies"
+    ]
+  },
+  {
+    "title": "Shipping.",
+    "description": "How AURA confirms destinations, charges and delivery on the invoice.",
+    "href": "/policies/shipping/",
+    "type": "Policy",
+    "keywords": [
+      "Policies · Shipping",
+      "Shipping"
+    ]
+  },
+  {
+    "title": "Returns and refunds.",
+    "description": "How returns, refunds and hygiene exclusions work for AURA pieces and partner offers.",
+    "href": "/policies/returns/",
+    "type": "Policy",
+    "keywords": [
+      "Policies · Returns",
+      "Returns"
+    ]
+  },
+  {
+    "title": "Payment, by invoice.",
+    "description": "AURA invoices before payment. No card details are collected on this website.",
+    "href": "/policies/payment/",
+    "type": "Policy",
+    "keywords": [
+      "Policies · Payment",
+      "Payment and invoicing"
+    ]
+  },
+  {
+    "title": "Accessibility.",
+    "description": "What AURA does for accessibility now, and what still needs auditing.",
+    "href": "/policies/accessibility/",
+    "type": "Policy",
+    "keywords": [
+      "Policies · Accessibility",
+      "Accessibility"
+    ]
+  },
+  {
+    "title": "Affiliate disclosure.",
+    "description": "How AURA labels partner offers and earns commission, and what the merchant is responsible for.",
+    "href": "/policies/affiliate-disclosure/",
+    "type": "Policy",
+    "keywords": [
+      "Policies · Disclosure",
+      "Affiliate disclosure"
+    ]
+  },
+  {
+    "title": "Health disclaimer.",
+    "description": "AURA does not provide medical advice, and does not publish treatment, prevention or cure claims.",
+    "href": "/policies/health-disclaimer/",
+    "type": "Policy",
+    "keywords": [
+      "Policies · Health",
+      "Health disclaimer"
+    ]
+  },
+  {
+    "title": "Kept for later.",
+    "description": "Saved items, kept in your browser.",
+    "href": "/wishlist/",
+    "type": "Page",
+    "keywords": [
+      "Wishlist",
+      "Wishlist"
+    ]
+  },
+  {
+    "title": "Your cart.",
+    "description": "Your cart, kept in this browser. Continue to request an invoice.",
+    "href": "/cart/",
+    "type": "Page",
+    "keywords": [
+      "Cart",
+      "Cart"
+    ]
+  },
+  {
+    "title": "Request an invoice.",
+    "description": "Request an AURA invoice. Price, delivery and payment are confirmed in writing before anything is paid.",
+    "href": "/checkout/",
+    "type": "Checkout",
+    "keywords": [
+      "Checkout",
+      "Checkout"
+    ]
+  },
+  {
+    "title": "Your requests, in this browser.",
+    "description": "Invoice requests saved in this browser, and the details AURA holds about them.",
+    "href": "/account/",
+    "type": "Account",
+    "keywords": [
+      "Account",
+      "Account"
+    ]
+  },
+  {
+    "title": "Letters, rarely.",
+    "description": "Occasional letters from AURA: new pieces, new writing, and nothing else.",
+    "href": "/newsletter/",
+    "type": "Page",
+    "keywords": [
+      "Newsletter",
+      "Newsletter"
+    ]
+  }
+]

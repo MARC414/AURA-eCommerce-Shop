@@ -1,4 +1,7 @@
-/** Progressive enhancement only: gallery, preview quantity, and image fallbacks. */
+/**
+ * Progressive enhancement only: gallery, quantity, cart and wishlist controls,
+ * and image fallbacks. Storage lives in cart.js; no network or payment call.
+ */
 function attachImageFallback(image) {
   const fallback = () => {
     const replacement = image.dataset.fallback;
@@ -29,12 +32,49 @@ document.querySelectorAll('[data-gallery]').forEach(gallery => {
   }));
 });
 
+/** The cart item must match services/commerce.ts: { product, quantity, selectedVariant? }. */
+function cartProduct(button) {
+  const price = button.dataset.productPrice === '' ? null : Number(button.dataset.productPrice);
+  return {
+    id: button.dataset.productId,
+    name: button.dataset.productName,
+    slug: button.dataset.productSlug,
+    tagline: button.dataset.productTagline,
+    description: button.dataset.productTagline,
+    price: Number.isFinite(price) ? price : null,
+    currency: button.dataset.productCurrency || 'GBP',
+    category: button.dataset.productCategory,
+    imageUrl: button.dataset.productImage,
+    gallery: button.dataset.productImage ? [button.dataset.productImage] : []
+  };
+}
+
+document.querySelectorAll('[data-wishlist-toggle]').forEach(button => {
+  const productId = button.dataset.wishlistToggle;
+  const label = button.querySelector('[data-wishlist-label]');
+  const sync = () => {
+    const saved = Boolean(window.AuraStore) && window.AuraStore.isWishlisted(productId);
+    button.setAttribute('aria-pressed', String(saved));
+    button.classList.toggle('is-saved', saved);
+    if (label) label.textContent = saved ? 'Saved to wishlist' : 'Save to wishlist';
+  };
+  sync();
+  button.addEventListener('click', () => {
+    if (!window.AuraStore) return;
+    window.AuraStore.toggleWishlist(productId);
+    sync();
+  });
+});
+
 document.querySelectorAll('[data-product-model="dropshipping"]').forEach(product => {
   const quantityOutput = product.querySelector('[data-quantity]');
   const status = product.querySelector('[data-selection-status]');
   const variant = product.querySelector('[data-variant]');
+  const cartButton = product.querySelector('[data-add-to-cart]');
   const buttons = product.querySelectorAll('[data-quantity-change]');
   let quantity = 1;
+
+  const chosenVariant = () => (variant && !variant.disabled && variant.value ? variant.value : undefined);
 
   const update = () => {
     quantityOutput.textContent = String(quantity);
@@ -42,8 +82,8 @@ document.querySelectorAll('[data-product-model="dropshipping"]').forEach(product
       const change = Number(button.dataset.quantityChange);
       button.disabled = (change < 0 && quantity === 1) || (change > 0 && quantity === 10);
     });
-    const selectedVariant = variant && !variant.disabled ? ` · ${variant.value}` : '';
-    status.textContent = `Preview quantity: ${quantity}${selectedVariant}. Ordering remains closed.`;
+    const selected = chosenVariant();
+    status.textContent = `${quantity} selected${selected ? ` · ${selected}` : ''}.`;
   };
 
   buttons.forEach(button => button.addEventListener('click', () => {
@@ -51,5 +91,22 @@ document.querySelectorAll('[data-product-model="dropshipping"]').forEach(product
     update();
   }));
   variant?.addEventListener('change', update);
+
+  if (cartButton) {
+    if (!window.AuraStore) {
+      cartButton.disabled = true;
+      cartButton.textContent = 'Cart unavailable — JavaScript is off';
+    } else {
+      cartButton.addEventListener('click', () => {
+        const snapshot = cartProduct(cartButton);
+        window.AuraStore.addToCart(snapshot, quantity, chosenVariant());
+        update();
+        status.textContent = `Added ${quantity} × ${snapshot.name} to the cart.`;
+        cartButton.classList.add('is-confirmed');
+        window.setTimeout(() => cartButton.classList.remove('is-confirmed'), 1200);
+      });
+    }
+  }
+
   update();
 });

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Preview sitemap. Pages are noindex until launch. Make loc absolute at go-live. -->
+<!-- Launch switch: pages are noindex until the domain is set. Make loc absolute at go-live. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>/shop/turmeric-cleansing-soap/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>/discover/turmeric-cleansing-pads/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -7,5 +7,38 @@
   <url><loc>/shop/ashwagandha-with-black-pepper/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>/shop/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>/discover/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>/templates/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/shop/herbal-botanicals/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/shop/everyday-care/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/shop/sacred-sound/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/shop/yoga-practice/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/shop/art-craft/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/shop/quiet-living/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/perennis/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/perennis/books/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/perennis/music/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/journal/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/journal/plants-and-practice/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/journal/mind-and-body/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/journal/worldly-and-divine/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/about/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/about/sourcing/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/contact/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/imprint/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/help/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/policies/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/policies/privacy/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/policies/terms/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/policies/cookies/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/policies/shipping/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/policies/returns/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/policies/payment/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/policies/accessibility/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/policies/affiliate-disclosure/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/policies/health-disclaimer/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/search/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/wishlist/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/cart/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/checkout/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/account/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/newsletter/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
 </urlset>

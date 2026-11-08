@@ -1,0 +1,54 @@
+[
+  {
+    "id": "aliexpress-1005007532901889",
+    "name": "Turmeric Cleansing Soap",
+    "slug": "turmeric-cleansing-soap",
+    "path": "/shop/turmeric-cleansing-soap/",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "category": "Everyday Care",
+    "tagline": "A small addition to the everyday.",
+    "price": null,
+    "currency": "GBP",
+    "imageUrl": "/assets/products/aliexpress-turmeric-soap.jpg"
+  },
+  {
+    "id": "cj-2114448810729783298",
+    "name": "Turmeric Cleansing Pads",
+    "slug": "turmeric-cleansing-pads",
+    "path": "/discover/turmeric-cleansing-pads/",
+    "model": "affiliate",
+    "purchaseOwner": "partner",
+    "category": "Everyday Care",
+    "tagline": "A partner find, introduced plainly.",
+    "price": null,
+    "currency": "GBP",
+    "imageUrl": "/assets/products/cleansing-pads-placeholder.svg"
+  },
+  {
+    "id": "aliexpress-1005008143754192",
+    "name": "Aloe Vera Cleansing Bar",
+    "slug": "aloe-vera-soap",
+    "path": "/shop/aloe-vera-soap/",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "category": "Everyday Care",
+    "tagline": "A plain bar, described plainly.",
+    "price": null,
+    "currency": "GBP",
+    "imageUrl": "/assets/products/aliexpress-aloe-soap.jpg"
+  },
+  {
+    "id": "cj-1898627038642925570",
+    "name": "Ashwagandha with Black Pepper",
+    "slug": "ashwagandha-with-black-pepper",
+    "path": "/shop/ashwagandha-with-black-pepper/",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "category": "Herbal Botanicals",
+    "tagline": "A 60-capsule pack with Ashwagandha root and black pepper.",
+    "price": null,
+    "currency": "GBP",
+    "imageUrl": "/assets/products/photography-pending.svg"
+  }
+]

@@ -3,7 +3,7 @@
 Append-only. Each entry records what was decided, why, and whether it is reversible.
 Status values: **APPROVED** (owner), **PROPOSED** (agent suggestion, not approved), **REJECTED**, **SUPERSEDED / CORRECTED**.
 
-**Current reading note (2026-11-06):** Read D-020 first: it corrects the mistaken powder/root-only interpretation in D-019 and records the CJ capsule selection. D-017 covers the frontend structure request; D-014/D-015 correct earlier assumptions. Older entries remain history, not current authority where corrected.
+**Current reading note (2026-11-09):** Read D-020 first: it corrects the mistaken powder/root-only interpretation in D-019 and records the CJ capsule selection. D-017 covers the frontend structure request; D-014/D-015 correct earlier assumptions. Older entries remain history, not current authority where corrected. D-021 and D-022 are **pending owner choices** (Tailwind delivery, duplicate template set); D-023 records the owner's static-first direction; D-024 and D-025 record the executed P1a/P1b work. See `planning/SITE-ARCHITECTURE.md` for the page map and the cart/state design.
 
 ---
 
@@ -173,3 +173,105 @@ Scope of reversal (narrow, not a full repeal):
 - Selling price remains `null`. Supplier cost, inventory, and domestic shipping estimates are not imported as AURA price, stock, or promises. Label review is `pending`; batch tests, organic/free-from evidence, image permission, and selling terms remain outstanding. The original PDF and its rendered image stay outside the repo.
 - Product category: **Herbal Botanicals**. This supplement is separate from the requested cosmetics collection; no organic category or certification badge is inferred.
 - Reuse the existing generated HTML template and homepage pilot links. Add the matching compliance record and update the local concierge's answers. The legacy React demo catalogue remains a separately recorded follow-up, not verified supplier data.
+
+## D-021 — Tailwind delivery: Play CDN or compiled CSS
+**2026-11-09 · PENDING OWNER CHOICE (suggestion recorded, not approved)**
+
+**Finding:** `AURA-eCommerce-Shop-main/index.html` line 36 loads `https://cdn.tailwindcss.com`, a runtime script. Tailwind's own documentation states the Play CDN is "designed for development purposes only, and is not the best choice for production". The React components use roughly 765 Tailwind class usages, so the CDN is currently a hard dependency, not decoration.
+
+**Options put to the owner:**
+
+| Option | Work | Result |
+|---|---|---|
+| A. Keep the CDN | none | render-blocking third-party script, no version pin, no purge, no build. Permanently unshippable for a launch. |
+| B. Compile Tailwind at build (*recommended*) | ~half a day: add `tailwindcss`/`postcss` devDependencies, content globs, import in the currently empty `index.css`, remove the CDN `<script>` | all class names keep working, no visual change expected, CDN risk removed. Requires one `npm install`, which needs separate approval. |
+| C. Remove Tailwind, hand-write token CSS | days: 765 class usages | maximum control, no dependency, but duplicates what the generated pages already do and risks visual regression. |
+
+**Constraint:** whichever option is chosen, AI Studio's preview must still boot. Option B must be verified inside AI Studio immediately after the change, with a one-commit revert ready.
+
+**Not approved. No edit made.**
+
+## D-022 — Remove the duplicate `product-detail` template set
+**2026-11-09 · APPROVED AND EXECUTED (owner instructed deletion)**
+
+Untracked files `templates/product-detail.html`, `public/assets/product-detail.css` (21 KB) and `public/assets/product-detail.js` (21 KB) duplicated the tested generator in `templates/product-pages.mjs` and introduced a second CSS system.
+
+**Verified:** none of them was referenced by `scripts/`, `templates/`, `data/`, or `tests/`. The set had already been removed once in commit `9c90890` and reappeared untracked, most likely from an AI Studio export.
+
+**Executed 2026-11-09:** all three deleted from the working tree. Because they were untracked, a copy was placed outside the repo at `C:\Users\HP\AppData\Local\Temp\opencode\aura-product-detail-backup-20261109\` before removal. Template tests re-run afterwards: 30/30 pass. No other file changed.
+
+## D-023 — Static-first architecture (HTML/CSS/JS, progressively enhanced)
+**2026-11-09 · APPROVED (direction; implementation details pending)**
+
+The owner asked whether a static HTML/CSS/JS build is SEO- and Google-friendly, and stated a preference for it if so. Confirmed: pre-rendering is recommended by Google because it is faster for users and crawlers and "not all bots can run JavaScript" (https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics). Static HTML also gives correct per-page status codes, canonicals, and metadata, which a client-rendered SPA has to inject.
+
+Recorded direction:
+
+- Catalogue, product, collection, library, journal, help, and policy pages are delivered as static HTML with a shared CSS layer and small progressive-enhancement scripts.
+- Dynamic behaviour (cart, wishlist, search, checkout request, admin) remains small explicit JavaScript islands. **Static delivery is not static commerce:** order submission, inventory, and payment will require server functions when they exist.
+- The React app is retained as the app shell (home, cart/checkout, admin) because AI Studio depends on the root build adapter committed in `87996f1`. Removing or restructuring that adapter is out of scope.
+- The cart must use one implementation shared by both renderers, reading the existing storage key `aura_cart_v1`. The detailed proposal is section 2 of `planning/SITE-ARCHITECTURE.md`; it still needs its own go-ahead before any code is written.
+- One navigation and one footer across the site, generated from a single `data/site.json` contract. No nav entry may point at a page that does not exist.
+
+This entry authorises no build work. Each phase in `SITE-ARCHITECTURE.md` section 6 requires separate approval.
+
+## D-024 — P1a executed: one chrome from `data/site.json`
+**2026-11-09 · EXECUTED (owner said "start next step")**
+
+**What changed in the generator only.** The React app, its components, `App.tsx`, and the root AI Studio build files were not edited.
+
+1. **One chrome contract.** `data/site.json` now holds brand, preview status, the three utility actions, four top-level navigation items (Shop, Perennis, Journal, About) with their panels, and five footer columns. `templates/product-pages.mjs` renders the header and footer from it; no link is hard-coded in the template.
+2. **Two-row header.** Row one: wordmark, a real GET search bar (`action="/search/"`, `name="q"`), wishlist and cart. Row two: the four sections plus the preview badge. Submenus use native `<details>`/`<summary>` so they work with JavaScript disabled and on touch; `assets/site.js` only adds "one panel at a time", Escape-to-close, and a read-only cart count from `aura_cart_v1`.
+3. **The pages the menu points at exist.** `data/pages.json` plus `renderStaticPage()` produce 19 content pages: Perennis hub, books, music; Journal; About; Contact; Help/FAQ; Policies index and eight policy URLs; Search; Wishlist; Cart. Every one carries `noindex, follow` and one `h1`. Total generated pages: 26.
+4. **`/preview/` replaces `/templates/`.** The preview index left the production menu; the old directory is deleted by the generator so it cannot drift back.
+5. **Search is functional, not decorative.** The build emits `public/assets/search-index.json` (23 entries: home, 4 products, 18 content pages) and `/search/` filters it client-side. Verified: `?q=soap` returns both soap pages and reports "2 results".
+6. **Dead links are now a build error.** After rendering, the generator extracts every internal `href` and throws if the target page was not generated. `"/"` is exempt because the React shell serves it.
+7. **Tests: 30 → 34.** Two existing assertions that banned any `<form>` on product and affiliate pages were narrowed to ignore the header's search form (`withoutHeaderSearch`), because a search field is not a purchase control; the no-checkout, no-quantity, no-payment assertions are unchanged. Four new tests cover the four-item menu, generated targets for every nav/footer link, the single shared header/footer, and static-page validation.
+
+**Deliberately not done:** add-to-cart on static pages, wishlist persistence, checkout or payment, React `Navbar`/`Footer` unification, Tailwind delivery (D-021 still open), and homepage claim cleanup. The cart and wishlist pages currently explain their state honestly rather than pretending to work.
+
+**Verified:** 34/34 template tests pass; generator broken-link check clean; 26/26 routes return 200 from the local preview server (`/` redirects to `/preview/` by design); DOM probe at 1000 px and inside a 375 px frame shows no horizontal overflow, 44 px minimum targets, a 320 px search field, and a static (non-overlapping) mobile panel.
+
+## D-026 — Production structure: full commerce IA generated from data/
+**2026-11-09 · APPROVED (shell build complete; test suite passes)**
+
+Following D-025 P1b, the owner approved removing preview/compliance presentation from public pages and building the full commerce information architecture. This entry records the P2 structure execution.
+
+**What was built:**
+
+1. **Six-category taxonomy** in `data/collections.json` (`herbal-botanicals`, `everyday-care`, `sacred-sound`, `yoga-practice`, `art-craft`, `quiet-living`) with matching to `product.category`.
+2. **28 content/application pages** in `data/pages.json`: Perennis, Journal, About (incl. sourcing), Contact, Imprint, Help, 13 policy/utility pages (privacy, terms, cookies, shipping, returns, payment, accessibility, affiliate-disclosure, health-disclaimer), search, wishlist, cart, checkout, account, newsletter. All production copy, no preview/compliance theatre.
+3. **40 product pages** generated from `data/pilot-products.json` (4 products: 1 affiliate + 3 dropshipping), all with `listingStatus: "published"`, `price: null`, and "Price on request" display.
+4. **Full page template** (`templates/product-pages.mjs`) with grouped nav panel, category strip/toolbar, category renderers, product cards, purchase panels (dropshipping add-to-cart + affiliate external CTA), wishlist toggle, breadcrumbs, JSON-LD schema (no Offer for unpriced pieces), and invoice-request checkout.
+5. **Generator** (`scripts/generate-product-pages.mjs`) producing search-index, catalogue, robots (launch switch: disallow all), and sitemap; enforces zero broken internal links.
+6. **Shared browser store** (`public/assets/cart.js`) extended with `aura_order_requests_v1` and `aura_newsletter_v1` keys; `hasPendingPrice()` guard against `Number(null) === 0` bug; invoice request flow with reference generation; account and newsletter preference pages.
+7. **CSS** (`public/assets/product-pages.css`) for grouped nav, category rooms, checkout, orders, newsletter, responsive breakpoints down to 320 px.
+8. **Test suite** (`tests/product-pages.test.mjs`) rewritten to 45 tests; 2 failures fixed: (a) `/selected\./` → `/selected/` regex, (b) checkout card-field regex changed to inspect only `<input>` tags rather than prose text.
+
+**Disclosures retained:**
+
+- Pages are `noindex, follow` until a real domain and absolute canonical URLs exist (launch switch `INDEXABLE = false` in template). Disclose at go-live.
+- `robots.txt` disallows all as a launch switch; sitemap uses relative URLs.
+- No card fields, no payment collection, no order submission at any stage.
+- Price null = "Price on request" across all pages; no fabricated amounts.
+
+**Status:** P2 structure execution complete. All 45 tests pass. Next steps: browser-probe at 375 px, record go-live launch decisions, consider D-027 for checkout/PayPal guardrails if/when a server gateway is connected.
+
+---
+
+## D-025 — P1b executed: browser-local cart and wishlist on static pages
+**2026-11-09 · EXECUTED (owner approved "go with P1b")**
+
+**Scope.** One shared browser store, add-to-cart only where `purchaseOwner === 'aura'`, wishlist on both selling models, live counts in the shared header. No checkout, no payment, no server call, no order creation.
+
+1. **Shared store.** New `public/assets/cart.js` exposes `window.AuraStore` and reads/writes exactly what the React app already uses: `aura_cart_v1` = `[{ product, quantity, selectedVariant? }]`, `aura_wishlist_v1` = `["product-id", …]`. It emits `aura_cart_updated` and `aura_wishlist_updated`, and dispatches the latter with `{ detail: { list } }`, matching `services/storeService.ts`.
+2. **Product pages.** AURA-owned shop pages replace the disabled "Coming soon" button with an enabled **Add to cart** control carrying public product data attributes. Partner pages keep no cart or quantity control; they can still be saved to the wishlist. Both templates show a Save to wishlist toggle with `aria-pressed`. All result text says ordering is not open.
+3. **Real pages.** `/cart/` renders items, quantity controls, remove, and a pending-price subtotal. `/wishlist/` joins saved IDs to a new build asset, `public/assets/catalogue.json` (public product fields only), and shows a removed product honestly rather than dropping it. Both pages are `<noscript>`-safe and state that nothing is sent anywhere.
+4. **Header counts.** `site.js` now reads `AuraStore`, refreshes on both custom events and `storage`, and shows cart and wishlist badges that survive navigation.
+5. **Null price bug caught by browser probe.** `Number(null)` is `0`, so the first implementation showed an unpriced item as `£0.00`. Every layer now treats `null`/empty as missing: `cart.js`, `cart-page.js`, `wishlist-page.js`, and the React subtotal helper. A unit test loads `cart.js` with a mock `window` and asserts `hasPendingPrice() === true` and `cartSubtotal() === 0` for an unpriced item.
+6. **Deliberate React touch (disclosed).** `components/CartDrawer.tsx`, `components/Checkout.tsx`, and `services/commerce.ts` received display-only null-price guards so a static-page cart item cannot crash or show a fake `£0` total in the React shell. No layout, flow, or state behaviour changed; no other React file was edited.
+7. **Tests: 34 → 42.** New coverage: AURA-only add-to-cart, wishlist on both models, script order (`cart.js` → `site.js` → page island), cart/wishlist shells, exact storage keys and item shape, wishlist catalogue fallback, the null-price behaviour above, and source guards on the React display fix. Affiliate still has no `<form>` beyond the header search and no checkout link.
+
+**Verified:** 42/42 template tests pass; generator broken-link check clean; 28 routes/assets return 200. Browser probes: add soap → header shows `1`; `/cart/` shows "Price being prepared", line `—`, subtotal `—`, pending note visible; quantity increase updates storage and badge to `2`; wishlist toggle → `/wishlist/` shows the product, correct path, "Partner offer/Sold by AURA" label, then remove empties it. Affiliate page: 0 add-to-cart controls, 1 wishlist toggle, 0 checkout links, 1 header search form. No horizontal overflow at 375 px on product, cart or wishlist pages.
+
+**Deliberately not done:** checkout, payment, stock reservation, accounts, cross-device sync, cart merge between the React shell and static pages beyond shared storage, and any supplier or analytics call.

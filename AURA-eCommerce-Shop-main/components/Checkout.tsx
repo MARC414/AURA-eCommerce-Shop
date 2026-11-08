@@ -65,7 +65,11 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
   const [isProcessing, setIsProcessing] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
-  const subtotal = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  const hasPendingPrice = items.some(item => !Number.isFinite(item.product.price));
+  const subtotal = items.reduce((sum, item) => {
+    const price = Number(item.product.price);
+    return sum + (Number.isFinite(price) ? price * item.quantity : 0);
+  }, 0);
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -391,10 +395,10 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
                   <div className="flex-1">
                     <h3 className="font-serif text-[#2C2A26] text-base">{item.product.name}</h3>
                     <p className="text-xs text-[#A8A29E]">{item.selectedVariant || item.product.category}</p>
-                    <span className="text-xs text-[#5D5A53] mt-1 block">{symbol}{item.product.price.toFixed(2)} each</span>
+                    <span className="text-xs text-[#5D5A53] mt-1 block">{Number.isFinite(item.product.price) ? `${symbol}${item.product.price.toFixed(2)} each` : 'Price pending'}</span>
                   </div>
                   <span className="text-sm font-serif text-[#2C2A26] tabular-nums">
-                    {symbol}{(item.product.price * item.quantity).toFixed(2)}
+                    {Number.isFinite(item.product.price) ? `${symbol}${(item.product.price * item.quantity).toFixed(2)}` : '—'}
                   </span>
                 </div>
               ))}
@@ -403,7 +407,7 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
             <div className="border-t border-[#D6D1C7] pt-6 space-y-3 text-sm text-[#5D5A53]">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span className="tabular-nums">{symbol}{subtotal.toFixed(2)}</span>
+                <span className="tabular-nums">{hasPendingPrice ? 'Price pending' : `${symbol}${subtotal.toFixed(2)}`}</span>
               </div>
               <div className="flex justify-between gap-6">
                 <span>Shipping</span>
@@ -422,7 +426,7 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
               </div>
               <div className="text-right">
                 <span className="text-xs text-[#A8A29E] mr-1 font-mono">{settings.currency === '$' ? 'USD' : 'GBP'}</span>
-                <span className="font-serif text-3xl text-[#2C2A26] tabular-nums">{symbol}{subtotal.toFixed(2)}</span>
+                <span className="font-serif text-3xl text-[#2C2A26] tabular-nums">{hasPendingPrice ? 'Price pending' : `${symbol}${subtotal.toFixed(2)}`}</span>
               </div>
             </div>
 
