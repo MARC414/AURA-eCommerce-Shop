@@ -288,6 +288,25 @@ Following D-025 P1b, the owner approved removing preview/compliance presentation
 
 **Verified:** 45/45 tests pass; 40 pages regenerated, zero broken internal links; the new top-level order and both dropdown panels confirmed in generated HTML; Showpieces page exists, Sacred Sound shop page deleted, no shop Sacred Sound link remains.
 
+## D-029 — Cloudflare Pages build failed: copy main's build config onto master verbatim
+**2026-11-09 · FIX (agent diagnosis; owner action still needed in Cloudflare dashboard)**
+
+**Observed failure (owner pasted from GitHub PR #1 merge view):** “All checks have failed — Cloudflare Pages — Building” on the PR `master` → `main`. Via the public GitHub API: PR #1 head `4711871` (master), base `75c0edd` (main), `mergeable: true`, check-run 128876976317 `conclusion: failure`, status completed — started 22:04:57Z, completed 22:04:57Z (**under one second**, so an instant config error, not a real build failure). Build logs live behind Cloudflare dashboard auth and are not readable from here.
+
+**Diagnosis (owner-verified fact):** `origin/master` has **no root `package.json`** — its root tree is only `.agents`, `.gitignore`, `AGENTS.md`, `AURA-eCommerce-Shop-main/`, `CLAUDE.md`, `planning`. Cloudflare Pages builds with root directory `/` and build command `npm run build` (per `docs/CLOUDFLARE.md` on main), so npm errors with ENOENT instantly. `main` carries the AI Studio root files (87996f1) and the Cloudflare config commit (75c0edd); `master` never received them.
+
+**Fix (repo-only, committed to master, no force, no config edits on main):** copy the 11 files from `origin/main` **byte-for-byte** onto master:
+- Root: `package.json`, `vite.config.ts`, `tsconfig.json`, `metadata.json`, `.node-version`, `.nvmrc`
+- Nested: `AURA-eCommerce-Shop-main/public/_headers`, `AURA-eCommerce-Shop-main/public/_redirects`, `AURA-eCommerce-Shop-main/docs/CLOUDFLARE.md`, `AURA-eCommerce-Shop-main/.node-version`, `AURA-eCommerce-Shop-main/.nvmrc`
+
+Verified `git diff --cached origin/main` shows **no diff for those 11 files**, so the master→main merge stays conflict-free and trivial for config (identical both sides). Net effect: master now builds standalone with the documented settings (root `/`, `npm run build`, output `dist`).
+
+**Build-readiness verification (no npm install per AGENTS.md):** `prebuild` generator runs clean on master (40 pages, zero broken links); 45/45 tests pass; a static import-graph check (31 SPA files, 95 imports) confirms every relative import resolves and every bare import is declared in `package.json` — the main vite-build failure classes. The full `vite build` still needs `npm install` to run; Cloudflare will be the first real vite attempt. If vite build fails for a code reason, the new check-run will show it.
+
+**Owner action still required (dashboard, cannot be done from repo):** in Cloudflare Pages project `aura-ecommerce-shop`, confirm production branch is `main` (or accept `master` now that both build), build command `npm run build`, output directory `dist`, root directory `/`. PR #1 merge then deploys.
+
+**Caveat:** pushing this to master re-triggers the Cloudflare check; success depends on the above dashboard settings matching the documented ones and on the first real vite build passing.
+
 ---
 
 ## D-025 — P1b executed: browser-local cart and wishlist on static pages
