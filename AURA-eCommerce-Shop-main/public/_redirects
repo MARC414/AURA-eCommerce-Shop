@@ -1,0 +1,4 @@
+# Cloudflare Pages SPA Routing
+# Static files and pre-rendered pages (/shop/*, /discover/*, /templates/*, /assets/*)
+# are automatically served first. Unmatched client routes fall back to /index.html with HTTP 200.
+/*    /index.html   200

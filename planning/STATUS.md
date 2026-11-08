@@ -16,7 +16,7 @@
 ## Current facts
 
 - A local React/TypeScript/Vite prototype exists in `AURA-eCommerce-Shop-main`.
-- **Not deployed to Cloudflare**, confirmed by the owner on 2026-11-04. Cloudflare is a future temporary preview option. Final hosting/domain structure is undecided.
+- **Cloudflare deployment readiness:** Configured on 2026-11-08 per owner request (`_redirects` SPA fallback, `_headers` with noindex search protection, Node 20 `.nvmrc`/`.node-version`, and deployment guide `docs/CLOUDFLARE.md`). All 30 tests passing and build verified.
 - Owner reports AliExpress affiliate/dropshipping and CJ account access. Connection to AURA and payout eligibility remain unverified.
 - The two product types (dropshipping = AURA sells, affiliate/referral = partner sells) are distinguished on one site by `purchaseOwner: 'aura' | 'partner'`, regardless of source platform.
 - Pilot products: 
