@@ -1,0 +1,934 @@
+[
+  {
+    "path": "/perennis/",
+    "section": "perennis",
+    "label": "Perennis",
+    "title": "Perennis · Free books and music",
+    "description": "Perennis is AURA's free library: books and music collected for their clarity, each with a short note on why it is here.",
+    "eyebrow": "Perennis",
+    "heading": "A library given freely.",
+    "intro": "Perennis is AURA's quiet room: books and music collected for their clarity, offered without a price. It sits beside the shop, not inside it.",
+    "blocks": [
+      {
+        "heading": "Why it exists",
+        "paragraphs": [
+          "Some things are worth keeping close whether or not they sell. This is where translations, essays and recordings that shape the way we think about attention, patience and the body will be gathered, each with a short note on why it is here."
+        ]
+      },
+      {
+        "heading": "Books",
+        "paragraphs": [
+          "Every book has its own page, an edition note, and a short review written here. Reading pages stay public so the collection can be found. Downloads ask for an email address, so the library can stay in touch."
+        ],
+        "links": [
+          {
+            "label": "Browse the books",
+            "href": "/perennis/books/"
+          }
+        ]
+      },
+      {
+        "heading": "Music",
+        "paragraphs": [
+          "Recordings are embedded from their original sources, such as an artist's official channel, rather than copied and hosted here. Where an artist offers a piece directly, it is linked with credit."
+        ],
+        "links": [
+          {
+            "label": "Browse the music",
+            "href": "/perennis/music/"
+          }
+        ]
+      },
+      {
+        "heading": "Rights and care",
+        "paragraphs": [
+          "Nothing is published here without a documented rights basis for the exact edition. Where that is not settled, the work appears as a note only. A permission to show a text is not automatically a permission to offer a download, so the two are recorded separately."
+        ]
+      }
+    ],
+    "note": "The library is being assembled. Book and music pages will appear one at a time as editions and rights are confirmed."
+  },
+  {
+    "path": "/perennis/books/",
+    "section": "perennis",
+    "label": "Books",
+    "parent": {
+      "label": "Perennis",
+      "href": "/perennis/"
+    },
+    "title": "Free books · Perennis",
+    "description": "The Perennis book collection, with an edition note and a short review for each title. Reading is public; downloads ask for an email address.",
+    "eyebrow": "Perennis · Books",
+    "heading": "Books kept close.",
+    "intro": "Each title will have its own page: the exact edition, why it is here, and a short review. Reading pages stay public. Downloads will ask for an email address.",
+    "blocks": [
+      {
+        "heading": "Not yet published",
+        "paragraphs": [
+          "No book is listed yet. A title appears here only after its edition and rights basis are confirmed in writing, and after a review has been written for it."
+        ]
+      },
+      {
+        "heading": "What a book page will show",
+        "paragraphs": [
+          "Cover, title, translator or author, publisher and year, language, and the edition being discussed. Then the review, the rights line, and the choice between reading on the page and downloading."
+        ]
+      }
+    ],
+    "note": "Formats will be chosen per title. A readable HTML page comes first where the edition allows it, then EPUB, then PDF."
+  },
+  {
+    "path": "/perennis/music/",
+    "section": "perennis",
+    "label": "Music",
+    "parent": {
+      "label": "Perennis",
+      "href": "/perennis/"
+    },
+    "title": "Free music · Perennis",
+    "description": "Sacred sound recordings, ragas, classical pieces and quiet music, listened to through official embeds rather than copied files.",
+    "eyebrow": "Perennis · Music",
+    "heading": "Listening, with credit.",
+    "intro": "Sacred sound is part of Perennis now, not a shop category. Music here is listened to where it lives: players are embedded from official channels and artists pages, so the recording, the performer and the rights stay with the people who made them.",
+    "blocks": [
+      {
+        "heading": "Not yet published",
+        "paragraphs": [
+          "No recordings are listed yet. Each entry will name the performer, the composition, the recording date and the rights basis before it appears."
+        ]
+      },
+      {
+        "heading": "Why embeds, not uploads",
+        "paragraphs": [
+          "A composition may be old while every recording of it is still protected. Embedding the original avoids copying a performance we do not own, and it keeps the artist's own channel as the place the work is found."
+        ]
+      }
+    ],
+    "note": "Players will load only when you ask them to, so the page stays fast and no third-party script runs uninvited."
+  },
+  {
+    "path": "/journal/",
+    "section": "journal",
+    "label": "Journal",
+    "title": "The Journal",
+    "description": "Notes on herbs, practice and the ordinary work of looking after a mind and a body.",
+    "eyebrow": "Journal",
+    "heading": "Notes, not claims.",
+    "intro": "The Journal is where plants, practices and ordinary attention are written about properly: what is known, what is tradition, and what is still unproven.",
+    "blocks": [
+      {
+        "heading": "What will be here",
+        "paragraphs": [
+          "Plant notes covering botany, origin, cultivation and the history of use. Practice notes on breath, rest and attention. Essays on mind and body wellness that are not tied to a product."
+        ]
+      },
+      {
+        "heading": "How products are linked",
+        "paragraphs": [
+          "Where a note touches something AURA stocks, the link back to the shop is an invitation, not a promise. The Journal does not claim that a product treats, prevents or cures anything, and it does not publish a claim a supplier has not evidenced."
+        ]
+      },
+      {
+        "heading": "The rule applied here",
+        "paragraphs": [
+          "Facts are stated as facts. Tradition is labelled as tradition, with a source. Outcomes are left out. This is not modesty; it is what the law on food supplements and cosmetics requires, and it is also the only way the writing stays worth reading."
+        ]
+      }
+    ],
+    "note": "The first essays are in preparation. Nothing is published here just to fill the page."
+  },
+  {
+    "path": "/journal/plants-and-practice/",
+    "section": "journal",
+    "label": "Plants & practice",
+    "parent": {
+      "label": "Journal",
+      "href": "/journal/"
+    },
+    "title": "Plants & practice · Journal",
+    "description": "Notes on herbs, growing, preparation and the daily practices that keep a body close to the earth.",
+    "eyebrow": "Journal · Plants & practice",
+    "heading": "Plants, and the work of tending them.",
+    "intro": "A desk for botany, preparation and practice: what a plant is, where it comes from, how it has been used, and what remains unknown.",
+    "blocks": [
+      {
+        "heading": "What belongs here",
+        "paragraphs": [
+          "Plant profiles, preparation notes, growing diaries and practice guides. Each note separates observed fact from documented tradition, and leaves outcome claims out."
+        ]
+      },
+      {
+        "heading": "The first notes",
+        "paragraphs": [
+          "Ashwagandha, turmeric and aloe are the first plants in the shop. Their notes will cover identity, origin and traditional use before they touch a product page."
+        ]
+      }
+    ],
+    "note": "This desk is being written. Product links appear only where a note and a piece genuinely meet."
+  },
+  {
+    "path": "/journal/mind-and-body/",
+    "section": "journal",
+    "label": "Mind & body",
+    "parent": {
+      "label": "Journal",
+      "href": "/journal/"
+    },
+    "title": "Mind & body · Journal",
+    "description": "Essays on attention, rest, breath and the ordinary work of looking after a mind and a body.",
+    "eyebrow": "Journal · Mind & body",
+    "heading": "The mind is not separate from the body.",
+    "intro": "Writing on attention, sleep, breath and the small disciplines that make a day livable. Not medical advice; a record of practice and reading.",
+    "blocks": [
+      {
+        "heading": "The territory",
+        "paragraphs": [
+          "Breath and attention, rest and recovery, the architecture of a day, and the difference between feeling better and being cured. The writing stays with practice and experience, not diagnosis."
+        ]
+      },
+      {
+        "heading": "How to read it",
+        "paragraphs": [
+          "Nothing here replaces a clinician. Where a practice has evidence, the evidence is named. Where it is tradition, it is labelled as tradition."
+        ]
+      }
+    ],
+    "note": "Essays are being prepared. The section will grow slowly and stay readable."
+  },
+  {
+    "path": "/journal/worldly-and-divine/",
+    "section": "journal",
+    "label": "Worldly & divine",
+    "parent": {
+      "label": "Journal",
+      "href": "/journal/"
+    },
+    "title": "Worldly & divine · Journal",
+    "description": "Notes on meaning, ritual, beauty and the commerce of things that carry more than a price.",
+    "eyebrow": "Journal · Worldly & divine",
+    "heading": "A house can hold both.",
+    "intro": "The worldly and the divine are not two businesses. They are two rooms in the same house: what we buy, and what we are trying to become.",
+    "blocks": [
+      {
+        "heading": "The argument",
+        "paragraphs": [
+          "A object can be useful and still carry meaning. A practice can be ordinary and still be sacred. This desk writes about the meeting point: craft, ritual, money, beauty and attention."
+        ]
+      },
+      {
+        "heading": "What will appear",
+        "paragraphs": [
+          "Essays on makers and materials, the ethics of selling, the history of sacred objects, and the quiet commerce of things made to last."
+        ]
+      }
+    ],
+    "note": "The first essay is in preparation."
+  },
+  {
+    "path": "/about/",
+    "section": "about",
+    "label": "About",
+    "title": "About AURA",
+    "description": "AURA is a small independent project built around objects and knowledge for a slower, more sensory life.",
+    "eyebrow": "About",
+    "heading": "Chosen slowly.",
+    "intro": "AURA is a small independent project built around one idea: the objects and knowledge we keep close should be chosen slowly, and described honestly.",
+    "blocks": [
+      {
+        "heading": "Two fronts, one identity",
+        "paragraphs": [
+          "The shop sells a small number of objects for everyday care. Perennis gives books and music away. The two sit side by side because a shop that only sells, and a library that only lends, each miss something."
+        ]
+      },
+      {
+        "heading": "Who sells what",
+        "paragraphs": [
+          "Some products are sold by AURA. Others are partner offers, where the purchase happens with another merchant. Those pages say so before you click, because the seller, the delivery and the returns are not the same."
+        ]
+      },
+      {
+        "heading": "What AURA will not do",
+        "paragraphs": [
+          "No invented reviews or ratings. No countdown timers. No health claim a supplier has not evidenced. No certification badge without a document behind it. No book published without a documented right to publish that edition."
+        ]
+      },
+      {
+        "heading": "Where this is going",
+        "paragraphs": [
+          "The site is being built in the open, section by section. This page will grow into the fuller story as sourcing, makers and the library take shape."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/about/sourcing/",
+    "section": "about",
+    "label": "Sourcing & makers",
+    "parent": {
+      "label": "About",
+      "href": "/about/"
+    },
+    "title": "Sourcing and makers · AURA",
+    "description": "How AURA chooses pieces, what a partner offer means, and which details are published for each object.",
+    "eyebrow": "About · Sourcing",
+    "heading": "Where things come from.",
+    "intro": "AURA is built from a short list of makers, growers and suppliers. Origin, material and maker are part of the object, so they are written on the page rather than hidden in a footnote.",
+    "blocks": [
+      {
+        "heading": "How a piece is chosen",
+        "paragraphs": [
+          "A piece enters the house when its material, its use and its origin can be described plainly. Small workshops and single-material objects come first. A listing that cannot be traced to a maker or a region stays out."
+        ]
+      },
+      {
+        "heading": "Made by hand",
+        "paragraphs": [
+          "Handmade objects vary. Grain, tone, weight and finish move from piece to piece, and that variation is part of what is being sold, not a defect to be airbrushed out of a photograph."
+        ]
+      },
+      {
+        "heading": "Sold by AURA, or found elsewhere",
+        "paragraphs": [
+          "Every page says who fulfils the order. Pieces sold by AURA use the AURA cart and invoice. Partner offers open on the merchant's own site, where their price, delivery and returns apply."
+        ]
+      },
+      {
+        "heading": "What is published",
+        "paragraphs": [
+          "Origin, material, dimensions, care and the supplier or maker are listed where they are known. Where something is still being confirmed, the page says so instead of filling the gap with a claim."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/contact/",
+    "section": "about",
+    "label": "Contact",
+    "parent": {
+      "label": "About",
+      "href": "/about/"
+    },
+    "title": "Contact AURA",
+    "description": "How to reach AURA about a piece, an invoice or the library.",
+    "eyebrow": "Contact",
+    "heading": "Talk to the house.",
+    "intro": "Questions about a piece, an invoice or a partner offer can be sent by email. AURA answers from a monitored inbox, normally within two working days.",
+    "links": [
+      {
+        "label": "hello@aura.example",
+        "href": "mailto:hello@aura.example"
+      }
+    ],
+    "blocks": [
+      {
+        "heading": "About an order",
+        "paragraphs": [
+          "Include the invoice reference from your checkout confirmation. That reference points to the request saved in your browser and makes the reply quicker."
+        ]
+      },
+      {
+        "heading": "About a piece",
+        "paragraphs": [
+          "Send the product name and the question. Origin, material and care details already known are printed on the product page; anything still being confirmed is answered directly."
+        ]
+      },
+      {
+        "heading": "About the library",
+        "paragraphs": [
+          "Perennis questions, edition notes and rights enquiries are welcome. A title is published only when the exact edition and the permission behind it are documented."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/imprint/",
+    "section": "about",
+    "label": "Imprint",
+    "title": "Imprint",
+    "description": "Who publishes AURA, how the house can be reached, and the law that applies to this site.",
+    "eyebrow": "Imprint",
+    "heading": "Imprint.",
+    "intro": "AURA is an independent international project, operated from Bangladesh and built for customers in several countries. The details below identify who is responsible for what is published here.",
+    "links": [
+      {
+        "label": "hello@aura.example",
+        "href": "mailto:hello@aura.example"
+      }
+    ],
+    "blocks": [
+      {
+        "heading": "Publisher",
+        "paragraphs": [
+          "AURA · independent project, Bangladesh. The registered company name, company number and registered address will replace this line before trading begins, and will be repeated on every invoice."
+        ]
+      },
+      {
+        "heading": "Editorial responsibility",
+        "paragraphs": [
+          "The person responsible for the shop, the Journal and the Perennis library is the operator of AURA. Corrections and rights enquiries are handled at the contact address above."
+        ]
+      },
+      {
+        "heading": "Consumer law",
+        "paragraphs": [
+          "Nothing on this site removes a statutory right you have where you live. Where a policy on this site is narrower than the law that protects you, the law applies."
+        ]
+      }
+    ],
+    "note": "This imprint is a structural page: registration details are added when the operating entity is registered."
+  },
+  {
+    "path": "/help/",
+    "section": "about",
+    "label": "Help & FAQ",
+    "parent": {
+      "label": "About",
+      "href": "/about/"
+    },
+    "title": "Help and FAQ",
+    "description": "Honest answers about ordering, partner offers, the cart, delivery and the free library.",
+    "eyebrow": "Help",
+    "heading": "Questions, answered plainly.",
+    "intro": "These are the answers as they stand today, including the ones that are simply no.",
+    "faq": [
+      {
+        "question": "Can I place an order?",
+        "answer": "Yes — you can request an invoice. Add a piece to the cart and continue to checkout. AURA confirms the price, delivery and payment method before anything is paid."
+      },
+      {
+        "question": "Does the cart work?",
+        "answer": "The cart stores items in this browser and survives navigation. It shares its storage with the main application. It does not take payment."
+      },
+      {
+        "question": "What is a partner offer?",
+        "answer": "A piece where the purchase happens with another merchant. The page says so, the button leads to their site, and AURA may earn a commission if you buy. Price, delivery and returns are theirs."
+      },
+      {
+        "question": "Do you ship, and where?",
+        "answer": "AURA is being built for international delivery. Destinations and charges are confirmed on your invoice while the shipping service is being connected."
+      },
+      {
+        "question": "Where are the free books and music?",
+        "answer": "In Perennis. The library is public, and titles appear as their editions and recording permissions are confirmed."
+      },
+      {
+        "question": "Do any products treat or cure illness?",
+        "answer": "No. AURA does not sell medicines and does not publish treatment, prevention or cure claims. Information on this site is not medical advice; supplements can interact with medication, so speak to a qualified practitioner."
+      },
+      {
+        "question": "How is the price set?",
+        "answer": "Some pieces are priced on request while supplier terms are confirmed. The final price is stated on your invoice before you pay. Nothing is charged at checkout."
+      }
+    ]
+  },
+  {
+    "path": "/policies/",
+    "section": "about",
+    "label": "Policies",
+    "parent": {
+      "label": "About",
+      "href": "/about/"
+    },
+    "title": "Policies",
+    "description": "AURA's privacy, terms, shipping, returns, accessibility and disclosure pages.",
+    "eyebrow": "Policies",
+    "heading": "The rules, in public.",
+    "intro": "Each policy has its own address so it can be linked, shared and cited. They are being written in full as the shop moves toward opening.",
+    "blocks": [
+      {
+        "heading": "Status",
+        "paragraphs": [
+          "The pages below are written and linked. Where a system is not connected yet, such as card payment, the page says so rather than describing a process that does not exist."
+        ]
+      }
+    ],
+    "links": [
+      {
+        "label": "Privacy",
+        "href": "/policies/privacy/"
+      },
+      {
+        "label": "Terms of use",
+        "href": "/policies/terms/"
+      },
+      {
+        "label": "Cookies and local storage",
+        "href": "/policies/cookies/"
+      },
+      {
+        "label": "Shipping",
+        "href": "/policies/shipping/"
+      },
+      {
+        "label": "Returns and refunds",
+        "href": "/policies/returns/"
+      },
+      {
+        "label": "Payment and invoicing",
+        "href": "/policies/payment/"
+      },
+      {
+        "label": "Accessibility",
+        "href": "/policies/accessibility/"
+      },
+      {
+        "label": "Affiliate disclosure",
+        "href": "/policies/affiliate-disclosure/"
+      },
+      {
+        "label": "Health disclaimer",
+        "href": "/policies/health-disclaimer/"
+      }
+    ]
+  },
+  {
+    "path": "/policies/privacy/",
+    "section": "about",
+    "label": "Privacy",
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
+    "title": "Privacy policy",
+    "description": "What AURA stores in your browser, and what a full privacy notice covers.",
+    "eyebrow": "Policies · Privacy",
+    "heading": "Privacy.",
+    "intro": "This page describes what the site actually stores. No analytics, advertising or customer database is connected, so the list is short.",
+    "blocks": [
+      {
+        "heading": "What is stored in your browser",
+        "paragraphs": [
+          "aura_cart_v1 holds the items in your cart. aura_wishlist_v1 holds saved product ids. aura_order_requests_v1 holds invoice requests: reference, date, items, name, email, delivery address and any note you add. aura_newsletter_v1 holds a newsletter address if you enter one. All of it stays on your device until you clear it."
+        ]
+      },
+      {
+        "heading": "What is not stored here",
+        "paragraphs": [
+          "No card number, security code or bank login. No analytics identifier and no advertising profile. The site does not transmit this browser storage anywhere."
+        ]
+      },
+      {
+        "heading": "When a server is connected",
+        "paragraphs": [
+          "Lawful basis, retention, the processors used for email and payment, your rights of access and erasure, and how to complain to a supervisory authority will be published before any of those systems go live."
+        ]
+      }
+    ],
+    "note": "This notice will be replaced by the full policy before a server-side account, mailing service or payment provider is connected."
+  },
+  {
+    "path": "/policies/terms/",
+    "section": "about",
+    "label": "Terms of use",
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
+    "title": "Terms of use",
+    "description": "The terms that apply to AURA's website, invoices and partner offers.",
+    "eyebrow": "Policies · Terms",
+    "heading": "Terms of use.",
+    "intro": "Using this site does not create an order. An order exists when AURA accepts a written invoice and payment is made.",
+    "blocks": [
+      {
+        "heading": "Product information",
+        "paragraphs": [
+          "Product pages describe the selected piece and the details known about it. Prices are shown where they can be kept accurate; otherwise the page says price on request. The invoice is the binding statement of price, delivery and payment."
+        ]
+      },
+      {
+        "heading": "Content and library",
+        "paragraphs": [
+          "Text written for AURA belongs to AURA. Third-party texts and recordings remain the property of their rights holders and are used only within a documented permission or a public-domain edition."
+        ]
+      },
+      {
+        "heading": "Orders and cancellation",
+        "paragraphs": [
+          "An invoice request is not an order. AURA may decline a request where a piece is unavailable, the destination cannot be served, or the supplier terms have changed. Cancellation and return rights are set out in the returns policy and on the invoice."
+        ]
+      },
+      {
+        "heading": "Liability",
+        "paragraphs": [
+          "The full terms, including the governing law and the limits of liability, will be published before trading begins. Nothing here removes a statutory right you have where you live."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/policies/cookies/",
+    "section": "about",
+    "label": "Cookies",
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
+    "title": "Cookies and local storage",
+    "description": "AURA sets no advertising or analytics cookies. Cart, wishlist, request and newsletter state live in local storage.",
+    "eyebrow": "Policies · Cookies",
+    "heading": "Cookies, and what we actually use.",
+    "intro": "No advertising or analytics cookies are set. Four pieces of state are kept in your browser's local storage instead.",
+    "blocks": [
+      {
+        "heading": "Local storage",
+        "paragraphs": [
+          "aura_cart_v1 holds cart items. aura_wishlist_v1 holds saved ids. aura_order_requests_v1 holds invoice requests. aura_newsletter_v1 holds a newsletter address. They live on your device and can be cleared from your browser settings at any time."
+        ]
+      },
+      {
+        "heading": "Third parties",
+        "paragraphs": [
+          "Pages load fonts from Google Fonts, which can see your IP address. Music players will load only after you choose to play something, so no third-party player runs on page load."
+        ]
+      },
+      {
+        "heading": "When this changes",
+        "paragraphs": [
+          "If analytics, advertising or a consent tool is added, this page and a consent banner will appear together, and the change will be recorded before it ships."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/policies/shipping/",
+    "section": "about",
+    "label": "Shipping",
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
+    "title": "Shipping policy",
+    "description": "How AURA confirms destinations, charges and delivery on the invoice.",
+    "eyebrow": "Policies · Shipping",
+    "heading": "Shipping.",
+    "intro": "Shipping is quoted per destination on the invoice. No single table can promise every route, so the written quote is the commitment.",
+    "blocks": [
+      {
+        "heading": "How a route is confirmed",
+        "paragraphs": [
+          "AURA confirms the destination, carrier, charge and estimated window in writing before payment. Handling time is stated per piece where the maker or supplier sets it."
+        ]
+      },
+      {
+        "heading": "Duty and local charges",
+        "paragraphs": [
+          "Import duty, local tax and handling charges applied at the destination are shown separately where they apply. They are not hidden inside the piece price."
+        ]
+      },
+      {
+        "heading": "Partner offers",
+        "paragraphs": [
+          "Shipping for a partner offer is set by the merchant. It is not covered by this policy, and the product page says so before you leave AURA."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/policies/returns/",
+    "section": "about",
+    "label": "Returns",
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
+    "title": "Returns and refunds",
+    "description": "How returns, refunds and hygiene exclusions work for AURA pieces and partner offers.",
+    "eyebrow": "Policies · Returns",
+    "heading": "Returns and refunds.",
+    "intro": "Returns follow the policy stated on your invoice and the consumer law that protects you where you live. Where the two differ, the law applies.",
+    "blocks": [
+      {
+        "heading": "Requesting a return",
+        "paragraphs": [
+          "Contact AURA within 14 days of delivery with the invoice reference. Pieces should be unused and in their original packaging. Return postage and any collection charge are stated before you send anything."
+        ]
+      },
+      {
+        "heading": "Hygiene exclusions",
+        "paragraphs": [
+          "Sealed supplements and personal-care items cannot be returned once opened, unless they are faulty. This is stated again on the invoice for the specific piece."
+        ]
+      },
+      {
+        "heading": "Refunds",
+        "paragraphs": [
+          "Refunds are issued to the original payment method after the returned piece is checked. The invoice states the expected timing."
+        ]
+      },
+      {
+        "heading": "Partner offers",
+        "paragraphs": [
+          "Returns for a partner offer follow the merchant's policy, not AURA's. The partner page states this before the link is followed."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/policies/payment/",
+    "section": "about",
+    "label": "Payment and invoicing",
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
+    "title": "Payment and invoicing",
+    "description": "AURA invoices before payment. No card details are collected on this website.",
+    "eyebrow": "Policies · Payment",
+    "heading": "Payment, by invoice.",
+    "intro": "AURA confirms the price, delivery and payment method in writing before anything is paid. No card number is collected on this site.",
+    "blocks": [
+      {
+        "heading": "How an invoice works",
+        "paragraphs": [
+          "Checkout records an invoice request in your browser. AURA reviews the pieces, the destination and the current supplier terms, then replies by email with a written invoice. The order exists when that invoice is accepted and paid, not when the form is sent."
+        ]
+      },
+      {
+        "heading": "Methods",
+        "paragraphs": [
+          "Bank transfer and the other methods named on the invoice are the current routes. Card processing is not connected to this site, so no card fields appear at checkout and no card data is stored."
+        ]
+      },
+      {
+        "heading": "Currency and taxes",
+        "paragraphs": [
+          "Prices are stated in the currency shown on the invoice, normally GBP. Import duty, local tax and handling charges applied at the destination are shown separately where they apply."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/policies/accessibility/",
+    "section": "about",
+    "label": "Accessibility",
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
+    "title": "Accessibility",
+    "description": "What AURA does for accessibility now, and what still needs auditing.",
+    "eyebrow": "Policies · Accessibility",
+    "heading": "Accessibility.",
+    "intro": "The site aims at WCAG 2.2 level AA. It has not yet had an independent audit, and this page will say so until it has.",
+    "blocks": [
+      {
+        "heading": "In place now",
+        "paragraphs": [
+          "Semantic HTML, a skip link, visible focus states, keyboard-operable menus and gallery controls, labelled form fields, and respect for reduced-motion preferences."
+        ]
+      },
+      {
+        "heading": "Outstanding",
+        "paragraphs": [
+          "A full audit with assistive technology, a documented contrast check across the design tokens, and a published route for reporting a barrier."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/policies/affiliate-disclosure/",
+    "section": "about",
+    "label": "Affiliate disclosure",
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
+    "title": "Affiliate disclosure",
+    "description": "How AURA labels partner offers and earns commission, and what the merchant is responsible for.",
+    "eyebrow": "Policies · Disclosure",
+    "heading": "Affiliate disclosure.",
+    "intro": "Some pages link to partner merchants. If you follow one of those links and buy, AURA may receive a commission, at no extra cost to you.",
+    "blocks": [
+      {
+        "heading": "How it is labelled",
+        "paragraphs": [
+          "Partner offers carry a visible label on the card and on the product page, before the link. The outbound button states that it opens the merchant's site and is marked as a sponsored link for search engines."
+        ]
+      },
+      {
+        "heading": "What AURA does not control",
+        "paragraphs": [
+          "The price, availability, delivery and returns are set by the merchant. AURA does not present a partner product as its own, and does not remove a supplier's branding to make it appear so."
+        ]
+      },
+      {
+        "heading": "What is never done",
+        "paragraphs": [
+          "No hidden links, no undisclosed paid placement, and no commission-driven claim about what a product does."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/policies/health-disclaimer/",
+    "section": "about",
+    "label": "Health disclaimer",
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
+    "title": "Health disclaimer",
+    "description": "AURA does not provide medical advice, and does not publish treatment, prevention or cure claims.",
+    "eyebrow": "Policies · Health",
+    "heading": "Health disclaimer.",
+    "intro": "Nothing on this site is medical advice. AURA does not sell medicines, and does not publish claims that a product treats, prevents or cures a condition.",
+    "blocks": [
+      {
+        "heading": "How plants and practices are described",
+        "paragraphs": [
+          "Botany, origin, cultivation, culinary use and documented tradition are described as such. Where a traditional use is mentioned, it is labelled as tradition and not as a tested effect."
+        ]
+      },
+      {
+        "heading": "Before you take anything",
+        "paragraphs": [
+          "Supplements can interact with medication. Pregnancy, breastfeeding, surgery, allergies and existing conditions all warrant a conversation with a qualified practitioner before use. If you are unwell, seek medical care."
+        ]
+      },
+      {
+        "heading": "If a supplier claims more",
+        "paragraphs": [
+          "Supplier marketing is not reproduced as AURA's position. Claims that have not been evidenced are listed on the product page under what AURA will not claim, so the gap is visible."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/search/",
+    "section": null,
+    "label": "Search",
+    "title": "Search AURA",
+    "description": "Search AURA's products, books, music and pages.",
+    "eyebrow": "Search",
+    "heading": "Find something.",
+    "intro": "Search covers the products on this site and the pages that exist today. Results open on this site; partner offers say so before you leave.",
+    "search": true,
+    "note": "The library is still being assembled, so book and music results will appear as titles are published."
+  },
+  {
+    "path": "/wishlist/",
+    "section": null,
+    "label": "Wishlist",
+    "title": "Wishlist",
+    "description": "Saved items, kept in your browser.",
+    "eyebrow": "Wishlist",
+    "heading": "Kept for later.",
+    "intro": "Save an item on its product page and it will wait here. The list is stored in this browser; it is not an account and it is not sent to AURA.",
+    "wishlist": true,
+    "blocks": [
+      {
+        "heading": "What saving does",
+        "paragraphs": [
+          "Saving marks interest. It does not reserve stock, hold a price, or begin an order. Partner offers can be saved too; the purchase still happens with the other merchant."
+        ]
+      }
+    ],
+    "note": "The wishlist follows you only in this browser. Clearing site data clears it, and there is no account to recover it from."
+  },
+  {
+    "path": "/cart/",
+    "section": null,
+    "label": "Cart",
+    "title": "Cart",
+    "description": "Your cart, kept in this browser. Continue to request an invoice.",
+    "eyebrow": "Cart",
+    "heading": "Your cart.",
+    "intro": "Items you add are kept in this browser. Continue to request an invoice; price and delivery are confirmed before anything is paid.",
+    "cart": true,
+    "blocks": [
+      {
+        "heading": "How this cart behaves",
+        "paragraphs": [
+          "Items stay as you move between pages, and the count in the header follows. The same browser storage is used by the main application, so a count may already be visible.",
+          "Clearing this site's data clears the cart. There is no remote account and no order history on a server."
+        ]
+      },
+      {
+        "heading": "What happens next",
+        "paragraphs": [
+          "Continue to checkout to request an invoice. AURA confirms the price, delivery and payment method by email before anything is paid. No card details are collected on this site."
+        ]
+      }
+    ],
+    "note": "The cart uses the same browser storage as the main application. Clearing site data clears it."
+  },
+  {
+    "path": "/checkout/",
+    "section": null,
+    "label": "Checkout",
+    "title": "Checkout · Request an invoice",
+    "description": "Request an AURA invoice. Price, delivery and payment are confirmed in writing before anything is paid.",
+    "eyebrow": "Checkout",
+    "heading": "Request an invoice.",
+    "intro": "Nothing is charged here. Leave your details and AURA replies with the price, delivery and payment method before you commit to anything.",
+    "checkout": true,
+    "blocks": [
+      {
+        "heading": "What happens after you send",
+        "paragraphs": [
+          "The request is saved in this browser with a reference. AURA checks the pieces, the destination and the current supplier terms, then replies by email with a written invoice and the accepted payment methods."
+        ]
+      },
+      {
+        "heading": "What is not collected here",
+        "paragraphs": [
+          "No card number, no security code and no bank login. Payment is arranged after the invoice is agreed, not through this page."
+        ]
+      }
+    ],
+    "note": "The request is browser-local until a server is connected. Keep the reference shown on confirmation."
+  },
+  {
+    "path": "/account/",
+    "section": null,
+    "label": "Account",
+    "title": "Account",
+    "description": "Invoice requests saved in this browser, and the details AURA holds about them.",
+    "eyebrow": "Account",
+    "heading": "Your requests, in this browser.",
+    "intro": "AURA does not run a password account. This page reads the invoice requests you have made here, so you can find a reference without searching your inbox.",
+    "account": true,
+    "blocks": [
+      {
+        "heading": "What this page shows",
+        "paragraphs": [
+          "Each request, its reference, the pieces it contains and the date it was made. Requests are stored under aura_order_requests_v1 in this browser only."
+        ]
+      },
+      {
+        "heading": "Why there is no password",
+        "paragraphs": [
+          "A server account needs identity, security and data retention behind it. Until that exists, the browser is the honest place to keep this list. Clearing site data clears the list; the invoice sent to you by email remains valid."
+        ]
+      }
+    ],
+    "note": "This is a local record, not an order history and not proof of purchase."
+  },
+  {
+    "path": "/newsletter/",
+    "section": null,
+    "label": "Newsletter",
+    "title": "Newsletter · AURA",
+    "description": "Occasional letters from AURA: new pieces, new writing, and nothing else.",
+    "eyebrow": "Newsletter",
+    "heading": "Letters, rarely.",
+    "intro": "One message when something is actually worth telling you about: a new collection, a new essay, a recording added to Perennis. Not a weekly schedule.",
+    "newsletter": true,
+    "blocks": [
+      {
+        "heading": "What you receive",
+        "paragraphs": [
+          "New pieces and restocks, Journal essays, and additions to the Perennis library. No countdowns, no daily reminders, and no sharing of your address."
+        ]
+      },
+      {
+        "heading": "How it is stored",
+        "paragraphs": [
+          "Until the mailing service is connected, the address is saved only in this browser under aura_newsletter_v1. Nothing is sent to a server, and the preference can be removed on this page."
+        ]
+      }
+    ],
+    "note": "The mailing service is not connected yet. This form stores the preference locally and explains what will happen when it is."
+  }
+]

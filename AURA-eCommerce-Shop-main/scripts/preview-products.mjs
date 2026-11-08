@@ -1,24 +1,24 @@
-// Serves only the generated product previews. No installs and no public deployment.
+﻿// Serves the generated storefront locally. No installs and no public deployment.
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('../public/', import.meta.url));
-const port = Number(process.env.PORT || 4173);
-const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.avif': 'image/avif' };
+const port = Number(process.env.PORT \|\| 4174);
+const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.avif': 'image/avif' };
 
 const server = createServer(async (request, response) => {
   if (!['GET', 'HEAD'].includes(request.method)) {
     response.writeHead(405, { Allow: 'GET, HEAD' });
-    response.end('This is a read-only product preview.');
+    response.end('This is a read-only local preview.');
     return;
   }
 
   try {
     const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
     if (pathname === '/') {
-      response.writeHead(302, { Location: '/templates/' });
+      response.writeHead(302, { Location: '/shop/' });
       response.end();
       return;
     }
@@ -47,6 +47,6 @@ const server = createServer(async (request, response) => {
 });
 
 server.listen(port, '127.0.0.1', () => {
-  console.log(`AURA product previews: http://127.0.0.1:${port}/templates/`);
+  console.log(`AURA storefront preview: http://127.0.0.1:${port}/shop/`);
   console.log('Local preview only. The main React storefront is not served by this command.');
 });

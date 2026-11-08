@@ -25,7 +25,11 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
   onCheckout 
 }) => {
   const settings = storeService.getSettings();
-  const subtotal = items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+  const hasPendingPrice = items.some(item => !Number.isFinite(item.product.price));
+  const subtotal = items.reduce((sum, item) => {
+    const price = Number(item.product.price);
+    return sum + (Number.isFinite(price) ? price * item.quantity : 0);
+  }, 0);
   const amountToFreeShipping = Math.max(0, settings.freeShippingThreshold - subtotal);
   const freeShippingProgress = Math.min(100, (subtotal / settings.freeShippingThreshold) * 100);
 
@@ -64,7 +68,9 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
 
         {/* Free Shipping Progress Meter */}
         <div className="p-4 bg-white border-b border-[#D6D1C7] text-xs">
-          {amountToFreeShipping === 0 ? (
+          {hasPendingPrice ? (
+            <p className="text-[#5D5A53]">Delivery is confirmed once prices are set.</p>
+          ) : amountToFreeShipping === 0 ? (
             <div className="flex items-center gap-2 text-emerald-800 font-medium">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
@@ -111,7 +117,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                   <div>
                     <div className="flex justify-between items-start">
                       <h3 className="font-serif text-[#2C2A26] text-base leading-snug">{item.product.name}</h3>
-                      <span className="font-serif text-[#2C2A26] text-sm tabular-nums">${item.product.price * item.quantity}</span>
+                      <span className="font-serif text-[#2C2A26] text-sm tabular-nums">{Number.isFinite(item.product.price) ? `$${item.product.price * item.quantity}` : 'Price pending'}</span>
                     </div>
                     {item.selectedVariant && (
                       <p className="text-[11px] text-[#8C7355] font-medium mt-0.5">{item.selectedVariant}</p>
@@ -154,13 +160,15 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
         <div className="p-6 border-t border-[#D6D1C7] bg-[#EBE7DE]/40 space-y-4">
           <div className="flex justify-between items-center text-sm">
             <span className="uppercase tracking-widest text-[#5D5A53] text-xs font-medium">Subtotal</span>
-            <span className="text-2xl font-serif text-[#2C2A26] tabular-nums">${subtotal} USD</span>
+            <span className="text-2xl font-serif text-[#2C2A26] tabular-nums">{hasPendingPrice ? 'Price pending' : `$${subtotal} USD`}</span>
           </div>
 
           <p className="text-[11px] text-[#A8A29E] text-center">
-            {subtotal >= settings.freeShippingThreshold 
-              ? '✓ Free Insured Worldwide Delivery applied'
-              : `Flat $${settings.standardShippingFee} shipping calculated at next step`}
+            {hasPendingPrice
+              ? 'Delivery is confirmed once prices are set.'
+              : subtotal >= settings.freeShippingThreshold 
+                ? '✓ Free Insured Worldwide Delivery applied'
+                : `Flat $${settings.standardShippingFee} shipping calculated at next step`}
           </p>
 
           <button 

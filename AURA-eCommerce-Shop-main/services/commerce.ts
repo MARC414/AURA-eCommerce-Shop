@@ -37,6 +37,13 @@ function write<T>(key: string, value: T): void {
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+/** Number(null) is 0, so a missing price needs its own check. */
+function priceOf(value: number | null | undefined): number {
+  if (value === null || value === undefined) return NaN;
+  const number = Number(value);
+  return Number.isFinite(number) ? number : NaN;
+}
+
 export interface SubscribeResult {
   ok: boolean;
   message: string;
@@ -90,7 +97,12 @@ export const commerce = {
   },
 
   cartSubtotal(items: CartItem[]): number {
-    return items.reduce((total, item) => total + item.product.price * item.quantity, 0);
+    // A product whose price is still being prepared contributes nothing rather
+    // than becoming a fake zero. The UI must show "price pending" alongside it.
+    return items.reduce((total, item) => {
+      const price = priceOf(item.product.price);
+      return total + (Number.isFinite(price) ? price * item.quantity : 0);
+    }, 0);
   },
 
   /* -------------------------- newsletter -------------------------- */

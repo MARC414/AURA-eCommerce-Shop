@@ -1,23 +1,43 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { escapeHtml, validateProduct, productPath, variantLabel, renderDropshippingPage, renderAffiliatePage, renderCollection, renderPreviewIndex } from '../templates/product-pages.mjs';
+import {
+  escapeHtml,
+  validateProduct,
+  productPath,
+  variantLabel,
+  renderDropshippingPage,
+  renderAffiliatePage,
+  renderCollection,
+  renderCategoryPage,
+  renderStaticPage
+} from '../templates/product-pages.mjs';
 
 const products = JSON.parse(await readFile(new URL('../data/pilot-products.json', import.meta.url), 'utf8'));
-const register = JSON.parse(await readFile(new URL('../data/compliance.json', import.meta.url), 'utf8'));
-const complianceFor = product => register.records.find(record => record.productId === product.id) || null;
+const site = JSON.parse(await readFile(new URL('../data/site.json', import.meta.url), 'utf8'));
+const sitePages = JSON.parse(await readFile(new URL('../data/pages.json', import.meta.url), 'utf8'));
+const collections = JSON.parse(await readFile(new URL('../data/collections.json', import.meta.url), 'utf8'));
+
 const shopProduct = products.find(product => product.model === 'dropshipping');
 const affiliateProduct = products.find(product => product.model === 'affiliate');
 const aloeProduct = products.find(product => product.slug === 'aloe-vera-soap');
 const ashwagandhaProduct = products.find(product => product.sourceProductId === '1898627038642925570');
-const shopPage = renderDropshippingPage(shopProduct, products, complianceFor(shopProduct));
-const affiliatePage = renderAffiliatePage(affiliateProduct, products, complianceFor(affiliateProduct));
-const aloePage = renderDropshippingPage(aloeProduct, products, complianceFor(aloeProduct));
-const ashwagandhaPage = renderDropshippingPage(ashwagandhaProduct, products, complianceFor(ashwagandhaProduct));
+const shopPage = renderDropshippingPage(shopProduct, products);
+const affiliatePage = renderAffiliatePage(affiliateProduct, products);
+const aloePage = renderDropshippingPage(aloeProduct, products);
+const ashwagandhaPage = renderDropshippingPage(ashwagandhaProduct, products);
 const productPages = new Map([[shopProduct, shopPage], [affiliateProduct, affiliatePage], [aloeProduct, aloePage], [ashwagandhaProduct, ashwagandhaPage]]);
+const pageAt = path => sitePages.find(page => page.path === path);
+const checkoutPage = renderStaticPage(pageAt('/checkout/'));
+const accountPage = renderStaticPage(pageAt('/account/'));
+const newsletterPage = renderStaticPage(pageAt('/newsletter/'));
+const cartPage = renderStaticPage(pageAt('/cart/'));
 const clone = product => structuredClone(product);
 
-test('the catalogue contains the four selected product listings with unique routes', () => {
+/** The header search is a GET form. Remove it before purchase-form assertions. */
+const withoutHeaderSearch = page => page.replace(/<form class="site-search"[\s\S]*?<\/form>/g, '');
+
+test('the catalogue contains four listings with unique routes and valid data', () => {
   assert.equal(products.length, 4);
   assert.equal(shopProduct.sourceProductId, '1005007532901889');
   assert.equal(affiliateProduct.sourceProductId, '2114448810729783298');
@@ -27,16 +47,11 @@ test('the catalogue contains the four selected product listings with unique rout
   products.forEach(product => assert.doesNotThrow(() => validateProduct(product)));
 });
 
-test('every pilot product has a compliance record', () => {
-  products.forEach(product => {
-    const record = complianceFor(product);
-    assert.ok(record, `${product.id} has no compliance record`);
-    assert.ok(record.items.length > 0);
-    assert.ok(record.blockedClaims.length > 0);
-    record.items.forEach(item => {
-      assert.ok(['verified', 'pending', 'not-provided', 'not-applicable'].includes(item.status));
-    });
-  });
+test('the public product shell carries no preview or compliance theatre', () => {
+  for (const page of productPages.values()) {
+    assert.doesNotMatch(page, /preview|Preview/);
+    assert.doesNotMatch(page, /Verification register|Claims we will not make|compliance-section|status-verified/);
+  }
 });
 
 test('the aloe listing publishes no medicinal or skin-tone claim in its own copy', () => {
@@ -50,34 +65,24 @@ test('the aloe listing publishes no medicinal or skin-tone claim in its own copy
   for (const pattern of forbidden) {
     assert.doesNotMatch(ownCopy, pattern, `aloe page copy leaks a blocked claim: ${pattern}`);
   }
-  assert.match(aloePage, /Claims we will not make/);
-  assert.match(aloePage, /no treatment, prevention, or skin-tone claim/);
   assert.doesNotMatch(aloePage, /Anti Acne/);
 });
 
-test('the aloe page records real supplier facts without inventing a price', () => {
+test('the aloe page keeps real supplier facts and an honest price state', () => {
   assert.match(aloePage, /100 g \/ 3\.5 oz/);
   assert.match(aloePage, /12 months/);
   assert.match(aloePage, /36 months/);
   assert.match(aloePage, /12000043973353662-WK-aloe-vera-soapX1/);
-  assert.match(aloePage, /GAVIMOSA CONSULTORIA/);
-  assert.match(aloePage, /Price being prepared/);
+  assert.match(aloePage, /Price on request/);
   assert.doesNotMatch(aloePage, /£28\.30|£20\.73|save £/i);
 });
 
-test('the aloe variants render with pending prices rather than fake amounts', () => {
-  assert.match(aloePage, /Pack of 1 — price pending/);
-  assert.match(aloePage, /Pack of 3 — price pending/);
-  assert.match(aloePage, /Pack of 5 — price pending/);
+test('variant labels use price on request rather than a fabricated amount', () => {
+  assert.equal(variantLabel({ label: 'Pack of 1', price: null }), 'Pack of 1 — price on request');
+  assert.equal(variantLabel({ label: 'Pack of 1', price: 12 }), 'Pack of 1');
   assert.equal(variantLabel('Plain label'), 'Plain label');
   assert.throws(() => variantLabel({ sku: 'x' }), /needs a label/);
-});
-
-test('compliance statuses are shown honestly and never upgraded', () => {
-  assert.match(aloePage, /status-not-provided/);
-  assert.match(aloePage, /Not provided/);
-  assert.match(aloePage, /0 verified/);
-  assert.doesNotMatch(aloePage, /status-verified/);
+  assert.match(aloePage, /Pack of 1 — price on request/);
 });
 
 test('products have individual, model-specific routes', () => {
@@ -86,10 +91,14 @@ test('products have individual, model-specific routes', () => {
   assert.equal(productPath(ashwagandhaProduct), '/shop/ashwagandha-with-black-pepper/');
 });
 
-test('the dropshipping action is explicitly disabled and never creates an order', () => {
-  assert.match(shopPage, /<button[^>]+disabled[^>]*>Coming soon/);
-  assert.match(shopPage, /Ordering closed/);
-  assert.doesNotMatch(shopPage, /<form\b|\/checkout|onAddToCart|paymentIntent|stripe|paypal/i);
+test('the AURA cart button stores a browser-local item without an order form', () => {
+  const button = shopPage.match(/<button[^>]+data-add-to-cart[^>]*>/)?.[0];
+  assert.ok(button, 'the AURA shop page needs an add-to-cart button');
+  assert.doesNotMatch(button, /\bdisabled\b/);
+  assert.match(button, /data-product-id="aliexpress-1005007532901889"/);
+  assert.match(button, /data-product-price=""/);
+  assert.match(shopPage, /Price on request/);
+  assert.doesNotMatch(withoutHeaderSearch(shopPage), /<form\b|paymentIntent|stripe|paypal/i);
   assert.doesNotMatch(shopPage, /data-product-model="affiliate"/);
 });
 
@@ -100,33 +109,34 @@ test('the affiliate action preserves the exact referral token and opens external
   assert.match(action, /target="_blank"/);
   assert.match(action, /rel="sponsored noopener noreferrer"/);
   assert.match(action, /aria-describedby="offer-disclosure"/);
-  assert.match(affiliatePage, /Commission eligibility has not yet been verified/);
+  assert.match(affiliatePage, /AURA may earn a commission if you buy through this link/);
 });
 
 test('affiliate pages never contain AURA purchase or quantity controls', () => {
-  assert.doesNotMatch(affiliatePage, /data-quantity-change|data-variant|button-closed|<form\b|\/checkout/);
-  assert.match(affiliatePage, /Not sold by AURA/);
+  assert.doesNotMatch(withoutHeaderSearch(affiliatePage), /data-quantity-change|data-variant|button-closed|<form\b|\/checkout/);
+  assert.match(affiliatePage, /Partner offer/);
   assert.match(affiliatePage, /No AURA cart or checkout/);
 });
 
-test('missing prices are shown as pending, not fabricated zero-price offers', () => {
-  assert.match(shopPage, /Price being prepared/);
-  assert.match(affiliatePage, /Check the current price on CJ/);
-  for (const page of [shopPage, affiliatePage]) {
+test('missing prices are shown as price on request, never as a zero-price offer', () => {
+  assert.match(shopPage, /Price on request/);
+  assert.match(affiliatePage, /Price on CJ/);
+  for (const page of [shopPage, affiliatePage, ashwagandhaPage]) {
     assert.doesNotMatch(page, /\$0\b|schema.org\/InStock|"price"|Limited Run|Verified Buyer|\d+ Reviews/);
   }
 });
 
-test('the template can render a clearly labelled supplied preview price', () => {
+test('the template can render a confirmed price without breaking the invoice model', () => {
   const product = { ...clone(shopProduct), price: 12.5, currency: 'GBP' };
-  assert.match(renderDropshippingPage(product), /£12\.50/);
-  assert.match(renderDropshippingPage(product), /not a live offer/);
-  assert.match(renderDropshippingPage(product), /disabled[^>]*>Coming soon/);
+  const page = renderDropshippingPage(product);
+  assert.match(page, /£12\.50/);
+  assert.match(page, /Confirmed on invoice/);
+  assert.match(page, /data-product-price="12\.5"/);
 });
 
 test('unknown supplier variants are disabled rather than invented', () => {
   assert.match(shopPage, /<select id="product-variant" data-variant disabled>/);
-  assert.match(shopPage, /Options awaiting confirmation/);
+  assert.match(shopPage, /One edition/);
 });
 
 test('the shared template accepts confirmed variants for future products', () => {
@@ -171,7 +181,7 @@ test('static HTML contains meaningful content and unique metadata before JavaScr
   assert.notEqual(shopPage.match(/<title>(.*?)<\/title>/)?.[1], affiliatePage.match(/<title>(.*?)<\/title>/)?.[1]);
 });
 
-test('collection pages keep the selected product models separate', () => {
+test('collection pages keep the selling models separate', () => {
   const shop = renderCollection('dropshipping', products);
   const discover = renderCollection('affiliate', products);
   assert.ok(shop.includes(shopProduct.name));
@@ -179,16 +189,21 @@ test('collection pages keep the selected product models separate', () => {
   assert.ok(discover.includes(affiliateProduct.name));
   assert.ok(!discover.includes(shopProduct.name));
   assert.ok(shop.includes(productPath(ashwagandhaProduct)));
-  assert.ok(!discover.includes(ashwagandhaProduct.name));
+  assert.match(shop, /href="\/shop\/herbal-botanicals\/"/);
+  assert.match(shop, /Objects for a slower life/);
 });
 
-test('the preview index links to both individual pages and collections', () => {
-  const page = renderPreviewIndex(products);
-  assert.ok(page.includes(productPath(shopProduct)));
-  assert.ok(page.includes(productPath(affiliateProduct)));
-  assert.ok(page.includes(productPath(ashwagandhaProduct)));
-  assert.match(page, /Browse the shop preview/);
-  assert.match(page, /Browse external offers/);
+test('category pages show only their own pieces and a real empty state', () => {
+  const herbal = renderCategoryPage(collections.find(item => item.slug === 'herbal-botanicals'), products);
+  const showpieces = renderCategoryPage(collections.find(item => item.slug === 'showpieces'), products);
+  assert.match(herbal, /Ashwagandha with Black Pepper/);
+  assert.doesNotMatch(herbal, /Turmeric Cleansing Soap/);
+  assert.match(herbal, /1 piece in this room/);
+  assert.match(showpieces, /Showpieces/);
+  assert.match(showpieces, /Pieces are being selected for this room/);
+  assert.match(showpieces, /0 pieces in this room/);
+  assert.match(showpieces, /href="\/shop\/"/);
+  assert.equal((herbal.match(/<h1>/g) || []).length, 1);
 });
 
 test('related product areas stay inside the same purchase model', () => {
@@ -228,30 +243,27 @@ test('external offers require a referral URL and a disclosure', () => {
   assert.throws(() => validateProduct({ ...clone(affiliateProduct), disclosure: '' }));
 });
 
-test('enhancement script contains no network, payment, order, or customer-data persistence', async () => {
+test('the product enhancement script uses the shared store and no network calls', async () => {
   const script = await readFile(new URL('../public/assets/product-pages.js', import.meta.url), 'utf8');
-  assert.doesNotMatch(script, /fetch\(|XMLHttpRequest|localStorage|sessionStorage|createOrder|onAddToCart|\.submit\(/);
+  assert.doesNotMatch(script, /fetch\(|XMLHttpRequest|localStorage|sessionStorage|createOrder|\.submit\(/);
+  assert.match(script, /window\.AuraStore\.addToCart/);
+  assert.match(script, /selected/);
   assert.match(script, /Math\.max\(1, Math\.min\(10/);
-  assert.match(script, /Ordering remains closed/);
-  assert.match(script, /querySelector\('p\[data-gallery-caption\]'\)/);
-  assert.doesNotMatch(script, /querySelector\('\[data-gallery-caption\]'\)/);
+  assert.doesNotMatch(script, /Ordering is not open/);
 });
 
-test('product pages emit canonical, JSON-LD, and no fake offers', () => {
+test('product pages emit canonical, JSON-LD, and no offer for an unpriced piece', () => {
   assert.match(shopPage, /<link rel="canonical" href="\/shop\/turmeric-cleansing-soap\/">/);
   assert.match(shopPage, /application\/ld\+json/);
   assert.match(shopPage, /"@type":"Product"/);
   assert.match(shopPage, /"@type":"BreadcrumbList"/);
-  // A pending selling price must not become an Offer.
+  assert.match(shopPage, /Herbal Botanicals|Everyday Care/);
   assert.doesNotMatch(shopPage, /"@type":"Offer"/);
   assert.match(affiliatePage, /rel="sponsored noopener noreferrer"/);
   assert.match(shopPage, /property="og:image"/);
-  // Blocked claims appear only in the "Claims we will not make" panel, never as AURA copy.
-  const head = shopPage.split('</head>')[0];
-  assert.doesNotMatch(head, /anti-acne|brighten|whitening|melanin|oil control/i);
 });
 
-test('Ashwagandha preserves capsule identity and label serving amounts without enabling sales', () => {
+test('Ashwagandha preserves capsule identity and label amounts without inventing an offer', () => {
   assert.equal(ashwagandhaProduct.price, null);
   assert.equal(ashwagandhaProduct.purchaseOwner, 'aura');
   assert.match(ashwagandhaPage, /60 capsules/);
@@ -260,24 +272,12 @@ test('Ashwagandha preserves capsule identity and label serving amounts without e
   assert.match(ashwagandhaPage, /113 g[^<]*gross|Gross package weight[\s\S]*113 g/);
   assert.match(ashwagandhaPage, /not net powder weight/);
   assert.match(ashwagandhaPage, /Powder[^<]*conflicts/);
-  assert.match(ashwagandhaPage, /<button[^>]+disabled[^>]*>Coming soon/);
-  assert.match(ashwagandhaPage, /Price being prepared/);
+  assert.match(ashwagandhaPage, /data-add-to-cart/);
+  assert.match(ashwagandhaPage, /Price on request/);
   assert.doesNotMatch(ashwagandhaPage, /\$15\.00|Inventory: 999|500 mg|brand[^<]*NOW|external-cta/);
 });
 
-test('label artwork cannot become a verified laboratory or organic certificate', () => {
-  const record = complianceFor(ashwagandhaProduct);
-  assert.equal(record.items.find(item => item.id === 'abp-label').status, 'pending');
-  assert.equal(record.items.find(item => item.id === 'abp-lab').status, 'not-provided');
-  assert.equal(record.items.find(item => item.id === 'abp-organic').status, 'not-provided');
-  assert.ok(record.items.every(item => item.status !== 'verified'));
-  assert.match(ashwagandhaPage, /0 verified/);
-  assert.doesNotMatch(ashwagandhaPage, /class="status-pill status-verified"|(?:href|src)="[^"]*\.pdf/);
-  const publicDescription = ashwagandhaPage.split('class="compliance-section"')[0];
-  assert.doesNotMatch(publicDescription, /reduces stress|promotes restful sleep|boosts immunity|enhance absorption|supports hormones|certified organic|gluten free|allergen free|vegan/i);
-});
-
-test('supplement structured data parses without an invented brand, product photo, rating, or offer', () => {
+test('supplement structured data parses without an invented brand, photo, rating, or offer', () => {
   const script = ashwagandhaPage.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1];
   assert.ok(script);
   const graph = JSON.parse(script);
@@ -292,10 +292,258 @@ test('supplement structured data parses without an invented brand, product photo
   assert.match(ashwagandhaPage, /<meta name="robots" content="noindex, follow">/);
 });
 
-test('styles include visible focus, responsive layouts, and reduced-motion support', async () => {
+test('styles include visible focus, responsive layouts, checkout and reduced motion', async () => {
   const css = await readFile(new URL('../public/assets/product-pages.css', import.meta.url), 'utf8');
   assert.match(css, /:focus-visible/);
   assert.match(css, /max-width: 760px/);
   assert.match(css, /max-width: 480px/);
   assert.match(css, /prefers-reduced-motion: reduce/);
+  assert.match(css, /\.checkout-layout/);
+  assert.match(css, /\.category-strip/);
+  assert.match(css, /\.nav-panel-grouped/);
+  assert.match(css, /\.header-bottom \{[^}]*justify-content: center/);
+  assert.match(css, /\.primary-nav \{[^}]*justify-content: center/);
+  assert.match(css, /\.nav-panel \{[^}]*left: 50%/);
+  assert.doesNotMatch(css, /\.category-nav/);
+});
+
+test('the menu stays small and every published link has a generated page', () => {
+  assert.ok(site.nav.length <= 5, 'the primary menu has more than five top-level items');
+  assert.equal(site.nav.length, 5);
+  assert.deepEqual(site.nav.map(item => item.label), ['Shop', 'Categories', 'Perennis', 'Journal', 'About']);
+  const categoriesItem = site.nav.find(item => item.id === 'categories');
+  assert.deepEqual(categoriesItem.children.map(child => child.href), collections.map(collection => `/shop/${collection.slug}/`));
+  const routes = new Set([
+    ...products.map(productPath),
+    '/shop/',
+    '/discover/',
+    ...collections.map(collection => `/shop/${collection.slug}/`),
+    ...sitePages.map(page => page.path)
+  ]);
+  const links = [
+    ...site.nav.flatMap(item => [item.href, ...(item.children || []).map(child => child.href)]),
+    ...site.footer.columns.flatMap(column => column.links.map(link => link.href))
+  ];
+  for (const href of new Set(links)) {
+    assert.ok(routes.has(href), `no page is generated for ${href}`);
+  }
+});
+
+test('one header and one footer come from the site contract', () => {
+  for (const page of [shopPage, affiliatePage, checkoutPage]) {
+    assert.match(page, /<form class="site-search" role="search" action="\/search\/" method="get">/);
+    assert.match(page, /aria-label="Primary navigation"/);
+    assert.match(page, /href="\/perennis\/books\/"/);
+    assert.match(page, /href="\/journal\/"/);
+    assert.match(page, /href="\/policies\/privacy\/"/);
+    assert.match(page, /data-cart-count/);
+    assert.match(page, /href="\/account\/"/);
+    assert.match(page, /class="nav-panel/);
+    // The menu sits in the middle of the header. Every shop category is a
+    // submenu item under Categories, beside Shop, and each one has its own page.
+    for (const collection of collections) {
+      assert.match(page, new RegExp(`href="\\/shop\\/${collection.slug}\\/">`));
+    }
+    assert.match(page, /<span>Categories<\/span>/);
+    assert.doesNotMatch(page, /class="category-nav"/);
+    assert.doesNotMatch(page, /shop\/sacred-sound\//);
+    assert.match(page, /Sacred Sound/);
+    assert.equal((page.match(/<header class="site-header">/g) || []).length, 1);
+    assert.equal((page.match(/<footer class="site-footer">/g) || []).length, 1);
+  }
+});
+
+test('every static page renders one heading and its own metadata', () => {
+  for (const page of sitePages) {
+    const html = renderStaticPage(page);
+    assert.equal((html.match(/<h1>/g) || []).length, 1, `${page.path} needs exactly one h1`);
+    assert.match(html, /<meta name="robots" content="noindex, follow">/);
+    assert.ok(html.includes(escapeHtml(page.heading)));
+    assert.ok(html.includes(escapeHtml(page.description)));
+    assert.doesNotMatch(html, /href="\/templates\//);
+  }
+});
+
+test('static page routes and required copy are validated', () => {
+  assert.throws(() => renderStaticPage({ ...sitePages[0], path: '/Bad Path/' }), /Invalid static page path/);
+  assert.throws(() => renderStaticPage({ ...sitePages[0], heading: '' }), /needs a title/);
+});
+
+test('only products owned by AURA receive an add-to-cart control', () => {
+  assert.match(shopPage, /data-add-to-cart/);
+  assert.doesNotMatch(affiliatePage, /data-add-to-cart/);
+  const partnerOwned = { ...clone(shopProduct), purchaseOwner: 'partner' };
+  assert.doesNotMatch(renderDropshippingPage(partnerOwned), /data-add-to-cart/);
+  assert.match(renderDropshippingPage(partnerOwned), /Ask about this piece/);
+});
+
+test('both selling models can save an item to the wishlist without buying it', () => {
+  for (const page of [shopPage, affiliatePage]) {
+    assert.match(page, /data-wishlist-toggle="/);
+    assert.match(page, /aria-pressed="false"/);
+    assert.match(page, /Save to wishlist/);
+  }
+});
+
+test('the shared store loads before the chrome, then the page island', () => {
+  const scripts = page => [...page.matchAll(/<script src="([^"]+)" defer><\/script>/g)].map(match => match[1]);
+  assert.deepEqual(scripts(shopPage), ['/assets/cart.js', '/assets/site.js', '/assets/product-pages.js']);
+  assert.deepEqual(scripts(cartPage), ['/assets/cart.js', '/assets/site.js', '/assets/cart-page.js']);
+  assert.deepEqual(scripts(checkoutPage), ['/assets/cart.js', '/assets/site.js', '/assets/checkout-page.js']);
+  assert.deepEqual(scripts(accountPage), ['/assets/cart.js', '/assets/site.js', '/assets/account-page.js']);
+  assert.deepEqual(scripts(newsletterPage), ['/assets/cart.js', '/assets/site.js', '/assets/newsletter-page.js']);
+});
+
+test('the cart shell links to checkout and keeps no payment form', () => {
+  assert.match(cartPage, /data-cart-items/);
+  assert.match(cartPage, /data-cart-status role="status" aria-live="polite"/);
+  assert.match(cartPage, /data-cart-subtotal/);
+  assert.match(cartPage, /data-cart-price-note/);
+  assert.match(cartPage, /href="\/checkout\/"/);
+  assert.match(cartPage, /<noscript>/);
+  assert.doesNotMatch(withoutHeaderSearch(cartPage), /<form\b|stripe|paypal|paymentIntent/i);
+});
+
+test('checkout renders an invoice form, not a card payment form', () => {
+  assert.match(checkoutPage, /<form class="checkout-form" data-checkout-form>/);
+  for (const field of ['name', 'email', 'country', 'city', 'address', 'postcode', 'notes', 'consent']) {
+    assert.match(checkoutPage, new RegExp(`name="${field}"`));
+  }
+  assert.match(checkoutPage, /data-checkout-items/);
+  assert.match(checkoutPage, /data-checkout-confirmation/);
+  assert.match(checkoutPage, /Request invoice/);
+  assert.doesNotMatch(checkoutPage, /<input[^>]*(?:cc-number|cvc|card_number|expiry|security.code|card number)[^>]*/i);
+});
+
+test('checkout script records a local request, clears the cart and never calls a network', async () => {
+  const script = await readFile(new URL('../public/assets/checkout-page.js', import.meta.url), 'utf8');
+  assert.match(script, /window\.AuraStore\.saveOrder/);
+  assert.match(script, /window\.AuraStore\.clearCart/);
+  assert.match(script, /preventDefault/);
+  assert.match(script, /data-checkout-reference/);
+  assert.doesNotMatch(script, /fetch\(|XMLHttpRequest|stripe|paypal|paymentIntent|cc-number/i);
+});
+
+test('account renders local invoice requests and can remove them', async () => {
+  const script = await readFile(new URL('../public/assets/account-page.js', import.meta.url), 'utf8');
+  assert.match(accountPage, /data-account-orders/);
+  assert.match(accountPage, /data-account-empty/);
+  assert.match(script, /window\.AuraStore\.getOrders/);
+  assert.match(script, /window\.AuraStore\.removeOrder/);
+  assert.match(script, /Invoice requested/);
+  assert.doesNotMatch(script, /fetch\(|XMLHttpRequest|stripe|paypal/i);
+});
+
+test('newsletter stores a preference in the browser and explains that nothing is sent', async () => {
+  const script = await readFile(new URL('../public/assets/newsletter-page.js', import.meta.url), 'utf8');
+  assert.match(newsletterPage, /data-newsletter-form/);
+  assert.match(newsletterPage, /data-newsletter-status/);
+  assert.match(script, /window\.AuraStore\.saveNewsletter/);
+  assert.match(script, /window\.AuraStore\.getNewsletter/);
+  assert.match(script, /nothing has been sent/i);
+  assert.doesNotMatch(script, /fetch\(|XMLHttpRequest|stripe|paypal/i);
+});
+
+test('the static store writes exactly the keys and item shape the React app reads', async () => {
+  const cart = await readFile(new URL('../public/assets/cart.js', import.meta.url), 'utf8');
+  const commerce = await readFile(new URL('../services/commerce.ts', import.meta.url), 'utf8');
+  const store = await readFile(new URL('../services/storeService.ts', import.meta.url), 'utf8');
+  assert.match(commerce, /CART: 'aura_cart_v1'/);
+  assert.match(store, /WISHLIST: 'aura_wishlist_v1'/);
+  assert.ok(cart.includes("var CART_KEY = 'aura_cart_v1';"));
+  assert.ok(cart.includes("var WISHLIST_KEY = 'aura_wishlist_v1';"));
+  assert.ok(cart.includes("var ORDER_KEY = 'aura_order_requests_v1';"));
+  assert.match(cart, /product: item\.product/);
+  assert.match(cart, /quantity: clamp\(item\.quantity, 1, 99\)/);
+  assert.match(cart, /selectedVariant: item\.selectedVariant/);
+  assert.match(cart, /aura_wishlist_updated/);
+  assert.match(store, /aura_wishlist_updated/);
+  assert.doesNotMatch(cart, /fetch\(|XMLHttpRequest|stripe|paypal/i);
+});
+
+test('the wishlist page joins saved ids to a public catalogue and degrades honestly', async () => {
+  const script = await readFile(new URL('../public/assets/wishlist-page.js', import.meta.url), 'utf8');
+  assert.match(script, /\/assets\/catalogue\.json/);
+  assert.match(script, /getWishlistIds/);
+  assert.match(script, /No longer listed on this site/);
+  assert.match(script, /Price on request/);
+  assert.doesNotMatch(script, /createOrder|stripe|paypal/i);
+});
+
+test('the browser store treats a null price as pending, never as zero', async () => {
+  const script = await readFile(new URL('../public/assets/cart.js', import.meta.url), 'utf8');
+  const memory = new Map();
+  const fakeWindow = {
+    localStorage: {
+      getItem: key => (memory.has(key) ? memory.get(key) : null),
+      setItem: (key, value) => memory.set(key, String(value)),
+      removeItem: key => memory.delete(key)
+    },
+    dispatchEvent: () => true
+  };
+  new Function('window', script)(fakeWindow);
+  const store = fakeWindow.AuraStore;
+  assert.ok(store, 'cart.js must expose AuraStore');
+
+  const unpriced = { id: 'pending', name: 'Pending', slug: 'pending', price: null, currency: 'GBP', category: 'Test', imageUrl: '/assets/products/photography-pending.svg' };
+  const priced = { id: 'priced', name: 'Priced', slug: 'priced', price: 10, currency: 'GBP', category: 'Test', imageUrl: '/assets/products/photography-pending.svg' };
+
+  store.addToCart(unpriced, 2);
+  assert.equal(store.cartCount(), 2);
+  assert.equal(store.cartSubtotal(), 0);
+  assert.equal(store.hasPendingPrice(), true);
+  assert.deepEqual(Object.keys(JSON.parse(memory.get('aura_cart_v1'))[0]).sort(), ['product', 'quantity']);
+
+  store.addToCart(priced, 1);
+  assert.equal(store.cartSubtotal(), 10);
+  assert.equal(store.hasPendingPrice(), true);
+
+  store.clearCart();
+  store.addToCart(priced, 1);
+  assert.equal(store.cartSubtotal(), 10);
+  assert.equal(store.hasPendingPrice(), false);
+
+  assert.equal(store.toggleWishlist('priced'), true);
+  assert.equal(store.isWishlisted('priced'), true);
+  assert.deepEqual(JSON.parse(memory.get('aura_wishlist_v1')), ['priced']);
+  store.removeFromWishlist('priced');
+  assert.deepEqual(store.getWishlistIds(), []);
+});
+
+test('the browser store keeps invoice requests and newsletter preferences locally', async () => {
+  const script = await readFile(new URL('../public/assets/cart.js', import.meta.url), 'utf8');
+  const memory = new Map();
+  const fakeWindow = {
+    localStorage: {
+      getItem: key => (memory.has(key) ? memory.get(key) : null),
+      setItem: (key, value) => memory.set(key, String(value)),
+      removeItem: key => memory.delete(key)
+    },
+    dispatchEvent: () => true
+  };
+  new Function('window', script)(fakeWindow);
+  const store = fakeWindow.AuraStore;
+
+  store.saveOrder({ reference: 'AURA-1', items: [], subtotal: null });
+  assert.equal(store.getOrders().length, 1);
+  assert.equal(store.getOrders()[0].reference, 'AURA-1');
+  store.removeOrder('AURA-1');
+  assert.equal(store.getOrders().length, 0);
+
+  store.saveNewsletter('reader@example.com');
+  assert.equal(store.getNewsletter().email, 'reader@example.com');
+  store.removeNewsletter();
+  assert.equal(store.getNewsletter(), null);
+});
+
+test('React cart and checkout never format a missing price as a number', async () => {
+  for (const file of ['components/CartDrawer.tsx', 'components/Checkout.tsx']) {
+    const source = await readFile(new URL(`../${file}`, import.meta.url), 'utf8');
+    assert.match(source, /const hasPendingPrice = items\.some/);
+    assert.match(source, /Number\.isFinite\(item\.product\.price\)/);
+    assert.match(source, /Price pending/);
+  }
+  const commerce = await readFile(new URL('../services/commerce.ts', import.meta.url), 'utf8');
+  assert.match(commerce, /function priceOf/);
+  assert.match(commerce, /priceOf\(item\.product\.price\)/);
 });

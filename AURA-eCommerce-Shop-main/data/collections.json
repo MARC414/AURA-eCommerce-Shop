@@ -1,0 +1,56 @@
+[
+  {
+    "slug": "herbal-botanicals",
+    "label": "Herbal Botanicals",
+    "eyebrow": "Plants, roots and resins",
+    "heading": "Herbal Botanicals",
+    "intro": "Plants chosen for daily ritual, described by what is known and what still needs checking.",
+    "description": "Herbal botanicals selected for AURA: capsules, loose herbs and single-ingredient preparations with a clear source.",
+    "matches": ["Herbal Botanicals"]
+  },
+  {
+    "slug": "everyday-care",
+    "label": "Everyday Care",
+    "eyebrow": "Soap, skin and small rituals",
+    "heading": "Everyday Care",
+    "intro": "The objects that meet you every morning: cleansing bars, oils and quiet daily care.",
+    "description": "Everyday cleansing and care pieces selected for AURA, with plain descriptions and no treatment claims.",
+    "matches": ["Everyday Care"]
+  },
+  {
+    "slug": "showpieces",
+    "label": "Showpieces",
+    "eyebrow": "Exceptional miscellany",
+    "heading": "Showpieces",
+    "intro": "Exceptional pieces that don't belong to a single aisle: wooden showpieces, meditative candles, organic ornaments. Chosen one by one, for what they are.",
+    "description": "Showpieces and exceptional miscellany selected for AURA: wooden showpieces, meditative candles, organic ornaments and other one-of-a-kind objects.",
+    "matches": ["Showpieces"]
+  },
+  {
+    "slug": "yoga-practice",
+    "label": "Yoga & Practice",
+    "eyebrow": "Ground, breath, repetition",
+    "heading": "Yoga & Practice",
+    "intro": "Mats, props and practice objects made to be used, not displayed.",
+    "description": "Practice objects for yoga, breath and daily movement.",
+    "matches": ["Yoga & Practice", "Yoga & Sacred Materials", "Yoga & Eastern Wisdom"]
+  },
+  {
+    "slug": "art-craft",
+    "label": "Art & Craft",
+    "eyebrow": "Made by hand",
+    "heading": "Art & Craft",
+    "intro": "Handmade pieces with a visible hand, a named maker and a traceable origin.",
+    "description": "Handmade art and craft objects selected for their material honesty.",
+    "matches": ["Art & Craft"]
+  },
+  {
+    "slug": "quiet-living",
+    "label": "Quiet Living",
+    "eyebrow": "Objects that lower the volume",
+    "heading": "Quiet Living",
+    "intro": "Simple objects for a room that asks less of you: stone, linen, wood and light.",
+    "description": "Quiet objects for the home, chosen for material and usefulness.",
+    "matches": ["Quiet Living", "Organic Quiet Tech"]
+  }
+]

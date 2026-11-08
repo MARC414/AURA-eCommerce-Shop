@@ -1,0 +1,160 @@
+{
+  "brand": {
+    "name": "AURA",
+    "wordmark": "Aura",
+    "note": "Mind · Body · Earth",
+    "homeHref": "/",
+    "description": "Objects and knowledge for a quieter, more awake life.",
+    "tagline": "A house for the worldly and the divine."
+  },
+  "status": {
+    "preview": false,
+    "label": "International · GBP"
+  },
+  "contact": {
+    "email": "hello@aura.example",
+    "responseTime": "within two working days"
+  },
+  "utility": {
+    "search": {
+      "published": true,
+      "label": "Search",
+      "action": "/search/",
+      "placeholder": "Search pieces, books, music, writing…"
+    },
+    "account": {
+      "published": true,
+      "label": "Account",
+      "href": "/account/"
+    },
+    "wishlist": {
+      "published": true,
+      "label": "Wishlist",
+      "href": "/wishlist/"
+    },
+    "cart": {
+      "published": true,
+      "label": "Cart",
+      "href": "/cart/"
+    }
+  },
+  "nav": [
+    {
+      "id": "shop",
+      "label": "Shop",
+      "href": "/shop/",
+      "published": true,
+      "children": [
+        { "label": "All pieces", "href": "/shop/", "published": true },
+        { "label": "Partner offers", "href": "/discover/", "published": true, "note": "External checkout" }
+      ]
+    },
+    {
+      "id": "categories",
+      "label": "Categories",
+      "href": "/shop/",
+      "published": true,
+      "children": [
+        { "label": "Herbal Botanicals", "href": "/shop/herbal-botanicals/", "published": true },
+        { "label": "Everyday Care", "href": "/shop/everyday-care/", "published": true },
+        { "label": "Showpieces", "href": "/shop/showpieces/", "published": true },
+        { "label": "Yoga & Practice", "href": "/shop/yoga-practice/", "published": true },
+        { "label": "Art & Craft", "href": "/shop/art-craft/", "published": true },
+        { "label": "Quiet Living", "href": "/shop/quiet-living/", "published": true }
+      ]
+    },
+    {
+      "id": "perennis",
+      "label": "Perennis",
+      "href": "/perennis/",
+      "published": true,
+      "children": [
+        { "label": "The library", "href": "/perennis/", "published": true },
+        { "label": "Books", "href": "/perennis/books/", "published": true },
+        { "label": "Music", "href": "/perennis/music/", "published": true },
+        { "label": "Sacred Sound", "href": "/perennis/music/", "published": true, "note": "Recordings and listening" }
+      ]
+    },
+    {
+      "id": "journal",
+      "label": "Journal",
+      "href": "/journal/",
+      "published": true,
+      "children": [
+        { "label": "All writing", "href": "/journal/", "published": true },
+        { "label": "Plants & practice", "href": "/journal/plants-and-practice/", "published": true },
+        { "label": "Mind & body", "href": "/journal/mind-and-body/", "published": true },
+        { "label": "Worldly & divine", "href": "/journal/worldly-and-divine/", "published": true }
+      ]
+    },
+    {
+      "id": "about",
+      "label": "About",
+      "href": "/about/",
+      "published": true,
+      "children": [
+        { "label": "Our story", "href": "/about/", "published": true },
+        { "label": "Sourcing & makers", "href": "/about/sourcing/", "published": true },
+        { "label": "Contact", "href": "/contact/", "published": true },
+        { "label": "Help & FAQ", "href": "/help/", "published": true },
+        { "label": "Policies", "href": "/policies/", "published": true }
+      ]
+    }
+  ],
+  "footer": {
+    "columns": [
+      {
+        "heading": "Shop",
+        "links": [
+          { "label": "All pieces", "href": "/shop/" },
+          { "label": "Herbal Botanicals", "href": "/shop/herbal-botanicals/" },
+          { "label": "Everyday Care", "href": "/shop/everyday-care/" },
+          { "label": "Yoga & Practice", "href": "/shop/yoga-practice/" },
+          { "label": "Showpieces", "href": "/shop/showpieces/" },
+          { "label": "Partner offers", "href": "/discover/" }
+        ]
+      },
+      {
+        "heading": "Perennis",
+        "links": [
+          { "label": "The library", "href": "/perennis/" },
+          { "label": "Books", "href": "/perennis/books/" },
+          { "label": "Music", "href": "/perennis/music/" }
+        ]
+      },
+      {
+        "heading": "Journal",
+        "links": [
+          { "label": "All writing", "href": "/journal/" },
+          { "label": "Plants & practice", "href": "/journal/plants-and-practice/" },
+          { "label": "Mind & body", "href": "/journal/mind-and-body/" },
+          { "label": "Worldly & divine", "href": "/journal/worldly-and-divine/" }
+        ]
+      },
+      {
+        "heading": "Client care",
+        "links": [
+          { "label": "Contact", "href": "/contact/" },
+          { "label": "Help & FAQ", "href": "/help/" },
+          { "label": "Shipping", "href": "/policies/shipping/" },
+          { "label": "Returns", "href": "/policies/returns/" },
+          { "label": "Account", "href": "/account/" },
+          { "label": "Newsletter", "href": "/newsletter/" }
+        ]
+      },
+      {
+        "heading": "House",
+        "links": [
+          { "label": "About", "href": "/about/" },
+          { "label": "Sourcing & makers", "href": "/about/sourcing/" },
+          { "label": "Privacy", "href": "/policies/privacy/" },
+          { "label": "Policies", "href": "/policies/" },
+          { "label": "Imprint", "href": "/imprint/" },
+          { "label": "Accessibility", "href": "/policies/accessibility/" }
+        ]
+      }
+    ],
+    "note": "AURA is an international house for mind, body and earth. Prices are confirmed on invoice before payment. No card details are collected on this site.",
+    "signature": "Worldly and divine, in one house."
+  }
+}
