@@ -1,0 +1,27 @@
+{
+  "name": "aura-quiet-living",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build:templates": "node AURA-eCommerce-Shop-main/scripts/generate-product-pages.mjs",
+    "test:templates": "node --test AURA-eCommerce-Shop-main/tests/product-pages.test.mjs",
+    "preview:templates": "node AURA-eCommerce-Shop-main/scripts/preview-products.mjs",
+    "predev": "node AURA-eCommerce-Shop-main/scripts/generate-product-pages.mjs",
+    "dev": "vite",
+    "prebuild": "node AURA-eCommerce-Shop-main/scripts/generate-product-pages.mjs",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@google/genai": "^1.29.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}
