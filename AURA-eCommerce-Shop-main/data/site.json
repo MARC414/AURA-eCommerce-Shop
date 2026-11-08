@@ -45,14 +45,22 @@
       "href": "/shop/",
       "published": true,
       "children": [
-        { "group": "Sold by AURA", "label": "All pieces", "href": "/shop/", "published": true },
-        { "group": "Sold by AURA", "label": "Herbal Botanicals", "href": "/shop/herbal-botanicals/", "published": true },
-        { "group": "Sold by AURA", "label": "Everyday Care", "href": "/shop/everyday-care/", "published": true },
-        { "group": "Sold by AURA", "label": "Sacred Sound", "href": "/shop/sacred-sound/", "published": true },
-        { "group": "Sold by AURA", "label": "Yoga & Practice", "href": "/shop/yoga-practice/", "published": true },
-        { "group": "Sold by AURA", "label": "Art & Craft", "href": "/shop/art-craft/", "published": true },
-        { "group": "Sold by AURA", "label": "Quiet Living", "href": "/shop/quiet-living/", "published": true },
-        { "group": "Sold by partners", "label": "Partner offers", "href": "/discover/", "published": true, "note": "External checkout" }
+        { "label": "All pieces", "href": "/shop/", "published": true },
+        { "label": "Partner offers", "href": "/discover/", "published": true, "note": "External checkout" }
+      ]
+    },
+    {
+      "id": "categories",
+      "label": "Categories",
+      "href": "/shop/",
+      "published": true,
+      "children": [
+        { "label": "Herbal Botanicals", "href": "/shop/herbal-botanicals/", "published": true },
+        { "label": "Everyday Care", "href": "/shop/everyday-care/", "published": true },
+        { "label": "Showpieces", "href": "/shop/showpieces/", "published": true },
+        { "label": "Yoga & Practice", "href": "/shop/yoga-practice/", "published": true },
+        { "label": "Art & Craft", "href": "/shop/art-craft/", "published": true },
+        { "label": "Quiet Living", "href": "/shop/quiet-living/", "published": true }
       ]
     },
     {
@@ -63,7 +71,8 @@
       "children": [
         { "label": "The library", "href": "/perennis/", "published": true },
         { "label": "Books", "href": "/perennis/books/", "published": true },
-        { "label": "Music", "href": "/perennis/music/", "published": true }
+        { "label": "Music", "href": "/perennis/music/", "published": true },
+        { "label": "Sacred Sound", "href": "/perennis/music/", "published": true, "note": "Recordings and listening" }
       ]
     },
     {
@@ -100,7 +109,8 @@
           { "label": "All pieces", "href": "/shop/" },
           { "label": "Herbal Botanicals", "href": "/shop/herbal-botanicals/" },
           { "label": "Everyday Care", "href": "/shop/everyday-care/" },
-          { "label": "Sacred Sound", "href": "/shop/sacred-sound/" },
+          { "label": "Yoga & Practice", "href": "/shop/yoga-practice/" },
+          { "label": "Showpieces", "href": "/shop/showpieces/" },
           { "label": "Partner offers", "href": "/discover/" }
         ]
       },

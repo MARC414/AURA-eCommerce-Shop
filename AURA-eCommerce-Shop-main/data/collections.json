@@ -18,13 +18,13 @@
     "matches": ["Everyday Care"]
   },
   {
-    "slug": "sacred-sound",
-    "label": "Sacred Sound",
-    "eyebrow": "Instruments and listening",
-    "heading": "Sacred Sound",
-    "intro": "Instruments, recordings and listening objects for attention, ceremony and rest.",
-    "description": "Sound objects and recordings for practice, ceremony and quiet attention.",
-    "matches": ["Sacred Sound", "Sacred Sound & Music"]
+    "slug": "showpieces",
+    "label": "Showpieces",
+    "eyebrow": "Exceptional miscellany",
+    "heading": "Showpieces",
+    "intro": "Exceptional pieces that don't belong to a single aisle: wooden showpieces, meditative candles, organic ornaments. Chosen one by one, for what they are.",
+    "description": "Showpieces and exceptional miscellany selected for AURA: wooden showpieces, meditative candles, organic ornaments and other one-of-a-kind objects.",
+    "matches": ["Showpieces"]
   },
   {
     "slug": "yoga-practice",

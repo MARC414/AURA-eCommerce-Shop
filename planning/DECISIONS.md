@@ -259,6 +259,37 @@ Following D-025 P1b, the owner approved removing preview/compliance presentation
 
 ---
 
+## D-027 — Centred menu in the header, with a visible category bar
+**2026-11-09 · APPROVED (owner: “the menu will be in the middle exactly in header or navbar. Each category must have individual page”)**
+
+**Problem the owner saw:** the six shop categories were hidden inside the Shop dropdown panel, so they appeared absent from the navbar/menu. The menu row also sat left-aligned.
+
+**Change (header only, no new top-level items — the 4-item uncrowded test still applies):**
+
+1. **Primary menu centred.** `.header-bottom { justify-content: center }` and `.primary-nav { justify-content: center; width: 100% }` — Shop · Perennis · Journal · About now sit in the middle of the header's second row. Dropdown panels centre themselves under their button (`left: 50%`, `translateX(-50%)`, `max-width: calc(100vw - 48px)`); the ≤760 px rules reset the panel to static with `transform: none`.
+2. **Visible category bar in the navbar.** A new `<nav class="category-nav" aria-label="Shop categories">` sits directly under the primary menu, centred, on every page: All pieces + the six `data/collections.json` rooms, each linking to its own individual page (`/shop/herbal-botanicals/` … `/shop/quiet-living/`). It renders from `collections`, so a future category gets its navbar link automatically.
+3. **Each category keeps its individual page.** The six `/shop/<slug>/` pages are unchanged in route and content (own H1, breadcrumb, product list or honest empty state). The Shop dropdown keeps the same six links under "Sold by AURA" for keyboard/touch parity.
+4. **Tests:** the shared-header test now asserts the `category-nav` block and one link per collection slug on every generated header; the styles test asserts the centred `header-bottom`, `primary-nav`, `category-nav` and centred panel rules.
+
+**Verified:** 45/45 tests pass; generator regenerates 40 pages with zero broken internal links (the new navbar links resolve to the six category pages). `noindex`/robots launch switch unchanged.
+
+## D-028 — Categories beside Shop in the main menu; Showpieces replaces Sacred Sound in the shop
+**2026-11-09 · APPROVED (owner correction to D-027’s row-3 category bar)**
+
+**Owner direction:** no third row (it would make the header too large). Put the categories in the main menu directly beside Shop, with all category names as the submenu under “Categories”. Sacred Sound is not a shop category — it belongs to Perennis (free books and music). Create Showpieces: exceptional miscellaneous pieces (wooden showpieces, meditative candles, organic ornaments), correcting the earlier “antique” framing.
+
+**What changed:**
+
+1. **Row 3 removed.** The `category-nav` bar from D-027 is deleted from `templates/product-pages.mjs` and its `.category-nav` CSS removed. The header returns to two rows — the centred main menu sits directly under the wordmark/search/utility row, so the header stays compact. Centring from D-027 (`.header-bottom`, `.primary-nav`, centred panels) is kept.
+2. **“Categories” is a top-level item beside Shop.** The primary menu is now Shop · Categories · Perennis · Journal · About (5 items, still uncrowded). Shop’s own dropdown is reduced to All pieces + Partner offers; the Categories dropdown lists all six category names, each linking to its individual page (`/shop/<slug>/`). The site contract (`data/site.json`) holds both, so the header stays generated from data.
+3. **Sacred Sound leaves the shop taxonomy.** `data/collections.json` drops `sacred-sound` and adds `showpieces` (“Exceptional miscellany”: wooden showpieces, meditative candles, organic ornaments, one-of-a-kind objects; `matches: ["Showpieces"]`). The stale `/shop/sacred-sound/` page is removed from `public/`; `/shop/showpieces/` is generated (own H1, breadcrumb, honest empty state). Product matching, shop category strip/tiles, sitemap, and search index all follow `collections.json` automatically.
+4. **Sacred Sound now lives in Perennis.** The Perennis submenu gains “Sacred Sound” (→ `/perennis/music/`, “Recordings and listening”), and the Music page copy names sacred sound explicitly. The Shop footer column drops Sacred Sound and gains Showpieces.
+5. **Tests:** menu assertion updated to the 5-item order Shop · Categories · Perennis · Journal · About with Categories children deep-equal to `collections`; the empty-category test now uses Showpieces; header tests assert every collection href appears in the menu, no `category-nav` row, no `/shop/sacred-sound/` link, and that “Sacred Sound” appears (via the Perennis submenu); styles test asserts the `.category-nav` CSS is gone.
+
+**Verified:** 45/45 tests pass; 40 pages regenerated, zero broken internal links; the new top-level order and both dropdown panels confirmed in generated HTML; Showpieces page exists, Sacred Sound shop page deleted, no shop Sacred Sound link remains.
+
+---
+
 ## D-025 — P1b executed: browser-local cart and wishlist on static pages
 **2026-11-09 · EXECUTED (owner approved "go with P1b")**
 

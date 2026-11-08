@@ -21,7 +21,10 @@
           "Every book has its own page, an edition note, and a short review written here. Reading pages stay public so the collection can be found. Downloads ask for an email address, so the library can stay in touch."
         ],
         "links": [
-          { "label": "Browse the books", "href": "/perennis/books/" }
+          {
+            "label": "Browse the books",
+            "href": "/perennis/books/"
+          }
         ]
       },
       {
@@ -30,7 +33,10 @@
           "Recordings are embedded from their original sources, such as an artist's official channel, rather than copied and hosted here. Where an artist offers a piece directly, it is linked with credit."
         ],
         "links": [
-          { "label": "Browse the music", "href": "/perennis/music/" }
+          {
+            "label": "Browse the music",
+            "href": "/perennis/music/"
+          }
         ]
       },
       {
@@ -46,7 +52,10 @@
     "path": "/perennis/books/",
     "section": "perennis",
     "label": "Books",
-    "parent": { "label": "Perennis", "href": "/perennis/" },
+    "parent": {
+      "label": "Perennis",
+      "href": "/perennis/"
+    },
     "title": "Free books · Perennis",
     "description": "The Perennis book collection, with an edition note and a short review for each title. Reading is public; downloads ask for an email address.",
     "eyebrow": "Perennis · Books",
@@ -72,12 +81,15 @@
     "path": "/perennis/music/",
     "section": "perennis",
     "label": "Music",
-    "parent": { "label": "Perennis", "href": "/perennis/" },
+    "parent": {
+      "label": "Perennis",
+      "href": "/perennis/"
+    },
     "title": "Free music · Perennis",
-    "description": "Ragas, classical recordings and quiet music listened to through official embeds rather than copied files.",
+    "description": "Sacred sound recordings, ragas, classical pieces and quiet music, listened to through official embeds rather than copied files.",
     "eyebrow": "Perennis · Music",
     "heading": "Listening, with credit.",
-    "intro": "Music here is listened to where it lives. Players are embedded from official channels and artists' pages, so the recording, the performer and the rights stay with the people who made them.",
+    "intro": "Sacred sound is part of Perennis now, not a shop category. Music here is listened to where it lives: players are embedded from official channels and artists pages, so the recording, the performer and the rights stay with the people who made them.",
     "blocks": [
       {
         "heading": "Not yet published",
@@ -129,7 +141,10 @@
     "path": "/journal/plants-and-practice/",
     "section": "journal",
     "label": "Plants & practice",
-    "parent": { "label": "Journal", "href": "/journal/" },
+    "parent": {
+      "label": "Journal",
+      "href": "/journal/"
+    },
     "title": "Plants & practice · Journal",
     "description": "Notes on herbs, growing, preparation and the daily practices that keep a body close to the earth.",
     "eyebrow": "Journal · Plants & practice",
@@ -155,7 +170,10 @@
     "path": "/journal/mind-and-body/",
     "section": "journal",
     "label": "Mind & body",
-    "parent": { "label": "Journal", "href": "/journal/" },
+    "parent": {
+      "label": "Journal",
+      "href": "/journal/"
+    },
     "title": "Mind & body · Journal",
     "description": "Essays on attention, rest, breath and the ordinary work of looking after a mind and a body.",
     "eyebrow": "Journal · Mind & body",
@@ -181,7 +199,10 @@
     "path": "/journal/worldly-and-divine/",
     "section": "journal",
     "label": "Worldly & divine",
-    "parent": { "label": "Journal", "href": "/journal/" },
+    "parent": {
+      "label": "Journal",
+      "href": "/journal/"
+    },
     "title": "Worldly & divine · Journal",
     "description": "Notes on meaning, ritual, beauty and the commerce of things that carry more than a price.",
     "eyebrow": "Journal · Worldly & divine",
@@ -243,7 +264,10 @@
     "path": "/about/sourcing/",
     "section": "about",
     "label": "Sourcing & makers",
-    "parent": { "label": "About", "href": "/about/" },
+    "parent": {
+      "label": "About",
+      "href": "/about/"
+    },
     "title": "Sourcing and makers · AURA",
     "description": "How AURA chooses pieces, what a partner offer means, and which details are published for each object.",
     "eyebrow": "About · Sourcing",
@@ -280,14 +304,20 @@
     "path": "/contact/",
     "section": "about",
     "label": "Contact",
-    "parent": { "label": "About", "href": "/about/" },
+    "parent": {
+      "label": "About",
+      "href": "/about/"
+    },
     "title": "Contact AURA",
     "description": "How to reach AURA about a piece, an invoice or the library.",
     "eyebrow": "Contact",
     "heading": "Talk to the house.",
     "intro": "Questions about a piece, an invoice or a partner offer can be sent by email. AURA answers from a monitored inbox, normally within two working days.",
     "links": [
-      { "label": "hello@aura.example", "href": "mailto:hello@aura.example" }
+      {
+        "label": "hello@aura.example",
+        "href": "mailto:hello@aura.example"
+      }
     ],
     "blocks": [
       {
@@ -320,7 +350,10 @@
     "heading": "Imprint.",
     "intro": "AURA is an independent international project, operated from Bangladesh and built for customers in several countries. The details below identify who is responsible for what is published here.",
     "links": [
-      { "label": "hello@aura.example", "href": "mailto:hello@aura.example" }
+      {
+        "label": "hello@aura.example",
+        "href": "mailto:hello@aura.example"
+      }
     ],
     "blocks": [
       {
@@ -348,7 +381,10 @@
     "path": "/help/",
     "section": "about",
     "label": "Help & FAQ",
-    "parent": { "label": "About", "href": "/about/" },
+    "parent": {
+      "label": "About",
+      "href": "/about/"
+    },
     "title": "Help and FAQ",
     "description": "Honest answers about ordering, partner offers, the cart, delivery and the free library.",
     "eyebrow": "Help",
@@ -389,7 +425,10 @@
     "path": "/policies/",
     "section": "about",
     "label": "Policies",
-    "parent": { "label": "About", "href": "/about/" },
+    "parent": {
+      "label": "About",
+      "href": "/about/"
+    },
     "title": "Policies",
     "description": "AURA's privacy, terms, shipping, returns, accessibility and disclosure pages.",
     "eyebrow": "Policies",
@@ -404,22 +443,52 @@
       }
     ],
     "links": [
-      { "label": "Privacy", "href": "/policies/privacy/" },
-      { "label": "Terms of use", "href": "/policies/terms/" },
-      { "label": "Cookies and local storage", "href": "/policies/cookies/" },
-      { "label": "Shipping", "href": "/policies/shipping/" },
-      { "label": "Returns and refunds", "href": "/policies/returns/" },
-      { "label": "Payment and invoicing", "href": "/policies/payment/" },
-      { "label": "Accessibility", "href": "/policies/accessibility/" },
-      { "label": "Affiliate disclosure", "href": "/policies/affiliate-disclosure/" },
-      { "label": "Health disclaimer", "href": "/policies/health-disclaimer/" }
+      {
+        "label": "Privacy",
+        "href": "/policies/privacy/"
+      },
+      {
+        "label": "Terms of use",
+        "href": "/policies/terms/"
+      },
+      {
+        "label": "Cookies and local storage",
+        "href": "/policies/cookies/"
+      },
+      {
+        "label": "Shipping",
+        "href": "/policies/shipping/"
+      },
+      {
+        "label": "Returns and refunds",
+        "href": "/policies/returns/"
+      },
+      {
+        "label": "Payment and invoicing",
+        "href": "/policies/payment/"
+      },
+      {
+        "label": "Accessibility",
+        "href": "/policies/accessibility/"
+      },
+      {
+        "label": "Affiliate disclosure",
+        "href": "/policies/affiliate-disclosure/"
+      },
+      {
+        "label": "Health disclaimer",
+        "href": "/policies/health-disclaimer/"
+      }
     ]
   },
   {
     "path": "/policies/privacy/",
     "section": "about",
     "label": "Privacy",
-    "parent": { "label": "Policies", "href": "/policies/" },
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
     "title": "Privacy policy",
     "description": "What AURA stores in your browser, and what a full privacy notice covers.",
     "eyebrow": "Policies · Privacy",
@@ -451,7 +520,10 @@
     "path": "/policies/terms/",
     "section": "about",
     "label": "Terms of use",
-    "parent": { "label": "Policies", "href": "/policies/" },
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
     "title": "Terms of use",
     "description": "The terms that apply to AURA's website, invoices and partner offers.",
     "eyebrow": "Policies · Terms",
@@ -488,7 +560,10 @@
     "path": "/policies/cookies/",
     "section": "about",
     "label": "Cookies",
-    "parent": { "label": "Policies", "href": "/policies/" },
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
     "title": "Cookies and local storage",
     "description": "AURA sets no advertising or analytics cookies. Cart, wishlist, request and newsletter state live in local storage.",
     "eyebrow": "Policies · Cookies",
@@ -519,7 +594,10 @@
     "path": "/policies/shipping/",
     "section": "about",
     "label": "Shipping",
-    "parent": { "label": "Policies", "href": "/policies/" },
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
     "title": "Shipping policy",
     "description": "How AURA confirms destinations, charges and delivery on the invoice.",
     "eyebrow": "Policies · Shipping",
@@ -550,7 +628,10 @@
     "path": "/policies/returns/",
     "section": "about",
     "label": "Returns",
-    "parent": { "label": "Policies", "href": "/policies/" },
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
     "title": "Returns and refunds",
     "description": "How returns, refunds and hygiene exclusions work for AURA pieces and partner offers.",
     "eyebrow": "Policies · Returns",
@@ -587,7 +668,10 @@
     "path": "/policies/payment/",
     "section": "about",
     "label": "Payment and invoicing",
-    "parent": { "label": "Policies", "href": "/policies/" },
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
     "title": "Payment and invoicing",
     "description": "AURA invoices before payment. No card details are collected on this website.",
     "eyebrow": "Policies · Payment",
@@ -618,7 +702,10 @@
     "path": "/policies/accessibility/",
     "section": "about",
     "label": "Accessibility",
-    "parent": { "label": "Policies", "href": "/policies/" },
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
     "title": "Accessibility",
     "description": "What AURA does for accessibility now, and what still needs auditing.",
     "eyebrow": "Policies · Accessibility",
@@ -643,7 +730,10 @@
     "path": "/policies/affiliate-disclosure/",
     "section": "about",
     "label": "Affiliate disclosure",
-    "parent": { "label": "Policies", "href": "/policies/" },
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
     "title": "Affiliate disclosure",
     "description": "How AURA labels partner offers and earns commission, and what the merchant is responsible for.",
     "eyebrow": "Policies · Disclosure",
@@ -674,7 +764,10 @@
     "path": "/policies/health-disclaimer/",
     "section": "about",
     "label": "Health disclaimer",
-    "parent": { "label": "Policies", "href": "/policies/" },
+    "parent": {
+      "label": "Policies",
+      "href": "/policies/"
+    },
     "title": "Health disclaimer",
     "description": "AURA does not provide medical advice, and does not publish treatment, prevention or cure claims.",
     "eyebrow": "Policies · Health",

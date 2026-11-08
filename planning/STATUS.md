@@ -49,6 +49,16 @@
 - Pages are `noindex, follow` until a real domain and absolute canonical URLs exist (launch switch `INDEXABLE = false` in template). Disclose at go-live.
 - `robots.txt` disallows all as a launch switch; sitemap uses relative URLs.
 
+### Site structure — D-027 (2026-11-09): centred menu with visible category bar
+- The primary menu (Shop · Perennis · Journal · About) is now centred in the header's second row; dropdown panels centre under their button (mobile resets to static).
+- A new centred `category-nav` bar appears under the menu on every page: All pieces + the six rooms from `data/collections.json` (`/shop/herbal-botanicals/`, `/shop/everyday-care/`, `/shop/sacred-sound/`, `/shop/yoga-practice/`, `/shop/art-craft/`, `/shop/quiet-living/`), each on its own individual page (verified: H1 per category; Everyday Care holds 2 pieces, Herbal Botanicals 1, the rest show an honest empty state).
+- Top-level nav stays at 4 items (uncrowded rule preserved); the Shop dropdown keeps the same six links. Tests assert the category bar and centring CSS; 45/45 pass, 40 pages regenerated with no broken links.
+
+### Site structure — D-028 (2026-11-09): Categories beside Shop; Showpieces replaces Sacred Sound
+- Row-3 category bar removed (header back to two rows, compact). Main menu is now Shop · Categories · Perennis · Journal · About, centred; Shop dropdown = All pieces + Partner offers; Categories dropdown = all six category names, each on its own page (`/shop/herbal-botanicals/`, `/shop/everyday-care/`, `/shop/showpieces/`, `/shop/yoga-practice/`, `/shop/art-craft/`, `/shop/quiet-living/`).
+- `data/collections.json`: Sacred Sound removed (it belongs to Perennis), Showpieces added — exceptional miscellany (wooden showpieces, meditative candles, organic ornaments). Stale `/shop/sacred-sound/` deleted; `/shop/showpieces/` generated with honest empty state. Sacred Sound now appears under the Perennis submenu and in the Perennis Music page copy.
+- Tests updated (5-item menu order, Categories children = collections, empty-category = Showpieces, no category-nav row, no `/shop/sacred-sound/` link); 45/45 pass, 40 pages regenerated with no broken links.
+
 ### Storefront & product structure
 - Four pilot products implemented with individual URLs under `/shop/` (AURA sells) and `/discover/` (partner sells).
 - Each product has its own page with compliant pricing (`price: null` pending owner decision), variant handling, and sourcing details.

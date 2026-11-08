@@ -195,13 +195,14 @@ test('collection pages keep the selling models separate', () => {
 
 test('category pages show only their own pieces and a real empty state', () => {
   const herbal = renderCategoryPage(collections.find(item => item.slug === 'herbal-botanicals'), products);
-  const sound = renderCategoryPage(collections.find(item => item.slug === 'sacred-sound'), products);
+  const showpieces = renderCategoryPage(collections.find(item => item.slug === 'showpieces'), products);
   assert.match(herbal, /Ashwagandha with Black Pepper/);
   assert.doesNotMatch(herbal, /Turmeric Cleansing Soap/);
   assert.match(herbal, /1 piece in this room/);
-  assert.match(sound, /Pieces are being selected for this room/);
-  assert.match(sound, /0 pieces in this room/);
-  assert.match(sound, /href="\/shop\/"/);
+  assert.match(showpieces, /Showpieces/);
+  assert.match(showpieces, /Pieces are being selected for this room/);
+  assert.match(showpieces, /0 pieces in this room/);
+  assert.match(showpieces, /href="\/shop\/"/);
   assert.equal((herbal.match(/<h1>/g) || []).length, 1);
 });
 
@@ -300,11 +301,18 @@ test('styles include visible focus, responsive layouts, checkout and reduced mot
   assert.match(css, /\.checkout-layout/);
   assert.match(css, /\.category-strip/);
   assert.match(css, /\.nav-panel-grouped/);
+  assert.match(css, /\.header-bottom \{[^}]*justify-content: center/);
+  assert.match(css, /\.primary-nav \{[^}]*justify-content: center/);
+  assert.match(css, /\.nav-panel \{[^}]*left: 50%/);
+  assert.doesNotMatch(css, /\.category-nav/);
 });
 
 test('the menu stays small and every published link has a generated page', () => {
-  assert.ok(site.nav.length <= 4, 'the primary menu has more than four top-level items');
-  assert.equal(site.nav.length, 4);
+  assert.ok(site.nav.length <= 5, 'the primary menu has more than five top-level items');
+  assert.equal(site.nav.length, 5);
+  assert.deepEqual(site.nav.map(item => item.label), ['Shop', 'Categories', 'Perennis', 'Journal', 'About']);
+  const categoriesItem = site.nav.find(item => item.id === 'categories');
+  assert.deepEqual(categoriesItem.children.map(child => child.href), collections.map(collection => `/shop/${collection.slug}/`));
   const routes = new Set([
     ...products.map(productPath),
     '/shop/',
@@ -330,7 +338,16 @@ test('one header and one footer come from the site contract', () => {
     assert.match(page, /href="\/policies\/privacy\/"/);
     assert.match(page, /data-cart-count/);
     assert.match(page, /href="\/account\/"/);
-    assert.match(page, /nav-panel-grouped/);
+    assert.match(page, /class="nav-panel/);
+    // The menu sits in the middle of the header. Every shop category is a
+    // submenu item under Categories, beside Shop, and each one has its own page.
+    for (const collection of collections) {
+      assert.match(page, new RegExp(`href="\\/shop\\/${collection.slug}\\/">`));
+    }
+    assert.match(page, /<span>Categories<\/span>/);
+    assert.doesNotMatch(page, /class="category-nav"/);
+    assert.doesNotMatch(page, /shop\/sacred-sound\//);
+    assert.match(page, /Sacred Sound/);
     assert.equal((page.match(/<header class="site-header">/g) || []).length, 1);
     assert.equal((page.match(/<footer class="site-footer">/g) || []).length, 1);
   }
