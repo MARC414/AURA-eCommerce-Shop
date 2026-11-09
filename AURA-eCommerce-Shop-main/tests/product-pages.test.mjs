@@ -571,6 +571,34 @@ test('React cart and checkout never format a missing price as a number', async (
   assert.match(commerce, /priceOf\(item\.product\.price\)/);
 });
 
+test('the homepage room index renders each existing room once and links only to it', async () => {
+  const source = await readFile(new URL('../components/CategoryDiscovery.tsx', import.meta.url), 'utf8');
+
+  // One data source: the same file the generator builds the room pages from.
+  assert.match(source, /import rooms from '\.\.\/data\/collections\.json';/);
+  assert.equal((source.match(/rooms\.map/g) || []).length, 1, 'the room list should be mapped once');
+  assert.doesNotMatch(source, /rooms\.(filter|slice|splice)/, 'every room should appear, exactly once');
+  // The destination is built from the same slug that generates the page.
+  assert.match(source, /href=\{`\/shop\/\$\{room\.slug\}\/`\}/);
+  // No invented commerce language or figures (comments explain what is absent,
+  // so the check runs against the code with comments removed).
+  const code = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+  assert.doesNotMatch(code, /rating|review|bestsell|best-sell|in stock|sold|%\s*off/i);
+  // The whole card is the link, with a visible focus state.
+  assert.match(source, /<a[\s\S]*?focus-visible:outline/);
+
+  // The index lists the same rooms, in the same order, as the Shop menu.
+  const shopItem = site.nav.find(item => item.id === 'shop');
+  const navRoomPaths = shopItem.children.filter(child => child.group === 'Rooms').map(child => child.href);
+  const roomPaths = collections.map(collection => `/shop/${collection.slug}/`);
+  assert.deepEqual(roomPaths, navRoomPaths, 'the room index and the Shop menu should agree');
+  assert.equal(new Set(roomPaths).size, roomPaths.length, 'two rooms share a destination');
+
+  // Mounted directly after the featured pieces, inside the home view.
+  const app = await readFile(new URL('../App.tsx', import.meta.url), 'utf8');
+  assert.match(app, /<Hero \/>\s*<FeaturedProducts \/>\s*<CategoryDiscovery \/>/);
+});
+
 test('the React navbar reads the same site contract as the static header', async () => {
   const source = await readFile(new URL('../components/Navbar.tsx', import.meta.url), 'utf8');
 

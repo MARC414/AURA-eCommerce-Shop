@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import FeaturedProducts from './components/FeaturedProducts';
+import CategoryDiscovery from './components/CategoryDiscovery';
 import Assistant from './components/Assistant';
 import Footer from './components/Footer';
 import WishlistDrawer from './components/WishlistDrawer';
@@ -106,6 +107,7 @@ function App() {
           <>
             <Hero />
             <FeaturedProducts />
+            <CategoryDiscovery />
           </>
         )}
 
