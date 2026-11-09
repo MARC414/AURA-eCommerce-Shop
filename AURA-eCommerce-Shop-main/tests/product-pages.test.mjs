@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import {
   escapeHtml,
   validateProduct,
@@ -10,7 +11,8 @@ import {
   renderAffiliatePage,
   renderCollection,
   renderCategoryPage,
-  renderStaticPage
+  renderStaticPage,
+  renderHomePage
 } from '../templates/product-pages.mjs';
 
 const products = JSON.parse(await readFile(new URL('../data/pilot-products.json', import.meta.url), 'utf8'));
@@ -674,4 +676,110 @@ test('the React navbar reads the same site contract as the static header', async
   // Palette only: no raw hex, no gradient fill.
   assert.doesNotMatch(source, /#[0-9a-fA-F]{6}/);
   assert.doesNotMatch(source, /bg-gradient|linearGradient/);
+});
+
+/* ── T3: the homepage, generated at /home-preview/ ─────────────────────────── */
+
+const homePage = renderHomePage(products);
+
+test('the homepage preview is one static document with three sections', () => {
+  assert.equal((homePage.match(/<h1/g) || []).length, 1, 'the homepage has exactly one h1');
+  assert.match(homePage, /<h1 id="home-heading" class="home-hero__title">A world of<br><em>conscious living\.<\/em><\/h1>/);
+
+  // Hero, then featured pieces, then the room index - in that order.
+  const order = ['class="home-hero"', 'id="featured"', 'id="rooms"'].map(marker => homePage.indexOf(marker));
+  assert.ok(order.every(index => index > 0), 'a section is missing');
+  assert.deepEqual([...order].sort((a, b) => a - b), order, 'the sections are out of order');
+
+  // Every piece once, every room once.
+  assert.equal((homePage.match(/class="feature-card"/g) || []).length, products.length);
+  assert.equal((homePage.match(/class="room-index__item"/g) || []).length, collections.length);
+  const roomPositions = collections.map(collection => homePage.indexOf(`href="/shop/${collection.slug}/"`));
+  assert.ok(roomPositions.every((position, index) => position > 0 && (index === 0 || position > roomPositions[index - 1])),
+    'the room index should follow collections.json order');
+
+  // The standfirst counts the data instead of claiming a fixed number. The
+  // copy it replaced said "two OPAR house pieces and two partner offers" when
+  // the catalogue actually held three house pieces and one partner offer.
+  const house = products.filter(product => product.model === 'dropshipping').length;
+  const partner = products.filter(product => product.model === 'affiliate').length;
+  const count = (value, one, many) => `${value} ${value === 1 ? one : many}`;
+  assert.ok(homePage.includes(
+    `${count(products.length, 'preview', 'previews')}: ${count(house, 'OPAR house piece', 'OPAR house pieces')} and ${count(partner, 'partner offer', 'partner offers')}.`
+  ), 'the standfirst must agree with the catalogue');
+
+  // No price is invented, and nothing is billed as sold.
+  for (const product of products.filter(item => !Number.isFinite(item.price))) {
+    assert.ok(homePage.includes('Price on request'), 'a price-less piece must say price on request');
+  }
+  assert.doesNotMatch(homePage, /[£$]\s?\d|customer review|best ?sell|in stock|% off/i);
+
+  // Static: no hydration, no React, no Tailwind utilities carried over.
+  assert.doesNotMatch(homePage, /id="root"|index\.tsx|type="module"|<script type="module"/);
+  assert.doesNotMatch(homePage, /class="[^"]*\b[a-z-]+:(hover|focus|md|lg|sm|group-hover)/);
+  assert.doesNotMatch(homePage, /aria-current="page"/, 'the homepage is not a section');
+});
+
+test('the hero is preloaded on the homepage and nowhere else', () => {
+  assert.match(homePage, /<link rel="preload" as="image" href="\/assets\/brand\/hero-opar\.jpg" fetchpriority="high">/);
+  assert.ok(homePage.indexOf('rel="preload"') < homePage.indexOf('rel="stylesheet" href="/assets/product-pages.css"'),
+    'the preload must be discovered before the stylesheet');
+  // Explicit dimensions, so the photograph cannot shift the layout when it lands.
+  assert.match(homePage, /<img src="\/assets\/brand\/hero-opar\.jpg" alt="" width="2000" height="1333" fetchpriority="high" decoding="async">/);
+  for (const page of [shopPage, affiliatePage, checkoutPage, cartPage, newsletterPage]) {
+    assert.doesNotMatch(page, /rel="preload"/, 'only the homepage preloads an image');
+  }
+});
+
+test('every image the homepage references is a real file', () => {
+  const sources = [...homePage.matchAll(/<img src="(\/assets\/[^"]+)"/g)].map(match => match[1]);
+  assert.ok(sources.length >= products.length + 1, 'the hero and one image per piece');
+  for (const source of sources) {
+    assert.ok(existsSync(new URL(`../public${source}`, import.meta.url)), `${source} is referenced but missing`);
+  }
+});
+
+test('the homepage preview ships but stays unlisted', async () => {
+  const html = await readFile(new URL('../public/home-preview/index.html', import.meta.url), 'utf8');
+  for (const marker of ['class="home-hero"', 'id="featured"', 'id="rooms"']) {
+    assert.ok(html.includes(marker), `${marker} is not in the generated file`);
+  }
+  assert.match(html, /<meta name="robots" content="noindex, follow">/);
+
+  const sitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8');
+  assert.doesNotMatch(sitemap, /home-preview/, 'the preview must not be in the sitemap');
+  const searchIndex = await readFile(new URL('../public/assets/search-index.json', import.meta.url), 'utf8');
+  assert.doesNotMatch(searchIndex, /home-preview/, 'the preview must not be in the search index');
+
+  for (const page of [shopPage, affiliatePage, aloePage, checkoutPage, cartPage, newsletterPage]) {
+    assert.doesNotMatch(page, /home-preview/, 'nothing may link to the preview');
+  }
+
+  // The generator, not a stray flag, keeps it out.
+  const generator = await readFile(new URL('../scripts/generate-product-pages.mjs', import.meta.url), 'utf8');
+  assert.match(generator, /path: '\/home-preview\/', html: renderHomePage\(products\), unlisted: true/);
+  assert.match(generator, /\.filter\(page => !page\.unlisted\)/);
+});
+
+test('the hero grain and scrims have one value across both stylesheets', async () => {
+  const block = (css, selector) => {
+    const match = css.match(new RegExp(`\\n${selector.replace(/\./g, '\\.')} \\{([\\s\\S]*?)\\n\\}`));
+    assert.ok(match, `${selector} is missing`);
+    return match[1];
+  };
+  const background = css => {
+    const match = css.match(/background-image:\s*([\s\S]*?);/);
+    assert.ok(match, 'no background-image');
+    return match[1].replace(/\s+/g, ' ').trim();
+  };
+
+  const canonical = await readFile(new URL('../public/assets/product-pages.css', import.meta.url), 'utf8');
+  const legacy = await readFile(new URL('../index.css', import.meta.url), 'utf8');
+  for (const selector of ['.grain', '.hero-scrim-top', '.hero-scrim-base']) {
+    assert.equal(
+      background(block(canonical, selector)),
+      background(block(legacy, selector)),
+      `${selector} differs between the generated pages and the React shell`
+    );
+  }
 });

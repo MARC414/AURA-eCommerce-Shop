@@ -74,7 +74,7 @@ export function variantLabel(variant) {
     : variant.label;
 }
 
-function collectionFor(product) {
+export function collectionFor(product) {
   return collections.find(collection => (collection.matches || []).includes(product.category)) || null;
 }
 
@@ -141,7 +141,7 @@ function gallery(product) {
     </div>`;
 }
 
-function formatMoney(amount, currency) {
+export function formatMoney(amount, currency) {
   try {
     return new Intl.NumberFormat('en-GB', { style: 'currency', currency: currency || 'GBP' }).format(amount);
   } catch (error) {

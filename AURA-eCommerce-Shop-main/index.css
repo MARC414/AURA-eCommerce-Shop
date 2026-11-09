@@ -73,7 +73,11 @@
   }
 }
 
-/* Hero grain slot: a fine noise layer above the ground. */
+/* Hero grain slot: a fine noise layer above the ground.
+   T3: the canonical copies of .grain and both hero scrims now live in
+   public/assets/product-pages.css, which the generated homepage uses. These
+   copies exist only for this shell and die with it in T4; a test in
+   tests/product-pages.test.mjs asserts the background ramps stay identical. */
 .grain {
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='0.07'/%3E%3C/svg%3E");

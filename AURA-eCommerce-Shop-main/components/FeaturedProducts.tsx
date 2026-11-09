@@ -28,7 +28,7 @@ const FeaturedProducts: React.FC = () => (
           </h2>
         </div>
         <p className="max-w-md text-sm leading-relaxed text-body">
-          Four previews: two OPAR house pieces and two partner offers. Prices are
+          House pieces and partner offers, previewed before anything is listed for sale. Prices are
           confirmed on the invoice, and nothing is charged on this site.
         </p>
       </div>

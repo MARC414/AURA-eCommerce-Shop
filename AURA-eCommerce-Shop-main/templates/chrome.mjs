@@ -138,10 +138,16 @@ function footer(emblem = brand.logo.assetPathOnDark) {
     </footer>`;
 }
 
-export function documentPage({ title, description, active = null, content, canonical = null, jsonLd = null, keywords = null, image = null, theme = null, scripts = [] }) {
+export function documentPage({ title, description, active = null, content, canonical = null, jsonLd = null, keywords = null, image = null, theme = null, scripts = [], preload = [] }) {
   const jsonLdTag = jsonLd
     ? `\n  <script type="application/ld+json">${JSON.stringify(jsonLd).replace(/<\//g, '<\\/')}</script>`
     : '';
+  // Anything the browser should start fetching before the stylesheet is
+  // parsed: today that is the hero photograph on the homepage. Empty by
+  // default, and empty renders no tag at all, so other pages are untouched.
+  const preloadTags = preload.map(item =>
+    `<link rel="preload" as="${escapeHtml(item.as)}" href="${escapeHtml(item.href)}"${item.type ? ` type="${escapeHtml(item.type)}"` : ''}${item.fetchpriority ? ` fetchpriority="${escapeHtml(item.fetchpriority)}"` : ''}>\n  `
+  ).join('');
   // The emblem is inked for the ground it sits on: ivory on the dark canvas,
   // paper ink on theme-paper pages. The footer is always dark.
   const headerEmblem = theme === 'theme-paper' ? brand.logo.assetPathOnLight : brand.logo.assetPathOnDark;
@@ -164,7 +170,7 @@ export function documentPage({ title, description, active = null, content, canon
   <link href="${escapeHtml(brand.typography.googleFontsHref)}" rel="stylesheet">
   <link rel="icon" type="image/png" sizes="128x128" href="${escapeHtml(brand.logo.tilePath)}">
   <link rel="apple-touch-icon" href="${escapeHtml(brand.logo.tilePath)}">
-  <link rel="stylesheet" href="/assets/product-pages.css">
+  ${preloadTags}<link rel="stylesheet" href="/assets/product-pages.css">
   ${['/assets/cart.js', '/assets/site.js', ...scripts].map(src => `<script src="${escapeHtml(src)}" defer></script>`).join('\n  ')}
 </head>
 <body${theme ? ` class="${theme}"` : ''}>

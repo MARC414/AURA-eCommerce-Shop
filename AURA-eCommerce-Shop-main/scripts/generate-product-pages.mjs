@@ -2,7 +2,7 @@ import { readFile, mkdir, writeFile, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { MODELS, validateProduct, productPath, renderDropshippingPage, renderAffiliatePage, renderCollection, renderCategoryPage, renderStaticPage } from '../templates/product-pages.mjs';
+import { MODELS, validateProduct, productPath, renderDropshippingPage, renderAffiliatePage, renderCollection, renderCategoryPage, renderStaticPage, renderHomePage } from '../templates/product-pages.mjs';
 
 const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 const products = JSON.parse(await readFile(join(projectRoot, 'data/pilot-products.json'), 'utf8'));
@@ -42,6 +42,12 @@ for (const collection of collections) {
 for (const page of sitePages) {
   pages.push({ path: page.path, html: renderStaticPage(page) });
 }
+
+// T3: the homepage is generated at an unlinked preview route. It is not in the
+// sitemap, not in the search index, and nothing links to it; T4 moves it to `/`
+// and deletes the React shell in one commit. `unlisted` is what keeps it out of
+// the sitemap below.
+pages.push({ path: '/home-preview/', html: renderHomePage(products), unlisted: true });
 
 const allPaths = new Set();
 for (const page of pages) {
@@ -150,6 +156,7 @@ await writeFile(
 console.log('Generated /robots.txt (launch switch: disallow all)');
 
 const sitemapUrls = pages
+  .filter(page => !page.unlisted)
   .map(page => `  <url><loc>${page.path}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>`)
   .join('\n');
 await writeFile(
