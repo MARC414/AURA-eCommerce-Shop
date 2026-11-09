@@ -308,11 +308,28 @@ test('styles include visible focus, responsive layouts, checkout and reduced mot
 });
 
 test('the menu stays small and every published link has a generated page', () => {
-  assert.ok(site.nav.length <= 5, 'the primary menu has more than five top-level items');
-  assert.equal(site.nav.length, 5);
-  assert.deepEqual(site.nav.map(item => item.label), ['Shop', 'Categories', 'Perennis', 'Journal', 'About']);
-  const categoriesItem = site.nav.find(item => item.id === 'categories');
-  assert.deepEqual(categoriesItem.children.map(child => child.href), collections.map(collection => `/shop/${collection.slug}/`));
+  // Four sections only. Categories and Discover are not destinations in their
+  // own right; their pages are reachable once, inside the Shop panel.
+  assert.equal(site.nav.length, 4, 'the primary menu is not exactly four top-level items');
+  assert.deepEqual(site.nav.map(item => item.label), ['Shop', 'Perennis', 'Journal', 'About']);
+  assert.deepEqual(site.nav.map(item => item.id), ['shop', 'perennis', 'journal', 'about']);
+  assert.doesNotMatch(site.nav.map(item => item.label).join(' '), /Categories|Discover/);
+
+  // Shop carries the browse links and then the six rooms, in collection order.
+  const shopItem = site.nav.find(item => item.id === 'shop');
+  assert.deepEqual(
+    shopItem.children.map(child => child.href),
+    ['/shop/', '/discover/', ...collections.map(collection => `/shop/${collection.slug}/`)]
+  );
+  assert.deepEqual([...new Set(shopItem.children.map(child => child.group))], ['Browse', 'Rooms']);
+  assert.deepEqual(
+    shopItem.children.filter(child => child.group === 'Rooms').map(child => child.label),
+    collections.map(collection => collection.heading)
+  );
+  // Only Shop is grouped; the other three panels stay a flat list.
+  for (const item of site.nav.filter(item => item.id !== 'shop')) {
+    assert.ok((item.children || []).every(child => child.group === undefined), `${item.id} should not use panel groups`);
+  }
   const routes = new Set([
     ...products.map(productPath),
     '/shop/',
@@ -340,11 +357,17 @@ test('one header and one footer come from the site contract', () => {
     assert.match(page, /href="\/account\/"/);
     assert.match(page, /class="nav-panel/);
     // The menu sits in the middle of the header. Every shop category is a
-    // submenu item under Categories, beside Shop, and each one has its own page.
+    // submenu item under Shop, in a "Rooms" column beside the browse links.
     for (const collection of collections) {
       assert.match(page, new RegExp(`href="\\/shop\\/${collection.slug}\\/">`));
     }
-    assert.match(page, /<span>Categories<\/span>/);
+    assert.match(page, /<span>Shop<\/span>/);
+    assert.match(page, /class="nav-panel nav-panel-grouped"/);
+    assert.match(page, /<span class="nav-group-label">Browse<\/span>/);
+    assert.match(page, /<span class="nav-group-label">Rooms<\/span>/);
+    assert.equal((page.match(/<span>Categories<\/span>/g) || []).length, 0);
+    // Four top-level groups: one summary per section, no orphaned Categories tab.
+    assert.equal((page.match(/<summary[^>]*><span>/g) || []).length, 4);
     assert.doesNotMatch(page, /class="category-nav"/);
     assert.doesNotMatch(page, /shop\/sacred-sound\//);
     assert.match(page, /Sacred Sound/);
@@ -546,4 +569,47 @@ test('React cart and checkout never format a missing price as a number', async (
   const commerce = await readFile(new URL('../services/commerce.ts', import.meta.url), 'utf8');
   assert.match(commerce, /function priceOf/);
   assert.match(commerce, /priceOf\(item\.product\.price\)/);
+});
+
+test('the React navbar reads the same site contract as the static header', async () => {
+  const source = await readFile(new URL('../components/Navbar.tsx', import.meta.url), 'utf8');
+
+  // One source of truth: the same JSON the static header renders.
+  assert.match(source, /import siteData from '\.\.\/data\/site\.json';/);
+  assert.match(source, /siteData\.nav/);
+  assert.doesNotMatch(source, /SHOP_ROOMS/);
+  assert.doesNotMatch(source, /from '\.\.\/constants'/);
+  // No local menu array or hard-coded labels; a menu change is a data change.
+  assert.doesNotMatch(source, /const (NAV_ITEMS|NAV|MENU|LINKS)\s*=\s*\[/);
+  for (const label of ['Shop', 'Categories', 'Discover', 'Perennis', 'Journal', 'About']) {
+    assert.doesNotMatch(source, new RegExp(`>\\s*${label}\\s*<`), `${label} is hard-coded rather than read from site.json`);
+  }
+
+  // Keyboard and focus behaviour, on the trigger and inside the panel.
+  assert.match(source, /aria-expanded=\{open\}/);
+  assert.match(source, /aria-controls=\{`nav-panel-\$\{item\.id\}`\}/);
+  assert.match(source, /event\.key === 'Escape'/);
+  assert.match(source, /event\.key === 'ArrowDown'/);
+  assert.match(source, /ArrowUp/);
+  assert.match(source, /focus-visible:outline/);
+  // Escape closes the mobile overlay and returns focus to its toggle.
+  assert.match(source, /toggleRef\.current\?\.focus\(\)/);
+
+  // Cart and wishlist keep their callbacks and live counts.
+  assert.match(source, /onOpenCart\(\)/);
+  assert.match(source, /onOpenWishlist\(\)/);
+  assert.match(source, /\{cartCount\}/);
+  assert.match(source, /\{wishlistCount\}/);
+
+  // Mobile parity: the overlay renders the same four sections and children.
+  assert.match(source, /<details key=\{item\.id\}/);
+  assert.equal((source.match(/NAV_ITEMS\.map/g) || []).length, 2, 'desktop and mobile should both map the one nav array');
+
+  // Internal controls stay utilities, not customer navigation.
+  assert.match(source, /aria-label="Team access"/);
+  assert.match(source, /aria-label="Lineage and sources"/);
+
+  // Palette only: no raw hex, no gradient fill.
+  assert.doesNotMatch(source, /#[0-9a-fA-F]{6}/);
+  assert.doesNotMatch(source, /bg-gradient|linearGradient/);
 });

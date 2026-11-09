@@ -45,22 +45,14 @@
       "href": "/shop/",
       "published": true,
       "children": [
-        { "label": "All pieces", "href": "/shop/", "published": true },
-        { "label": "Partner offers", "href": "/discover/", "published": true, "note": "External checkout" }
-      ]
-    },
-    {
-      "id": "categories",
-      "label": "Categories",
-      "href": "/shop/",
-      "published": true,
-      "children": [
-        { "label": "Herbal Botanicals", "href": "/shop/herbal-botanicals/", "published": true },
-        { "label": "Everyday Care", "href": "/shop/everyday-care/", "published": true },
-        { "label": "Showpieces", "href": "/shop/showpieces/", "published": true },
-        { "label": "Yoga & Practice", "href": "/shop/yoga-practice/", "published": true },
-        { "label": "Art & Craft", "href": "/shop/art-craft/", "published": true },
-        { "label": "Quiet Living", "href": "/shop/quiet-living/", "published": true }
+        { "label": "All pieces", "href": "/shop/", "published": true, "group": "Browse" },
+        { "label": "Partner offers", "href": "/discover/", "published": true, "group": "Browse", "note": "External checkout" },
+        { "label": "Herbal Botanicals", "href": "/shop/herbal-botanicals/", "published": true, "group": "Rooms" },
+        { "label": "Everyday Care", "href": "/shop/everyday-care/", "published": true, "group": "Rooms" },
+        { "label": "Showpieces", "href": "/shop/showpieces/", "published": true, "group": "Rooms" },
+        { "label": "Yoga & Practice", "href": "/shop/yoga-practice/", "published": true, "group": "Rooms" },
+        { "label": "Art & Craft", "href": "/shop/art-craft/", "published": true, "group": "Rooms" },
+        { "label": "Quiet Living", "href": "/shop/quiet-living/", "published": true, "group": "Rooms" }
       ]
     },
     {
