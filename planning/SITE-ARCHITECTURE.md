@@ -2,7 +2,7 @@
 
 **Version:** v1
 **Date:** 2026-11-09
-**Status:** PROPOSAL. No implementation authority. Nothing in the storefront has been changed by this document.
+**Status:** SUPERSEDED IN PART (2026-11-10). D-033 reversed this document's central recommendation: it assumed a single-page React app, and the storefront is now generated static HTML with React confined to the local admin panel. Where this document says `/` is an SPA, that the React app owns cart state in `App.tsx`, or that `components/` is where the customer UI lives, T4 (`c0cc156`, `962c622`, `5d0bb11`) has made it false — read `planning/TASK-03-STATIC-FIRST-PLAN.md` and D-033 instead. The page map, the data model and the verification ladder are still useful. The original wording is kept for history rather than rewritten.
 **Supersedes:** nothing. Extends `planning/ROADMAP.md` (10-step outline) with the page map, the state decision, and the build order.
 
 Read with: `.agents/product-marketing.md`, `planning/STATUS.md`, `planning/DECISIONS.md` (D-021 to D-023), `planning/SKILLS-PLAYBOOK.md`.
