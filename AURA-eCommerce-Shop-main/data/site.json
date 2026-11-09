@@ -1,18 +1,18 @@
 {
   "brand": {
-    "name": "AURA",
-    "wordmark": "Aura",
-    "note": "Mind · Body · Earth",
+    "name": "OPAR",
+    "wordmark": "OPAR",
+    "note": "A World of Conscious Living",
     "homeHref": "/",
-    "description": "Objects and knowledge for a quieter, more awake life.",
-    "tagline": "A house for the worldly and the divine."
+    "description": "Objects and knowledge for a slower, more sensory life.",
+    "tagline": "A World of Conscious Living."
   },
   "status": {
     "preview": false,
     "label": "International · GBP"
   },
   "contact": {
-    "email": "hello@aura.example",
+    "email": "hello@opar.example",
     "responseTime": "within two working days"
   },
   "utility": {
@@ -154,7 +154,7 @@
         ]
       }
     ],
-    "note": "AURA is an international house for mind, body and earth. Prices are confirmed on invoice before payment. No card details are collected on this site.",
+    "note": "OPAR is an international house for mind, body and earth. Prices are confirmed on invoice before payment. No card details are collected on this site.",
     "signature": "Worldly and divine, in one house."
   }
 }

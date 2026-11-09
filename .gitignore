@@ -17,3 +17,15 @@ out/
 # OS / editor noise
 .DS_Store
 Thumbs.db
+
+# Local reference & supplier material — never publish (supplier costs stay out)
+/Alibaba/
+/Aliexpress/
+/GPT/
+/01.jpg
+/179dbbf53e8ae45c92b6b0f7ea879ab0.jpg
+/Moss.jpg
+/Oleuma.jpg
+/orvinex.jpg
+/New Text Document.txt
+/Prompt.txt

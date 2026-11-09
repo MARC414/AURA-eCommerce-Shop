@@ -2,49 +2,49 @@
   "schemaVersion": 1,
   "lastReviewed": "2026-11-06",
   "greeting": "Hello. I can explain how the shop works, what is available, and what is still being prepared. I will not guess about stock, delivery dates, or ingredients.",
-  "fallback": "I do not have a verified answer for that. The honest option is to ask a person: write to concierge@aurastudios.co and the owner will reply. I will not invent an answer.",
+  "fallback": "I do not have a verified answer for that. The honest option is to ask a person: write to concierge@OPARstudios.co and the owner will reply. I will not invent an answer.",
   "entries": [
     {
       "id": "shop-status",
       "tags": ["buy", "order", "purchase", "checkout", "available", "in stock", "stock", "when", "open", "closed", "coming soon"],
       "question": "Can I buy something now?",
-      "answer": "Not yet. The shop pages are previews. Ordering is switched off because AURA has no confirmed supplier terms, no stock, and no payment provider connected. You can browse the layouts and the product details, but nothing can be charged."
+      "answer": "Not yet. The shop pages are previews. Ordering is switched off because OPAR has no confirmed supplier terms, no stock, and no payment provider connected. You can browse the layouts and the product details, but nothing can be charged."
     },
     {
       "id": "shop-vs-discover",
       "tags": ["shop", "discover", "difference", "affiliate", "dropship", "dropshipping", "partner", "external", "why two"],
       "question": "What is the difference between Shop and Discover?",
-      "answer": "Shop is for items AURA sells itself, where AURA would take the order, the payment, and the responsibility. Discover is for items sold by another merchant: AURA introduces the listing and links out, and you buy on their site. A product appears in one place, never both, so there is only ever one price and one seller per page."
+      "answer": "Shop is for items OPAR sells itself, where OPAR would take the order, the payment, and the responsibility. Discover is for items sold by another merchant: OPAR introduces the listing and links out, and you buy on their site. A product appears in one place, never both, so there is only ever one price and one seller per page."
     },
     {
       "id": "affiliate-disclosure",
       "tags": ["commission", "affiliate", "referral", "sponsored", "earn", "token", "cj"],
-      "question": "Does AURA earn from the Discover links?",
-      "answer": "It may, if the referral qualifies under the merchant's programme. That is disclosed on the page. Commission eligibility has not been verified yet, so the disclosure says so rather than claiming income AURA has not earned."
+      "question": "Does OPAR earn from the Discover links?",
+      "answer": "It may, if the referral qualifies under the merchant's programme. That is disclosed on the page. Commission eligibility has not been verified yet, so the disclosure says so rather than claiming income OPAR has not earned."
     },
     {
       "id": "payment",
       "tags": ["pay", "payment", "card", "visa", "mastercard", "bkash", "nagad", "paypal", "stripe", "bank", "invoice", "wallet"],
       "question": "How will payment work?",
-      "answer": "Card payment is not connected. When it is, you will enter card details on the provider's own secure page, never on an AURA page. Until then the only available option is to request an invoice, which records the order as awaiting payment and lets AURA confirm stock and shipping first."
+      "answer": "Card payment is not connected. When it is, you will enter card details on the provider's own secure page, never on an OPAR page. Until then the only available option is to request an invoice, which records the order as awaiting payment and lets OPAR confirm stock and shipping first."
     },
     {
       "id": "card-safety",
       "tags": ["safe", "secure", "card number", "cvv", "details", "ssl", "encrypted"],
       "question": "Is it safe to enter my card details here?",
-      "answer": "You cannot enter card details here, by design. AURA does not collect card numbers or security codes. Any card payment will happen on a payment provider's own hosted page. If a site ever asks for a card number in its own form, that is a warning sign."
+      "answer": "You cannot enter card details here, by design. OPAR does not collect card numbers or security codes. Any card payment will happen on a payment provider's own hosted page. If a site ever asks for a card number in its own form, that is a warning sign."
     },
     {
       "id": "delivery",
       "tags": ["delivery", "shipping", "how long", "arrive", "dispatch", "tracking", "postage", "cost", "free shipping"],
       "question": "How long does delivery take and what does it cost?",
-      "answer": "No delivery time or price has been confirmed, so none is promised. Supplier listings show their own estimates, but those belong to the supplier, not to AURA. Delivery terms will be published per product before any order is accepted."
+      "answer": "No delivery time or price has been confirmed, so none is promised. Supplier listings show their own estimates, but those belong to the supplier, not to OPAR. Delivery terms will be published per product before any order is accepted."
     },
     {
       "id": "returns",
       "tags": ["return", "refund", "exchange", "cancel", "money back", "warranty"],
       "question": "What is the returns policy?",
-      "answer": "AURA's own returns policy is still being written and will be published before sales open. For a Discover item, the merchant's policy applies because the merchant is the seller. AURA will not present a supplier's policy as its own."
+      "answer": "OPAR's own returns policy is still being written and will be published before sales open. For a Discover item, the merchant's policy applies because the merchant is the seller. OPAR will not present a supplier's policy as its own."
     },
     {
       "id": "ingredients",
@@ -56,7 +56,7 @@
       "id": "claims",
       "tags": ["acne", "spots", "brighten", "whiten", "oil control", "cure", "treat", "medical", "clinically", "dermatologist"],
       "question": "Does it treat acne or brighten skin?",
-      "answer": "AURA makes no such claim. Supplier listings use words like anti-acne and brightening; those are medicinal-style or skin-tone claims that need evidence AURA does not hold. Each product page lists the claims AURA will not make, and why."
+      "answer": "OPAR makes no such claim. Supplier listings use words like anti-acne and brightening; those are medicinal-style or skin-tone claims that need evidence OPAR does not hold. Each product page lists the claims OPAR will not make, and why."
     },
     {
       "id": "verification",
@@ -68,13 +68,13 @@
       "id": "health-food",
       "tags": ["supplement", "supplements", "vitamin", "herbal", "medicine", "health", "food", "edible", "homeopathy", "ayurveda"],
       "question": "Do you sell supplements, herbs, or food?",
-      "answer": "Selected herbal supplements can now appear as factual previews. Ashwagandha with Black Pepper is listed as 60 capsules under Herbal Botanicals. Ordering remains closed while the product evidence and selling arrangements are reviewed. AURA makes no health-benefit claims for this preview."
+      "answer": "Selected herbal supplements can now appear as factual previews. Ashwagandha with Black Pepper is listed as 60 capsules under Herbal Botanicals. Ordering remains closed while the product evidence and selling arrangements are reviewed. OPAR makes no health-benefit claims for this preview."
     },
     {
       "id": "ashwagandha-format",
       "tags": ["ashwagandha", "black pepper", "powder", "capsules", "60 capsules", "root", "113g"],
       "question": "Is the Ashwagandha product powder or capsules?",
-      "answer": "The CJ description and supplied label both say 60 capsules, although a separate CJ attribute says Powder. The 113 g figure is gross package weight. The label lists 1,300 mg Ashwagandha root and 10 mg black pepper per two-capsule serving, plus pullulan capsules. These are label-stated details, not an AURA dosing recommendation. The product page is /shop/ashwagandha-with-black-pepper/ and ordering is closed."
+      "answer": "The CJ description and supplied label both say 60 capsules, although a separate CJ attribute says Powder. The 113 g figure is gross package weight. The label lists 1,300 mg Ashwagandha root and 10 mg black pepper per two-capsule serving, plus pullulan capsules. These are label-stated details, not an OPAR dosing recommendation. The product page is /shop/ashwagandha-with-black-pepper/ and ordering is closed."
     },
     {
       "id": "books",
@@ -98,7 +98,7 @@
       "id": "contact",
       "tags": ["contact", "email", "human", "person", "help", "support", "complaint", "speak"],
       "question": "How do I reach a person?",
-      "answer": "Write to concierge@aurastudios.co. A person reads it. There is no phone line and no live chat queue yet, and this assistant cannot pass a message on."
+      "answer": "Write to concierge@OPARstudios.co. A person reads it. There is no phone line and no live chat queue yet, and this assistant cannot pass a message on."
     },
     {
       "id": "privacy",
@@ -110,13 +110,13 @@
       "id": "wholesale",
       "tags": ["wholesale", "bulk", "trade", "reseller", "b2b", "stockist"],
       "question": "Do you offer wholesale?",
-      "answer": "Not yet. There is no wholesale price list and no trade terms. The fastest route is to write to concierge@aurastudios.co and say what you need."
+      "answer": "Not yet. There is no wholesale price list and no trade terms. The fastest route is to write to concierge@OPARstudios.co and say what you need."
     },
     {
       "id": "brand",
-      "tags": ["aura", "who", "about", "brand", "story", "what do you sell"],
-      "question": "What is AURA?",
-      "answer": "AURA is a small shop for objects and knowledge meant for a slower, more sensory life: instruments, art, books, quiet technology, and practice materials. It is at an early stage. Some pages describe what will exist rather than what exists today."
+      "tags": ["opar", "who", "about", "brand", "story", "what do you sell"],
+      "question": "What is OPAR?",
+      "answer": "OPAR is a small shop for objects and knowledge meant for a slower, more sensory life: instruments, art, books, quiet technology, and practice materials. It is at an early stage. Some pages describe what will exist rather than what exists today."
     }
   ]
 }

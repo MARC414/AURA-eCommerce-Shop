@@ -1,0 +1,31 @@
+/*
+  OPAR design tokens (React side).
+  The static generated pages consume public/assets/product-pages.css, which is
+  the canonical token layer. These custom properties mirror the same approved
+  palette and typography so React components can adopt the roles without
+  scattering raw hex values. Brand values come from data/brand.json via
+  brand.config.ts.
+*/
+:root {
+  /* Primitives (approved palette) */
+  --opar-forest-green: #101B12;
+  --opar-evergreen: #1D3020;
+  --opar-antique-gold: #C5AD70;
+  --opar-moss-green: #82915B;
+  --opar-warm-ivory: #F1EBDD;
+  --opar-soft-sage: #B8BEAA;
+  --opar-stone: #34382D;
+
+  /* Semantic roles */
+  --canvas: var(--opar-warm-ivory);
+  --surface: #E9E2D0;
+  --ink: var(--opar-forest-green);
+  --body-text: #3E463C;
+  --line: #D2CBB6;
+  --brass: var(--opar-antique-gold);
+  --accent-text: #6D5C2E;
+
+  /* Typography */
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Manrope', 'Segoe UI', Arial, sans-serif;
+}

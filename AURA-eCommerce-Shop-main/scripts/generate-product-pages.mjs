@@ -8,6 +8,8 @@ const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 const products = JSON.parse(await readFile(join(projectRoot, 'data/pilot-products.json'), 'utf8'));
 const collections = JSON.parse(await readFile(join(projectRoot, 'data/collections.json'), 'utf8'));
 const sitePages = JSON.parse(await readFile(join(projectRoot, 'data/pages.json'), 'utf8'));
+const brand = JSON.parse(await readFile(join(projectRoot, 'data/brand.json'), 'utf8'));
+const BRAND = brand.name;
 const paths = new Set();
 const ids = new Set();
 
@@ -77,7 +79,7 @@ const sectionLabel = page => {
   if (page.path.startsWith('/policies/')) return 'Policy';
   if (page.section === 'perennis') return 'Perennis';
   if (page.section === 'journal') return 'Journal';
-  if (page.section === 'about') return 'AURA';
+  if (page.section === 'about') return BRAND;
   if (page.checkout) return 'Checkout';
   if (page.account) return 'Account';
   return 'Page';
@@ -87,11 +89,11 @@ const categoryCount = collection => products.filter(product =>
 ).length;
 const searchIndex = [
   {
-    title: 'AURA home',
+    title: `${BRAND} home`,
     description: 'Objects and knowledge for a slower, more awake life.',
     href: '/',
     type: 'Home',
-    keywords: ['aura', 'shop', 'library', 'perennis', 'journal']
+    keywords: ['opar', 'shop', 'library', 'perennis', 'journal']
   },
   ...collections.map(collection => ({
     title: collection.heading,
@@ -104,7 +106,7 @@ const searchIndex = [
     title: product.name,
     description: product.tagline,
     href: productPath(product),
-    type: product.model === 'affiliate' ? 'Partner offer' : 'AURA shop',
+    type: product.model === 'affiliate' ? 'Partner offer' : `${BRAND} shop`,
     keywords: [product.category, ...(product.seo?.keywords || [])]
   })),
   ...sitePages
@@ -142,7 +144,7 @@ console.log(`Generated /assets/catalogue.json (${catalogue.length} entries)`);
 // the site goes live, replace this with an allow rule and absolute sitemap locs.
 await writeFile(
   join(projectRoot, 'public/robots.txt'),
-  '# AURA — indexing is switched off until the launch domain is set\nUser-agent: *\nDisallow: /\n',
+  `# ${BRAND} — indexing is switched off until the launch domain is set\nUser-agent: *\nDisallow: /\n`,
   'utf8'
 );
 console.log('Generated /robots.txt (launch switch: disallow all)');

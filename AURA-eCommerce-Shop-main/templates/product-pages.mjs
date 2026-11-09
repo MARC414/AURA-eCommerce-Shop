@@ -1,5 +1,5 @@
 /**
- * AURA's dependency-free HTML templates.
+ * OPAR's dependency-free HTML templates.
  *
  * One shell for the whole static storefront: one header, one footer, one set of
  * design tokens. Product pages, category pages, the checkout, the account and
@@ -14,6 +14,8 @@ import { readFileSync } from 'node:fs';
 
 const site = JSON.parse(readFileSync(new URL('../data/site.json', import.meta.url), 'utf8'));
 const collections = JSON.parse(readFileSync(new URL('../data/collections.json', import.meta.url), 'utf8'));
+const brand = JSON.parse(readFileSync(new URL('../data/brand.json', import.meta.url), 'utf8'));
+const BRAND = brand.name;
 
 /**
  * Launch switch: generated pages are noindex until a real domain and absolute
@@ -25,8 +27,8 @@ export const MODELS = {
   dropshipping: {
     path: '/shop/',
     label: 'Shop',
-    badge: 'AURA shop',
-    heading: 'The AURA shop',
+    badge: `${BRAND} shop`,
+    heading: `The ${BRAND} shop`,
     description: 'Objects chosen for use, not display: herbs, everyday care, sound, practice and craft.'
   },
   affiliate: {
@@ -34,7 +36,7 @@ export const MODELS = {
     label: 'Partner offers',
     badge: 'Partner offer',
     heading: 'Found elsewhere, chosen here.',
-    description: 'Pieces AURA introduces but does not fulfil. The purchase, delivery and returns belong to the merchant.'
+    description: `Pieces ${BRAND} introduces but does not fulfil. The purchase, delivery and returns belong to the merchant.`
   }
 };
 
@@ -161,7 +163,7 @@ function header(active = null) {
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
       <div class="header-top">
-        <a class="wordmark" href="${escapeHtml(site.brand.homeHref)}" aria-label="${escapeHtml(site.brand.name)} home">${escapeHtml(site.brand.wordmark)}<span class="wordmark-note">${escapeHtml(site.brand.note)}</span></a>${search}
+        <a class="wordmark" href="${escapeHtml(site.brand.homeHref)}" aria-label="${escapeHtml(site.brand.name)} home"><img class="wordmark-emblem" src="${escapeHtml(brand.logo.currentAssetPath)}" alt="${escapeHtml(brand.logo.altText)}" width="42" height="42">${escapeHtml(site.brand.wordmark)}<span class="wordmark-note">${escapeHtml(site.brand.note)}</span></a>${search}
         <div class="header-utility">
           ${utilityLink(utility.account, icons.user)}
           ${utilityLink(utility.wishlist, icons.heart, '<span class="utility-count" data-wishlist-count hidden></span>')}
@@ -191,7 +193,7 @@ function footer() {
     <footer class="site-footer">
       <div class="footer-top">
         <div class="footer-brand">
-          <a class="wordmark" href="${escapeHtml(site.brand.homeHref)}" aria-label="${escapeHtml(site.brand.name)} home">${escapeHtml(site.brand.wordmark)}</a>
+          <a class="wordmark" href="${escapeHtml(site.brand.homeHref)}" aria-label="${escapeHtml(site.brand.name)} home"><img class="wordmark-emblem" src="${escapeHtml(brand.logo.currentAssetPath)}" alt="${escapeHtml(brand.logo.altText)}" width="42" height="42">${escapeHtml(site.brand.wordmark)}</a>
           <p>${escapeHtml(site.brand.description)}<br>${escapeHtml(site.brand.tagline)}</p>
         </div>
         <div class="footer-columns">${columns}
@@ -262,16 +264,17 @@ function documentPage({ title, description, active = null, content, canonical = 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${escapeHtml(title)} — AURA</title>
+  <title>${escapeHtml(title)} — ${escapeHtml(BRAND)}</title>
   <meta name="description" content="${escapeHtml(description)}">
   ${keywords ? `<meta name="keywords" content="${escapeHtml(keywords)}">\n  ` : ''}${canonical ? `<link rel="canonical" href="${escapeHtml(canonical)}">\n  ` : ''}<meta name="robots" content="${INDEXABLE ? 'index, follow' : 'noindex, follow'}">
   <meta property="og:type" content="${jsonLd ? 'product' : 'website'}">
-  <meta property="og:title" content="${escapeHtml(title)} — AURA">
+  <meta property="og:site_name" content="${escapeHtml(BRAND)}">
+  <meta property="og:title" content="${escapeHtml(title)} — ${escapeHtml(BRAND)}">
   <meta property="og:description" content="${escapeHtml(description)}">
-  ${image ? `<meta property="og:image" content="${escapeHtml(image)}">\n  ` : ''}${canonical ? `<meta property="og:url" content="${escapeHtml(canonical)}">\n  ` : ''}<meta name="theme-color" content="#F5F2EB">${jsonLdTag}
+  ${image ? `<meta property="og:image" content="${escapeHtml(image)}">\n  ` : ''}${canonical ? `<meta property="og:url" content="${escapeHtml(canonical)}">\n  ` : ''}<meta name="theme-color" content="${brand.colors.warmIvory}">${jsonLdTag}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet">
+  <link href="${escapeHtml(brand.typography.googleFontsHref)}" rel="stylesheet">
   <link rel="stylesheet" href="/assets/product-pages.css">
   ${['/assets/cart.js', '/assets/site.js', ...scripts].map(src => `<script src="${escapeHtml(src)}" defer></script>`).join('\n  ')}
 </head>
@@ -289,7 +292,7 @@ function gallery(product) {
   return `
     <div class="product-gallery" data-gallery>
       <figure class="main-image">
-        <span class="image-corner-label">${product.model === 'affiliate' ? 'Partner offer' : 'AURA shop'}</span>
+        <span class="image-corner-label">${product.model === 'affiliate' ? 'Partner offer' : `${BRAND} shop`}</span>
         <img data-main-image src="${escapeHtml(first.src)}" alt="${escapeHtml(first.alt)}" width="1000" height="1000" fetchpriority="high" decoding="async" data-fallback="/assets/products/photography-pending.svg">
       </figure>
       <div class="gallery-thumbnails" role="group" aria-label="Product gallery">
@@ -345,11 +348,11 @@ function dropshippingActions(product) {
   const action = canPurchase
     ? `<button type="button" class="button button-primary" data-add-to-cart ${cartAttributes(product)} aria-describedby="ordering-note">Add to cart ${arrow}</button>
       <p class="action-note" id="ordering-note">Price, delivery and payment are confirmed on your invoice before anything is paid.</p>`
-    : `<a class="button button-primary" href="/contact/" aria-describedby="ordering-note">Ask about this piece ${arrow}</a>
-      <p class="action-note" id="ordering-note">This piece is not sold through AURA’s cart. Contact the house for availability.</p>`;
+    : `<a class="button button-secondary" href="/contact/" aria-describedby="ordering-note">Ask about this piece ${arrow}</a>
+      <p class="action-note" id="ordering-note">This piece is not sold through ${BRAND}’s cart. Contact the house for availability.</p>`;
   return `
     <section class="purchase-panel" aria-labelledby="purchase-heading">
-      <h2 class="eyebrow" id="purchase-heading">AURA shop</h2>
+      <h2 class="eyebrow" id="purchase-heading">${BRAND} shop</h2>
       <div class="price-row">${priceLabel(product)}<span class="small-note">Confirmed on invoice · no payment on this page</span></div>
       <div class="variant-field">
         <label class="field-label" for="product-variant">Options</label>
@@ -375,9 +378,9 @@ function affiliateActions(product) {
     <section class="purchase-panel external-panel" aria-labelledby="offer-heading">
       <h2 class="eyebrow" id="offer-heading">Partner offer</h2>
       <div class="price-row"><span class="price-value price-request">Price on ${escapeHtml(product.sourceName)}</span><span class="small-note">Options and availability are confirmed there.</span></div>
-      <p class="merchant-note">This page introduces the listing. If you continue, you will leave AURA and view it on ${escapeHtml(product.sourceName)}.</p>
+      <p class="merchant-note">This page introduces the listing. If you continue, you will leave ${BRAND} and view it on ${escapeHtml(product.sourceName)}.</p>
       <a class="button button-primary external-cta" href="${escapeHtml(product.externalUrl)}" target="_blank" rel="sponsored noopener noreferrer" aria-describedby="offer-disclosure">View offer on ${escapeHtml(product.sourceName)} ${external}<span class="sr-only"> (opens in a new tab)</span></a>
-      <p class="action-note">Purchase, delivery and returns are handled by ${escapeHtml(product.sourceName)}. No AURA cart or checkout is used.</p>
+      <p class="action-note">Purchase, delivery and returns are handled by ${escapeHtml(product.sourceName)}. No ${BRAND} cart or checkout is used.</p>
       <aside class="disclosure" id="offer-disclosure"><strong>Referral disclosure</strong><p>${escapeHtml(product.disclosure)}</p></aside>
     </section>`;
 }
@@ -410,15 +413,28 @@ function cardPrice(product) {
   return formatMoney(product.price, product.currency);
 }
 
+/**
+ * Availability may only be shown when the product data itself carries a
+ * verified label. Nothing is inferred: an absent field renders nothing.
+ */
+function cardAvailability(product) {
+  const availability = product.availability;
+  if (!availability || availability.verified !== true || !availability.label) return '';
+  return `<span class="card-availability">${escapeHtml(availability.label)}</span>`;
+}
+
 function card(product) {
   const first = product.images[0];
   const collection = collectionFor(product);
-  const eyebrow = collection && product.model === 'dropshipping'
+  const isAffiliate = product.model === 'affiliate';
+  const eyebrow = collection && !isAffiliate
     ? `<a href="${categoryPath(collection)}">${escapeHtml(product.category)}</a>`
     : escapeHtml(product.category);
-  return `<article class="product-card">
-    <a class="card-image" href="${productPath(product)}" tabindex="-1" aria-hidden="true"><img src="${escapeHtml(first.src)}" alt="" width="640" height="640" loading="lazy" decoding="async" data-fallback="/assets/products/photography-pending.svg"><span class="badge">${MODELS[product.model].badge}</span></a>
-    <div class="card-copy"><span class="eyebrow">${eyebrow}</span><h3><a href="${productPath(product)}">${escapeHtml(product.name)} ${arrow}</a></h3><p>${escapeHtml(product.tagline)}</p><span class="card-price">${cardPrice(product)}</span></div>
+  const badge = `<span class="badge${isAffiliate ? ' badge-partner' : ''}">${MODELS[product.model].badge}</span>`;
+  const cta = isAffiliate ? 'View the offer' : 'View the piece';
+  return `<article class="product-card" data-model="${product.model}">
+    <a class="card-image" href="${productPath(product)}" tabindex="-1" aria-hidden="true"><img src="${escapeHtml(first.src)}" alt="" width="640" height="640" loading="lazy" decoding="async" data-fallback="/assets/products/photography-pending.svg">${badge}</a>
+    <div class="card-copy"><span class="eyebrow">${eyebrow}</span><h3><a href="${productPath(product)}">${escapeHtml(product.name)} ${arrow}</a></h3><p>${escapeHtml(product.tagline)}</p>${cardAvailability(product)}<span class="card-price">${cardPrice(product)}</span><a class="text-link card-cta" href="${productPath(product)}">${cta} ${arrow}<span class="sr-only"> about ${escapeHtml(product.name)}</span></a></div>
   </article>`;
 }
 
@@ -514,7 +530,7 @@ export function renderCollection(modelName, products) {
     description: model.description,
     active: 'shop',
     content: `<div class="page-shell collection-page"><nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">${model.label}</li></ol></nav>
-      <div class="collection-heading"><span class="eyebrow">${isShop ? 'AURA shop' : 'A different way to discover'}</span><h1>${isShop ? 'Objects for a slower life.' : model.heading}</h1><p>${model.description}</p></div>
+      <div class="collection-heading"><span class="eyebrow">${isShop ? `${BRAND} shop` : 'A different way to discover'}</span><h1>${isShop ? 'Objects for a slower life.' : model.heading}</h1><p>${model.description}</p></div>
       ${isShop ? categoryStrip(products) : `<div class="hub-explainer"><span class="badge">${model.badge}</span><p>You browse here; the purchase, delivery and returns take place on the linked merchant’s website.</p></div>`}
       <div class="product-cards">${list.map(card).join('') || '<p>Pieces will be added as the collection develops.</p>'}</div>
     </div>`
@@ -567,7 +583,7 @@ function checkoutSection() {
               </fieldset>
               <fieldset>
                 <legend>Notes</legend>
-                <label class="field field-wide"><span>Anything AURA should know about this request</span><textarea name="notes" rows="4"></textarea></label>
+                <label class="field field-wide"><span>Anything ${BRAND} should know about this request</span><textarea name="notes" rows="4"></textarea></label>
                 <label class="check-field"><input type="checkbox" name="consent" required><span>I understand this is an invoice request, not a payment, and that price and delivery are confirmed in writing first.</span></label>
               </fieldset>
               <button class="button button-primary" type="submit" data-checkout-submit>Request invoice ${arrow}</button>
@@ -576,7 +592,7 @@ function checkoutSection() {
             <div class="checkout-confirmation" data-checkout-confirmation hidden tabindex="-1">
               <span class="eyebrow">Request recorded</span>
               <h2>Reference <span data-checkout-reference>—</span></h2>
-              <p data-checkout-confirmation-copy>Your request is saved in this browser. AURA replies with a written invoice before anything is paid.</p>
+              <p data-checkout-confirmation-copy>Your request is saved in this browser. ${BRAND} replies with a written invoice before anything is paid.</p>
               <div class="content-links">
                 <a class="text-link" href="/account/">View saved requests ${arrow}</a>
                 <a class="text-link" href="/shop/">Continue browsing ${arrow}</a>
@@ -594,7 +610,7 @@ function checkoutSection() {
             </div>
             <div class="commerce-summary" data-checkout-summary hidden>
               <div class="commerce-total"><span class="eyebrow">Subtotal</span><strong data-checkout-subtotal>—</strong></div>
-              <p class="commerce-price-note" data-checkout-price-note hidden>Some prices are on request. AURA sets the full amount on your invoice.</p>
+              <p class="commerce-price-note" data-checkout-price-note hidden>Some prices are on request. ${BRAND} sets the full amount on your invoice.</p>
               <p class="action-note">Delivery and any import charges are added to the written invoice.</p>
             </div>
           </aside>
@@ -661,7 +677,7 @@ export function renderStaticPage(page) {
       </section>` : '';
   const search = page.search ? `
       <form class="search-form" role="search" action="/search/" method="get">
-        <label class="sr-only" for="search-input">Search AURA</label>
+        <label class="sr-only" for="search-input">Search ${escapeHtml(BRAND)}</label>
         <input id="search-input" type="search" name="q" data-search-input placeholder="Search pieces, books, music…" autocomplete="off">
         <button type="submit" class="button button-primary">Search</button>
       </form>

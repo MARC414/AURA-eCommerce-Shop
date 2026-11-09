@@ -6,7 +6,7 @@
 import React from 'react';
 import { Product, JournalArticle, CategoryInfo } from './types';
 
-export const BRAND_NAME = 'Aura';
+export const BRAND_NAME = 'OPAR';
 export const PRIMARY_COLOR = 'stone-900'; 
 export const ACCENT_COLOR = 'stone-500';
 
@@ -14,14 +14,14 @@ export const PRODUCTS: Product[] = [
   // 1. AYURVEDIC BOTANICALS & PURE HERBS
   {
     id: 'aura-ashwagandha',
-    name: 'Aura Organic Ashwagandha Root',
+    name: 'OPAR Organic Ashwagandha Root',
     authenticScript: 'अश्वगन्धा',
     scriptLanguage: 'Sanskrit',
     botanicalLatin: 'Withania somnifera',
     traditionalTcm: '睡茄 (Shuì Jiā)',
     tagline: 'Quiet the storm within.',
     description: 'Full-spectrum KSM-66 organic root extract. Clinically revered to calm the central nervous system, regulate cortisol, and ground chronic restlessness.',
-    longDescription: 'Cultivated in the mineral-dense soils of central India through organic regenerative farming, Aura Ashwagandha is an unadulterated botanical adaptogen. Used by Vedic rishis for millennia to cultivate Ojas (vital spiritual essence) and ground Vata dosha during prolonged meditative austerities. We use gentle water-extraction without harsh solvents. Stir one teaspoon into warm plant milk or raw honey at dusk to signal to your nervous system that the striving of the day is complete.',
+    longDescription: 'Cultivated in the mineral-dense soils of central India through organic regenerative farming, OPAR Ashwagandha is an unadulterated botanical adaptogen. Used by Vedic rishis for millennia to cultivate Ojas (vital spiritual essence) and ground Vata dosha during prolonged meditative austerities. We use gentle water-extraction without harsh solvents. Stir one teaspoon into warm plant milk or raw honey at dusk to signal to your nervous system that the striving of the day is complete.',
     price: 38,
     supplierCost: 11.50,
     supplierSku: 'AYUR-ASHWA-001',
@@ -41,7 +41,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'aura-brahmi',
-    name: 'Aura Sacred Brahmi Leaf Extract',
+    name: 'OPAR Sacred Brahmi Leaf Extract',
     authenticScript: 'ब्राह्मी',
     scriptLanguage: 'Sanskrit',
     botanicalLatin: 'Bacopa monnieri',
@@ -67,7 +67,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'aura-shilajit',
-    name: 'Aura Wildcrafted Himalayan Shilajit',
+    name: 'OPAR Wildcrafted Himalayan Shilajit',
     authenticScript: 'शिलाजित्',
     scriptLanguage: 'Sanskrit',
     botanicalLatin: 'Asphaltum punjabianum',
@@ -92,7 +92,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'aura-tulsi',
-    name: 'Aura Organic Krishna Tulsi Sacred Tea',
+    name: 'OPAR Organic Krishna Tulsi Sacred Tea',
     authenticScript: 'कृष्ण तुलसी',
     scriptLanguage: 'Sanskrit',
     botanicalLatin: 'Ocimum sanctum',
@@ -117,7 +117,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'aura-clove-buds',
-    name: 'Aura Sun-Dried Organic Whole & Ground Cloves',
+    name: 'OPAR Sun-Dried Organic Whole & Ground Cloves',
     authenticScript: 'लवङ्ग (Lavanga)',
     scriptLanguage: 'Sanskrit / Botanical',
     botanicalLatin: 'Syzygium aromaticum',
@@ -143,7 +143,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'aura-neem-powder',
-    name: 'Aura Wildcrafted Pure Neem Leaf & Bark Powder',
+    name: 'OPAR Wildcrafted Pure Neem Leaf & Bark Powder',
     authenticScript: 'निम्ब (Nimba)',
     scriptLanguage: 'Sanskrit / Botanical',
     botanicalLatin: 'Azadirachta indica',
@@ -169,7 +169,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'aura-shimul-root',
-    name: 'Aura Heritage Shimul Root (Red Silk Cotton Root)',
+    name: 'OPAR Heritage Shimul Root (Red Silk Cotton Root)',
     authenticScript: 'शाल्मली (Shalmali)',
     scriptLanguage: 'Sanskrit & Lineage',
     botanicalLatin: 'Bombax ceiba',
@@ -492,7 +492,7 @@ export const PRODUCTS: Product[] = [
   // 5. SACRED SOUND & MUSIC
   {
     id: 'aura-singing-bowl',
-    name: 'Aura 432Hz Himalayan Singing Bowl',
+    name: 'OPAR 432Hz Himalayan Singing Bowl',
     authenticScript: 'नाद कांस्य पात्र (Nāda Pātra) • 432 Hz',
     scriptLanguage: 'Himalayan Bronze Tradition',
     tagline: 'A frequency that settles the pulse.',
@@ -565,7 +565,7 @@ export const PRODUCTS: Product[] = [
   // 6. ORGANIC QUIET TECH & MOVEMENT
   {
     id: 'aura-cork-mat',
-    name: 'Aura Grounded Cork Yoga Mat',
+    name: 'OPAR Grounded Cork Yoga Mat',
     authenticScript: 'Yoga Āsana • Terra Firma',
     scriptLanguage: 'Sanskrit & Latin',
     tagline: 'Grip rooted in the earth.',
@@ -588,7 +588,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'aura-zafu',
-    name: 'Aura Belgian Linen Zafu Cushion',
+    name: 'OPAR Belgian Linen Zafu Cushion',
     authenticScript: '座蒲 (Zafu) • ध्यान आसन',
     scriptLanguage: 'Zen & Sanskrit Tradition',
     tagline: 'Posture for still minds.',
@@ -611,7 +611,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'aura-diffuser',
-    name: 'Aura Ultrasonic Stone Mist Diffuser',
+    name: 'OPAR Ultrasonic Stone Mist Diffuser',
     authenticScript: 'Silentium Aromatica',
     scriptLanguage: 'Classical Latin',
     tagline: 'Mist from raw porcelain.',
@@ -634,12 +634,12 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'aura-beam-lamp',
-    name: 'Aura Circadian Sunset Glow Lamp',
+    name: 'OPAR Circadian Sunset Glow Lamp',
     authenticScript: 'Lux Circadiana • 1800K',
     scriptLanguage: 'Classical Latin',
     tagline: 'Light that breathes with the sun.',
     description: 'Solid lathe-turned walnut base with a hand-blown frosted glass sphere. Casts an 1800K amber glow free of melatonin-suppressing blue light.',
-    longDescription: 'Artificial blue light fractures natural circadian architecture. Aura Beam transitions gently into a soft amber candlelight glow (1800K) at sunset, signaling to your brain to produce melatonin and prepare for restorative sleep.',
+    longDescription: 'Artificial blue light fractures natural circadian architecture. OPAR Beam transitions gently into a soft amber candlelight glow (1800K) at sunset, signaling to your brain to produce melatonin and prepare for restorative sleep.',
     price: 185,
     supplierCost: 65.00,
     supplierSku: 'TECH-BEAM-019',
@@ -657,7 +657,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'aura-copper-vessel',
-    name: 'Aura Hammered Pure Copper Water Carafe (Tamra Jal)',
+    name: 'OPAR Hammered Pure Copper Water Carafe (Tamra Jal)',
     authenticScript: 'ताम्र जल पात्र (Tāmra Jala Pātra)',
     scriptLanguage: 'Ayurvedic Sanskrit',
     tagline: 'Ancient vessel of ionized vitality.',
@@ -681,7 +681,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'aura-kusha-mat',
-    name: 'Aura Handwoven Kusha Grass Asana Mat',
+    name: 'OPAR Handwoven Kusha Grass Asana Mat',
     authenticScript: 'पवित्र कुशास्तरण (Pavitra Kuśāsana)',
     scriptLanguage: 'Classical Sanskrit',
     botanicalLatin: 'Desmostachya bipinnata',
@@ -705,7 +705,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'aura-brass-timer',
-    name: 'Aura Analog Brass Sand & Chime Meditation Timer',
+    name: 'OPAR Analog Brass Sand & Chime Meditation Timer',
     authenticScript: 'Chronos Metallicus • Analog Contemplation',
     scriptLanguage: 'Classical Latin',
     tagline: 'Time measured in flowing earth, not glowing pixels.',
@@ -772,7 +772,7 @@ export const CATEGORIES_CATALOG: CategoryInfo[] = [
     quoteOriginalScript: 'अपरिग्रहस्थैर्ये जन्मकथंतासंबोधः',
     quote: 'When contentment and non-possessiveness are established, the mind ceases its frantic grasping and awakens to true stillness.',
     quoteAuthor: 'Yoga Sutras of Patanjali (2.39)',
-    description: 'The founding foundation of Aura: technology that refuses to scream for your dopamine. We replace glowing notification displays and intrusive blue light with tactile porcelain mist diffusers, soothing 1800K circadian sunset lamps, and analog brushed brass sand timers. Crafted from authentic natural materials — heavy ceramic, turned American walnut, and unlacquered brass — to support a sanctuary free of digital noise.',
+    description: 'The founding foundation of OPAR: technology that refuses to scream for your dopamine. We replace glowing notification displays and intrusive blue light with tactile porcelain mist diffusers, soothing 1800K circadian sunset lamps, and analog brushed brass sand timers. Crafted from authentic natural materials — heavy ceramic, turned American walnut, and unlacquered brass — to support a sanctuary free of digital noise.',
     subcategories: ['All', 'Circadian Lighting', 'Ultrasonic Stone Diffusers', 'Analog Brass Contemplation Timers'],
     matchesProduct: (p) => p.category === 'Organic Quiet Tech' && (p.id.includes('diffuse') || p.id.includes('lamp') || p.id.includes('timer'))
   },
