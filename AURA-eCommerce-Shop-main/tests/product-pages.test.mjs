@@ -739,26 +739,37 @@ test('every image the homepage references is a real file', () => {
   }
 });
 
-test('the homepage preview ships but stays unlisted', async () => {
-  const html = await readFile(new URL('../public/home-preview/index.html', import.meta.url), 'utf8');
+test('the homepage is `/`, generated, and listed once', async () => {
+  const html = await readFile(new URL('../public/index.html', import.meta.url), 'utf8');
   for (const marker of ['class="home-hero"', 'id="featured"', 'id="rooms"']) {
     assert.ok(html.includes(marker), `${marker} is not in the generated file`);
   }
+  // The launch switch still holds: noindex until a domain and absolute URLs exist.
   assert.match(html, /<meta name="robots" content="noindex, follow">/);
+  // And it is a generated document, not the React shell it replaced.
+  assert.doesNotMatch(html, /id="root"|assets\/index-[A-Za-z0-9_-]+\.js/);
 
   const sitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8');
-  assert.doesNotMatch(sitemap, /home-preview/, 'the preview must not be in the sitemap');
+  assert.equal((sitemap.match(/<loc>\/<\/loc>/g) || []).length, 1, 'the homepage is in the sitemap exactly once');
+  assert.ok(sitemap.indexOf('<loc>/</loc>') < sitemap.indexOf('<loc>/shop/'), 'the homepage opens the sitemap');
+  assert.doesNotMatch(sitemap, /home-preview/, 'the T3 trial route is gone');
+
   const searchIndex = await readFile(new URL('../public/assets/search-index.json', import.meta.url), 'utf8');
-  assert.doesNotMatch(searchIndex, /home-preview/, 'the preview must not be in the search index');
+  const entries = JSON.parse(searchIndex);
+  assert.equal(entries.filter(entry => entry.href === '/').length, 1, 'search offers the homepage once');
+  assert.ok(!searchIndex.includes('home-preview'));
 
   for (const page of [shopPage, affiliatePage, aloePage, checkoutPage, cartPage, newsletterPage]) {
-    assert.doesNotMatch(page, /home-preview/, 'nothing may link to the preview');
+    assert.doesNotMatch(page, /home-preview/, 'nothing may still link to the trial route');
   }
 
-  // The generator, not a stray flag, keeps it out.
+  // The trial route and its directory are gone, not merely unlinked.
+  assert.equal(existsSync(new URL('../public/home-preview', import.meta.url)), false);
+
+  // The generator builds `/` first and resolves links to it like any other page.
   const generator = await readFile(new URL('../scripts/generate-product-pages.mjs', import.meta.url), 'utf8');
-  assert.match(generator, /path: '\/home-preview\/', html: renderHomePage\(products\), unlisted: true/);
-  assert.match(generator, /\.filter\(page => !page\.unlisted\)/);
+  assert.match(generator, /const pages = \[\s*\{ path: '\/', html: renderHomePage\(products\) \},/);
+  assert.doesNotMatch(generator, /if \(href === '\/' \|\| /, 'the link validator must not skip `/` any more');
 });
 
 test('the hero grain and scrims have one value across both stylesheets', async () => {

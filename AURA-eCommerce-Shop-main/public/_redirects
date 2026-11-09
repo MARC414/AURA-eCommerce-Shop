@@ -1,4 +1,11 @@
-# Cloudflare Pages SPA Routing
-# Static files and pre-rendered pages (/shop/*, /discover/*, /templates/*, /assets/*)
-# are automatically served first. Unmatched client routes fall back to /index.html with HTTP 200.
-/*    /index.html   200
+# Cloudflare Pages: no rewrite rules.
+#
+# Until T4 this file ended with `/*  /index.html  200`, which was correct while
+# `/index.html` was a React shell that owned client-side routes. That shell is
+# gone: every URL on this site is a directory with a real index.html, and
+# Cloudflare serves it without help. Keeping the catch-all now would answer 200
+# with the homepage to every address that does not exist, which is how a
+# storefront collects infinite duplicate pages in a search index.
+#
+# A missing page should be a 404. Do not add a fallback here without deciding
+# that a URL that never existed is a page.

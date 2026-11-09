@@ -4,7 +4,11 @@ import { readFile, stat } from 'node:fs/promises';
 import { extname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const root = fileURLToPath(new URL('../public/', import.meta.url));
+/* `fileURLToPath` keeps the trailing separator; strip it so the containment
+   check below can compare against the directory itself, which is what `/`
+   resolves to now that the homepage is a real page rather than a redirect. */
+const publicDir = fileURLToPath(new URL('../public/', import.meta.url));
+const root = publicDir.endsWith(sep) ? publicDir.slice(0, -1) : publicDir;
 const port = Number(process.env.PORT || 4174);
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.avif': 'image/avif' };
 
@@ -17,13 +21,8 @@ const server = createServer(async (request, response) => {
 
   try {
     const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
-    if (pathname === '/') {
-      response.writeHead(302, { Location: '/shop/' });
-      response.end();
-      return;
-    }
     let file = resolve(root, `.${pathname}`);
-    if (!file.startsWith(root.endsWith(sep) ? root : `${root}${sep}`)) {
+    if (file !== root && !file.startsWith(`${root}${sep}`)) {
       response.writeHead(403);
       response.end('Forbidden');
       return;
@@ -47,6 +46,6 @@ const server = createServer(async (request, response) => {
 });
 
 server.listen(port, '127.0.0.1', () => {
-  console.log(`OPAR storefront preview: http://127.0.0.1:${port}/shop/`);
-  console.log('Local preview only. The main React storefront is not served by this command.');
+  console.log(`OPAR storefront: http://127.0.0.1:${port}/`);
+  console.log('Local only. Serves public/, which is what `npm run build` ships.');
 });

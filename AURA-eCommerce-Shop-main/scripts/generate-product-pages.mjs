@@ -21,12 +21,18 @@ for (const product of products) {
   ids.add(product.id);
 }
 
-const pages = products.map(product => ({
-  path: productPath(product),
-  html: product.model === 'affiliate'
-    ? renderAffiliatePage(product, products)
-    : renderDropshippingPage(product, products)
-}));
+// T4: the homepage is the generated document at `/`. It is built first, so the
+// sitemap opens with it and every other page's link to `/` resolves against a
+// page in the same pass.
+const pages = [
+  { path: '/', html: renderHomePage(products) },
+  ...products.map(product => ({
+    path: productPath(product),
+    html: product.model === 'affiliate'
+      ? renderAffiliatePage(product, products)
+      : renderDropshippingPage(product, products)
+  }))
+];
 
 for (const [model, definition] of Object.entries(MODELS)) {
   pages.push({ path: definition.path, html: renderCollection(model, products) });
@@ -43,24 +49,20 @@ for (const page of sitePages) {
   pages.push({ path: page.path, html: renderStaticPage(page) });
 }
 
-// T3: the homepage is generated at an unlinked preview route. It is not in the
-// sitemap, not in the search index, and nothing links to it; T4 moves it to `/`
-// and deletes the React shell in one commit. `unlisted` is what keeps it out of
-// the sitemap below.
-pages.push({ path: '/home-preview/', html: renderHomePage(products), unlisted: true });
-
 const allPaths = new Set();
 for (const page of pages) {
   if (allPaths.has(page.path)) throw new Error(`Duplicate page path: ${page.path}`);
   allPaths.add(page.path);
 }
 
-// Rule: never ship an internal link to a page that does not exist.
+// Rule: never ship an internal link to a page that does not exist. `/` is now
+// one of the generated pages, so it is resolved like any other instead of being
+// waved through.
 const broken = new Set();
 for (const page of pages) {
   for (const match of page.html.matchAll(/href="(\/[^"#]*)"/g)) {
     const href = match[1].split('?')[0];
-    if (href === '/' || href.startsWith('/assets/')) continue;
+    if (href.startsWith('/assets/')) continue;
     const route = href.endsWith('/') ? href : `${href}/`;
     if (allPaths.has(route)) continue;
     if (!existsSync(join(projectRoot, 'public', route.slice(1), 'index.html'))) {
@@ -77,9 +79,11 @@ for (const page of pages) {
   console.log(`Generated ${page.path}`);
 }
 
-// Retired prototype surfaces. The production storefront has no preview index.
+// Retired prototype surfaces. The production storefront has no preview index,
+// and T4 replaced the `/home-preview/` trial route with the real `/`.
 await rm(join(projectRoot, 'public/templates'), { recursive: true, force: true });
 await rm(join(projectRoot, 'public/preview'), { recursive: true, force: true });
+await rm(join(projectRoot, 'public/home-preview'), { recursive: true, force: true });
 
 const sectionLabel = page => {
   if (page.path.startsWith('/policies/')) return 'Policy';
@@ -155,8 +159,11 @@ await writeFile(
 );
 console.log('Generated /robots.txt (launch switch: disallow all)');
 
+/* Every generated page is a real page, so every generated page is in the
+   sitemap. A route that must exist but must not be advertised (the hand-authored
+   /brand-preview/ is the only one) is not generated at all, so it cannot leak in
+   here; `npm run check:site` reports any page the sitemap does not list. */
 const sitemapUrls = pages
-  .filter(page => !page.unlisted)
   .map(page => `  <url><loc>${page.path}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>`)
   .join('\n');
 await writeFile(
