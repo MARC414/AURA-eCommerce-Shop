@@ -1,74 +1,49 @@
 /**
- * @license
- * SPDX-License-Identifier: Apache-2.0
+ * OPAR central brand configuration.
  *
- * Central Brand Configuration for OPAR
- * 
- * This file serves as the single source of truth for:
- * - Brand identity (name, tagline, wordmark, logo paths)
- * - Color tokens (Forest Green, Evergreen, Antique Gold, Moss Green, Warm Ivory, Soft Sage, Stone)
- * - Typography (Cormorant Garamond for headings, Manrope for body copy)
- * 
- * In accordance with Task 02, this provides a unified brand definition without
- * forcing a disruptive total website redesign.
+ * This file is the typed React-side view of `data/brand.json`, which is the
+ * single brand contract shared with the static page generator
+ * (scripts/generate-product-pages.mjs and templates/product-pages.mjs).
+ * Change brand values in data/brand.json, not here.
  */
 
-export interface BrandColorPalette {
-  forestGreen: string;
-  evergreen: string;
-  antiqueGold: string;
-  mossGreen: string;
-  warmIvory: string;
-  softSage: string;
-  stone: string;
-}
+import brandData from './data/brand.json';
 
-export interface BrandTypography {
-  headings: string;
-  body: string;
-  googleFontsLink: string;
-}
+export const BRAND = brandData;
 
-export interface BrandLogo {
-  symbolName: string;
-  assetPath: string;
-  altText: string;
-  fallbackIcon: string;
-}
-
-export interface BrandConfiguration {
-  name: string;
-  tagline: string;
-  shortDescriptor: string;
-  logo: BrandLogo;
-  colors: BrandColorPalette;
-  typography: BrandTypography;
-}
-
-export const OPAR_BRAND: BrandConfiguration = {
-  name: 'OPAR',
-  tagline: 'A World of Conscious Living',
-  shortDescriptor: 'Objects and knowledge for conscious, contemplative living.',
-  logo: {
-    symbolName: 'Seed + Orbit emblem',
-    assetPath: '/assets/brand/opar-seed-orbit.svg',
-    altText: 'OPAR — Seed + Orbit Emblem',
-    fallbackIcon: 'seed-orbit'
-  },
-  colors: {
-    forestGreen: '#101B12',
-    evergreen: '#1D3020',
-    antiqueGold: '#C5AD70',
-    mossGreen: '#82915B',
-    warmIvory: '#F1EBDD',
-    softSage: '#B8BEAA',
-    stone: '#34382D'
-  },
-  typography: {
-    headings: "'Cormorant Garamond', Georgia, serif",
-    body: "'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-    googleFontsLink: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700&display=swap'
-  }
+export const OPAR_BRAND = {
+  name: BRAND.name,
+  wordmark: BRAND.wordmark,
+  tagline: BRAND.tagline,
+  description: BRAND.description,
+  logo: BRAND.logo,
+  colors: BRAND.colors,
+  typography: BRAND.typography
 } as const;
 
-export default OPAR_BRAND;
+export type OparBrand = typeof OPAR_BRAND;
+
+/** Convenience accessors used by the React chrome (Navbar, Footer). */
+export const BRAND_NAME = OPAR_BRAND.wordmark;
+export const BRAND_TAGLINE = OPAR_BRAND.tagline;
+
+/**
+ * Design tokens mirrored as CSS custom properties. The canonical live values
+ * are declared in public/assets/product-pages.css (:root) and index.css;
+ * this record documents the contract for React components.
+ */
+export const DESIGN_TOKENS = {
+  color: {
+    forestGreen: BRAND.colors.forestGreen,
+    evergreen: BRAND.colors.evergreen,
+    antiqueGold: BRAND.colors.antiqueGold,
+    mossGreen: BRAND.colors.mossGreen,
+    warmIvory: BRAND.colors.warmIvory,
+    softSage: BRAND.colors.softSage,
+    stone: BRAND.colors.stone
+  },
+  font: {
+    headings: "'Cormorant Garamond', Georgia, serif",
+    body: "'Manrope', 'Segoe UI', Arial, sans-serif"
+  }
+} as const;

@@ -5,7 +5,7 @@
     "eyebrow": "Plants, roots and resins",
     "heading": "Herbal Botanicals",
     "intro": "Plants chosen for daily ritual, described by what is known and what still needs checking.",
-    "description": "Herbal botanicals selected for AURA: capsules, loose herbs and single-ingredient preparations with a clear source.",
+    "description": "Herbal botanicals selected for OPAR: capsules, loose herbs and single-ingredient preparations with a clear source.",
     "matches": ["Herbal Botanicals"]
   },
   {
@@ -14,7 +14,7 @@
     "eyebrow": "Soap, skin and small rituals",
     "heading": "Everyday Care",
     "intro": "The objects that meet you every morning: cleansing bars, oils and quiet daily care.",
-    "description": "Everyday cleansing and care pieces selected for AURA, with plain descriptions and no treatment claims.",
+    "description": "Everyday cleansing and care pieces selected for OPAR, with plain descriptions and no treatment claims.",
     "matches": ["Everyday Care"]
   },
   {
@@ -23,7 +23,7 @@
     "eyebrow": "Exceptional miscellany",
     "heading": "Showpieces",
     "intro": "Exceptional pieces that don't belong to a single aisle: wooden showpieces, meditative candles, organic ornaments. Chosen one by one, for what they are.",
-    "description": "Showpieces and exceptional miscellany selected for AURA: wooden showpieces, meditative candles, organic ornaments and other one-of-a-kind objects.",
+    "description": "Showpieces and exceptional miscellany selected for OPAR: wooden showpieces, meditative candles, organic ornaments and other one-of-a-kind objects.",
     "matches": ["Showpieces"]
   },
   {

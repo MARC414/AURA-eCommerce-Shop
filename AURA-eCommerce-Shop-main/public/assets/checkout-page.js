@@ -136,7 +136,7 @@
       String(now.getDate()).padStart(2, '0')
     ].join('');
     var random = Math.random().toString(36).slice(2, 6).toUpperCase();
-    return 'AURA-' + date + '-' + random;
+    return 'OPAR-' + date + '-' + random;
   }
 
   function snapshot(items) {
@@ -201,7 +201,7 @@
 
     if (referenceOut) referenceOut.textContent = referenceCode;
     if (confirmationCopy) {
-      confirmationCopy.textContent = 'Your request is saved in this browser. AURA replies to ' +
+      confirmationCopy.textContent = 'Your request is saved in this browser. OPAR replies to ' +
         (order.customer.email || 'the address you gave') +
         ' with the price, delivery and payment method before anything is paid.';
     }

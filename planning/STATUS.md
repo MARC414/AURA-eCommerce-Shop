@@ -1,7 +1,7 @@
 # AURA — Status
 
 **Updated:** 2026-11-09  
-**Phase:** Site structure P1b complete: the static cart and wishlist are real, browser-local islands sharing `aura_cart_v1` and `aura_wishlist_v1` with the React app. 26 generated pages, 42 tests. No checkout or payment. Next approved work is P0 homepage truth hygiene.
+**Phase:** TASK 03 (OPAR design system) complete and awaiting approval: brand strings centralised in `data/brand.json`, semantic token system in `public/assets/product-pages.css`, premium product cards, responsive audit clean, 45/45 tests, production build green. Next approved work is still P0 homepage truth hygiene.
 
 ## Current intake (D-020 takes precedence over older notes)
 
@@ -16,7 +16,7 @@
 ## Current facts
 
 - A local React/TypeScript/Vite prototype exists in `AURA-eCommerce-Shop-main`.
-- **Cloudflare deployment readiness:** Configured on 2026-11-08 per owner request (`_redirects` SPA fallback, `_headers` with noindex search protection, Node 20 `.nvmrc`/`.node-version`, and deployment guide `docs/CLOUDFLARE.md`). All 30 tests passing and build verified.
+- **Not deployed to Cloudflare**, confirmed by the owner on 2026-11-04. Cloudflare is a future temporary preview option. Final hosting/domain structure is undecided.
 - Owner reports AliExpress affiliate/dropshipping and CJ account access. Connection to AURA and payout eligibility remain unverified.
 - The two product types (dropshipping = AURA sells, affiliate/referral = partner sells) are distinguished on one site by `purchaseOwner: 'aura' | 'partner'`, regardless of source platform.
 - Pilot products: 
@@ -28,6 +28,18 @@
 - Books must have documented publication rights. Prior candidates need further edition/territory checks; access and pricing are undecided.
 
 ## Completed work since last status
+
+### Design system — TASK 03 (2026-11-09, awaiting approval)
+- **Brand correction:** storefront brand strings are now **OPAR** with tagline "A World of Conscious Living". Single source of truth: `data/brand.json` (name, tagline, logo paths, 7 colours, typography, Google Fonts href); React mirror in `brand.config.ts` (`BRAND_NAME`, `BRAND_TAGLINE`). Reversing or editing the brand is one file. Lowercase contracts untouched (`purchaseOwner: 'aura'`, `aura_*_v1` keys, `window.AuraStore`).
+- **Brand-name conflict to disclose:** `GPT/Task 3.txt` names the brand ORVANYA; AGENTS.md and the owner's in-session correction say OPAR. OPAR was implemented; `GPT/Task 3.txt` is reference material, not an approval source.
+- **Logo:** existing `Branding/Logo.jpg` copied to `public/assets/brand/opar-seed-orbit.jpg` and used as header/footer emblem. SVG path `/assets/brand/opar-seed-orbit.svg` reserved in `brand.json` with a README — no logo generated or invented.
+- **Semantic tokens** in `public/assets/product-pages.css`: primitive palette (#101B12, #1D3020, #C5AD70, #82915B, #F1EBDD, #B8BEAA, #34382D) → semantic roles (canvas/surface/ink/muted/border/accent/forest) → component tokens (buttons, badges, cards, focus ring). No raw hex in component rules. Type: Cormorant Garamond headings / Manrope body, type scale, spacing scale, layout widths, radii, shadows, documented breakpoints, motion + `prefers-reduced-motion`.
+- **Components:** `.button-primary` (forest green) restyled, `.button-secondary` added, gold `.external-cta` for affiliate offers (exact `class="button button-primary external-cta"` preserved for tests), `.badge-partner` gold partner badge, premium `.product-card` (hover lift, `.card-meta`, `.card-availability`, `.card-cta`), dark-forest footer, `.wordmark-emblem`. Test-asserted selectors all preserved.
+- **Cards:** image, name, category, verified-price-or-price-on-request, `data-model`, partner badge + disclosure on affiliate cards, availability line only when `product.availability.verified === true`, model-appropriate CTA ("View the piece" vs "View the offer"). No invented ratings, discounts, stock, reviews, or prices.
+- **Brand strings** propagated through `templates/product-pages.mjs`, `scripts/generate-product-pages.mjs`, and customer-facing copy in `data/site.json`, `pages.json`, `pilot-products.json`, `knowledge-base.json`, `compliance.json`, `collections.json` (placeholder emails now `hello@opar.example` / `concierge@opar.example` — need a real domain before launch). Two brand-word test assertions updated.
+- **QA:** `npm run test:templates` **45/45**; `npm run build` clean (40 static pages + Vite bundle, 40/40 pages); responsive audit at 375/390/768/1024/1440 across shop, product, partner, category pages — **20/20 no horizontal overflow**, fonts and forest footer confirmed, `badge-partner`/`data-model` present on `/discover/` and correctly absent on `/shop/`.
+- **Incidental fix:** `scripts/preview-products.mjs` had a `\\|` typo (`process.env.PORT \\|\\| 4174`) so the preview server had never run; fixed.
+- **Scope not touched (deliberate):** P0 homepage truth hygiene (false `Store` schema in `index.html`, demo catalogue in `constants.ts`), Tailwind CDN (D-021), nav architecture, product data/URLs, checkout/payment. No packages installed beyond `bun install` of the existing lockfile (node_modules were missing). All changes **uncommitted**.
 
 ### Site structure — P1b (2026-11-09, D-025)
 - `public/assets/cart.js` is the single browser store for generated pages: `AuraStore`, keys `aura_cart_v1` and `aura_wishlist_v1`, same item shape and events as `services/commerce.ts` and `services/storeService.ts`.

@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100%" height="100%" fill="none" aria-label="OPAR Seed + Orbit Emblem" role="img">
-  <title>OPAR — Seed + Orbit Emblem</title>
-  <!-- Seed: circular node at upper-left orbital intercept -->
-  <circle cx="350" cy="220" r="52" fill="currentColor" />
-  <!-- Orbit: calligraphic crescent sweeping clockwise with organic taper matching official emblem -->
-  <path d="M 330 258 C 420 200 600 200 710 310 C 820 420 830 610 740 730 C 650 850 490 850 360 790 C 470 830 620 810 700 705 C 780 600 770 435 675 340 C 580 245 425 240 330 258 Z" fill="currentColor" />
-</svg>

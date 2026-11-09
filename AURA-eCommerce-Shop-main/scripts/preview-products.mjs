@@ -1,4 +1,4 @@
-// Serves the generated storefront locally. No installs and no public deployment.
+﻿// Serves the generated storefront locally. No installs and no public deployment.
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, resolve, sep } from 'node:path';
@@ -47,6 +47,6 @@ const server = createServer(async (request, response) => {
 });
 
 server.listen(port, '127.0.0.1', () => {
-  console.log(`AURA storefront preview: http://127.0.0.1:${port}/shop/`);
+  console.log(`OPAR storefront preview: http://127.0.0.1:${port}/shop/`);
   console.log('Local preview only. The main React storefront is not served by this command.');
 });

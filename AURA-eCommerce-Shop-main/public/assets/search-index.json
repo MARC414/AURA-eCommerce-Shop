@@ -1,11 +1,11 @@
 [
   {
-    "title": "AURA home",
+    "title": "OPAR home",
     "description": "Objects and knowledge for a slower, more awake life.",
     "href": "/",
     "type": "Home",
     "keywords": [
-      "aura",
+      "opar",
       "shop",
       "library",
       "perennis",
@@ -14,7 +14,7 @@
   },
   {
     "title": "Herbal Botanicals",
-    "description": "Herbal botanicals selected for AURA: capsules, loose herbs and single-ingredient preparations with a clear source.",
+    "description": "Herbal botanicals selected for OPAR: capsules, loose herbs and single-ingredient preparations with a clear source.",
     "href": "/shop/herbal-botanicals/",
     "type": "Category",
     "keywords": [
@@ -26,7 +26,7 @@
   },
   {
     "title": "Everyday Care",
-    "description": "Everyday cleansing and care pieces selected for AURA, with plain descriptions and no treatment claims.",
+    "description": "Everyday cleansing and care pieces selected for OPAR, with plain descriptions and no treatment claims.",
     "href": "/shop/everyday-care/",
     "type": "Category",
     "keywords": [
@@ -38,7 +38,7 @@
   },
   {
     "title": "Showpieces",
-    "description": "Showpieces and exceptional miscellany selected for AURA: wooden showpieces, meditative candles, organic ornaments and other one-of-a-kind objects.",
+    "description": "Showpieces and exceptional miscellany selected for OPAR: wooden showpieces, meditative candles, organic ornaments and other one-of-a-kind objects.",
     "href": "/shop/showpieces/",
     "type": "Category",
     "keywords": [
@@ -91,7 +91,7 @@
     "title": "Turmeric Cleansing Soap",
     "description": "A small addition to the everyday.",
     "href": "/shop/turmeric-cleansing-soap/",
-    "type": "AURA shop",
+    "type": "OPAR shop",
     "keywords": [
       "Everyday Care",
       "turmeric soap bar",
@@ -116,7 +116,7 @@
     "title": "Aloe Vera Cleansing Bar",
     "description": "A plain bar, described plainly.",
     "href": "/shop/aloe-vera-soap/",
-    "type": "AURA shop",
+    "type": "OPAR shop",
     "keywords": [
       "Everyday Care",
       "aloe vera soap bar",
@@ -129,7 +129,7 @@
     "title": "Ashwagandha with Black Pepper",
     "description": "A 60-capsule pack with Ashwagandha root and black pepper.",
     "href": "/shop/ashwagandha-with-black-pepper/",
-    "type": "AURA shop",
+    "type": "OPAR shop",
     "keywords": [
       "Herbal Botanicals",
       "ashwagandha capsules",
@@ -139,7 +139,7 @@
   },
   {
     "title": "A library given freely.",
-    "description": "Perennis is AURA's free library: books and music collected for their clarity, each with a short note on why it is here.",
+    "description": "Perennis is OPAR's free library: books and music collected for their clarity, each with a short note on why it is here.",
     "href": "/perennis/",
     "type": "Perennis",
     "keywords": [
@@ -209,9 +209,9 @@
   },
   {
     "title": "Chosen slowly.",
-    "description": "AURA is a small independent project built around objects and knowledge for a slower, more sensory life.",
+    "description": "OPAR is a small independent project built around objects and knowledge for a slower, more sensory life.",
     "href": "/about/",
-    "type": "AURA",
+    "type": "OPAR",
     "keywords": [
       "About",
       "About"
@@ -219,9 +219,9 @@
   },
   {
     "title": "Where things come from.",
-    "description": "How AURA chooses pieces, what a partner offer means, and which details are published for each object.",
+    "description": "How OPAR chooses pieces, what a partner offer means, and which details are published for each object.",
     "href": "/about/sourcing/",
-    "type": "AURA",
+    "type": "OPAR",
     "keywords": [
       "About · Sourcing",
       "Sourcing & makers"
@@ -229,9 +229,9 @@
   },
   {
     "title": "Talk to the house.",
-    "description": "How to reach AURA about a piece, an invoice or the library.",
+    "description": "How to reach OPAR about a piece, an invoice or the library.",
     "href": "/contact/",
-    "type": "AURA",
+    "type": "OPAR",
     "keywords": [
       "Contact",
       "Contact"
@@ -239,9 +239,9 @@
   },
   {
     "title": "Imprint.",
-    "description": "Who publishes AURA, how the house can be reached, and the law that applies to this site.",
+    "description": "Who publishes OPAR, how the house can be reached, and the law that applies to this site.",
     "href": "/imprint/",
-    "type": "AURA",
+    "type": "OPAR",
     "keywords": [
       "Imprint",
       "Imprint"
@@ -251,7 +251,7 @@
     "title": "Questions, answered plainly.",
     "description": "Honest answers about ordering, partner offers, the cart, delivery and the free library.",
     "href": "/help/",
-    "type": "AURA",
+    "type": "OPAR",
     "keywords": [
       "Help",
       "Help & FAQ"
@@ -259,7 +259,7 @@
   },
   {
     "title": "The rules, in public.",
-    "description": "AURA's privacy, terms, shipping, returns, accessibility and disclosure pages.",
+    "description": "OPAR's privacy, terms, shipping, returns, accessibility and disclosure pages.",
     "href": "/policies/",
     "type": "Policy",
     "keywords": [
@@ -269,7 +269,7 @@
   },
   {
     "title": "Privacy.",
-    "description": "What AURA stores in your browser, and what a full privacy notice covers.",
+    "description": "What OPAR stores in your browser, and what a full privacy notice covers.",
     "href": "/policies/privacy/",
     "type": "Policy",
     "keywords": [
@@ -279,7 +279,7 @@
   },
   {
     "title": "Terms of use.",
-    "description": "The terms that apply to AURA's website, invoices and partner offers.",
+    "description": "The terms that apply to OPAR's website, invoices and partner offers.",
     "href": "/policies/terms/",
     "type": "Policy",
     "keywords": [
@@ -289,7 +289,7 @@
   },
   {
     "title": "Cookies, and what we actually use.",
-    "description": "AURA sets no advertising or analytics cookies. Cart, wishlist, request and newsletter state live in local storage.",
+    "description": "OPAR sets no advertising or analytics cookies. Cart, wishlist, request and newsletter state live in local storage.",
     "href": "/policies/cookies/",
     "type": "Policy",
     "keywords": [
@@ -299,7 +299,7 @@
   },
   {
     "title": "Shipping.",
-    "description": "How AURA confirms destinations, charges and delivery on the invoice.",
+    "description": "How OPAR confirms destinations, charges and delivery on the invoice.",
     "href": "/policies/shipping/",
     "type": "Policy",
     "keywords": [
@@ -309,7 +309,7 @@
   },
   {
     "title": "Returns and refunds.",
-    "description": "How returns, refunds and hygiene exclusions work for AURA pieces and partner offers.",
+    "description": "How returns, refunds and hygiene exclusions work for OPAR pieces and partner offers.",
     "href": "/policies/returns/",
     "type": "Policy",
     "keywords": [
@@ -319,7 +319,7 @@
   },
   {
     "title": "Payment, by invoice.",
-    "description": "AURA invoices before payment. No card details are collected on this website.",
+    "description": "OPAR invoices before payment. No card details are collected on this website.",
     "href": "/policies/payment/",
     "type": "Policy",
     "keywords": [
@@ -329,7 +329,7 @@
   },
   {
     "title": "Accessibility.",
-    "description": "What AURA does for accessibility now, and what still needs auditing.",
+    "description": "What OPAR does for accessibility now, and what still needs auditing.",
     "href": "/policies/accessibility/",
     "type": "Policy",
     "keywords": [
@@ -339,7 +339,7 @@
   },
   {
     "title": "Affiliate disclosure.",
-    "description": "How AURA labels partner offers and earns commission, and what the merchant is responsible for.",
+    "description": "How OPAR labels partner offers and earns commission, and what the merchant is responsible for.",
     "href": "/policies/affiliate-disclosure/",
     "type": "Policy",
     "keywords": [
@@ -349,7 +349,7 @@
   },
   {
     "title": "Health disclaimer.",
-    "description": "AURA does not provide medical advice, and does not publish treatment, prevention or cure claims.",
+    "description": "OPAR does not provide medical advice, and does not publish treatment, prevention or cure claims.",
     "href": "/policies/health-disclaimer/",
     "type": "Policy",
     "keywords": [
@@ -379,7 +379,7 @@
   },
   {
     "title": "Request an invoice.",
-    "description": "Request an AURA invoice. Price, delivery and payment are confirmed in writing before anything is paid.",
+    "description": "Request an OPAR invoice. Price, delivery and payment are confirmed in writing before anything is paid.",
     "href": "/checkout/",
     "type": "Checkout",
     "keywords": [
@@ -389,7 +389,7 @@
   },
   {
     "title": "Your requests, in this browser.",
-    "description": "Invoice requests saved in this browser, and the details AURA holds about them.",
+    "description": "Invoice requests saved in this browser, and the details OPAR holds about them.",
     "href": "/account/",
     "type": "Account",
     "keywords": [
@@ -399,7 +399,7 @@
   },
   {
     "title": "Letters, rarely.",
-    "description": "Occasional letters from AURA: new pieces, new writing, and nothing else.",
+    "description": "Occasional letters from OPAR: new pieces, new writing, and nothing else.",
     "href": "/newsletter/",
     "type": "Page",
     "keywords": [

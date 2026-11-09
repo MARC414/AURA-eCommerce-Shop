@@ -102,7 +102,7 @@
       var meta = document.createElement('p');
       meta.className = 'commerce-meta';
       meta.textContent = entry
-        ? [entry.category, entry.model === 'affiliate' ? 'Partner offer · external checkout' : 'Sold by AURA'].filter(Boolean).join(' · ')
+        ? [entry.category, entry.model === 'affiliate' ? 'Partner offer · external checkout' : 'Sold by OPAR'].filter(Boolean).join(' · ')
         : id;
       copy.appendChild(meta);
 

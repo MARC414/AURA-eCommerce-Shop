@@ -4,10 +4,10 @@
     "section": "perennis",
     "label": "Perennis",
     "title": "Perennis · Free books and music",
-    "description": "Perennis is AURA's free library: books and music collected for their clarity, each with a short note on why it is here.",
+    "description": "Perennis is OPAR's free library: books and music collected for their clarity, each with a short note on why it is here.",
     "eyebrow": "Perennis",
     "heading": "A library given freely.",
-    "intro": "Perennis is AURA's quiet room: books and music collected for their clarity, offered without a price. It sits beside the shop, not inside it.",
+    "intro": "Perennis is OPAR's quiet room: books and music collected for their clarity, offered without a price. It sits beside the shop, not inside it.",
     "blocks": [
       {
         "heading": "Why it exists",
@@ -125,7 +125,7 @@
       {
         "heading": "How products are linked",
         "paragraphs": [
-          "Where a note touches something AURA stocks, the link back to the shop is an invitation, not a promise. The Journal does not claim that a product treats, prevents or cures anything, and it does not publish a claim a supplier has not evidenced."
+          "Where a note touches something OPAR stocks, the link back to the shop is an invitation, not a promise. The Journal does not claim that a product treats, prevents or cures anything, and it does not publish a claim a supplier has not evidenced."
         ]
       },
       {
@@ -228,11 +228,11 @@
     "path": "/about/",
     "section": "about",
     "label": "About",
-    "title": "About AURA",
-    "description": "AURA is a small independent project built around objects and knowledge for a slower, more sensory life.",
+    "title": "About OPAR",
+    "description": "OPAR is a small independent project built around objects and knowledge for a slower, more sensory life.",
     "eyebrow": "About",
     "heading": "Chosen slowly.",
-    "intro": "AURA is a small independent project built around one idea: the objects and knowledge we keep close should be chosen slowly, and described honestly.",
+    "intro": "OPAR is a small independent project built around one idea: the objects and knowledge we keep close should be chosen slowly, and described honestly.",
     "blocks": [
       {
         "heading": "Two fronts, one identity",
@@ -243,11 +243,11 @@
       {
         "heading": "Who sells what",
         "paragraphs": [
-          "Some products are sold by AURA. Others are partner offers, where the purchase happens with another merchant. Those pages say so before you click, because the seller, the delivery and the returns are not the same."
+          "Some products are sold by OPAR. Others are partner offers, where the purchase happens with another merchant. Those pages say so before you click, because the seller, the delivery and the returns are not the same."
         ]
       },
       {
-        "heading": "What AURA will not do",
+        "heading": "What OPAR will not do",
         "paragraphs": [
           "No invented reviews or ratings. No countdown timers. No health claim a supplier has not evidenced. No certification badge without a document behind it. No book published without a documented right to publish that edition."
         ]
@@ -268,11 +268,11 @@
       "label": "About",
       "href": "/about/"
     },
-    "title": "Sourcing and makers · AURA",
-    "description": "How AURA chooses pieces, what a partner offer means, and which details are published for each object.",
+    "title": "Sourcing and makers · OPAR",
+    "description": "How OPAR chooses pieces, what a partner offer means, and which details are published for each object.",
     "eyebrow": "About · Sourcing",
     "heading": "Where things come from.",
-    "intro": "AURA is built from a short list of makers, growers and suppliers. Origin, material and maker are part of the object, so they are written on the page rather than hidden in a footnote.",
+    "intro": "OPAR is built from a short list of makers, growers and suppliers. Origin, material and maker are part of the object, so they are written on the page rather than hidden in a footnote.",
     "blocks": [
       {
         "heading": "How a piece is chosen",
@@ -287,9 +287,9 @@
         ]
       },
       {
-        "heading": "Sold by AURA, or found elsewhere",
+        "heading": "Sold by OPAR, or found elsewhere",
         "paragraphs": [
-          "Every page says who fulfils the order. Pieces sold by AURA use the AURA cart and invoice. Partner offers open on the merchant's own site, where their price, delivery and returns apply."
+          "Every page says who fulfils the order. Pieces sold by OPAR use the OPAR cart and invoice. Partner offers open on the merchant's own site, where their price, delivery and returns apply."
         ]
       },
       {
@@ -308,15 +308,15 @@
       "label": "About",
       "href": "/about/"
     },
-    "title": "Contact AURA",
-    "description": "How to reach AURA about a piece, an invoice or the library.",
+    "title": "Contact OPAR",
+    "description": "How to reach OPAR about a piece, an invoice or the library.",
     "eyebrow": "Contact",
     "heading": "Talk to the house.",
-    "intro": "Questions about a piece, an invoice or a partner offer can be sent by email. AURA answers from a monitored inbox, normally within two working days.",
+    "intro": "Questions about a piece, an invoice or a partner offer can be sent by email. OPAR answers from a monitored inbox, normally within two working days.",
     "links": [
       {
-        "label": "hello@aura.example",
-        "href": "mailto:hello@aura.example"
+        "label": "hello@opar.example",
+        "href": "mailto:hello@opar.example"
       }
     ],
     "blocks": [
@@ -345,27 +345,27 @@
     "section": "about",
     "label": "Imprint",
     "title": "Imprint",
-    "description": "Who publishes AURA, how the house can be reached, and the law that applies to this site.",
+    "description": "Who publishes OPAR, how the house can be reached, and the law that applies to this site.",
     "eyebrow": "Imprint",
     "heading": "Imprint.",
-    "intro": "AURA is an independent international project, operated from Bangladesh and built for customers in several countries. The details below identify who is responsible for what is published here.",
+    "intro": "OPAR is an independent international project, operated from Bangladesh and built for customers in several countries. The details below identify who is responsible for what is published here.",
     "links": [
       {
-        "label": "hello@aura.example",
-        "href": "mailto:hello@aura.example"
+        "label": "hello@opar.example",
+        "href": "mailto:hello@opar.example"
       }
     ],
     "blocks": [
       {
         "heading": "Publisher",
         "paragraphs": [
-          "AURA · independent project, Bangladesh. The registered company name, company number and registered address will replace this line before trading begins, and will be repeated on every invoice."
+          "OPAR · independent project, Bangladesh. The registered company name, company number and registered address will replace this line before trading begins, and will be repeated on every invoice."
         ]
       },
       {
         "heading": "Editorial responsibility",
         "paragraphs": [
-          "The person responsible for the shop, the Journal and the Perennis library is the operator of AURA. Corrections and rights enquiries are handled at the contact address above."
+          "The person responsible for the shop, the Journal and the Perennis library is the operator of OPAR. Corrections and rights enquiries are handled at the contact address above."
         ]
       },
       {
@@ -393,7 +393,7 @@
     "faq": [
       {
         "question": "Can I place an order?",
-        "answer": "Yes — you can request an invoice. Add a piece to the cart and continue to checkout. AURA confirms the price, delivery and payment method before anything is paid."
+        "answer": "Yes — you can request an invoice. Add a piece to the cart and continue to checkout. OPAR confirms the price, delivery and payment method before anything is paid."
       },
       {
         "question": "Does the cart work?",
@@ -401,11 +401,11 @@
       },
       {
         "question": "What is a partner offer?",
-        "answer": "A piece where the purchase happens with another merchant. The page says so, the button leads to their site, and AURA may earn a commission if you buy. Price, delivery and returns are theirs."
+        "answer": "A piece where the purchase happens with another merchant. The page says so, the button leads to their site, and OPAR may earn a commission if you buy. Price, delivery and returns are theirs."
       },
       {
         "question": "Do you ship, and where?",
-        "answer": "AURA is being built for international delivery. Destinations and charges are confirmed on your invoice while the shipping service is being connected."
+        "answer": "OPAR is being built for international delivery. Destinations and charges are confirmed on your invoice while the shipping service is being connected."
       },
       {
         "question": "Where are the free books and music?",
@@ -413,7 +413,7 @@
       },
       {
         "question": "Do any products treat or cure illness?",
-        "answer": "No. AURA does not sell medicines and does not publish treatment, prevention or cure claims. Information on this site is not medical advice; supplements can interact with medication, so speak to a qualified practitioner."
+        "answer": "No. OPAR does not sell medicines and does not publish treatment, prevention or cure claims. Information on this site is not medical advice; supplements can interact with medication, so speak to a qualified practitioner."
       },
       {
         "question": "How is the price set?",
@@ -430,7 +430,7 @@
       "href": "/about/"
     },
     "title": "Policies",
-    "description": "AURA's privacy, terms, shipping, returns, accessibility and disclosure pages.",
+    "description": "OPAR's privacy, terms, shipping, returns, accessibility and disclosure pages.",
     "eyebrow": "Policies",
     "heading": "The rules, in public.",
     "intro": "Each policy has its own address so it can be linked, shared and cited. They are being written in full as the shop moves toward opening.",
@@ -490,7 +490,7 @@
       "href": "/policies/"
     },
     "title": "Privacy policy",
-    "description": "What AURA stores in your browser, and what a full privacy notice covers.",
+    "description": "What OPAR stores in your browser, and what a full privacy notice covers.",
     "eyebrow": "Policies · Privacy",
     "heading": "Privacy.",
     "intro": "This page describes what the site actually stores. No analytics, advertising or customer database is connected, so the list is short.",
@@ -525,10 +525,10 @@
       "href": "/policies/"
     },
     "title": "Terms of use",
-    "description": "The terms that apply to AURA's website, invoices and partner offers.",
+    "description": "The terms that apply to OPAR's website, invoices and partner offers.",
     "eyebrow": "Policies · Terms",
     "heading": "Terms of use.",
-    "intro": "Using this site does not create an order. An order exists when AURA accepts a written invoice and payment is made.",
+    "intro": "Using this site does not create an order. An order exists when OPAR accepts a written invoice and payment is made.",
     "blocks": [
       {
         "heading": "Product information",
@@ -539,13 +539,13 @@
       {
         "heading": "Content and library",
         "paragraphs": [
-          "Text written for AURA belongs to AURA. Third-party texts and recordings remain the property of their rights holders and are used only within a documented permission or a public-domain edition."
+          "Text written for OPAR belongs to OPAR. Third-party texts and recordings remain the property of their rights holders and are used only within a documented permission or a public-domain edition."
         ]
       },
       {
         "heading": "Orders and cancellation",
         "paragraphs": [
-          "An invoice request is not an order. AURA may decline a request where a piece is unavailable, the destination cannot be served, or the supplier terms have changed. Cancellation and return rights are set out in the returns policy and on the invoice."
+          "An invoice request is not an order. OPAR may decline a request where a piece is unavailable, the destination cannot be served, or the supplier terms have changed. Cancellation and return rights are set out in the returns policy and on the invoice."
         ]
       },
       {
@@ -565,7 +565,7 @@
       "href": "/policies/"
     },
     "title": "Cookies and local storage",
-    "description": "AURA sets no advertising or analytics cookies. Cart, wishlist, request and newsletter state live in local storage.",
+    "description": "OPAR sets no advertising or analytics cookies. Cart, wishlist, request and newsletter state live in local storage.",
     "eyebrow": "Policies · Cookies",
     "heading": "Cookies, and what we actually use.",
     "intro": "No advertising or analytics cookies are set. Four pieces of state are kept in your browser's local storage instead.",
@@ -599,7 +599,7 @@
       "href": "/policies/"
     },
     "title": "Shipping policy",
-    "description": "How AURA confirms destinations, charges and delivery on the invoice.",
+    "description": "How OPAR confirms destinations, charges and delivery on the invoice.",
     "eyebrow": "Policies · Shipping",
     "heading": "Shipping.",
     "intro": "Shipping is quoted per destination on the invoice. No single table can promise every route, so the written quote is the commitment.",
@@ -607,7 +607,7 @@
       {
         "heading": "How a route is confirmed",
         "paragraphs": [
-          "AURA confirms the destination, carrier, charge and estimated window in writing before payment. Handling time is stated per piece where the maker or supplier sets it."
+          "OPAR confirms the destination, carrier, charge and estimated window in writing before payment. Handling time is stated per piece where the maker or supplier sets it."
         ]
       },
       {
@@ -619,7 +619,7 @@
       {
         "heading": "Partner offers",
         "paragraphs": [
-          "Shipping for a partner offer is set by the merchant. It is not covered by this policy, and the product page says so before you leave AURA."
+          "Shipping for a partner offer is set by the merchant. It is not covered by this policy, and the product page says so before you leave OPAR."
         ]
       }
     ]
@@ -633,7 +633,7 @@
       "href": "/policies/"
     },
     "title": "Returns and refunds",
-    "description": "How returns, refunds and hygiene exclusions work for AURA pieces and partner offers.",
+    "description": "How returns, refunds and hygiene exclusions work for OPAR pieces and partner offers.",
     "eyebrow": "Policies · Returns",
     "heading": "Returns and refunds.",
     "intro": "Returns follow the policy stated on your invoice and the consumer law that protects you where you live. Where the two differ, the law applies.",
@@ -641,7 +641,7 @@
       {
         "heading": "Requesting a return",
         "paragraphs": [
-          "Contact AURA within 14 days of delivery with the invoice reference. Pieces should be unused and in their original packaging. Return postage and any collection charge are stated before you send anything."
+          "Contact OPAR within 14 days of delivery with the invoice reference. Pieces should be unused and in their original packaging. Return postage and any collection charge are stated before you send anything."
         ]
       },
       {
@@ -659,7 +659,7 @@
       {
         "heading": "Partner offers",
         "paragraphs": [
-          "Returns for a partner offer follow the merchant's policy, not AURA's. The partner page states this before the link is followed."
+          "Returns for a partner offer follow the merchant's policy, not OPAR's. The partner page states this before the link is followed."
         ]
       }
     ]
@@ -673,15 +673,15 @@
       "href": "/policies/"
     },
     "title": "Payment and invoicing",
-    "description": "AURA invoices before payment. No card details are collected on this website.",
+    "description": "OPAR invoices before payment. No card details are collected on this website.",
     "eyebrow": "Policies · Payment",
     "heading": "Payment, by invoice.",
-    "intro": "AURA confirms the price, delivery and payment method in writing before anything is paid. No card number is collected on this site.",
+    "intro": "OPAR confirms the price, delivery and payment method in writing before anything is paid. No card number is collected on this site.",
     "blocks": [
       {
         "heading": "How an invoice works",
         "paragraphs": [
-          "Checkout records an invoice request in your browser. AURA reviews the pieces, the destination and the current supplier terms, then replies by email with a written invoice. The order exists when that invoice is accepted and paid, not when the form is sent."
+          "Checkout records an invoice request in your browser. OPAR reviews the pieces, the destination and the current supplier terms, then replies by email with a written invoice. The order exists when that invoice is accepted and paid, not when the form is sent."
         ]
       },
       {
@@ -707,7 +707,7 @@
       "href": "/policies/"
     },
     "title": "Accessibility",
-    "description": "What AURA does for accessibility now, and what still needs auditing.",
+    "description": "What OPAR does for accessibility now, and what still needs auditing.",
     "eyebrow": "Policies · Accessibility",
     "heading": "Accessibility.",
     "intro": "The site aims at WCAG 2.2 level AA. It has not yet had an independent audit, and this page will say so until it has.",
@@ -735,10 +735,10 @@
       "href": "/policies/"
     },
     "title": "Affiliate disclosure",
-    "description": "How AURA labels partner offers and earns commission, and what the merchant is responsible for.",
+    "description": "How OPAR labels partner offers and earns commission, and what the merchant is responsible for.",
     "eyebrow": "Policies · Disclosure",
     "heading": "Affiliate disclosure.",
-    "intro": "Some pages link to partner merchants. If you follow one of those links and buy, AURA may receive a commission, at no extra cost to you.",
+    "intro": "Some pages link to partner merchants. If you follow one of those links and buy, OPAR may receive a commission, at no extra cost to you.",
     "blocks": [
       {
         "heading": "How it is labelled",
@@ -747,9 +747,9 @@
         ]
       },
       {
-        "heading": "What AURA does not control",
+        "heading": "What OPAR does not control",
         "paragraphs": [
-          "The price, availability, delivery and returns are set by the merchant. AURA does not present a partner product as its own, and does not remove a supplier's branding to make it appear so."
+          "The price, availability, delivery and returns are set by the merchant. OPAR does not present a partner product as its own, and does not remove a supplier's branding to make it appear so."
         ]
       },
       {
@@ -769,10 +769,10 @@
       "href": "/policies/"
     },
     "title": "Health disclaimer",
-    "description": "AURA does not provide medical advice, and does not publish treatment, prevention or cure claims.",
+    "description": "OPAR does not provide medical advice, and does not publish treatment, prevention or cure claims.",
     "eyebrow": "Policies · Health",
     "heading": "Health disclaimer.",
-    "intro": "Nothing on this site is medical advice. AURA does not sell medicines, and does not publish claims that a product treats, prevents or cures a condition.",
+    "intro": "Nothing on this site is medical advice. OPAR does not sell medicines, and does not publish claims that a product treats, prevents or cures a condition.",
     "blocks": [
       {
         "heading": "How plants and practices are described",
@@ -789,7 +789,7 @@
       {
         "heading": "If a supplier claims more",
         "paragraphs": [
-          "Supplier marketing is not reproduced as AURA's position. Claims that have not been evidenced are listed on the product page under what AURA will not claim, so the gap is visible."
+          "Supplier marketing is not reproduced as OPAR's position. Claims that have not been evidenced are listed on the product page under what OPAR will not claim, so the gap is visible."
         ]
       }
     ]
@@ -798,8 +798,8 @@
     "path": "/search/",
     "section": null,
     "label": "Search",
-    "title": "Search AURA",
-    "description": "Search AURA's products, books, music and pages.",
+    "title": "Search OPAR",
+    "description": "Search OPAR's products, books, music and pages.",
     "eyebrow": "Search",
     "heading": "Find something.",
     "intro": "Search covers the products on this site and the pages that exist today. Results open on this site; partner offers say so before you leave.",
@@ -814,7 +814,7 @@
     "description": "Saved items, kept in your browser.",
     "eyebrow": "Wishlist",
     "heading": "Kept for later.",
-    "intro": "Save an item on its product page and it will wait here. The list is stored in this browser; it is not an account and it is not sent to AURA.",
+    "intro": "Save an item on its product page and it will wait here. The list is stored in this browser; it is not an account and it is not sent to OPAR.",
     "wishlist": true,
     "blocks": [
       {
@@ -847,7 +847,7 @@
       {
         "heading": "What happens next",
         "paragraphs": [
-          "Continue to checkout to request an invoice. AURA confirms the price, delivery and payment method by email before anything is paid. No card details are collected on this site."
+          "Continue to checkout to request an invoice. OPAR confirms the price, delivery and payment method by email before anything is paid. No card details are collected on this site."
         ]
       }
     ],
@@ -858,16 +858,16 @@
     "section": null,
     "label": "Checkout",
     "title": "Checkout · Request an invoice",
-    "description": "Request an AURA invoice. Price, delivery and payment are confirmed in writing before anything is paid.",
+    "description": "Request an OPAR invoice. Price, delivery and payment are confirmed in writing before anything is paid.",
     "eyebrow": "Checkout",
     "heading": "Request an invoice.",
-    "intro": "Nothing is charged here. Leave your details and AURA replies with the price, delivery and payment method before you commit to anything.",
+    "intro": "Nothing is charged here. Leave your details and OPAR replies with the price, delivery and payment method before you commit to anything.",
     "checkout": true,
     "blocks": [
       {
         "heading": "What happens after you send",
         "paragraphs": [
-          "The request is saved in this browser with a reference. AURA checks the pieces, the destination and the current supplier terms, then replies by email with a written invoice and the accepted payment methods."
+          "The request is saved in this browser with a reference. OPAR checks the pieces, the destination and the current supplier terms, then replies by email with a written invoice and the accepted payment methods."
         ]
       },
       {
@@ -884,10 +884,10 @@
     "section": null,
     "label": "Account",
     "title": "Account",
-    "description": "Invoice requests saved in this browser, and the details AURA holds about them.",
+    "description": "Invoice requests saved in this browser, and the details OPAR holds about them.",
     "eyebrow": "Account",
     "heading": "Your requests, in this browser.",
-    "intro": "AURA does not run a password account. This page reads the invoice requests you have made here, so you can find a reference without searching your inbox.",
+    "intro": "OPAR does not run a password account. This page reads the invoice requests you have made here, so you can find a reference without searching your inbox.",
     "account": true,
     "blocks": [
       {
@@ -909,8 +909,8 @@
     "path": "/newsletter/",
     "section": null,
     "label": "Newsletter",
-    "title": "Newsletter · AURA",
-    "description": "Occasional letters from AURA: new pieces, new writing, and nothing else.",
+    "title": "Newsletter · OPAR",
+    "description": "Occasional letters from OPAR: new pieces, new writing, and nothing else.",
     "eyebrow": "Newsletter",
     "heading": "Letters, rarely.",
     "intro": "One message when something is actually worth telling you about: a new collection, a new essay, a recording added to Perennis. Not a weekly schedule.",

@@ -109,13 +109,13 @@ test('the affiliate action preserves the exact referral token and opens external
   assert.match(action, /target="_blank"/);
   assert.match(action, /rel="sponsored noopener noreferrer"/);
   assert.match(action, /aria-describedby="offer-disclosure"/);
-  assert.match(affiliatePage, /AURA may earn a commission if you buy through this link/);
+  assert.match(affiliatePage, /OPAR may earn a commission if you buy through this link/);
 });
 
 test('affiliate pages never contain AURA purchase or quantity controls', () => {
   assert.doesNotMatch(withoutHeaderSearch(affiliatePage), /data-quantity-change|data-variant|button-closed|<form\b|\/checkout/);
   assert.match(affiliatePage, /Partner offer/);
-  assert.match(affiliatePage, /No AURA cart or checkout/);
+  assert.match(affiliatePage, /No OPAR cart or checkout/);
 });
 
 test('missing prices are shown as price on request, never as a zero-price offer', () => {
