@@ -101,8 +101,10 @@
           { "label": "All pieces", "href": "/shop/" },
           { "label": "Herbal Botanicals", "href": "/shop/herbal-botanicals/" },
           { "label": "Everyday Care", "href": "/shop/everyday-care/" },
-          { "label": "Yoga & Practice", "href": "/shop/yoga-practice/" },
           { "label": "Showpieces", "href": "/shop/showpieces/" },
+          { "label": "Yoga & Practice", "href": "/shop/yoga-practice/" },
+          { "label": "Art & Craft", "href": "/shop/art-craft/" },
+          { "label": "Quiet Living", "href": "/shop/quiet-living/" },
           { "label": "Partner offers", "href": "/discover/" }
         ]
       },

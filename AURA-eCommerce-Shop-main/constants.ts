@@ -10,14 +10,10 @@ export const BRAND_NAME = 'OPAR';
 export const PRIMARY_COLOR = 'stone-900'; 
 export const ACCENT_COLOR = 'stone-500';
 
-export const SHOP_ROOMS: { slug: string; title: string }[] = [
-  { slug: 'herbal-botanicals', title: 'Herbal Botanicals' },
-  { slug: 'everyday-care', title: 'Everyday Care' },
-  { slug: 'showpieces', title: 'Showpieces' },
-  { slug: 'yoga-practice', title: 'Yoga & Practice' },
-  { slug: 'art-craft', title: 'Art & Craft' },
-  { slug: 'quiet-living', title: 'Quiet Living' },
-];
+/* The room list lives in data/site.json (nav + footer) and data/collections.json
+   (pages). The third copy that used to live here is gone, so the React footer and
+   the generated footer cannot disagree. */
+
 
 /* D-018 (owner decision): the seeded demo catalogue is removed. Products
    reach the storefront through data/pilot-products.json and the generated

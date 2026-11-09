@@ -15,7 +15,7 @@
 
 import React, { useState } from 'react';
 import { LegalPolicyType } from '../types';
-import { SHOP_ROOMS } from '../constants';
+import site from '../data/site.json';
 import { commerce } from '../services/commerce';
 
 interface FooterProps {
@@ -30,6 +30,12 @@ const Footer: React.FC<FooterProps> = ({ onOpenPolicy, onOpenAdmin, onOpenSource
   const [message, setMessage] = useState<string | null>(null);
   const [isError, setIsError] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+
+  // One room list. The generated footer reads the same column, so the React
+  // footer cannot quietly show a different shop. "All pieces" is rendered
+  // above as "The entire shop".
+  const shopColumn = site.footer.columns.find(column => column.heading === 'Shop');
+  const browseLinks = (shopColumn?.links ?? []).filter(link => link.href !== '/shop/');
 
   const handleSubscribe = (event: React.FormEvent) => {
     event.preventDefault();
@@ -66,14 +72,14 @@ const Footer: React.FC<FooterProps> = ({ onOpenPolicy, onOpenAdmin, onOpenSource
         </div>
 
         <div className="md:col-span-3">
-          <h4 className="mb-6 text-xs font-medium uppercase tracking-[0.2em] text-paper">Browse</h4>
+          <h4 className="mb-6 text-xs font-medium uppercase tracking-[0.2em] text-paper">Shop</h4>
           <ul className="space-y-3 text-xs font-light">
             <li>
               <a href="/shop/" className="transition-colors hover:text-paper">The entire shop</a>
             </li>
-            {SHOP_ROOMS.map(room => (
-              <li key={room.slug}>
-                <a href={`/shop/${room.slug}/`} className="transition-colors hover:text-paper">{room.title}</a>
+            {browseLinks.map(link => (
+              <li key={link.href}>
+                <a href={link.href} className="transition-colors hover:text-paper">{link.label}</a>
               </li>
             ))}
             {onOpenSources && (

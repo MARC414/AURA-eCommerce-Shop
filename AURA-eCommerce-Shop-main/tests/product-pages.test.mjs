@@ -346,6 +346,40 @@ test('the menu stays small and every published link has a generated page', () =>
   }
 });
 
+test('every room appears once in the footer, from one source', async () => {
+  const shopColumn = site.footer.columns.find(column => column.heading === 'Shop');
+  assert.ok(shopColumn, 'the footer needs a Shop column');
+
+  const roomPaths = collections.map(collection => `/shop/${collection.slug}/`);
+  const shopHrefs = shopColumn.links.map(link => link.href);
+
+  // Every room once, in collection order, with the partner hub closing the column.
+  assert.deepEqual(
+    shopHrefs.filter(href => href.startsWith('/shop/') && href !== '/shop/'),
+    roomPaths
+  );
+  assert.equal(new Set(shopHrefs).size, shopHrefs.length, 'a footer link is listed twice');
+  assert.equal(shopHrefs[shopHrefs.length - 1], '/discover/', 'partner offers close the column');
+
+  // The rendered footer carries all six, whichever template drew it.
+  for (const page of [shopPage, affiliatePage, checkoutPage, aloePage]) {
+    const footer = page.slice(page.lastIndexOf('<footer'));
+    for (const collection of collections) {
+      assert.ok(
+        footer.includes(`href="/shop/${collection.slug}/"`),
+        `${collection.slug} is missing from the rendered footer`
+      );
+    }
+  }
+
+  // No third copy can drift back in.
+  const constants = await readFile(new URL('../constants.ts', import.meta.url), 'utf8');
+  assert.doesNotMatch(constants, /export const SHOP_ROOMS/, 'the room list must not be exported from constants.ts');
+  const footerSource = await readFile(new URL('../components/Footer.tsx', import.meta.url), 'utf8');
+  assert.match(footerSource, /from '\.\.\/data\/site\.json'/);
+  assert.doesNotMatch(footerSource, /SHOP_ROOMS|shop\/herbal-botanicals/, 'the React footer must read the contract');
+});
+
 test('one header and one footer come from the site contract', () => {
   for (const page of [shopPage, affiliatePage, checkoutPage]) {
     assert.match(page, /<form class="site-search" role="search" action="\/search\/" method="get">/);
