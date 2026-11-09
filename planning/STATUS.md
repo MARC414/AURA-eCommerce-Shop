@@ -3,6 +3,8 @@
 **Updated:** 2026-11-10  
 **Phase:** The Moss reference palette is now applied **exactly** (D-032, owner instruction 2026-11-10): five sampled colours — ground `#2F332B`, Main Text `#F4F2EE`, Header `#D0D3C4`, Button `#9AA66C`, Accent `#55632A` — with every other surface a stated mix of ground and Main Text. Pill buttons, transparent header, the featured-piece section with a shop button, `docs/BRAND-GUIDELINES.md`, `docs/PRODUCT-IMAGE-GUIDE.md`, and one rendered reference at `/brand-preview/`. 45/45 tests, clean build, committed locally on `main` (not pushed). Next: push and deployment need the owner's go-ahead; the final emblem SVG and real product photography are still the owner's to supply.
 
+**Since that line (same day).** TASK 01 (navigation unified on `data/site.json`, `4e33f19`) and TASK 02 (homepage room index, `57964a8`) are complete and committed locally; both are ahead of `origin/main`, unpushed. TASK 03 delivered an audit and plan only: `planning/TASK-03-STATIC-FIRST-PLAN.md`, recorded as **D-033**. Option A is adopted (generated static pages become the single customer-facing shell); **nothing from it is implemented yet.** Work starts at T1 in that plan. Open owner-side facts still block any real sale: no price, no shipping cost, no stock, no hosting.
+
 ## Current intake (D-020 takes precedence over older notes)
 
 - Added `/shop/ashwagandha-with-black-pepper/`, CJ `1898627038642925570`, SKU `CJHP232030301AZ`, under **Herbal Botanicals**. Shop is the intake assumption for this sourcing link; no affiliate token was supplied.
