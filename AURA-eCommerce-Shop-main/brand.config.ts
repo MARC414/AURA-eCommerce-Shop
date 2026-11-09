@@ -51,7 +51,7 @@ export const OPAR_BRAND: BrandConfiguration = {
   shortDescriptor: 'Objects and knowledge for conscious, contemplative living.',
   logo: {
     symbolName: 'Seed + Orbit emblem',
-    assetPath: '/assets/brand/orvanya-seed-orbit.svg',
+    assetPath: '/assets/brand/opar-seed-orbit.svg',
     altText: 'OPAR — Seed + Orbit Emblem',
     fallbackIcon: 'seed-orbit'
   },

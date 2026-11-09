@@ -51,7 +51,7 @@ const Footer: React.FC<FooterProps> = ({ onLinkClick, onOpenPolicy, onOpenAdmin,
         <div className="md:col-span-4">
           <div className="flex items-center gap-2.5 mb-3">
             <img 
-              src="/assets/brand/orvanya-seed-orbit.svg" 
+              src="/assets/brand/opar-seed-orbit.svg" 
               alt="OPAR Seed and Orbit Emblem" 
               className="w-7 h-7 shrink-0"
               width="28"

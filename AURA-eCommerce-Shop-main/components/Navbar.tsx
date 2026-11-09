@@ -97,7 +97,7 @@ const Navbar: React.FC<NavbarProps> = ({
             className={`flex items-center gap-2.5 text-2xl md:text-3xl font-serif font-medium tracking-tight z-50 relative transition-colors duration-500 ${textColorClass} focus-visible:outline-2 focus-visible:outline-[#C5AD70]`}
           >
             <img 
-              src="/assets/brand/orvanya-seed-orbit.svg" 
+              src="/assets/brand/opar-seed-orbit.svg" 
               alt="OPAR Seed and Orbit Emblem" 
               className="w-7 h-7 shrink-0"
               width="28"
