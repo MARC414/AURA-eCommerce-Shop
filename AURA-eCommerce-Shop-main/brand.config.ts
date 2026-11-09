@@ -34,13 +34,11 @@ export const BRAND_TAGLINE = OPAR_BRAND.tagline;
  */
 export const DESIGN_TOKENS = {
   color: {
-    forestGreen: BRAND.colors.forestGreen,
-    evergreen: BRAND.colors.evergreen,
-    antiqueGold: BRAND.colors.antiqueGold,
-    mossGreen: BRAND.colors.mossGreen,
-    warmIvory: BRAND.colors.warmIvory,
-    softSage: BRAND.colors.softSage,
-    stone: BRAND.colors.stone
+    ground: BRAND.colors.ground,
+    mainText: BRAND.colors.mainText,
+    header: BRAND.colors.header,
+    button: BRAND.colors.button,
+    accent: BRAND.colors.accent
   },
   font: {
     headings: "'Cormorant Garamond', Georgia, serif",

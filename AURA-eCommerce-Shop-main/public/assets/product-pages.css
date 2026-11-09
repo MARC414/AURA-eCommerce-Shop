@@ -1,70 +1,71 @@
 /*
   OPAR design tokens — "A World of Conscious Living".
-  Layer 1 (primitive --opar-*) holds the approved palette. Layer 2 (semantic
-  roles: canvas, ink, line…) maps primitives onto surfaces. Components consume
-  only semantic tokens; raw hex values live here and nowhere else.
 
-  Light natural surfaces (ivory) carry shopping interfaces. Dark forest
-  surfaces carry branding and editorial moments (footer, signatures).
+  D-032: the palette is the Moss reference sheet, sampled pixel-for-pixel at
+  its swatches. Five colours, and nothing else:
+
+    --opar-ground   #2F332B   page ground (the sheet's own background)
+    --opar-text     #F4F2EE   reference role "Main Text"
+    --opar-mist     #D0D3C4   reference role "Header"
+    --opar-cta      #9AA66C   reference role "Button"
+    --opar-accent   #55632A   reference role "Accent"
+
+  Every other surface below is a mix of the ground and Main Text at a stated
+  percentage, so the system adds no new hue. Layer 1 holds those values, layer
+  2 maps roles, and components read roles only — no raw hex past this block.
+
+  Measured contrast (WCAG 2.1): text 11.53:1, mist 8.47:1, cta 4.94:1 and
+  ground-inside-cta 4.94:1 on the ground. Accent is 1.97:1 on the ground, so
+  it is a fill and an ink-on-accent only — never text on the ground. On the
+  light reading paper it reaches 5.86:1 and may carry text there.
 */
 :root {
-  /* — Layer 1 · primitives (approved palette) — */
-  --opar-forest-green: #101B12;
-  --opar-evergreen: #1D3020;
-  --opar-antique-gold: #C5AD70;
-  --opar-moss-green: #82915B;
-  --opar-warm-ivory: #F1EBDD;
-  --opar-soft-sage: #B8BEAA;
-  --opar-stone: #34382D;
+  /* — Layer 1 · primitives (the five sampled colours) — */
+  --opar-ground: #2F332B;
+  --opar-text: #F4F2EE;
+  --opar-mist: #D0D3C4;
+  --opar-cta: #9AA66C;
+  --opar-accent: #55632A;
 
-  /* Derived primitives: only tints and shades of the approved colours. */
-  --opar-ivory-raised: #E9E2D0;
-  --opar-ivory-well: #E3DCC9;
-  --opar-gold-deep: #6D5C2E;      /* antique gold darkened for small text (AA on ivory) */
-  --opar-gold-hover: #B39A5C;
-  --opar-sage-tint: #DDE0D2;
-  --opar-moss-deep: #5C6A43;
-  --opar-forest-soft: #3E463C;    /* stone green for long body copy */
-  --opar-forest-line: #3A4638;    /* hairline on dark surfaces */
+  /* Derived primitives: ground mixed with Main Text, or the ground darkened. */
+  --opar-raised: #3D4039;         /* ground + 7% text — raised panel */
+  --opar-well: #292D26;           /* ground − 12% value — inset well */
+  --opar-ground-line: #4F524A;    /* ground + 16% text — hairline on ground */
+  --opar-paper-raised: #E2E1DC;   /* text − 9% toward ground */
+  --opar-paper-well: #D8D7D3;     /* text − 14% toward ground */
+  --opar-paper-line: #CDCCC7;     /* text − 20% toward ground */
+  --opar-paper-body: #43463F;     /* ground + 10% text — body ink on paper (8.59:1) */
+  --opar-accent-soft: #DDE1CE;    /* text mixed toward accent, tint only (paper wash) */
+}
 
-  /* D-030 ground + paper primitives (owner-confirmed 2026-11-10): the dark
-     Moss ground carries the site, cool ivory is the reading paper. */
-  --opar-moss-dark: #28332A;      /* brand ground */
-  --opar-moss-raised: #31402F;    /* raised surface on the ground */
-  --opar-moss-well: #22301F;      /* inset well on the ground */
-  --opar-sage-body: #C6CCBD;      /* body copy on the ground */
-  --opar-moss-line: #4A5443;      /* hairline on the ground */
-  --opar-ivory-cool: #EFF1E7;     /* cool paper */
-  --opar-ivory-cool-raised: #E7EADF;
+:root {
+  /* — Layer 2 · semantic roles (D-032: the ground is the canvas) — */
+  --canvas: var(--opar-ground);
+  --surface: var(--opar-raised);
+  --surface-well: var(--opar-well);
+  --sage-tint: var(--opar-raised);
+  --ink: var(--opar-text);
+  --body: var(--opar-mist);
+  --line: var(--opar-ground-line);
+  --cta: var(--opar-cta);
+  --cta-ink: var(--opar-ground);
+  --accent: var(--opar-accent);
+  --accent-text: var(--opar-cta);
 
-  /* — Layer 2 · semantic roles (D-030: dark ground is the canvas) — */
-  --canvas: var(--opar-moss-dark);
-  --surface: var(--opar-moss-raised);
-  --surface-well: var(--opar-moss-well);
-  --sage-tint: var(--opar-moss-raised);
-  --ink: var(--opar-ivory-cool);
-  --body: var(--opar-sage-body);
-  --line: var(--opar-moss-line);
-  --brass: var(--opar-antique-gold);
-  --accent-text: var(--opar-antique-gold);
-  --moss: #96A576; /* moss lightened for small text on the ground (large text only) */
+  /* Paper: Main Text becomes the reading ground, the ground becomes its ink. */
+  --paper-canvas: var(--opar-text);
+  --paper-surface: var(--opar-paper-raised);
+  --paper-well: var(--opar-paper-well);
+  --paper-ink: var(--opar-ground);
+  --paper-body: var(--opar-paper-body);
+  --paper-line: var(--opar-paper-line);
+  --paper-sage-tint: var(--opar-accent-soft);
 
-  /* Paper (cool ivory) — applied by .theme-paper on reading pages.
-     Values are the same roles, resolved for a light ground. */
-  --paper-canvas: var(--opar-ivory-cool);
-  --paper-surface: var(--opar-ivory-cool-raised);
-  --paper-well: #E2E5D7;
-  --paper-ink: #1A231C;
-  --paper-body: #3E463C;
-  --paper-line: #D4D8C6;
-  --paper-sage-tint: var(--opar-sage-tint);
-
-  /* Dark forest surface (branding / editorial) */
-  --forest-canvas: var(--opar-forest-green);
-  --forest-raised: var(--opar-evergreen);
-  --forest-ink: var(--opar-warm-ivory);
-  --forest-muted: var(--opar-soft-sage);
-  --forest-line: var(--opar-forest-line);
+  /* Footer: the ground's inset well, so the page closes the way it opened. */
+  --footer-canvas: var(--opar-well);
+  --footer-ink: var(--opar-text);
+  --footer-muted: var(--opar-mist);
+  --footer-line: var(--opar-ground-line);
 
   /* — Typography scale — */
   --serif: 'Cormorant Garamond', Georgia, serif;
@@ -101,15 +102,15 @@
   --width-text: 640px;
   --gutter: clamp(20px, 4vw, 48px);
 
-  /* — Radii: squared editorial identity; pill only for counts — */
+  /* — Radii: squared editorial identity; the pill is the reference's button — */
   --radius-none: 0px;
   --radius-soft: 2px;
   --radius-pill: 999px;
 
-  /* — Shadows — */
-  --shadow-panel: 0 20px 45px rgba(16, 27, 18, .10);
-  --shadow-card: 0 14px 34px rgba(16, 27, 18, .08);
-  --shadow-quiet: 0 6px 18px rgba(16, 27, 18, .06);
+  /* — Shadows: the ground, cast as a shadow, never a neutral grey — */
+  --shadow-panel: 0 20px 45px rgba(47, 51, 43, .10);
+  --shadow-card: 0 14px 34px rgba(47, 51, 43, .08);
+  --shadow-quiet: 0 6px 18px rgba(47, 51, 43, .06);
 
   /* — Controls — */
   --button-min-height: 56px;
@@ -132,9 +133,9 @@
   --transition-lift: transform var(--dur-med) var(--ease-out), box-shadow var(--dur-med) var(--ease-out);
 
   /* — Focus — */
-  --focus-ring-light: var(--opar-antique-gold);
-  --focus-ring-dark: var(--opar-antique-gold);
-  --focus-ring-paper: var(--opar-gold-deep);
+  --focus-ring-light: var(--opar-mist);
+  --focus-ring-dark: var(--opar-mist);
+  --focus-ring-paper: var(--opar-accent);
 
   /*
     Responsive breakpoints (documentation tokens; media queries cannot read
@@ -149,7 +150,7 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 180px; }
 body { margin: 0; background: var(--canvas); color: var(--ink); font-family: var(--sans); font-size: var(--text-body); line-height: var(--leading-body); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E"); }
-::selection { background: var(--opar-antique-gold); color: var(--opar-forest-green); }
+::selection { background: var(--opar-cta); color: var(--opar-ground); }
 a { color: inherit; text-decoration: none; }
 button, select { font: inherit; }
 button, a, select { -webkit-tap-highlight-color: transparent; }
@@ -165,16 +166,19 @@ h3 { font-size: var(--text-h3); }
 :focus-visible { outline: 2px solid var(--focus-ring-light); outline-offset: 5px; }
 #main-content:focus { outline: none; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.skip-link { position: fixed; left: 16px; top: -100px; z-index: 50; padding: 12px 20px; background: var(--opar-forest-green); color: var(--opar-warm-ivory); }
+.skip-link { position: fixed; left: 16px; top: -100px; z-index: 50; padding: 12px 20px; background: var(--opar-text); color: var(--opar-ground); }
 .skip-link:focus { top: 12px; }
 .eyebrow, .field-label { font-size: var(--text-eyebrow); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; font-weight: 600; }
 .eyebrow { color: var(--accent-text); }
 .small-note { font-size: var(--text-caption); font-weight: 400; color: var(--body); letter-spacing: 0; text-transform: none; }
 
-.site-header { display: grid; padding: 12px max(24px, calc((100vw - 1580px) / 2)) 0; border-bottom: 1px solid var(--line); background: var(--canvas); }
+/* The header is transparent on the ground, so a hero photograph can run
+   beneath it and every page opens the same way it continues. The menu itself
+   keeps the ground colour, so a dropdown never shows text through it. */
+.site-header { display: grid; padding: 12px max(24px, calc((100vw - 1580px) / 2)) 0; border-bottom: 1px solid var(--line); background: transparent; }
 .header-top { display: flex; align-items: center; gap: clamp(16px, 3vw, 44px); min-height: 58px; }
 .wordmark { display: inline-flex; gap: 16px; align-items: center; font-family: var(--serif); font-size: 34px; font-weight: 600; line-height: 1.2; letter-spacing: .01em; }
-.wordmark-emblem { width: 42px; height: 42px; object-fit: cover; border-radius: var(--radius-soft); flex-shrink: 0; }
+.wordmark-emblem { width: 32px; height: 32px; object-fit: contain; flex-shrink: 0; }
 .wordmark-note { font-family: var(--sans); color: var(--body); font-size: 9px; letter-spacing: .17em; text-transform: uppercase; border-left: 1px solid var(--line); padding-left: 16px; font-weight: 500; }
 .site-search { flex: 1 1 auto; display: flex; align-items: center; min-width: 0; border-bottom: 1px solid var(--line); }
 .site-search:focus-within { border-color: var(--ink); }
@@ -191,7 +195,7 @@ h3 { font-size: var(--text-h3); }
 .header-bottom { display: flex; align-items: center; justify-content: center; gap: 24px; border-top: 1px solid var(--line); }
 .primary-nav { display: flex; align-items: center; justify-content: center; width: 100%; gap: clamp(16px, 2.4vw, 34px); padding: 2px 0; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; }
 .primary-nav > a, .nav-group > summary { display: inline-flex; align-items: center; gap: 7px; min-height: var(--target-min); border-bottom: 1px solid transparent; transition: var(--transition-color); }
-.primary-nav > a:hover, .nav-group > summary:hover { border-color: var(--brass); }
+.primary-nav > a:hover, .nav-group > summary:hover { border-color: var(--cta); }
 .primary-nav > a[aria-current], .nav-group > summary[aria-current] { border-color: var(--ink); }
 .nav-group { position: relative; }
 .nav-group > summary { cursor: pointer; list-style: none; }
@@ -204,29 +208,29 @@ h3 { font-size: var(--text-h3); }
 .nav-panel a:hover { background: var(--surface); }
 .nav-note { font-size: 9px; letter-spacing: .06em; text-transform: none; color: var(--body); }
 .header-status { font-size: 10px; color: var(--body); display: flex; align-items: center; gap: 8px; white-space: nowrap; }
-.header-status > span { height: 5px; width: 5px; border-radius: 50%; background: var(--brass); }
+.header-status > span { height: 5px; width: 5px; border-radius: 50%; background: var(--cta); }
 .page-shell { max-width: var(--width-shell); padding: 0 var(--gutter) 96px; margin: 0 auto; }
 .breadcrumbs { padding: 32px 0 26px; color: var(--body); font-size: 11px; }
 .breadcrumbs ol { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; padding: 0; margin: 0; }
-.breadcrumbs li + li::before { content: '/'; padding-right: 10px; color: var(--brass); }
+.breadcrumbs li + li::before { content: '/'; padding-right: 10px; color: var(--cta); }
 .breadcrumbs a { text-decoration: underline; text-underline-offset: 4px; }
 .preview-notice { display: flex; align-items: baseline; gap: 24px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 14px 0; margin-bottom: 40px; }
 .preview-notice .eyebrow { flex-shrink: 0; }
 .preview-notice p { font-size: 12px; color: var(--body); }
 
-/* Badges and labels: quiet ivory for house pieces, gold for partner offers. */
+/* Badges: an outline for house pieces, the accent fill for partner offers. */
 .badge { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--canvas); color: var(--body); padding: 5px 10px; font-size: 9px; font-weight: 600; letter-spacing: .075em; text-transform: uppercase; line-height: 1.4; }
-.badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--opar-moss-green); }
-.badge-partner { background: #F4EDDC; border-color: var(--brass); color: var(--opar-gold-deep); }
-.badge-partner::before { background: var(--brass); }
+.badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--opar-cta); }
+.badge-partner { background: var(--opar-accent); border-color: var(--opar-accent); color: var(--opar-text); }
+.badge-partner::before { background: var(--opar-text); }
 
 .product-layout { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(32px, 5vw, 80px); align-items: start; }
 .product-gallery { min-width: 0; }
-.main-image { position: relative; display: grid; place-items: center; width: 100%; aspect-ratio: 4 / 5; overflow: hidden; background: var(--surface); }
+.main-image { position: relative; display: grid; place-items: center; width: 100%; aspect-ratio: 4 / 5; overflow: hidden; background: var(--paper-canvas); }
 .main-image > img { width: 100%; height: 100%; min-height: 0; object-fit: contain; }
 .image-corner-label { position: absolute; left: 20px; top: 20px; z-index: 1; background: var(--canvas); padding: 6px 10px; border: 1px solid var(--line); font-size: 9px; text-transform: uppercase; letter-spacing: .12em; }
 .gallery-thumbnails { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
-.thumbnail { padding: 4px; height: 86px; width: 72px; background: var(--surface); border: 1px solid transparent; transition: border-color var(--dur-fast) var(--ease-out); }
+.thumbnail { padding: 4px; height: 86px; width: 72px; background: var(--paper-canvas); border: 1px solid transparent; transition: border-color var(--dur-fast) var(--ease-out); }
 .thumbnail[aria-pressed="true"], .thumbnail:hover { border-color: var(--ink); }
 .thumbnail img { width: 100%; height: 100%; object-fit: contain; }
 .gallery-note { color: var(--accent-text); font-family: var(--serif); font-size: 16px; font-style: italic; line-height: 1.45; padding-left: 10px; }
@@ -251,21 +255,22 @@ h3 { font-size: var(--text-h3); }
 .quantity-control button:hover:not(:disabled) { background: var(--surface); }
 .quantity-control button:disabled { opacity: .4; }
 .quantity-control output { width: 32px; text-align: center; font-size: 12px; font-variant-numeric: tabular-nums; }
-/* Buttons: forest primary, outlined secondary, gold external CTA. */
-.button { display: inline-flex; align-items: center; justify-content: center; gap: 12px; border: 1px solid var(--ink); width: 100%; padding: var(--button-padding); min-height: var(--button-min-height); font-size: var(--button-font); font-weight: 600; text-transform: uppercase; letter-spacing: .12em; line-height: 1.5; transition: var(--transition-color), transform var(--dur-fast) var(--ease-out); }
+/* Buttons: the reference pill. Primary is the Button colour with ground ink
+   (4.94:1); secondary is a mist hairline. */
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 12px; border: 1px solid var(--ink); border-radius: var(--radius-pill); width: 100%; padding: var(--button-padding); min-height: var(--button-min-height); font-size: var(--button-font); font-weight: 600; text-transform: uppercase; letter-spacing: .12em; line-height: 1.5; transition: var(--transition-color), transform var(--dur-fast) var(--ease-out); }
 .button svg { width: 18px; height: 18px; flex-shrink: 0; }
 .button:active:not(:disabled) { transform: translateY(1px); }
 .button:focus-visible { outline-offset: 3px; }
-.button-primary { color: var(--opar-warm-ivory); background: var(--opar-forest-green); }
-.button-primary:hover:not(:disabled) { background: var(--opar-evergreen); }
+.button-primary { color: var(--cta-ink); background: var(--cta); border-color: var(--cta); }
+.button-primary:hover:not(:disabled) { background: var(--opar-mist); border-color: var(--opar-mist); }
 .button-primary:focus-visible { outline-color: var(--focus-ring-dark); }
-.button-secondary { color: var(--opar-forest-green); background: transparent; border-color: var(--opar-forest-green); }
-.button-secondary:hover:not(:disabled) { background: var(--sage-tint); }
+.button-secondary { color: var(--opar-text); background: transparent; border-color: var(--opar-mist); }
+.button-secondary:hover:not(:disabled) { background: rgba(208, 211, 196, .12); }
 .button-closed { background: var(--surface); border-color: var(--line); color: var(--body); }
 .action-note { margin-top: 10px; color: var(--body); font-size: 11px; line-height: 1.75; }
 .selection-status { display: block; margin-top: 9px; color: var(--body); font-size: 10px; }
 .merchant-note { color: var(--body); font-size: 13px; line-height: 1.8; margin-bottom: 24px; }
-.disclosure { margin-top: 22px; background: var(--surface); border-left: 2px solid var(--brass); padding: 16px 18px; }
+.disclosure { margin-top: 22px; background: var(--surface); border-left: 2px solid var(--cta); padding: 16px 18px; }
 .disclosure strong { display: block; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; font-weight: 500; margin-bottom: 6px; }
 .disclosure p { font-size: 11px; color: var(--body); line-height: 1.8; }
 .sourcing-note { margin-top: 28px; padding-top: 19px; border-top: 1px solid var(--line); }
@@ -297,15 +302,16 @@ h3 { font-size: var(--text-h3); }
 .section-intro { color: var(--body); font-size: 14px; line-height: 1.85; margin-top: 16px; max-width: 720px; }
 .compliance-layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 48px; align-items: start; }
 .compliance-meta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
-.rp-note { border-left: 2px solid var(--brass); padding: 4px 0 4px 18px; margin-bottom: 22px; }
+.rp-note { border-left: 2px solid var(--cta); padding: 4px 0 4px 18px; margin-bottom: 22px; }
 .rp-note p { font-size: 12px; color: var(--body); margin-top: 5px; line-height: 1.7; }
 .rp-note p.small-note { font-size: 11px; }
 .verification-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
 .verification-item { display: grid; grid-template-columns: 118px minmax(0, 1fr); gap: 18px; padding: 16px 0; border-bottom: 1px solid var(--line); align-items: start; }
 .status-pill { display: inline-flex; justify-content: center; padding: 4px 8px; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; border: 1px solid var(--line); line-height: 1.5; }
-.status-verified { background: #e7efe6; border-color: #b9cbb5; color: #33502f; }
-.status-pending { background: #f6efdd; border-color: #ddceac; color: #6d5a2f; }
-.status-not-provided { background: #f4e7e4; border-color: #dfc3bd; color: #7a4038; }
+/* Status chips: the label carries the meaning; colour only reinforces it. */
+.status-verified { background: rgba(154, 166, 108, .16); border-color: rgba(154, 166, 108, .5); color: var(--opar-cta); }
+.status-pending { background: rgba(208, 211, 196, .1); border-color: rgba(208, 211, 196, .45); color: var(--opar-mist); }
+.status-not-provided { background: transparent; border-style: dashed; color: var(--body); }
 .status-not-applicable { background: var(--surface); color: var(--body); }
 .verification-copy { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--body); line-height: 1.7; }
 .verification-copy strong { color: var(--ink); font-weight: 500; font-size: 13px; }
@@ -314,7 +320,7 @@ h3 { font-size: var(--text-h3); }
 .claims-panel > p { font-size: 12px; color: var(--body); line-height: 1.8; }
 .claims-panel ul { list-style: none; margin: 18px 0; padding: 0; }
 .claims-panel li { font-size: 12px; padding: 9px 0 9px 22px; position: relative; border-bottom: 1px solid var(--line); color: var(--body); }
-.claims-panel li::before { content: '×'; position: absolute; left: 0; top: 7px; color: #7a4038; font-size: 14px; line-height: 1; }
+.claims-panel li::before { content: '×'; position: absolute; left: 0; top: 7px; color: var(--body); font-size: 14px; line-height: 1; }
 
 .collection-page { min-height: 70vh; }
 .collection-heading { max-width: 750px; margin: 58px 0 48px; }
@@ -326,7 +332,7 @@ h3 { font-size: var(--text-h3); }
 .product-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap-cards); }
 .preview-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 1120px; gap: 64px; }
 .product-card { min-width: 0; display: flex; flex-direction: column; }
-.card-image { display: block; position: relative; background: var(--surface); aspect-ratio: 4 / 5; overflow: hidden; transition: var(--transition-lift); }
+.card-image { display: block; position: relative; background: var(--paper-canvas); aspect-ratio: 4 / 5; overflow: hidden; transition: var(--transition-lift); }
 .card-image > img { height: 100%; width: 100%; object-fit: contain; transition: transform var(--dur-slow) var(--ease-out); }
 .product-card:hover .card-image { box-shadow: var(--shadow-card); }
 .product-card:hover .card-image > img { transform: scale(1.03); }
@@ -334,31 +340,31 @@ h3 { font-size: var(--text-h3); }
 .card-copy { padding-top: 23px; display: flex; flex-direction: column; flex-grow: 1; }
 .card-copy h3 { font-size: 25px; margin-top: 9px; }
 .card-copy h3 a { display: flex; justify-content: space-between; align-items: center; gap: 14px; min-height: var(--target-min); transition: var(--transition-color); }
-.card-copy h3 a:hover { color: var(--moss); }
+.card-copy h3 a:hover { color: var(--cta); }
 .card-copy h3 a svg { transition: transform var(--dur-med) var(--ease-out); }
 .card-copy h3 a:hover svg { transform: translateX(4px); }
 .card-copy > p { color: var(--body); font-family: var(--serif); font-style: italic; font-size: 15px; margin-top: 7px; }
 .card-meta { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
 .card-price { display: block; font-size: 11px; font-weight: 600; letter-spacing: .04em; color: var(--ink); margin-top: auto; padding-top: 12px; }
-.card-availability { display: inline-flex; align-items: center; gap: 6px; font-size: 9px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--moss); }
-.card-availability::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--opar-moss-green); }
+.card-availability { display: inline-flex; align-items: center; gap: 6px; font-size: 9px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--cta); }
+.card-availability::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--opar-cta); }
 .card-cta { margin-top: 10px; }
 .preview-hubs { display: flex; flex-wrap: wrap; gap: 40px; margin-top: 44px; }
-/* Footer: the dark forest branding surface. */
-.site-footer { display: grid; gap: 40px; background: var(--forest-canvas); color: var(--forest-ink); padding: 56px max(24px, calc((100vw - 1484px) / 2)) 34px; border-top: 3px solid var(--brass); }
+/* Footer: the ground's inset well, closed by a hairline rather than a rule. */
+.site-footer { display: grid; gap: 40px; background: var(--footer-canvas); color: var(--footer-ink); padding: 56px max(24px, calc((100vw - 1484px) / 2)) 34px; border-top: 1px solid var(--footer-line); }
 .footer-top { display: grid; grid-template-columns: minmax(190px, 1fr) minmax(0, 3.4fr); gap: clamp(32px, 5vw, 72px); align-items: start; }
-.footer-brand .wordmark { font-size: 30px; color: var(--forest-ink); }
-.footer-brand .wordmark-emblem { border: 1px solid var(--forest-line); }
-.footer-brand p { color: var(--forest-muted); font-size: 12px; line-height: 1.8; margin-top: 14px; max-width: 260px; }
+.footer-brand .wordmark { font-size: 30px; color: var(--footer-ink); }
+.footer-brand .wordmark-emblem { width: 28px; height: 28px; }
+.footer-brand p { color: var(--footer-muted); font-size: 12px; line-height: 1.8; margin-top: 14px; max-width: 260px; }
 .footer-columns { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px 26px; }
 .footer-column { display: flex; flex-direction: column; }
-.footer-heading { margin: 0 0 8px; font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--brass); }
-.footer-column a { display: inline-flex; align-items: center; min-height: 34px; font-size: 12px; color: var(--forest-muted); transition: var(--transition-color); }
-.footer-column a:hover { color: var(--forest-ink); text-decoration: underline; text-underline-offset: 4px; }
+.footer-heading { margin: 0 0 8px; font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--cta); }
+.footer-column a { display: inline-flex; align-items: center; min-height: 34px; font-size: 12px; color: var(--footer-muted); transition: var(--transition-color); }
+.footer-column a:hover { color: var(--footer-ink); text-decoration: underline; text-underline-offset: 4px; }
 .footer-column a:focus-visible, .site-footer a:focus-visible, .site-footer :focus-visible { outline-color: var(--focus-ring-dark); }
-.footer-legal { display: flex; align-items: baseline; justify-content: space-between; gap: 24px 40px; flex-wrap: wrap; border-top: 1px solid var(--forest-line); padding-top: 22px; }
-.footer-legal p { color: var(--forest-muted); font-size: 11px; line-height: 1.8; max-width: 760px; }
-.footer-legal .footer-signature { font-family: var(--serif); font-style: italic; font-size: 15px; color: var(--brass); }
+.footer-legal { display: flex; align-items: baseline; justify-content: space-between; gap: 24px 40px; flex-wrap: wrap; border-top: 1px solid var(--footer-line); padding-top: 22px; }
+.footer-legal p { color: var(--footer-muted); font-size: 11px; line-height: 1.8; max-width: 760px; }
+.footer-legal .footer-signature { font-family: var(--serif); font-style: italic; font-size: 15px; color: var(--cta); }
 
 .static-page { max-width: 1100px; }
 .static-page .collection-heading { margin-bottom: 34px; }
@@ -393,7 +399,7 @@ h3 { font-size: var(--text-h3); }
 .empty-state .small-note { margin: 7px 0 14px; max-width: 520px; }
 .commerce-list { list-style: none; margin: 0 0 26px; padding: 0; border-top: 1px solid var(--line); }
 .commerce-item { display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; gap: 20px; align-items: start; padding: 20px 0; border-bottom: 1px solid var(--line); }
-.commerce-thumb { display: block; width: 96px; height: 120px; overflow: hidden; background: var(--surface); }
+.commerce-thumb { display: block; width: 96px; height: 120px; overflow: hidden; background: var(--paper-canvas); }
 .commerce-thumb img { width: 100%; height: 100%; object-fit: cover; }
 .commerce-copy { min-width: 0; }
 .commerce-name { display: inline-block; font-family: var(--serif); font-size: 22px; line-height: 1.3; }
@@ -413,22 +419,22 @@ h3 { font-size: var(--text-h3); }
 .wishlist-toggle:hover { text-decoration: underline; text-underline-offset: 5px; }
 .wishlist-toggle.is-saved { color: var(--ink); }
 .wishlist-toggle.is-saved svg { fill: currentColor; }
-.button.is-confirmed { background: var(--accent-text); border-color: var(--accent-text); color: var(--opar-forest-green); }
-body.theme-paper .button.is-confirmed { color: var(--opar-warm-ivory); }
+.button.is-confirmed { background: var(--cta); border-color: var(--cta); color: var(--cta-ink); }
+body.theme-paper .button.is-confirmed { border-color: var(--opar-accent); }
 
-/* Partner (affiliate) CTA: antique gold — visibly distinct from the house
-   forest-green purchasing button. It still leaves the site externally. */
-.external-cta { background: var(--opar-antique-gold); border-color: var(--opar-antique-gold); color: var(--opar-forest-green); }
-.external-cta:hover:not(:disabled) { background: var(--opar-gold-hover); border-color: var(--opar-gold-hover); color: var(--opar-forest-green); }
+/* Partner (affiliate) CTA: a mist outline, visibly distinct from the filled
+   house button. It still leaves the site externally. */
+.external-cta { background: transparent; border-color: var(--opar-mist); color: var(--opar-text); }
+.external-cta:hover:not(:disabled) { background: var(--opar-mist); border-color: var(--opar-mist); color: var(--opar-ground); }
 .external-cta:focus-visible { outline-color: var(--focus-ring-light); }
-.disclosure { border-left-color: var(--brass); }
+.disclosure { border-left-color: var(--cta); }
 .text-link { transition: var(--transition-color); }
-.text-link:hover { color: var(--brass); }
+.text-link:hover { color: var(--cta); }
 
 /* Grouped shop menu */
 .nav-panel-grouped { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 18px; min-width: 470px; }
 .nav-column { display: grid; gap: 2px; align-content: start; }
-.nav-group-label { display: block; padding: 7px 10px 3px; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--brass); }
+.nav-group-label { display: block; padding: 7px 10px 3px; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--cta); }
 .nav-panel-grouped .nav-column + .nav-column { border-left: 1px solid var(--line); padding-left: 16px; }
 
 /* Category rooms */
@@ -571,31 +577,22 @@ body.theme-paper .button.is-confirmed { color: var(--opar-warm-ivory); }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
-/* — Layer 3 · D-030 component reconciliation (dark-default, dark-safe) — */
+/* — Layer 3 · D-032 palette reconciliation (dark-default, dark-safe) — */
+/* Note: the status chips above are already palette mixes. They are declared once,
+   in Layer 2, so there is no second definition to drift from it. */
 
-/* Status chips: light washes read as glare on the ground. */
-.status-verified { background: rgba(130, 145, 91, .16); border-color: rgba(130, 145, 91, .45); color: #B9C48E; }
-.status-pending { background: rgba(197, 173, 112, .13); border-color: rgba(197, 173, 112, .45); color: #D9C892; }
-.status-not-provided { background: rgba(224, 167, 152, .12); border-color: rgba(224, 167, 152, .45); color: #E0A798; }
+/* Partner pieces: the accent is dark enough to hold Main Text (5.86:1) and is
+   clearly not the house Button fill. It is the only filled badge. */
+.badge-partner { background: var(--opar-accent); border-color: var(--opar-accent); color: var(--opar-text); }
+.badge-partner::before { background: var(--opar-text); }
+.claims-panel li::before { color: var(--body); }
 
-/* Partner badge (L199) and not-provided colour (#7a4038): swap for dark-tuned pairs. */
-.badge-partner { background: rgba(197, 173, 112, .14); border-color: rgba(197, 173, 112, .55); color: #D9C892; }
-.claims-panel li::before { color: #E0A798; }
-/* card title hover: --moss was light-only; use gold (AA on ground) on dark */
-.card-copy h3 a:hover { color: var(--brass); }
+/* Card availability: the Button colour is the one accent that reaches 4.94:1
+   on the ground, so it carries the small label and its dot. */
+.card-availability { color: var(--cta); }
+.card-availability::before { background: var(--opar-cta); }
 
-/* Buttons: primary becomes pale-paper text on deep moss-veil (forest/ivory read poorly on dark). */
-.button-primary { color: var(--opar-ivory-cool); background: var(--opar-evergreen); border-color: var(--opar-evergreen); }
-.button-primary:hover:not(:disabled) { background: var(--opar-forest-green); }
-.button-secondary { color: var(--opar-ivory-cool); border-color: var(--opar-ivory-cool); background: transparent; }
-.button-secondary:hover:not(:disabled) { background: rgba(197, 173, 112, .12); }
-.external-cta { color: var(--opar-forest-green); }
-
-/* Card availability: moss-sage reads on dark, but the swatch needs the bright moss. */
-.card-availability { color: var(--brass); }
-.card-availability::before { background: var(--opar-moss-green); }
-
-/* Paper mode: reading pages get the cool-ivory ground; roles mirror Layer 2. */
+/* Paper mode: Main Text becomes the ground, the ground its ink. */
 body.theme-paper {
   --canvas: var(--paper-canvas);
   --surface: var(--paper-surface);
@@ -604,22 +601,24 @@ body.theme-paper {
   --ink: var(--paper-ink);
   --body: var(--paper-body);
   --line: var(--paper-line);
-  --accent-text: var(--opar-gold-deep);
-  --moss: var(--opar-moss-deep);
+  --accent-text: var(--opar-accent);
   background-image: none;
 }
-body.theme-paper .status-verified { background: #E7EFE6; border-color: #B9CBB5; color: #33502F; }
-body.theme-paper .status-pending { background: #F6EFDD; border-color: #DDCEAC; color: #6D5A2F; }
-body.theme-paper .status-not-provided { background: #F4E7E4; border-color: #DFC3BD; color: #7A4038; }
-body.theme-paper .badge-partner { background: var(--opar-ivory-cool-raised); border-color: var(--brass); color: var(--opar-gold-deep); }
-body.theme-paper .button-primary { color: var(--opar-warm-ivory); background: var(--opar-forest-green); border-color: var(--opar-forest-green); }
-body.theme-paper .button-primary:hover:not(:disabled) { background: var(--opar-evergreen); }
-body.theme-paper .button-secondary { color: var(--opar-forest-green); border-color: var(--opar-forest-green); background: transparent; }
-body.theme-paper .button-secondary:hover:not(:disabled) { background: var(--sage-tint); }
-body.theme-paper .claims-panel li::before { color: #7A4038; }
-body.theme-paper .card-availability { color: var(--opar-moss-deep); }
-body.theme-paper .card-availability::before { background: var(--opar-moss-green); }
-body.theme-paper .skip-link { background: var(--opar-forest-green); color: var(--opar-warm-ivory); }
-body.theme-paper ::selection { background: var(--opar-soft-sage); color: var(--opar-forest-green); }
+body.theme-paper .status-verified { background: rgba(85, 99, 42, .1); border-color: rgba(85, 99, 42, .4); color: var(--opar-accent); }
+body.theme-paper .status-pending { background: rgba(47, 51, 43, .06); border-color: rgba(47, 51, 43, .25); color: var(--opar-paper-body); }
+body.theme-paper .status-not-provided { background: transparent; border-color: var(--opar-paper-line); border-style: dashed; color: var(--opar-paper-body); }
+body.theme-paper .claims-panel li::before { color: var(--opar-paper-body); }
+/* The Button fill is only 2.33:1 against paper, so the accent edge defines
+   the pill there (1.4.11 non-text contrast) while the fill stays the same. */
+body.theme-paper .button-primary { border-color: var(--opar-accent); }
+body.theme-paper .button-primary:hover:not(:disabled) { background: var(--opar-mist); border-color: var(--opar-mist); }
+body.theme-paper .button-secondary { color: var(--opar-accent); border-color: var(--opar-accent); }
+body.theme-paper .button-secondary:hover:not(:disabled) { background: rgba(85, 99, 42, .08); }
+body.theme-paper .external-cta { color: var(--opar-accent); border-color: var(--opar-accent); }
+body.theme-paper .external-cta:hover:not(:disabled) { background: var(--opar-accent); color: var(--opar-text); }
+body.theme-paper .card-availability { color: var(--opar-accent); }
+body.theme-paper .card-availability::before { background: var(--opar-accent); }
+body.theme-paper .skip-link { background: var(--opar-ground); color: var(--opar-text); }
+body.theme-paper ::selection { background: var(--opar-accent); color: var(--opar-text); }
 body.theme-paper :focus-visible { outline-color: var(--focus-ring-paper); }
 body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring-paper); }

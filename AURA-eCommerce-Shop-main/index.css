@@ -1,16 +1,19 @@
 /*
-  OPAR design tokens (React side) — D-030 dark Moss ground.
+  OPAR design tokens (React side) — D-032 exact reference palette.
 
   The static generated pages consume public/assets/product-pages.css, which is
-  the canonical token layer. These custom properties mirror the same approved
-  palette and typography so React components can adopt the roles without
-  scattering raw hex values. Brand values come from data/brand.json via
-  brand.config.ts.
+  the canonical token layer. These custom properties mirror the same five
+  sampled colours so React components adopt roles without scattering hex.
+  Brand values come from data/brand.json via brand.config.ts.
 
-  D-030 (owner-confirmed 2026-11-10): the dark Moss ground (#28332A) is the
-  site canvas. Cool ivory (#EFF1E7-family) is the "paper" used for reading
-  surfaces. Gold is hairlines and accents, never a large surface. Moss is
-  large text only.
+    ground  #2F332B   page ground
+    text    #F4F2EE   "Main Text"
+    mist    #D0D3C4   "Header"
+    cta     #9AA66C   "Button"
+    accent  #55632A   "Accent" — fill only; 1.97:1 on the ground.
+
+  Nothing else is added: surfaces are the ground mixed with Main Text at the
+  same ratios as the static layer.
 */
 
 @tailwind base;
@@ -18,32 +21,26 @@
 @tailwind utilities;
 
 :root {
-  /* Primitives (approved palette) */
-  --opar-forest-green: #101B12;
-  --opar-evergreen: #1D3020;
-  --opar-antique-gold: #C5AD70;
-  --opar-moss-green: #82915B;
-  --opar-warm-ivory: #F1EBDD;
-  --opar-soft-sage: #B8BEAA;
-  --opar-stone: #34382D;
+  /* Primitives (the five sampled colours) */
+  --opar-ground: #2F332B;
+  --opar-text: #F4F2EE;
+  --opar-mist: #D0D3C4;
+  --opar-cta: #9AA66C;
+  --opar-accent: #55632A;
 
-  /* Derived primitives for the dark ground (D-030) */
-  --opar-moss-dark: #28332A;
-  --opar-moss-raised: #31402F;
-  --opar-moss-well: #22301F;
-  --opar-sage-body: #C6CCBD;
-  --opar-moss-line: #4A5443;
-  --opar-ivory-cool: #EFF1E7;
-  --opar-ink-deep: #1A231C;
+  /* Derived primitives: ground mixed with Main Text, or darkened. */
+  --opar-raised: #3D4039;
+  --opar-well: #292D26;
+  --opar-ground-line: #4F524A;
 
-  /* Semantic roles — the dark ground is the canvas (D-030) */
-  --canvas: var(--opar-moss-dark);
-  --surface: var(--opar-moss-raised);
-  --ink: var(--opar-ivory-cool);
-  --body-text: var(--opar-sage-body);
-  --line: var(--opar-moss-line);
-  --brass: var(--opar-antique-gold);
-  --accent-text: var(--opar-antique-gold);
+  /* Semantic roles */
+  --canvas: var(--opar-ground);
+  --surface: var(--opar-raised);
+  --ink: var(--opar-text);
+  --body-text: var(--opar-mist);
+  --line: var(--opar-ground-line);
+  --cta: var(--opar-cta);
+  --accent-text: var(--opar-cta);
 
   /* Typography */
   --serif: 'Cormorant Garamond', Georgia, serif;
@@ -71,8 +68,8 @@
   }
 
   ::selection {
-    background: var(--opar-antique-gold);
-    color: var(--opar-forest-green);
+    background: var(--opar-cta);
+    color: var(--opar-ground);
   }
 }
 
@@ -80,4 +77,33 @@
 .grain {
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='0.07'/%3E%3C/svg%3E");
+}
+
+/* Hero scrims.
+   The navbar is transparent at scroll 0, so it sits directly on the sky in the
+   photograph: without a top scrim the light menu would fail contrast against
+   blue. The base scrim does the same job for the headline and body copy over
+   the treeline. Both are the ground colour, so they read as the ground
+   deepening rather than as a panel. */
+.hero-scrim-top {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(47, 51, 43, 0.94) 0%,
+    rgba(47, 51, 43, 0.78) 42%,
+    rgba(47, 51, 43, 0.34) 74%,
+    rgba(47, 51, 43, 0) 100%
+  );
+}
+
+.hero-scrim-base {
+  background-image: linear-gradient(
+    to top,
+    rgba(47, 51, 43, 0.97) 0%,
+    rgba(47, 51, 43, 0.92) 25%,
+    rgba(47, 51, 43, 0.82) 45%,
+    rgba(47, 51, 43, 0.66) 62%,
+    rgba(47, 51, 43, 0.5) 78%,
+    rgba(47, 51, 43, 0.2) 90%,
+    rgba(47, 51, 43, 0.04) 100%
+  );
 }

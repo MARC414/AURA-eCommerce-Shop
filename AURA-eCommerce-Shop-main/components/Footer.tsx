@@ -41,15 +41,25 @@ const Footer: React.FC<FooterProps> = ({ onOpenPolicy, onOpenAdmin, onOpenSource
   };
 
   return (
-    <footer className="border-t border-brass/40 bg-forest px-6 pb-12 pt-24 text-body md:px-12">
+    <footer className="border-t border-line bg-well px-6 pb-12 pt-24 text-body md:px-12">
       <div className="mx-auto mb-20 grid max-w-[1580px] grid-cols-1 gap-12 md:grid-cols-12">
         <div className="md:col-span-4">
-          <h4 className="mb-4 font-serif text-3xl text-paper">OPAR</h4>
+          <a href="/" className="mb-4 flex w-fit items-center gap-3 text-paper">
+            {/* Plate-free emblem, inked for the dark ground. */}
+            <img
+              src="/assets/brand/opar-seed-orbit-on-dark.png"
+              alt=""
+              width={28}
+              height={28}
+              className="h-[28px] w-[28px] object-contain"
+            />
+            <span className="font-serif text-3xl">OPAR</span>
+          </a>
           <p className="mb-6 max-w-xs text-sm font-light leading-relaxed">
             A small shop for a slower, more sensory life: instruments, art, books, quiet technology, and the materials of
             practice. The catalogue is being built one verified item at a time.
           </p>
-          <div className="flex flex-col gap-1 text-xs font-medium text-brass">
+          <div className="flex flex-col gap-1 text-xs font-medium text-cta">
             <span>· No health claims, ever</span>
             <span>· Every product page states what is still unverified</span>
           </div>
@@ -70,7 +80,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenPolicy, onOpenAdmin, onOpenSource
               <li className="pt-2">
                 <button
                   onClick={onOpenSources}
-                  className="flex items-center gap-1.5 text-left font-medium text-brass hover:underline"
+                  className="flex items-center gap-1.5 text-left font-medium text-cta hover:underline"
                 >
                   <span>✦ Sourcing &amp; lineage directory</span>
                 </button>
@@ -112,12 +122,12 @@ const Footer: React.FC<FooterProps> = ({ onOpenPolicy, onOpenAdmin, onOpenSource
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               disabled={isSaved}
-              className="border-b border-line bg-transparent py-2 text-sm text-paper outline-none transition-colors placeholder:text-body/50 focus:border-brass disabled:opacity-50"
+              className="border-b border-line bg-transparent py-2 text-sm text-paper outline-none transition-colors placeholder:text-body/50 focus:border-cta disabled:opacity-50"
             />
             <button
               type="submit"
               disabled={isSaved || !email.trim()}
-              className="mt-2 self-start text-xs font-medium uppercase tracking-[0.2em] transition-opacity hover:text-brass disabled:cursor-default disabled:opacity-50"
+              className="mt-2 self-start text-xs font-medium uppercase tracking-[0.2em] transition-opacity hover:text-cta disabled:cursor-default disabled:opacity-50"
             >
               {isSaved ? 'Saved on this device' : 'Add me to the list'}
             </button>
@@ -142,7 +152,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenPolicy, onOpenAdmin, onOpenSource
           <span aria-hidden="true">·</span>
           <a href="/policies/terms/" className="transition-colors hover:text-paper">Terms</a>
           <span aria-hidden="true">·</span>
-          <button onClick={onOpenAdmin} className="font-medium text-brass hover:underline">
+          <button onClick={onOpenAdmin} className="font-medium text-cta hover:underline">
             Team access
           </button>
         </div>

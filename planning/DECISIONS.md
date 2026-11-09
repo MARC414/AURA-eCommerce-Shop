@@ -344,3 +344,64 @@ Verified `git diff --cached origin/main` shows **no diff for those 11 files**, s
 **State.** Two hand-authored, noindex preview pages implement this proposal for comparison — `/brand-preview/opar/` (approved Task 3 system: ivory canvas, forest bands) and `/brand-preview/moss/` (identical content on the proposed `#28332A` canvas with Evergreen wells). Cormorant Garamond + Manrope and all seven approved colours are kept in both; only the ground changes. No reference palette hexes, prices, ratings or claims were copied from the Moss sheet.
 
 **Decision needed from owner:** pick the skin for the rollout (OPAR ivory / Moss dark), which approves or rejects the `#28332A` token and the supersession of Task 3's light-surface rule. Until then no production page changes ground.
+
+---
+
+## D-031 — Owner-supplied hero photograph + de-plated emblem (logo plate removed as a defect)
+**2026-11-10 — OWNER INSTRUCTION, EXECUTED.**
+
+**Instruction.** Put the original AURA hero photograph on the homepage, and remove the logo's solid background — "the color does not match, which is a very big mistake from design rules perspective."
+
+**Finding (verified).** `opar-seed-orbit.jpg` is a 750×750 two-tone file: the cream Seed + Orbit mark (`#F5F0D0`) on a flat `#003926` square. `#003926` is not one of the seven approved colours, so the plate read as a coloured sticker on both the `#28332A` ground and the `#EFF1E7` paper. The owner's classification — defect, not variation — is correct.
+
+**Executed — emblem.**
+- The plate is removed by **alpha un-matte**, not colour keying: each pixel is projected onto the plate→mark axis to recover its true coverage, then re-inked. Colour keying would have left a dark halo on every edge. Reproducible via `scripts/derive-brand-marks.ps1` (System.Drawing only, no dependency). Mark geometry untouched; only ink colour changes, which is the standard treatment for a one-colour mark.
+- **Two ground variants**, because one cream raster cannot work on both grounds: `opar-seed-orbit-on-dark.png` (cool ivory `#EFF1E7`, for the dark canvas) and `opar-seed-orbit-on-light.png` (paper ink `#1A231C`, for `theme-paper` pages). Selected per theme inside `documentPage()`. The footer always takes the ivory variant because `.site-footer` is `--forest-green` `#101B12` on every page, paper pages included.
+- `data/brand.json` now carries `assetPathOnDark` / `assetPathOnLight` / `tilePath`; the ambiguous `currentAssetPath` is gone. `approvedAssetPath` (the vector) stays reserved.
+- Lockup sizing corrected: a 42 px emblem box suited a plate, but a plate-free mark at 42 px overpowers the 34 px serif wordmark. Now 32 px in the header, 28 px in the footer, `object-fit: contain`, no `border-radius`, and the footer's leftover plate border removed.
+- The tab icon is the one place a container colour is *correct*, so the favicon is a tile (`opar-mark-tile-128.png`, ivory mark on `#28332A`). No favicon existed before, so every page view was requesting `/favicon.ico` and getting a 404.
+- The React chrome (Navbar, Footer) now carries the emblem too: the static pages showed emblem + wordmark while the shell showed only the wordmark.
+
+**Executed — hero photograph.**
+- `Hero Image OPAR.jpg` (2000×1333) renamed to `hero-opar.jpg` for URL safety and set as the hero image: `object-cover` at `50% 45%`, explicit `width`/`height` (no CLS), `fetchPriority="high"`, `decoding="async"`, and a document-level `<link rel="preload" as="image">` because it is the LCP element. Decorative (`aria-hidden` slot, empty `alt`); the headline carries the meaning.
+- Treated as part of the palette rather than dropped in raw: a 15 % `multiply` grade toward forest, the existing grain, plus two canvas-coloured scrims.
+
+**Design-principle corrections found while doing it (measured, not eyeballed).**
+1. *The transparent navbar sits on sky at scroll 0.* Ivory menu text on the photograph's blue sky measured **2.2:1**. A dedicated top scrim brought worst-case nav contrast to **8.7–9.2:1** at 375 / 768 / 1440.
+2. *Brass is a mid-tone and cannot carry small text over a photograph.* The 10 px brass eyebrow measured **1.69:1** on the bright valley. Brass now keeps the hairline rule and the primary CTA (which sits on the darkened base, 4.9–5.3:1); the overline label is set in paper. Body copy moved from `paper/70` to `paper/80`.
+3. *The type block is taller than the photograph can afford.* At 1440 the eyebrow sits ~78 % up the hero, so the base scrim was retuned to hold ≥0.5 alpha at that height while clearing to near-transparent at the top. The photograph keeps real presence — sky, peaks, valley and forest all read — and every text role passes: eyebrow 5.3–5.7:1, headline 4.3–5.2:1, body 5.7–6.4:1, brass CTA 4.9–5.3:1.
+
+**QA.** 45/45 template tests; clean 40-page build; 0 horizontal overflow at 375/768/1440 on home, shop and a paper page; emblem loads and is theme-correct on dark pages (header + footer) and paper pages (dark-ink header, ivory footer); both brand-preview pages repointed at the correct variant; no page references the plated JPG any more.
+
+**Deliberately not done.** No vectorisation of the mark (the owner supplies the final SVG); no price, rating, stock or health-claim changes; the source JPG stays on disk as the derivation input; nothing pushed.
+
+---
+
+## D-032 — The reference palette, applied exactly (supersedes the D-030 approximations)
+**2026-11-10 — OWNER INSTRUCTION, EXECUTED.** Owner: "why did you not apply it exactly. dont use other things, apply its color palette." Also commissioned in the same session: a final brand guideline, a featured-piece section with a shop button, and an honest answer on product imagery.
+
+**Finding (verified).** D-030 approximated the Moss reference. The reference sheet (`Branding/bf7dca245779961.69b4ce1c2b3d0.webp`) prints four hex labels, but all four read `#F3F2EE` — a copy-paste placeholder, not the swatch values. Sampling the swatches and the sheet's own background by pixel gives five colours and nothing else:
+
+| Sheet role | Hex | Measured contrast |
+|---|---|---|
+| (background) ground | `#2F332B` | — |
+| Main Text | `#F4F2EE` | 11.53:1 on ground |
+| Header | `#D0D3C4` | 8.47:1 on ground |
+| Button | `#9AA66C` | 4.94:1 vs ground, and 4.94:1 as the ink inside it |
+| Accent | `#55632A` | 1.97:1 on ground — fill only; 5.86:1 on paper |
+
+**Executed — tokens.** `public/assets/product-pages.css` `:root` rewritten around the five primitives. Every other surface is a stated mix of ground and Main Text: raised `#3D4039` (+7 %), well `#292D26` (−12 % value), ground hairline `#4F524A` (+16 %), paper-raised `#E2E1DC`, paper-well `#D8D7D3`, paper-line `#CDCCC7`, paper-body `#43463F`, accent-soft `#DDE1CE`. Mapped through semantic roles (`canvas/surface/well/ink/body/line/cta/cta-ink/accent/accent-text` + paper and footer families). `index.css` rewritten with the same values; `tailwind.config.js` rewritten to `canvas/surface/well/ink/paper/paper-raised/body/line/cta/accent` (`forest/brass/moss/sage` deleted). `data/brand.json` + `brand.config.ts` carry `ground/mainText/header/button/accent`; `theme-color` is `#2F332B` in `index.html` and the generator. Legacy hexes swept out of every rendered component; only documented palette hexes remain. Shadows are now cast from the ground (`rgba(47,51,43,…)`), not a neutral grey.
+
+**Executed — roles.** Nav and body copy take the Header colour; wordmark, headlines and primary ink take Main Text; the primary CTA is the reference's **pill** filled with `#9AA66C` and inked with the ground (`--radius-pill` is now the button radius, squares elsewhere); the partner CTA is a mist outline so a referral never looks like a house purchase; partner badges are the only accent-filled badge (Main Text on accent, 5.86:1); the footer is the ground's well; the header is transparent site-wide so photography runs beneath it, with an opaque `.nav-panel` so menus never show text through. Status chips were reduced to palette mixes and de-duplicated (they are reserved; no live page renders one).
+
+**Executed — emblem.** `derive-brand-marks.ps1` re-run with Main Text `#F4F2EE` on the ground and the ground `#2F332B` as ink on paper; tile ground `#2F332B`. Geometry untouched.
+
+**Executed — featured pieces.** `PilotProducts` replaced by `components/FeaturedProducts.tsx`: the reference card pattern (light paper 4:5 tile, category eyebrow, serif name, "Price on request", `#9AA66C` "View piece" pill) plus a "View all pieces" pill to `/shop/`. It is not called "Best Sellers" — nothing has been sold yet.
+
+**Executed — imagery decision.** `aliexpress-aloe-soap.jpg` is a marketing composite with an "Anti-Acne · Oil Control · Brighten" overlay and the same line printed on the label. "Anti-acne" is a **medicinal** claim, so the pixels are not published: the aloe listing now shows `photography-pending.svg` and keeps the supplier URL as provenance. `aliexpress-turmeric-soap.jpg` is a genuine photograph of the wrapped bar; only its printed pack label carries text, so it stays, with the caption naming that label as the supplier's wording and not an OPAR claim. Cut-out, colour-keying and AI "product" shots are ruled out in the image guide — and tinting a product to match the palette is not allowed.
+
+**Delivered — written system.** `docs/BRAND-GUIDELINES.md` (palette, measured contrast, roles, type, components, do/don't, where values live) and `docs/PRODUCT-IMAGE-GUIDE.md` (4:5 contain layout, what can and cannot be done to a supplier file, how today's four files measure up, instructions for the next shoot). The stale `/brand-preview/{opar,moss}` comparison pair and `brand-preview.css` are deleted, replaced by one rendered reference at `/brand-preview/` that loads the production token layer (`noindex, nofollow`).
+
+**QA.** 45/45 template tests; clean 40-page build; 0 horizontal page overflow at 375/768/1440 on home, `/shop/`, `/policies/privacy/` and `/brand-preview/`. Computed values verified in-browser: body `rgb(47,51,43)` / `rgb(244,242,238)`, CTA `rgb(154,166,108)` on ground ink with 999px radius, footer `rgb(41,45,38)`, partner badge `rgb(85,99,42)`, paper tiles `rgb(244,242,238)` at 4:5, paper-mode pill carrying the accent edge. Screenshots remain unavailable this session (the desktop window is not visible), so the check is computed-style and geometry based.
+
+**Deliberately not done.** No price, rating, stock or health-claim change; no photography invented for the two empty slots; no push, no deploy; the legacy unrendered `ProductGrid.tsx` / `ProductDetail.tsx` still hold inventing copy and remain untouched.

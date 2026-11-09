@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import PilotProducts from './components/PilotProducts';
+import FeaturedProducts from './components/FeaturedProducts';
 import Assistant from './components/Assistant';
 import Footer from './components/Footer';
 import WishlistDrawer from './components/WishlistDrawer';
@@ -105,7 +105,7 @@ function App() {
         {view.type === 'home' && (
           <>
             <Hero />
-            <PilotProducts />
+            <FeaturedProducts />
           </>
         )}
 

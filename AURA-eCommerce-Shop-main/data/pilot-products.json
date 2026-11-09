@@ -20,7 +20,7 @@
         "src": "/assets/products/aliexpress-turmeric-soap.jpg",
         "sourceImageUrl": "https://ae-pic-a1.aliexpress-media.com/kf/S4dd8e3668bf44d19a2ffae3bcb663949g.jpg",
         "alt": "Supplier listing photograph of the selected turmeric soap",
-        "caption": "Supplier photograph, shown as a listing reference. OPAR's own photography is added before launch."
+        "caption": "Supplier photograph of the wrapped bar. The printed pack label is the supplier's own wording and is not repeated as an OPAR claim. OPAR's own photography is added before launch."
       },
       {
         "src": "/assets/products/photography-pending.svg",
@@ -158,15 +158,12 @@
     },
     "images": [
       {
-        "src": "/assets/products/aliexpress-aloe-soap.jpg",
-        "sourceImageUrl": "https://ae-pic-a1.aliexpress-media.com/kf/S5c38ba7565c3471e8e517194dc27842ah.jpg",
-        "alt": "Supplier listing photograph of the selected aloe vera soap bar",
-        "caption": "Supplier photograph, shown as a listing reference. OPAR's own photography is added before launch."
-      },
-      {
         "src": "/assets/products/photography-pending.svg",
-        "alt": "Placeholder for an OPAR photograph; not an actual product image",
-        "caption": "OPAR's own photograph to follow. This is a placeholder."
+        "alt": "Placeholder for the aloe vera cleansing bar photograph; not an actual product image",
+        "caption": "OPAR's own photograph to follow. The supplier's artwork is withheld because it carries medicinal claim wording that OPAR does not publish.",
+        "isPlaceholder": true,
+        "sourceImageUrl": "https://ae-pic-a1.aliexpress-media.com/kf/S5c38ba7565c3471e8e517194dc27842ah.jpg",
+        "sourceImageStatus": "Withheld. The supplier file is a marketing composite headed 'ALOE VERA SOAP' with an 'Anti-Acne · Oil Control · Brighten' overlay and the same wording printed on the label. 'Anti-acne' is a medicinal claim, so the pixels are not published. The URL is retained as provenance only."
       }
     ],
     "price": null,

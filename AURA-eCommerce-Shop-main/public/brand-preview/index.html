@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<!-- Internal brand reference. Hand-authored, noindex. It reads the production
+     token layer (/assets/product-pages.css) rather than re-declaring colours, so
+     what is shown here is what the site actually renders. Guide-only layout
+     (swatch grid, specimens) is in the small <style> block below and uses the
+     same custom properties — no new hex values. -->
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>OPAR brand system — internal reference</title>
+  <meta name="description" content="Internal, noindex reference for the OPAR brand system: palette, roles, type, components and image rules.">
+  <meta name="theme-color" content="#2F332B">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap">
+  <link rel="stylesheet" href="/assets/product-pages.css">
+  <style>
+    /* Guide-only layout. Consumes the production tokens; declares no colours. */
+    .guide { max-width: var(--width-shell); margin: 0 auto; padding: 0 var(--gutter) 96px; }
+    .guide-band { border-bottom: 1px solid var(--line); padding: clamp(36px, 5vw, 64px) 0; }
+    .guide-band > h2 { margin-bottom: 8px; }
+    .guide-lede { color: var(--body); font-size: 14px; line-height: 1.85; max-width: 720px; margin-bottom: 28px; }
+    .swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 2px; border: 1px solid var(--line); }
+    .swatch { padding: 0; margin: 0; background: var(--surface); }
+    .swatch-chip { height: 132px; border-bottom: 1px solid var(--line); }
+    .swatch-body { padding: 14px 16px 16px; }
+    .swatch-role { display: block; font-size: var(--text-micro); letter-spacing: .14em; text-transform: uppercase; color: var(--body); }
+    .swatch-hex { display: block; font-family: var(--sans); font-size: 15px; font-weight: 600; color: var(--ink); margin-top: 4px; }
+    .swatch-note { display: block; font-size: var(--text-caption); line-height: 1.7; color: var(--body); margin-top: 6px; }
+    .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 28px; }
+    .specimen-row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 18px; }
+    .specimen-row .button { width: auto; min-width: 210px; }
+    .specimen-list { display: grid; gap: 10px; margin-top: 16px; }
+    .specimen-list .badge, .specimen-list .status-pill { justify-self: start; }
+    .guide-card { min-width: 0; }
+    .guide-tile { display: grid; place-items: center; aspect-ratio: 4 / 5; background: var(--paper-canvas); border: 1px solid var(--line); overflow: hidden; }
+    .guide-tile img { width: 100%; height: 100%; object-fit: contain; padding: 20px; }
+    .guide-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+    .guide-pair > div { border: 1px solid var(--line); padding: 20px 22px; background: var(--surface); }
+    .guide-pair h3 { font-size: 20px; margin-bottom: 10px; }
+    .guide-pair ul { margin: 0; padding-left: 18px; }
+    .guide-pair li { color: var(--body); font-size: 13px; line-height: 1.85; }
+    .measure { font-variant-numeric: tabular-nums; }
+    .paper-demo { background: var(--paper-canvas); color: var(--paper-ink); padding: 24px; border: 1px solid var(--line); }
+    .paper-demo p { color: var(--paper-body); font-size: 13px; line-height: 1.8; margin: 6px 0 14px; }
+    .paper-demo .button { width: auto; }
+    .paper-demo .button-primary { border-color: var(--opar-accent); }
+    .paper-demo .eyebrow { color: var(--opar-accent); }
+    .note-band { border-left: 2px solid var(--cta); padding: 16px 20px; background: var(--surface); margin-top: 28px; }
+    .note-band p { color: var(--body); font-size: 13px; line-height: 1.85; }
+    @media (min-width: 1100px) { .guide-card { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-top">
+      <a class="wordmark" href="/" aria-label="OPAR home">
+        <img class="wordmark-emblem" src="/assets/brand/opar-seed-orbit-on-dark.png" alt="" width="32" height="32">OPAR<span class="wordmark-note">A World of Conscious Living</span>
+      </a>
+    </div>
+    <nav class="primary-nav" aria-label="Reference navigation">
+      <a href="/shop/">Shop</a>
+      <a href="/discover/">Partner offers</a>
+      <a href="/perennis/">Perennis</a>
+      <a href="/journal/">Journal</a>
+      <a href="/about/">About</a>
+      <a href="/brand-preview/" aria-current="page">Brand system</a>
+    </nav>
+  </header>
+
+  <main id="main" class="guide">
+
+    <section class="guide-band">
+      <span class="eyebrow">Internal reference · noindex</span>
+      <h1>OPAR brand system, v1.0.</h1>
+      <p class="guide-lede">
+        Five colours sampled from the approved reference sheet, documented mixes
+        for everything else, Cormorant Garamond with Manrope, and squared surfaces
+        with pills for actions. This page loads the production token layer, so the
+        values below are the values the site renders. Written guidance lives in
+        <code>docs/BRAND-GUIDELINES.md</code> and <code>docs/PRODUCT-IMAGE-GUIDE.md</code>.
+      </p>
+      <div class="note-band">
+        <p><strong>Rule of the sheet.</strong> No sixth colour, no gold, no gradient, no
+        "premium" neutral. If a value is not one of the five below or a stated mix of
+        them, it does not belong on the site.</p>
+      </div>
+    </section>
+
+    <section class="guide-band">
+      <h2>The five colours</h2>
+      <p class="guide-lede">
+        Sampled at the swatches, not read from their labels — the printed labels on
+        the source sheet all repeat one placeholder value. Contrast is measured, not
+        estimated.
+      </p>
+      <div class="swatches">
+        <figure class="swatch">
+          <div class="swatch-chip" style="background:#2F332B"></div>
+          <figcaption class="swatch-body">
+            <span class="swatch-role">Ground</span>
+            <span class="swatch-hex">#2F332B</span>
+            <span class="swatch-note">Page ground. Text sits on it at 11.53:1.</span>
+          </figcaption>
+        </figure>
+        <figure class="swatch">
+          <div class="swatch-chip" style="background:#F4F2EE"></div>
+          <figcaption class="swatch-body">
+            <span class="swatch-role">Main Text</span>
+            <span class="swatch-hex">#F4F2EE</span>
+            <span class="swatch-note">Primary ink, and the paper reading ground.</span>
+          </figcaption>
+        </figure>
+        <figure class="swatch">
+          <div class="swatch-chip" style="background:#D0D3C4"></div>
+          <figcaption class="swatch-body">
+            <span class="swatch-role">Header</span>
+            <span class="swatch-hex">#D0D3C4</span>
+            <span class="swatch-note">Secondary ink: nav, body, meta. 8.47:1 on ground.</span>
+          </figcaption>
+        </figure>
+        <figure class="swatch">
+          <div class="swatch-chip" style="background:#9AA66C"></div>
+          <figcaption class="swatch-body">
+            <span class="swatch-role">Button</span>
+            <span class="swatch-hex">#9AA66C</span>
+            <span class="swatch-note">Primary action fill. 4.94:1 both ways with the ground.</span>
+          </figcaption>
+        </figure>
+        <figure class="swatch">
+          <div class="swatch-chip" style="background:#55632A"></div>
+          <figcaption class="swatch-body">
+            <span class="swatch-role">Accent</span>
+            <span class="swatch-hex">#55632A</span>
+            <span class="swatch-note">Filled badge, ink on paper. 1.97:1 on ground — fill only.</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="guide-band">
+      <h2>Roles and surfaces</h2>
+      <p class="guide-lede">
+        Every surface below is a mix of the ground and Main Text at a stated
+        percentage. Hairline edges are decorative and carry no information on their own.
+      </p>
+      <div class="guide-grid">
+        <div>
+          <h3>Ground family</h3>
+          <div class="specimen-list">
+            <span class="badge">Raised — ground + 7 % text</span>
+            <span class="badge">Well — ground − 12 % value (footer)</span>
+            <span class="badge">Line — ground + 16 % text</span>
+          </div>
+        </div>
+        <div>
+          <h3>Paper family</h3>
+          <div class="paper-demo">
+            <span class="eyebrow">Reading surface</span>
+            <p>Policies, about and help pages swap roles: Main Text becomes the ground and the ground becomes its ink, at 8.59:1 for body copy.</p>
+            <button type="button" class="button button-primary">Paper-mode action</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="guide-band">
+      <h2>Type</h2>
+      <p class="guide-lede">
+        Cormorant Garamond for the voice, Manrope for the interface. The reference
+        did not require a new pairing, and a third family would weaken this one.
+      </p>
+      <div class="guide-grid">
+        <div>
+          <p style="font-family:var(--serif);font-size:clamp(2.2rem,3.4vw,3.2rem);line-height:1.05;margin:0">A world of <em>conscious living.</em></p>
+          <p class="swatch-note" style="margin-top:10px">Display · Cormorant Garamond 400, italic second line</p>
+        </div>
+        <div>
+          <p style="font-family:var(--serif);font-size:1.55rem;margin:0">Objects and knowledge, described honestly.</p>
+          <p class="swatch-note" style="margin-top:10px">Heading · 1.55rem</p>
+          <p style="font-size:15px;line-height:1.72;color:var(--body);margin:14px 0 0">Body copy sets at 15px on a 1.72 line height and stays inside a 640px measure. Longer lines on a dark ground tire the eye faster than they do on paper.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="guide-band">
+      <h2>Actions</h2>
+      <p class="guide-lede">
+        The pill is the reference's signature, and the only place a pill appears.
+        One primary action per surface. A partner offer never takes the filled pill,
+        so the visitor can tell a house purchase from an external referral at a glance.
+      </p>
+      <div class="specimen-row">
+        <button type="button" class="button button-primary">Primary action</button>
+        <button type="button" class="button button-secondary">Secondary action</button>
+      </div>
+      <div class="specimen-row">
+        <span class="badge">OPAR shop</span>
+        <span class="badge badge-partner">Partner offer</span>
+        <span class="status-pill status-verified">Verified</span>
+        <span class="status-pill status-pending">Pending</span>
+        <span class="status-pill status-not-provided">Not provided</span>
+      </div>
+      <div class="note-band">
+        <p>Status always carries its meaning in the word. Colour only reinforces it, so
+        the chips stay readable to anyone who cannot distinguish the hues. These chips
+        are reserved in the token layer for a future evidence register; no live page
+        renders one today.</p>
+      </div>
+    </section>
+
+    <section class="guide-band">
+      <h2>A product card, as built</h2>
+      <p class="guide-lede">
+        Paper tile, category eyebrow, serif name, honest price line, text link.
+        The tile is photographed light and shown whole — never cropped, never tinted
+        to match the ground.
+      </p>
+      <div class="product-cards">
+        <article class="product-card guide-card" data-model="dropshipping">
+          <span class="card-image">
+            <img src="/assets/products/aliexpress-turmeric-soap.jpg" alt="" width="640" height="640" loading="lazy" decoding="async">
+            <span class="badge">OPAR shop</span>
+          </span>
+          <div class="card-copy">
+            <span class="eyebrow"><a href="/shop/everyday-care/">Everyday Care</a></span>
+            <h3><a href="/shop/turmeric-cleansing-soap/">Turmeric Cleansing Soap</a></h3>
+            <p>A small addition to the everyday.</p>
+            <span class="card-price">Price on request</span>
+          </div>
+        </article>
+        <article class="product-card guide-card" data-model="dropshipping">
+          <span class="card-image">
+            <img src="/assets/products/photography-pending.svg" alt="" width="640" height="640" loading="lazy" decoding="async">
+            <span class="badge">OPAR shop</span>
+          </span>
+          <div class="card-copy">
+            <span class="eyebrow"><a href="/shop/everyday-care/">Everyday Care</a></span>
+            <h3><a href="/shop/aloe-vera-soap/">Aloe Vera Cleansing Bar</a></h3>
+            <p>A plain bar, described plainly.</p>
+            <span class="card-price">Price on request</span>
+          </div>
+        </article>
+        <article class="product-card guide-card" data-model="affiliate">
+          <span class="card-image">
+            <img src="/assets/products/cleansing-pads-placeholder.svg" alt="" width="640" height="640" loading="lazy" decoding="async">
+            <span class="badge badge-partner">Partner offer</span>
+          </span>
+          <div class="card-copy">
+            <span class="eyebrow"><a href="/shop/everyday-care/">Everyday Care</a></span>
+            <h3><a href="/discover/turmeric-cleansing-pads/">Turmeric Cleansing Pads</a></h3>
+            <p>A partner find, introduced plainly.</p>
+            <span class="card-price">Price on request</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="guide-band">
+      <h2>Images: what the layout does</h2>
+      <p class="guide-lede">
+        The tile is 4:5, light, and shows the file whole with about 20px of padding.
+        That means the file's own background is what the visitor sees. A light
+        background merges with the tile; a dark or busy one becomes a visible
+        rectangle inside the frame.
+      </p>
+      <div class="guide-pair">
+        <div>
+          <h3>Works</h3>
+          <div class="guide-tile" style="margin-bottom:14px">
+            <img src="/assets/products/aliexpress-turmeric-soap.jpg" alt="A wrapped turmeric soap bar held in a hand, on a pale studio background">
+          </div>
+          <ul>
+            <li>Portrait or square, 1200–2000px, sRGB, under 250&nbsp;KB.</li>
+            <li>Plain light background, product filling most of the frame.</li>
+            <li>A printed pack label is part of the product and is allowed.</li>
+            <li>No badges, prices, claims or watermarks added in post.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Does not work</h3>
+          <div class="guide-tile" style="margin-bottom:14px">
+            <img src="/assets/products/photography-pending.svg" alt="Neutral placeholder reading 'A closer look, soon'">
+          </div>
+          <ul>
+            <li>Supplier marketing composites: headline type and claim pills baked in.</li>
+            <li>Cut-outs: these files have shadows, props and gradients, so a key leaves a halo.</li>
+            <li>Tinting a product toward the palette — the soap is orange, not green.</li>
+            <li>Inventing a missing view, or an AI image passed off as the product.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note-band">
+        <p><strong>Withheld file.</strong> The aloe supplier artwork carries an
+        "Anti-Acne" overlay and label line. That is a medicinal claim, so the pixels are
+        not published and the listing shows the placeholder instead. The source URL is
+        kept in <code>data/pilot-products.json</code> as provenance.</p>
+      </div>
+    </section>
+
+    <section class="guide-band" style="border-bottom:0">
+      <h2>Do and don't</h2>
+      <div class="guide-pair">
+        <div>
+          <h3>Do</h3>
+          <ul>
+            <li>Use the five colours and the documented mixes.</li>
+            <li>Set text in Main Text or Mist, on the ground or on paper.</li>
+            <li>Reserve the Button colour for the primary action.</li>
+            <li>Label every gap, and write "Price on request" when there is no price.</li>
+            <li>Keep the pill for actions and everything else square.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Don't</h3>
+          <ul>
+            <li>Set small text in the Accent on the ground (1.97:1).</li>
+            <li>Place the Button fill on paper without its accent edge (2.33:1).</li>
+            <li>Add a sixth colour, a gold, a gradient or a neutral grey.</li>
+            <li>Tint a product photograph to sit inside the palette.</li>
+            <li>Invent prices, ratings, stock, reviews, certifications or health claims.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="page-note">
+        Measurements quoted here were taken on the rendered pages at 375, 768 and
+        1440px. Where a rule exists because a pair failed, the failing ratio is shown
+        rather than described.
+      </p>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="wordmark" href="/">
+          <img class="wordmark-emblem" src="/assets/brand/opar-seed-orbit-on-dark.png" alt="" width="28" height="28">OPAR
+        </a>
+        <p>Internal brand reference. Not part of the shop, not indexed, and not linked from the storefront.</p>
+      </div>
+      <div class="footer-columns">
+        <div class="footer-column">
+          <p class="footer-heading">Reference</p>
+          <a href="/shop/">Shop</a>
+          <a href="/about/">About</a>
+        </div>
+        <div class="footer-column">
+          <p class="footer-heading">Written</p>
+          <a href="/about/sourcing/">Sourcing</a>
+          <a href="/policies/">Policies</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <p>OPAR · A World of Conscious Living</p>
+      <p class="footer-signature">noindex, nofollow</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,7 +1,7 @@
 # AURA — Status
 
 **Updated:** 2026-11-10  
-**Phase:** Moss rollout executed (owner-confirmed 2026-11-10). Dark ground `#28332A` + cool-ivory paper (`#EFF1E7`) re-skin across the static pages and the React shell; Tailwind compiled (D-021 option B); P0 truth hygiene in the same commit (false schema, CDN, GSC placeholder, Unsplash assets, seeded demo catalogue all removed). 45/45 tests, clean build, committed locally on `main` (not pushed). Next: photography to drop into the reserved slots when the owner supplies images; push and deployment need the owner's go-ahead.
+**Phase:** The Moss reference palette is now applied **exactly** (D-032, owner instruction 2026-11-10): five sampled colours — ground `#2F332B`, Main Text `#F4F2EE`, Header `#D0D3C4`, Button `#9AA66C`, Accent `#55632A` — with every other surface a stated mix of ground and Main Text. Pill buttons, transparent header, the featured-piece section with a shop button, `docs/BRAND-GUIDELINES.md`, `docs/PRODUCT-IMAGE-GUIDE.md`, and one rendered reference at `/brand-preview/`. 45/45 tests, clean build, committed locally on `main` (not pushed). Next: push and deployment need the owner's go-ahead; the final emblem SVG and real product photography are still the owner's to supply.
 
 ## Current intake (D-020 takes precedence over older notes)
 
@@ -28,6 +28,20 @@
 - Books must have documented publication rights. Prior candidates need further edition/territory checks; access and pricing are undecided.
 
 ## Completed work since last status
+
+### Exact reference palette + brand guide (2026-11-10, D-032)
+- **Palette.** The reference sheet's printed hex labels are a copy-paste placeholder (all four read `#F3F2EE`), so the swatches and the sheet's own background were sampled by pixel: ground `#2F332B`, Main Text `#F4F2EE`, Header `#D0D3C4`, Button `#9AA66C`, Accent `#55632A`. Those five, plus surfaces that are stated ground/text mixes, are now the whole system. Legacy gold/forest/moss tokens are gone from `product-pages.css`, `index.css`, `tailwind.config.js`, `brand.json` and every rendered component.
+- **Roles.** Mist nav and body, Main Text headlines, a filled `#9AA66C` **pill** with ground ink for the primary action (buttons are pills now; everything else stays square), mist outline for partner CTAs, accent-filled partner badges, the well as footer, and a transparent site header so photography runs beneath it.
+- **Featured pieces.** `PilotProducts` → `components/FeaturedProducts.tsx`: reference card (paper 4:5 tile, "Supplier photo" tag, category, serif name, "Price on request", "View piece" pill) plus "View all pieces" → `/shop/`. Not labelled "Best Sellers", because nothing has been sold.
+- **Imagery.** `aliexpress-aloe-soap.jpg` is a marketing composite whose overlay *and* label read "Anti-Acne": a medicinal claim, so the pixels are withheld and the listing shows the neutral placeholder, with the supplier URL kept as provenance. The turmeric file is a real photograph of the wrapped bar and stays, captioned so the printed pack label is attributed to the supplier.
+- **Deliverables.** `docs/BRAND-GUIDELINES.md` and `docs/PRODUCT-IMAGE-GUIDE.md`; `/brand-preview/{opar,moss}` and `brand-preview.css` deleted in favour of one noindex rendered reference at `/brand-preview/` that loads the production token layer.
+- **QA.** 45/45 template tests; clean 40-page build; 0 horizontal overflow at 375/768/1440 on home, `/shop/`, `/policies/privacy/` and `/brand-preview/`; computed colours confirmed in-browser (ground, ink, CTA fill + ink, footer well, partner accent, paper tile, paper-mode accent edge). Screenshots unavailable (desktop window not visible), so QA is computed-style and geometry based.
+
+### Owner assets applied — hero photograph + de-plated emblem (2026-11-10, D-031)
+- **Hero:** `hero-opar.jpg` (the owner's 2000×1333 OPAR landscape) is the homepage hero — `object-cover` at `50% 45%`, explicit dimensions, `fetchPriority="high"`, preloaded as the LCP image, with a 15 % forest multiply grade, grain and two canvas scrims.
+- **Emblem:** the `#003926` plate (not a palette colour) removed by alpha un-matte, not colour keying; two transparent variants (ivory `#EFF1E7` for dark grounds, paper ink `#1A231C` for `theme-paper`) selected per theme; header 32 px / footer 28 px, no radius, footer plate border gone; 128 px tab/app tile added (no favicon existed before); emblem added to the React navbar and footer for parity with the static pages.
+- **Corrections found by measurement:** navbar over sky was 2.2:1 (now 8.7–9.2:1 via a top scrim); the brass eyebrow over the photo was 1.69:1 (brass now keeps only the rule and CTA; overline set in paper); body copy raised to `paper/80`. Final hero contrast — eyebrow 5.3–5.7:1, headline 4.3–5.2:1, body 5.7–6.4:1, brass CTA 4.9–5.3:1 at 375/768/1440.
+- **QA:** 45/45 tests, clean 40-page build, 0 horizontal overflow at all three widths, emblem verified loading and theme-correct on dark and paper pages. Screenshots unavailable this session (desktop browser window not visible); contrast measured by compositing the real layers on canvas and the mark inspected at true display size instead.
 
 ### Moss rollout — D-030 executed, D-021 (compiled Tailwind), P0 truth hygiene (2026-11-10, owner approved "go")
 - **Skin:** dark Moss ground `#28332A` with cool-ivory "paper" reading surfaces. Static layer: `:root` roles flipped in `public/assets/product-pages.css` and a `body.theme-paper` override (threaded via a new `theme` param on `documentPage()`, used only for content/policy pages); dark-tuned chips/badges/buttons; CSS-only grain; `theme-color` `#28332A`. React side: `index.css` roles + Tailwind semantic colour names (`canvas/surface/paper/brass/moss`), dark Hero with reserved `data-photography-slot`, re-skinned PilotProducts/Navbar/Footer, legacy chrome hexes cooled to the cool-ivory family.

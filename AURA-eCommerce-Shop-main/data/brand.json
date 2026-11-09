@@ -7,17 +7,17 @@
   "logo": {
     "altText": "OPAR seed and orbit emblem",
     "approvedAssetPath": "/assets/brand/opar-seed-orbit.svg",
-    "currentAssetPath": "/assets/brand/opar-seed-orbit.jpg",
-    "note": "The approved Seed + Orbit emblem is used from its current JPG file. When the final SVG is supplied, drop it in at approvedAssetPath and switch currentAssetPath."
+    "assetPathOnDark": "/assets/brand/opar-seed-orbit-on-dark.png",
+    "assetPathOnLight": "/assets/brand/opar-seed-orbit-on-light.png",
+    "tilePath": "/assets/brand/opar-mark-tile-128.png",
+    "note": "One-colour emblem, no background plate. The supplied JPG painted the mark on a solid #003926 square that is not in the palette, so the plate was removed by alpha un-matte (scripts/derive-brand-marks.ps1) and the mark is inked per ground: Main Text #F4F2EE on the ground and footer, and the ground #2F332B on theme-paper pages. Mark geometry is untouched. The tile is only for the browser/app icon, where a container colour is correct. When the final SVG is supplied, drop it in at approvedAssetPath and replace the two PNG paths."
   },
   "colors": {
-    "forestGreen": "#101B12",
-    "evergreen": "#1D3020",
-    "antiqueGold": "#C5AD70",
-    "mossGreen": "#82915B",
-    "warmIvory": "#F1EBDD",
-    "softSage": "#B8BEAA",
-    "stone": "#34382D"
+    "ground": "#2F332B",
+    "mainText": "#F4F2EE",
+    "header": "#D0D3C4",
+    "button": "#9AA66C",
+    "accent": "#55632A"
   },
   "typography": {
     "headings": "Cormorant Garamond",

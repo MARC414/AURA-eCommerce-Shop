@@ -6,10 +6,17 @@
   the content globs are written from the root and passed an explicit config
   path in vite.config.ts.
 
-  Colours mirror the D-030 roles: the dark Moss ground is the site canvas and
-  the cool ivory paper is the reading surface. Utility classes are the only
-  place these hex values are written on the React side; components consume
-  the semantic names.
+  D-032: the colour names below are the five colours sampled from the Moss
+  reference sheet, plus the surfaces derived from them by mixing the ground
+  with Main Text at the same ratios as the static token layer
+  (public/assets/product-pages.css). Utility classes are the only place these
+  hex values are written on the React side; components consume the names.
+
+    canvas  #2F332B  ground        paper   #F4F2EE  Main Text / reading ground
+    surface #3D4039  raised panel  body    #D0D3C4  Header / secondary ink
+    well    #292D26  inset well    line    #4F524A  hairline
+    ink     #2F332B  ink on fill   cta     #9AA66C  Button
+                                   accent  #55632A  Accent (fill only)
 */
 module.exports = {
   content: [
@@ -24,18 +31,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        canvas: '#28332A',        // D-030 ground
-        surface: '#31402F',       // raised panel on the ground
-        well: '#22301F',          // inset well on the ground
-        ink: '#1A231C',           // ink on paper / gold
-        paper: '#EFF1E7',         // D-030 cool ivory reading paper
-        'paper-raised': '#E7EADF',
-        body: '#C6CCBD',          // body copy on the ground
-        line: '#4A5443',          // hairline on the ground
-        brass: '#C5AD70',         // antique gold: hairlines, eyebrows, counts
-        moss: '#82915B',          // large text only
-        forest: '#101B12',
-        sage: '#B8BEAA',
+        canvas: '#2F332B',        // the ground
+        surface: '#3D4039',       // ground + 7% Main Text
+        well: '#292D26',          // ground − 12% value
+        ink: '#2F332B',           // ink inside a Button fill or on paper
+        paper: '#F4F2EE',         // Main Text; the reading ground
+        'paper-raised': '#E2E1DC',
+        body: '#D0D3C4',          // the reference's "Header" role
+        line: '#4F524A',          // ground + 16% Main Text
+        cta: '#9AA66C',           // the reference's "Button" role
+        accent: '#55632A',        // the reference's "Accent" role (fill only)
       },
       fontFamily: {
         serif: ['var(--serif)'],

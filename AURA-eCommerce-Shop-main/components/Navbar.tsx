@@ -64,7 +64,7 @@ const Navbar: React.FC<NavbarProps> = ({
   };
 
   const countChip = scrolled
-    ? 'bg-brass text-ink'
+    ? 'bg-cta text-ink'
     : 'bg-paper/15 text-paper backdrop-blur-sm';
 
   return (
@@ -81,13 +81,22 @@ const Navbar: React.FC<NavbarProps> = ({
           {/* Brand Logo */}
           <a
             href="/"
-            className="relative z-50 font-serif text-3xl font-medium tracking-tight text-paper transition-colors duration-300"
+            className="relative z-50 flex items-center gap-3 font-serif text-3xl font-medium tracking-tight text-paper transition-colors duration-300"
           >
+            {/* Plate-free emblem, inked for the dark ground. Decorative: the
+                wordmark beside it already names the link. */}
+            <img
+              src="/assets/brand/opar-seed-orbit-on-dark.png"
+              alt=""
+              width={32}
+              height={32}
+              className="h-[32px] w-[32px] object-contain"
+            />
             {BRAND_NAME}
           </a>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden items-center gap-8 text-[10px] font-semibold uppercase tracking-[0.2em] text-paper md:flex lg:gap-10">
+          <div className="hidden items-center gap-8 text-[10px] font-semibold uppercase tracking-[0.2em] text-body md:flex lg:gap-10">
 
             {/* Category rooms */}
             <div
@@ -118,7 +127,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   onMouseLeave={() => setCategoriesDropdownOpen(false)}
                 >
                   <div className="border-b border-line/70 px-4 py-1.5">
-                    <span className="block text-[9px] uppercase tracking-[0.22em] text-brass">
+                    <span className="block text-[9px] uppercase tracking-[0.22em] text-cta">
                       The rooms
                     </span>
                   </div>
@@ -128,10 +137,10 @@ const Navbar: React.FC<NavbarProps> = ({
                       <a
                         key={room.slug}
                         href={`/shop/${room.slug}/`}
-                        className="flex items-center justify-between px-4 py-2 text-[10px] uppercase tracking-[0.14em] text-paper/85 transition-colors hover:bg-surface hover:text-paper"
+                        className="flex items-center justify-between px-4 py-2 text-[10px] uppercase tracking-[0.14em] text-body transition-colors hover:bg-surface hover:text-paper"
                       >
                         <span>{room.title}</span>
-                        <span aria-hidden="true" className="text-brass">→</span>
+                        <span aria-hidden="true" className="text-cta">→</span>
                       </a>
                     ))}
                   </div>
@@ -139,7 +148,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   <div className="border-t border-line/70 px-4 pt-2">
                     <a
                       href="/shop/"
-                      className="block py-1 text-[10px] uppercase tracking-[0.16em] text-brass transition-colors hover:text-paper"
+                      className="block py-1 text-[10px] uppercase tracking-[0.16em] text-cta transition-colors hover:text-paper"
                     >
                       All rooms →
                     </a>
@@ -156,7 +165,7 @@ const Navbar: React.FC<NavbarProps> = ({
             {onOpenSources && (
               <button
                 onClick={onOpenSources}
-                className="text-[10px] font-semibold uppercase tracking-[0.2em] text-brass transition-opacity hover:opacity-70"
+                className="text-[10px] font-semibold uppercase tracking-[0.2em] text-cta transition-opacity hover:opacity-70"
               >
                 Lineage &amp; Sources
               </button>
@@ -164,7 +173,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={onOpenAdmin}
-              className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-brass/80 transition-opacity hover:opacity-70"
+              className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-cta/80 transition-opacity hover:opacity-70"
               title="Team access"
             >
               <span>Admin</span>
@@ -238,7 +247,7 @@ const Navbar: React.FC<NavbarProps> = ({
       }`}>
         <div className="flex flex-col space-y-6">
           <div className="border-b border-line pb-5">
-            <span className="mb-3 block text-[9px] uppercase tracking-[0.24em] text-brass">
+            <span className="mb-3 block text-[9px] uppercase tracking-[0.24em] text-cta">
               The rooms
             </span>
             <div className="space-y-3">
@@ -246,10 +255,10 @@ const Navbar: React.FC<NavbarProps> = ({
                 <a
                   key={room.slug}
                   href={`/shop/${room.slug}/`}
-                  className="flex items-center justify-between font-serif text-xl text-paper transition-colors hover:text-brass"
+                  className="flex items-center justify-between font-serif text-xl text-paper transition-colors hover:text-cta"
                 >
                   <span>{room.title}</span>
-                  <span aria-hidden="true" className="text-xs text-brass">→</span>
+                  <span aria-hidden="true" className="text-xs text-cta">→</span>
                 </a>
               ))}
             </div>
@@ -263,7 +272,7 @@ const Navbar: React.FC<NavbarProps> = ({
             {onOpenSources && (
               <button
                 onClick={() => { setMobileMenuOpen(false); onOpenSources(); }}
-                className="text-left transition-opacity hover:opacity-60 text-brass"
+                className="text-left transition-opacity hover:opacity-60 text-cta"
               >
                 Lineage &amp; Sources Directory
               </button>
@@ -274,7 +283,7 @@ const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center justify-between border-t border-line pt-6">
           <button
             onClick={handleWishlistClick}
-            className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-brass"
+            className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-cta"
           >
             <span>Wishlist ({wishlistCount})</span>
           </button>
@@ -288,7 +297,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={() => { setMobileMenuOpen(false); onOpenAdmin(); }}
-            className="text-[10px] uppercase tracking-[0.2em] text-brass"
+            className="text-[10px] uppercase tracking-[0.2em] text-cta"
           >
             Admin
           </button>
