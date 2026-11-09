@@ -325,3 +325,22 @@ Verified `git diff --cached origin/main` shows **no diff for those 11 files**, s
 **Verified:** 42/42 template tests pass; generator broken-link check clean; 28 routes/assets return 200. Browser probes: add soap → header shows `1`; `/cart/` shows "Price being prepared", line `—`, subtotal `—`, pending note visible; quantity increase updates storage and badge to `2`; wishlist toggle → `/wishlist/` shows the product, correct path, "Partner offer/Sold by AURA" label, then remove empties it. Affiliate page: 0 add-to-cart controls, 1 wishlist toggle, 0 checkout links, 1 header search form. No horizontal overflow at 375 px on product, cart or wishlist pages.
 
 **Deliberately not done:** checkout, payment, stock reservation, accounts, cross-device sync, cart merge between the React shell and static pages beyond shared storage, and any supplier or analytics call.
+
+---
+
+## D-030 — Dark editorial canvas (Moss-style skin) supersedes Task 3's light shopping surface
+**2026-11-09 — PENDING OWNER CHOICE (suggestion recorded, not approved)**
+
+**Finding.** The owner wants the storefront's overall look to follow the Moss reference sheet (`Branding/bf7dca245779961.69b4ce1c2b3d0.webp`, a dark botanical e-commerce case study): a dark green page ground rather than Task 3's light Warm Ivory shopping canvas. Measurements: the reference's dark ground `#2F332B` sits at hue 90°/L 18%; OPAR's approved Forest `#101B12` is hue 131°/L 8% and reads as black next to it; the approved palette has no mid-dark step between Stone `#34382D` (L 20%) and Moss `#82915B` (L 46%).
+
+**Proposal.** Add one derived token and re-role the dark surfaces, without copying any reference hex:
+
+| Token | Value | Role | Contrast |
+|---|---|---|---|
+| `--moss-canvas` (proposed) | `#28332A` | dark page ground; OPAR hue family at the reference's lightness | ivory ink ≈ 11:1, gold ≈ 6.0:1, sage ≈ 6.9:1 |
+| Evergreen `#1D3020` | existing | sunken wells/cards on the dark canvas | defined by hairlines |
+| `--gold-deep` | `#6D5C2E` | small accent text on ivory (OPAR skin) | ≈ 5.5:1 |
+
+**State.** Two hand-authored, noindex preview pages implement this proposal for comparison — `/brand-preview/opar/` (approved Task 3 system: ivory canvas, forest bands) and `/brand-preview/moss/` (identical content on the proposed `#28332A` canvas with Evergreen wells). Cormorant Garamond + Manrope and all seven approved colours are kept in both; only the ground changes. No reference palette hexes, prices, ratings or claims were copied from the Moss sheet.
+
+**Decision needed from owner:** pick the skin for the rollout (OPAR ivory / Moss dark), which approves or rejects the `#28332A` token and the supersession of Task 3's light-surface rule. Until then no production page changes ground.

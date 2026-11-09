@@ -1,7 +1,7 @@
 # AURA — Status
 
 **Updated:** 2026-11-09  
-**Phase:** TASK 03 (OPAR design system) complete and awaiting approval: brand strings centralised in `data/brand.json`, semantic token system in `public/assets/product-pages.css`, premium product cards, responsive audit clean, 45/45 tests, production build green. Next approved work is still P0 homepage truth hygiene.
+**Phase:** One branch (`main`). Branch consolidation done: verified OPAR storefront tree merged into `main` (`14b70d7`), `master` deleted locally and on the remote, backup tag `backup/master-20261109`. 45/45 tests, 41-page production build verified locally before push. Two brand-preview skins (OPAR ivory / Moss-style dark, decision D-030) built for the owner's comparison and committed locally; awaiting the skin choice plus approval to push the preview commit.
 
 ## Current intake (D-020 takes precedence over older notes)
 
@@ -28,6 +28,20 @@
 - Books must have documented publication rights. Prior candidates need further edition/territory checks; access and pricing are undecided.
 
 ## Completed work since last status
+
+### Branch consolidation — one branch `main` (2026-11-09, owner approved "go")
+- Task 02+03 work committed on master first (`2884188`, 71 files): `data/brand.json`, `brand.config.ts`, `public/assets/brand/`, token layer, templates, tests — the OPAR system existed nowhere in history before this.
+- `origin/main` had moved to a parallel AI-Studio rebrand (`d300434`: own `design-tokens.ts`/`tokens.ts`/`components/ui/*`/`services/catalogue.ts`, plus ORVANYA logo artefacts and reference images published under `public/assets/` — unverified test status). Per the owner's "replace master over main", `main`'s tree was set to the verified master tree via a true merge commit `14b70d7` (both parents preserved; AI-Studio work recoverable in history; salvage list in the commit message).
+- Verified on merged `main` before pushing: **45/45 template tests**, root `npm install` (declared deps only, 0 vulnerabilities, lockfile created but **not committed**), `npm run build` → **41 pages** (40 generated + React bundle).
+- Pushed `main` (`d300434..14b70d7`), tagged `backup/master-20261109` at `2884188` and pushed the tag, then deleted `master` locally and on the remote. One branch remains: `main`, tracking `origin/main`.
+- `.gitignore` extended: `/GPT/`, `/Alibaba/`, `/Aliexpress/`, root reference images (`01.jpg`, `179dbbf…jpg`, `Moss.jpg`, `Oleuma.jpg`, `orvinex.jpg`), `New Text Document.txt`, `Prompt.txt` never enter the repo.
+- ORVANYA/ORVINEX sweep: zero occurrences in tracked files; brand strings are OPAR throughout.
+
+### Brand previews — two skins, one content (2026-11-09, for D-030)
+- `/brand-preview/opar/index.html` and `/brand-preview/moss/index.html` plus shared `public/assets/brand-preview.css`. Hand-authored (generator untouched; it only cleans `public/templates` and `public/preview`). `noindex, nofollow` meta; the preview server also forces the `X-Robots-Tag` header.
+- Identical content in both skins: header with real nav links, hero, design rationale, 4 real product cards (3 OPAR shop pieces + gold-CTA partner pads; "Price on request"; honest "Image pending permission" wells), verification register (0 of 10 verified, pending), numbered 01–04 ladder (Source/Verify/Photograph/Price), six category rooms, journal band, 5-column footer matching the live footer links.
+- OPAR skin = approved Task 3 roles (ivory canvas `#F1EBDD`, forest bands `#101B12`, gold rules). Moss skin = proposed `#28332A` canvas with Evergreen wells, ivory ink, gold/moss accents (contrast: ivory 11:1, gold 6.0:1, sage 6.9:1, moss accent large-text/decorative only). Cormorant Garamond + Manrope in both; no Moss hexes copied.
+- Committed locally on `main`; **not pushed** — the owner chooses the skin (D-030) before the preview commit is pushed.
 
 ### Design system — TASK 03 (2026-11-09, awaiting approval)
 - **Brand correction:** storefront brand strings are now **OPAR** with tagline "A World of Conscious Living". Single source of truth: `data/brand.json` (name, tagline, logo paths, 7 colours, typography, Google Fonts href); React mirror in `brand.config.ts` (`BRAND_NAME`, `BRAND_TAGLINE`). Reversing or editing the brand is one file. Lowercase contracts untouched (`purchaseOwner: 'aura'`, `aura_*_v1` keys, `window.AuraStore`).
