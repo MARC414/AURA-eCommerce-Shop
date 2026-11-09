@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!--
+  The local admin panel. Not a route, not deployed, not in dist/.
+
+  Decision 2 (D-033) keeps the panel as the owner's private instrument and takes
+  it out of the customer build entirely. It runs only from `npm run dev:admin`,
+  which is why this file lives beside the source instead of in public/ - the
+  build copies public/ and nothing else, so there is no path by which this page
+  or its JavaScript can reach a visitor.
+
+  A passphrase gate on a public origin is not security, so there is no public
+  origin. The panel reads this browser's storage and cannot see real orders,
+  because orders live in the buyer's browser.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#2F332B" />
+    <title>OPAR — Admin (local only)</title>
+    <link rel="icon" type="image/png" sizes="128x128" href="/assets/brand/opar-mark-tile-128.png" />
+  </head>
+  <body>
+    <div id="admin-root"></div>
+    <script type="module" src="/admin.tsx"></script>
+  </body>
+</html>

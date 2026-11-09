@@ -2,46 +2,45 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  *
- * Cart, wishlist-independent commerce state, and newsletter capture.
+ * Newsletter capture for the admin panel.
  *
- * Everything here is browser-local. That is stated in the UI rather than
- * hidden, because a cart that lives only in one browser is a preview of a
- * cart, not a cart. The function signatures are the contract a backend
- * will implement later, so no component needs rewriting when it arrives.
+ * This file used to own a second cart: `getCart`, `addToCart`, `cartSubtotal`
+ * and the rest, all reading `aura_cart_v1` alongside the static store in
+ * `public/assets/cart.js`. Since T4 the static store is the only cart - the
+ * cart is `/cart/`, the checkout is `/checkout/`, and both are plain pages that
+ * need no React. What survives here is the one job the static pages cannot do
+ * for the owner: reading and exporting the addresses the newsletter page saved
+ * in this browser.
+ *
+ * `aura_newsletter_v1` is written by cart.js. Keep the key and the record shape
+ * in step with `saveNewsletter()` there; `npm run test:templates` checks it.
+ *
+ * Everything here is browser-local. The UI must not claim an email was sent,
+ * because no mailing provider is connected.
  */
 
-import { CartItem, NewsletterSubscriber, Product } from '../types';
+import { NewsletterSubscriber } from '../types';
 
-const KEYS = {
-  CART: 'aura_cart_v1',
-  NEWSLETTER: 'aura_newsletter_v1'
-} as const;
-
-function read<T>(key: string, fallback: T): T {
-  try {
-    const raw = localStorage.getItem(key);
-    return raw ? (JSON.parse(raw) as T) : fallback;
-  } catch (error) {
-    console.warn(`Could not read ${key}`, error);
-    return fallback;
-  }
-}
-
-function write<T>(key: string, value: T): void {
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch (error) {
-    console.warn(`Could not write ${key}`, error);
-  }
-}
-
+const NEWSLETTER_KEY = 'aura_newsletter_v1';
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-/** Number(null) is 0, so a missing price needs its own check. */
-function priceOf(value: number | null | undefined): number {
-  if (value === null || value === undefined) return NaN;
-  const number = Number(value);
-  return Number.isFinite(number) ? number : NaN;
+function readSubscribers(): NewsletterSubscriber[] {
+  try {
+    const raw = localStorage.getItem(NEWSLETTER_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    console.warn(`Could not read ${NEWSLETTER_KEY}`, error);
+    return [];
+  }
+}
+
+function writeSubscribers(subscribers: NewsletterSubscriber[]): void {
+  try {
+    localStorage.setItem(NEWSLETTER_KEY, JSON.stringify(subscribers));
+  } catch (error) {
+    console.warn(`Could not write ${NEWSLETTER_KEY}`, error);
+  }
 }
 
 export interface SubscribeResult {
@@ -51,71 +50,13 @@ export interface SubscribeResult {
 }
 
 export const commerce = {
-  /* ----------------------------- cart ----------------------------- */
-
-  getCart(): CartItem[] {
-    const items = read<CartItem[]>(KEYS.CART, []);
-    return Array.isArray(items) ? items.filter(item => item?.product?.id) : [];
-  },
-
-  saveCart(items: CartItem[]): CartItem[] {
-    write(KEYS.CART, items);
-    return items;
-  },
-
-  addToCart(items: CartItem[], product: Product, quantity = 1, variant?: string): CartItem[] {
-    const existing = items.findIndex(
-      item => item.product.id === product.id && item.selectedVariant === variant
-    );
-    if (existing >= 0) {
-      const next = items.map((item, index) =>
-        index === existing ? { ...item, quantity: item.quantity + quantity } : item
-      );
-      return commerce.saveCart(next);
-    }
-    return commerce.saveCart([...items, { product, quantity, selectedVariant: variant }]);
-  },
-
-  updateQuantity(items: CartItem[], index: number, quantity: number): CartItem[] {
-    if (quantity <= 0) return commerce.removeAt(items, index);
-    const next = items.map((item, position) =>
-      position === index ? { ...item, quantity } : item
-    );
-    return commerce.saveCart(next);
-  },
-
-  removeAt(items: CartItem[], index: number): CartItem[] {
-    return commerce.saveCart(items.filter((_, position) => position !== index));
-  },
-
-  clearCart(): CartItem[] {
-    return commerce.saveCart([]);
-  },
-
-  cartCount(items: CartItem[]): number {
-    return items.reduce((total, item) => total + item.quantity, 0);
-  },
-
-  cartSubtotal(items: CartItem[]): number {
-    // A product whose price is still being prepared contributes nothing rather
-    // than becoming a fake zero. The UI must show "price pending" alongside it.
-    return items.reduce((total, item) => {
-      const price = priceOf(item.product.price);
-      return total + (Number.isFinite(price) ? price * item.quantity : 0);
-    }, 0);
-  },
-
-  /* -------------------------- newsletter -------------------------- */
-
   getSubscribers(): NewsletterSubscriber[] {
-    const list = read<NewsletterSubscriber[]>(KEYS.NEWSLETTER, []);
-    return Array.isArray(list) ? list : [];
+    return readSubscribers();
   },
 
   /**
    * Records consent locally. No mailing provider is connected, so the
-   * subscriber is stored as `queued`, not `sent`. The UI must not claim
-   * an email was delivered.
+   * subscriber is stored as `queued`, not `sent`.
    */
   subscribe(email: string, source = 'footer'): SubscribeResult {
     const clean = email.trim().toLowerCase();
@@ -123,7 +64,7 @@ export const commerce = {
       return { ok: false, message: 'That email address does not look complete.' };
     }
 
-    const subscribers = commerce.getSubscribers();
+    const subscribers = readSubscribers();
     if (subscribers.some(entry => entry.email === clean && entry.status !== 'unsubscribed')) {
       return { ok: false, message: 'This address is already on the list.' };
     }
@@ -136,7 +77,7 @@ export const commerce = {
       delivery: 'queued'
     };
 
-    write(KEYS.NEWSLETTER, [...subscribers, subscriber]);
+    writeSubscribers([...subscribers, subscriber]);
     return {
       ok: true,
       message: 'Saved on this device. A confirmation email will be sent once a mailing provider is connected.',
@@ -146,14 +87,15 @@ export const commerce = {
 
   unsubscribe(email: string): void {
     const clean = email.trim().toLowerCase();
-    const next = commerce.getSubscribers().map(entry =>
-      entry.email === clean ? { ...entry, status: 'unsubscribed' as const } : entry
+    writeSubscribers(
+      readSubscribers().map(entry =>
+        entry.email === clean ? { ...entry, status: 'unsubscribed' as const } : entry
+      )
     );
-    write(KEYS.NEWSLETTER, next);
   },
 
   exportSubscribersCSV(): void {
-    const subscribers = commerce.getSubscribers();
+    const subscribers = readSubscribers();
     if (subscribers.length === 0) return;
     const headers = ['Email', 'Consent At', 'Source', 'Status', 'Delivery'];
     const rows = subscribers.map(entry => [

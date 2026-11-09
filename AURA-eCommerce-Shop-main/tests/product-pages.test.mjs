@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import {
   escapeHtml,
@@ -374,12 +374,14 @@ test('every room appears once in the footer, from one source', async () => {
     }
   }
 
-  // No third copy can drift back in.
+  // No third copy can drift back in. Since T4 there is no React footer to
+  // check: the one shell in templates/chrome.mjs draws it, and the test above
+  // asserts the shell reads site.json.
   const constants = await readFile(new URL('../constants.ts', import.meta.url), 'utf8');
   assert.doesNotMatch(constants, /export const SHOP_ROOMS/, 'the room list must not be exported from constants.ts');
-  const footerSource = await readFile(new URL('../components/Footer.tsx', import.meta.url), 'utf8');
-  assert.match(footerSource, /from '\.\.\/data\/site\.json'/);
-  assert.doesNotMatch(footerSource, /SHOP_ROOMS|shop\/herbal-botanicals/, 'the React footer must read the contract');
+  const chrome = await readFile(new URL('../templates/chrome.mjs', import.meta.url), 'utf8');
+  assert.match(chrome, /site\.footer|siteData\.footer|footer\.columns/, 'the shell must render the footer from site.json');
+  assert.doesNotMatch(chrome, /SHOP_ROOMS|shop\/herbal-botanicals/, 'the shell must read the contract, not a room list');
 });
 
 test('one header and one footer come from the site contract', () => {
@@ -503,12 +505,30 @@ test('newsletter stores a preference in the browser and explains that nothing is
   assert.doesNotMatch(script, /fetch\(|XMLHttpRequest|stripe|paypal/i);
 });
 
-test('the static store writes exactly the keys and item shape the React app reads', async () => {
+/**
+ * Every TypeScript file still in the app: the root entries, `components/` and
+ * `services/`. After T4 that is the local admin panel and the code it needs,
+ * none of which renders a customer page.
+ */
+async function typescriptSources() {
+  const files = (await readdir(new URL('../', import.meta.url))).filter(name => /\.(ts|tsx)$/.test(name));
+  for (const dir of ['components', 'services']) {
+    for (const name of await readdir(new URL(`../${dir}/`, import.meta.url))) {
+      if (/\.(ts|tsx)$/.test(name)) files.push(`${dir}/${name}`);
+    }
+  }
+  return files;
+}
+
+/** Comments explain what is gone; assertions are about code. */
+const withoutComments = source => source
+  .replace(/\/\*[\s\S]*?\*\//g, '')
+  .replace(/^\s*\/\/.*$/gm, '');
+
+test('there is one cart store, and it is the static one', async () => {
   const cart = await readFile(new URL('../public/assets/cart.js', import.meta.url), 'utf8');
-  const commerce = await readFile(new URL('../services/commerce.ts', import.meta.url), 'utf8');
-  const store = await readFile(new URL('../services/storeService.ts', import.meta.url), 'utf8');
-  assert.match(commerce, /CART: 'aura_cart_v1'/);
-  assert.match(store, /WISHLIST: 'aura_wishlist_v1'/);
+
+  // The keys and the item shape every generated page reads.
   assert.ok(cart.includes("var CART_KEY = 'aura_cart_v1';"));
   assert.ok(cart.includes("var WISHLIST_KEY = 'aura_wishlist_v1';"));
   assert.ok(cart.includes("var ORDER_KEY = 'aura_order_requests_v1';"));
@@ -516,8 +536,35 @@ test('the static store writes exactly the keys and item shape the React app read
   assert.match(cart, /quantity: clamp\(item\.quantity, 1, 99\)/);
   assert.match(cart, /selectedVariant: item\.selectedVariant/);
   assert.match(cart, /aura_wishlist_updated/);
-  assert.match(store, /aura_wishlist_updated/);
   assert.doesNotMatch(cart, /fetch\(|XMLHttpRequest|stripe|paypal/i);
+
+  // T4 retired the React shell, which used to keep a second cart in
+  // services/commerce.ts. Nothing left in TypeScript may own the cart key:
+  // two writers on one key is how a cart silently loses an item.
+  for (const file of await typescriptSources()) {
+    const code = withoutComments(await readFile(new URL(`../${file}`, import.meta.url), 'utf8'));
+    assert.doesNotMatch(code, /aura_cart_v1|CART_KEY/, `${file} still owns a cart`);
+  }
+
+  // The wishlist contract stayed with the panel's store service, which is the
+  // one place that still writes it besides cart.js.
+  const store = await readFile(new URL('../services/storeService.ts', import.meta.url), 'utf8');
+  assert.match(store, /WISHLIST: 'aura_wishlist_v1'/);
+  assert.match(store, /aura_wishlist_updated/);
+
+  // And the admin panel is not a page: no build, no route, nothing in public/.
+  assert.equal(existsSync(new URL('../public/admin.html', import.meta.url)), false);
+  assert.equal(existsSync(new URL('../public/assets/admin.js', import.meta.url)), false);
+
+  // The scripts agree: one build, no storefront dev server, one admin entry.
+  const pkg = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
+  assert.match(pkg.scripts.build, /build:templates[\s\S]*copy-site\.mjs/, 'the build is generate-then-copy');
+  assert.match(pkg.scripts['build:templates'], /generate-product-pages\.mjs/);
+  assert.doesNotMatch(pkg.scripts.build, /vite build/, 'the storefront is not bundled');
+  assert.match(pkg.scripts['dev:admin'], /vite/);
+  assert.equal(pkg.scripts.dev, undefined, 'there is no storefront dev server any more');
+  assert.equal(pkg.scripts.preview, undefined, 'vite preview would serve a bundle that is not built');
+  assert.equal(pkg.scripts.predev, undefined);
 });
 
 test('the wishlist page joins saved ids to a public catalogue and degrades honestly', async () => {
@@ -595,33 +642,55 @@ test('the browser store keeps invoice requests and newsletter preferences locall
   assert.equal(store.getNewsletter(), null);
 });
 
-test('React cart and checkout never format a missing price as a number', async () => {
-  for (const file of ['components/CartDrawer.tsx', 'components/Checkout.tsx']) {
-    const source = await readFile(new URL(`../${file}`, import.meta.url), 'utf8');
-    assert.match(source, /const hasPendingPrice = items\.some/);
-    assert.match(source, /Number\.isFinite\(item\.product\.price\)/);
-    assert.match(source, /Price pending/);
+test('the cart and the invoice form never format a missing price as a number', async () => {
+  // Three pages show a price, and all three use the same guard. `Number(null)`
+  // is 0, so a missing price has to be tested for rather than coerced.
+  const sources = {};
+  for (const file of ['cart.js', 'cart-page.js', 'checkout-page.js']) {
+    sources[file] = await readFile(new URL(`../public/assets/${file}`, import.meta.url), 'utf8');
+    assert.match(sources[file], /function priceOf\(value\)/, `${file} must own a price guard`);
+    assert.match(sources[file], /return Number\.isFinite\(number\) \? number : NaN;/, `${file} must return NaN, not 0`);
+    assert.doesNotMatch(sources[file], /Number\(\s*(item\.)?product\.price\s*\)/, `${file} coerces the price instead of testing it`);
   }
-  const commerce = await readFile(new URL('../services/commerce.ts', import.meta.url), 'utf8');
-  assert.match(commerce, /function priceOf/);
-  assert.match(commerce, /priceOf\(item\.product\.price\)/);
+
+  // The store answers the question the pages ask.
+  assert.match(sources['cart.js'], /return !Number\.isFinite\(priceOf\(item\.product\.price\)\);/);
+
+  // Rendering: an unpriced piece is "Price on request", and the invoice line
+  // says what happens next instead of inventing a total.
+  assert.match(sources['cart-page.js'], /: 'Price on request';/);
+  assert.match(sources['checkout-page.js'], /: 'Price on request';/);
+  assert.match(sources['checkout-page.js'], /subtotal: window\.AuraStore\.hasPendingPrice\(\) \? null : window\.AuraStore\.cartSubtotal\(\)/);
+  assert.match(sources['checkout-page.js'], /priceOnRequest: window\.AuraStore\.hasPendingPrice\(\)/);
+
+  // No currency is printed for a price that does not exist.
+  for (const file of ['cart-page.js', 'checkout-page.js']) {
+    assert.match(sources[file], /var priced = Number\.isFinite\(price\);/);
+  }
 });
 
-test('the homepage room index renders each existing room once and links only to it', async () => {
-  const source = await readFile(new URL('../components/CategoryDiscovery.tsx', import.meta.url), 'utf8');
+test('the homepage room index lists every room once, from the shop data', async () => {
+  const source = await readFile(new URL('../templates/home-page.mjs', import.meta.url), 'utf8');
 
   // One data source: the same file the generator builds the room pages from.
-  assert.match(source, /import rooms from '\.\.\/data\/collections\.json';/);
-  assert.equal((source.match(/rooms\.map/g) || []).length, 1, 'the room list should be mapped once');
-  assert.doesNotMatch(source, /rooms\.(filter|slice|splice)/, 'every room should appear, exactly once');
+  assert.match(source, /collections/);
+  assert.equal((source.match(/collections\.map/g) || []).length, 1, 'the room list should be mapped once');
+  assert.doesNotMatch(source, /collections\.(filter|slice|splice)/, 'every room should appear, exactly once');
   // The destination is built from the same slug that generates the page.
-  assert.match(source, /href=\{`\/shop\/\$\{room\.slug\}\/`\}/);
-  // No invented commerce language or figures (comments explain what is absent,
-  // so the check runs against the code with comments removed).
-  const code = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
-  assert.doesNotMatch(code, /rating|review|bestsell|best-sell|in stock|sold|%\s*off/i);
-  // The whole card is the link, with a visible focus state.
-  assert.match(source, /<a[\s\S]*?focus-visible:outline/);
+  assert.match(source, /href="\/shop\/\$\{escapeHtml\(room\.slug\)\}\/"/);
+
+  const page = renderHomePage(products);
+  assert.equal((page.match(/class="room-index__item"/g) || []).length, collections.length);
+  const roomPositions = collections.map(collection => page.indexOf(`href="/shop/${collection.slug}/"`));
+  assert.ok(roomPositions.every(position => position > 0), 'a room is missing from the index');
+  assert.deepEqual([...roomPositions].sort((a, b) => a - b), roomPositions, 'the index should follow collections.json order');
+
+  // The whole card is the link, and the number is decoration rather than text.
+  assert.match(page, /<a class="room-index__item" href="\/shop\/[^"]+\/">/);
+  assert.match(page, /<span class="room-index__number" aria-hidden="true">01<\/span>/);
+
+  // No invented commerce language or figures.
+  assert.doesNotMatch(page, /rating|customer review|bestsell|best-sell|in stock|sold out|%\s*off/i);
 
   // The index lists the same rooms, in the same order, as the Shop menu.
   const shopItem = site.nav.find(item => item.id === 'shop');
@@ -629,60 +698,19 @@ test('the homepage room index renders each existing room once and links only to 
   const roomPaths = collections.map(collection => `/shop/${collection.slug}/`);
   assert.deepEqual(roomPaths, navRoomPaths, 'the room index and the Shop menu should agree');
   assert.equal(new Set(roomPaths).size, roomPaths.length, 'two rooms share a destination');
-
-  // Mounted directly after the featured pieces, inside the home view.
-  const app = await readFile(new URL('../App.tsx', import.meta.url), 'utf8');
-  assert.match(app, /<Hero \/>\s*<FeaturedProducts \/>\s*<CategoryDiscovery \/>/);
 });
 
-test('the React navbar reads the same site contract as the static header', async () => {
-  const source = await readFile(new URL('../components/Navbar.tsx', import.meta.url), 'utf8');
+/* The React navbar test is gone with Navbar.tsx: the generated header and the
+   Shop menu both read data/site.json, and the contract test above already
+   asserts that every room appears in the footer, the nav and collections.json
+   in the same order. Re-asserting it against a retired component would only
+   have kept the file alive. */
 
-  // One source of truth: the same JSON the static header renders.
-  assert.match(source, /import siteData from '\.\.\/data\/site\.json';/);
-  assert.match(source, /siteData\.nav/);
-  assert.doesNotMatch(source, /SHOP_ROOMS/);
-  assert.doesNotMatch(source, /from '\.\.\/constants'/);
-  // No local menu array or hard-coded labels; a menu change is a data change.
-  assert.doesNotMatch(source, /const (NAV_ITEMS|NAV|MENU|LINKS)\s*=\s*\[/);
-  for (const label of ['Shop', 'Categories', 'Discover', 'Perennis', 'Journal', 'About']) {
-    assert.doesNotMatch(source, new RegExp(`>\\s*${label}\\s*<`), `${label} is hard-coded rather than read from site.json`);
-  }
-
-  // Keyboard and focus behaviour, on the trigger and inside the panel.
-  assert.match(source, /aria-expanded=\{open\}/);
-  assert.match(source, /aria-controls=\{`nav-panel-\$\{item\.id\}`\}/);
-  assert.match(source, /event\.key === 'Escape'/);
-  assert.match(source, /event\.key === 'ArrowDown'/);
-  assert.match(source, /ArrowUp/);
-  assert.match(source, /focus-visible:outline/);
-  // Escape closes the mobile overlay and returns focus to its toggle.
-  assert.match(source, /toggleRef\.current\?\.focus\(\)/);
-
-  // Cart and wishlist keep their callbacks and live counts.
-  assert.match(source, /onOpenCart\(\)/);
-  assert.match(source, /onOpenWishlist\(\)/);
-  assert.match(source, /\{cartCount\}/);
-  assert.match(source, /\{wishlistCount\}/);
-
-  // Mobile parity: the overlay renders the same four sections and children.
-  assert.match(source, /<details key=\{item\.id\}/);
-  assert.equal((source.match(/NAV_ITEMS\.map/g) || []).length, 2, 'desktop and mobile should both map the one nav array');
-
-  // Internal controls stay utilities, not customer navigation.
-  assert.match(source, /aria-label="Team access"/);
-  assert.match(source, /aria-label="Lineage and sources"/);
-
-  // Palette only: no raw hex, no gradient fill.
-  assert.doesNotMatch(source, /#[0-9a-fA-F]{6}/);
-  assert.doesNotMatch(source, /bg-gradient|linearGradient/);
-});
-
-/* ── T3: the homepage, generated at /home-preview/ ─────────────────────────── */
+/* ── T3: the homepage, generated at / ──────────────────────────────────────── */
 
 const homePage = renderHomePage(products);
 
-test('the homepage preview is one static document with three sections', () => {
+test('the homepage is one static document with three sections', () => {
   assert.equal((homePage.match(/<h1/g) || []).length, 1, 'the homepage has exactly one h1');
   assert.match(homePage, /<h1 id="home-heading" class="home-hero__title">A world of<br><em>conscious living\.<\/em><\/h1>/);
 
@@ -691,12 +719,8 @@ test('the homepage preview is one static document with three sections', () => {
   assert.ok(order.every(index => index > 0), 'a section is missing');
   assert.deepEqual([...order].sort((a, b) => a - b), order, 'the sections are out of order');
 
-  // Every piece once, every room once.
+  // Every piece once. The room index has its own test above.
   assert.equal((homePage.match(/class="feature-card"/g) || []).length, products.length);
-  assert.equal((homePage.match(/class="room-index__item"/g) || []).length, collections.length);
-  const roomPositions = collections.map(collection => homePage.indexOf(`href="/shop/${collection.slug}/"`));
-  assert.ok(roomPositions.every((position, index) => position > 0 && (index === 0 || position > roomPositions[index - 1])),
-    'the room index should follow collections.json order');
 
   // The standfirst counts the data instead of claiming a fixed number. The
   // copy it replaced said "two OPAR house pieces and two partner offers" when

@@ -7,11 +7,9 @@
     "build:templates": "node AURA-eCommerce-Shop-main/scripts/generate-product-pages.mjs",
     "test:templates": "node --test AURA-eCommerce-Shop-main/tests/product-pages.test.mjs",
     "preview:templates": "node AURA-eCommerce-Shop-main/scripts/preview-products.mjs",
-    "predev": "node AURA-eCommerce-Shop-main/scripts/generate-product-pages.mjs",
-    "dev": "vite",
+    "dev:admin": "vite --open /admin.html",
     "build": "npm run build:templates && node AURA-eCommerce-Shop-main/scripts/copy-site.mjs",
-    "check:site": "node AURA-eCommerce-Shop-main/scripts/check-site.mjs",
-    "preview": "vite preview"
+    "check:site": "node AURA-eCommerce-Shop-main/scripts/check-site.mjs"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
