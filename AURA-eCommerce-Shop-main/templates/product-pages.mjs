@@ -254,7 +254,7 @@ export function productJsonLd(product, canonicalPath) {
   return [schema, breadcrumb];
 }
 
-function documentPage({ title, description, active = null, content, canonical = null, jsonLd = null, keywords = null, image = null, scripts = [] }) {
+function documentPage({ title, description, active = null, content, canonical = null, jsonLd = null, keywords = null, image = null, theme = null, scripts = [] }) {
   const jsonLdTag = jsonLd
     ? `\n  <script type="application/ld+json">${JSON.stringify(jsonLd).replace(/<\//g, '<\\/')}</script>`
     : '';
@@ -271,14 +271,14 @@ function documentPage({ title, description, active = null, content, canonical = 
   <meta property="og:site_name" content="${escapeHtml(BRAND)}">
   <meta property="og:title" content="${escapeHtml(title)} — ${escapeHtml(BRAND)}">
   <meta property="og:description" content="${escapeHtml(description)}">
-  ${image ? `<meta property="og:image" content="${escapeHtml(image)}">\n  ` : ''}${canonical ? `<meta property="og:url" content="${escapeHtml(canonical)}">\n  ` : ''}<meta name="theme-color" content="${brand.colors.warmIvory}">${jsonLdTag}
+  ${image ? `<meta property="og:image" content="${escapeHtml(image)}">\n  ` : ''}${canonical ? `<meta property="og:url" content="${escapeHtml(canonical)}">\n  ` : ''}<meta name="theme-color" content="#28332A">${jsonLdTag}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="${escapeHtml(brand.typography.googleFontsHref)}" rel="stylesheet">
   <link rel="stylesheet" href="/assets/product-pages.css">
   ${['/assets/cart.js', '/assets/site.js', ...scripts].map(src => `<script src="${escapeHtml(src)}" defer></script>`).join('\n  ')}
 </head>
-<body>
+<body${theme ? ` class="${theme}"` : ''}>
   ${header(active)}
   <main id="main-content" tabindex="-1">${content}</main>
   ${footer()}
@@ -728,6 +728,7 @@ export function renderStaticPage(page) {
     title: page.title,
     description: page.description,
     active: page.section || null,
+    theme: 'theme-paper',
     scripts: pageScripts,
     content: `<div class="page-shell static-page">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>${parent}<li aria-current="page">${escapeHtml(page.label)}</li></ol></nav>

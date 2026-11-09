@@ -1,11 +1,22 @@
 /*
-  OPAR design tokens (React side).
+  OPAR design tokens (React side) — D-030 dark Moss ground.
+
   The static generated pages consume public/assets/product-pages.css, which is
   the canonical token layer. These custom properties mirror the same approved
   palette and typography so React components can adopt the roles without
   scattering raw hex values. Brand values come from data/brand.json via
   brand.config.ts.
+
+  D-030 (owner-confirmed 2026-11-10): the dark Moss ground (#28332A) is the
+  site canvas. Cool ivory (#EFF1E7-family) is the "paper" used for reading
+  surfaces. Gold is hairlines and accents, never a large surface. Moss is
+  large text only.
 */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   /* Primitives (approved palette) */
   --opar-forest-green: #101B12;
@@ -16,16 +27,57 @@
   --opar-soft-sage: #B8BEAA;
   --opar-stone: #34382D;
 
-  /* Semantic roles */
-  --canvas: var(--opar-warm-ivory);
-  --surface: #E9E2D0;
-  --ink: var(--opar-forest-green);
-  --body-text: #3E463C;
-  --line: #D2CBB6;
+  /* Derived primitives for the dark ground (D-030) */
+  --opar-moss-dark: #28332A;
+  --opar-moss-raised: #31402F;
+  --opar-moss-well: #22301F;
+  --opar-sage-body: #C6CCBD;
+  --opar-moss-line: #4A5443;
+  --opar-ivory-cool: #EFF1E7;
+  --opar-ink-deep: #1A231C;
+
+  /* Semantic roles — the dark ground is the canvas (D-030) */
+  --canvas: var(--opar-moss-dark);
+  --surface: var(--opar-moss-raised);
+  --ink: var(--opar-ivory-cool);
+  --body-text: var(--opar-sage-body);
+  --line: var(--opar-moss-line);
   --brass: var(--opar-antique-gold);
-  --accent-text: #6D5C2E;
+  --accent-text: var(--opar-antique-gold);
 
   /* Typography */
   --serif: 'Cormorant Garamond', Georgia, serif;
   --sans: 'Manrope', 'Segoe UI', Arial, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+
+  /* The ground carries a fine grain so it never reads as flat digital green. */
+  body {
+    margin: 0;
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--serif);
+  }
+
+  ::selection {
+    background: var(--opar-antique-gold);
+    color: var(--opar-forest-green);
+  }
+}
+
+/* Hero grain slot: a fine noise layer above the ground. */
+.grain {
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='0.07'/%3E%3C/svg%3E");
 }

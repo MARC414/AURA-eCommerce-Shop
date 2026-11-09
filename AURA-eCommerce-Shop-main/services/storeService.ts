@@ -7,7 +7,7 @@ import { Product, Order, Review, StoreSettings, CartItem, CustomerDetails, Payme
 import { PRODUCTS } from '../constants';
 
 const STORAGE_KEYS = {
-  PRODUCTS: 'aura_products_v8',
+  PRODUCTS: 'aura_products_v9',
   ORDERS: 'aura_orders_v8',
   REVIEWS: 'aura_reviews_v8',
   SETTINGS: 'aura_settings_v8',
@@ -15,12 +15,12 @@ const STORAGE_KEYS = {
 };
 
 export const INITIAL_SETTINGS: StoreSettings = {
-  storeName: 'Aura Sacred Living & Botanicals',
+  storeName: 'OPAR',
   currency: '$',
   freeShippingThreshold: 75,
   standardShippingFee: 9,
   adminPin: '', // Deprecated: AdminGate/auth.ts passphrase is the only lock. Never ship a default PIN.
-  supportEmail: 'concierge@aurastudios.co'
+  supportEmail: 'hello@opar.example'
 };
 
 export const INITIAL_PRODUCTS: Product[] = PRODUCTS;

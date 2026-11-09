@@ -113,11 +113,11 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-24 px-6 md:px-12 bg-[#F5F2EB] animate-fade-in-up">
+    <div className="min-h-screen pt-24 pb-24 px-6 md:px-12 bg-[#EFF1E7] animate-fade-in-up">
       <div className="max-w-6xl mx-auto">
         <button
           onClick={onBack}
-          className="group flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-[#A8A29E] hover:text-[#2C2A26] transition-colors mb-12"
+          className="group flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-[#9AA094] hover:text-[#1A231C] transition-colors mb-12"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 group-hover:-translate-x-1 transition-transform">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -127,15 +127,15 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20">
           <div className="lg:col-span-7">
-            <span className="text-xs uppercase tracking-widest text-[#8C7355] block mb-2 font-medium">Order request</span>
-            <h1 className="text-3xl md:text-4xl font-serif text-[#2C2A26] mb-3">Ask for an invoice</h1>
-            <p className="text-sm text-[#5D5A53] mb-8 font-light leading-relaxed max-w-xl">
+            <span className="text-xs uppercase tracking-widest text-[#6D5C2E] block mb-2 font-medium">Order request</span>
+            <h1 className="text-3xl md:text-4xl font-serif text-[#1A231C] mb-3">Ask for an invoice</h1>
+            <p className="text-sm text-[#3E463C] mb-8 font-light leading-relaxed max-w-xl">
               No payment is taken on this page. AURA reviews the request, confirms that the item can be supplied to your
               address, and replies with an invoice. Your order stays marked <em>awaiting payment</em> until then.
             </p>
 
-            <div className="border border-[#D6D1C7] bg-white/60 p-4 mb-10 text-xs text-[#5D5A53] leading-relaxed">
-              <strong className="text-[#2C2A26] font-medium">AURA will never ask for card details here.</strong> Card
+            <div className="border border-[#D4D8C6] bg-white/60 p-4 mb-10 text-xs text-[#3E463C] leading-relaxed">
+              <strong className="text-[#1A231C] font-medium">AURA will never ask for card details here.</strong> Card
               numbers and security codes are entered only on a payment provider&rsquo;s own secure page. If any page asks
               you to type a card number into its own form, stop.
             </div>
@@ -151,14 +151,14 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
 
             <form onSubmit={handleFormSubmit} className="space-y-12">
               <div>
-                <h2 className="text-xl font-serif text-[#2C2A26] mb-6 flex items-center justify-between">
+                <h2 className="text-xl font-serif text-[#1A231C] mb-6 flex items-center justify-between">
                   <span>1. Where the invoice should go</span>
-                  <span className="text-xs uppercase tracking-widest text-[#A8A29E] font-sans">Step 1 of 3</span>
+                  <span className="text-xs uppercase tracking-widest text-[#9AA094] font-sans">Step 1 of 3</span>
                 </h2>
 
                 <div className="space-y-4">
                   <div>
-                    <label htmlFor="checkout-email" className="text-xs uppercase tracking-widest text-[#5D5A53] block mb-1">Email Address *</label>
+                    <label htmlFor="checkout-email" className="text-xs uppercase tracking-widest text-[#3E463C] block mb-1">Email Address *</label>
                     <input
                       id="checkout-email"
                       type="email"
@@ -167,13 +167,13 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
                       placeholder="you@domain.com"
                       value={customer.email}
                       onChange={(event) => setCustomer({ ...customer, email: event.target.value })}
-                      className="w-full bg-white border border-[#D6D1C7] p-3 text-sm text-[#2C2A26] placeholder-[#A8A29E] outline-none focus:border-[#2C2A26]"
+                      className="w-full bg-white border border-[#D4D8C6] p-3 text-sm text-[#1A231C] placeholder-[#9AA094] outline-none focus:border-[#1A231C]"
                     />
-                    <span className="text-[11px] text-[#A8A29E] mt-1 block">This is where the invoice and any follow-up questions are sent.</span>
+                    <span className="text-[11px] text-[#9AA094] mt-1 block">This is where the invoice and any follow-up questions are sent.</span>
                   </div>
 
                   <div>
-                    <label htmlFor="checkout-phone" className="text-xs uppercase tracking-widest text-[#5D5A53] block mb-1">Phone Number</label>
+                    <label htmlFor="checkout-phone" className="text-xs uppercase tracking-widest text-[#3E463C] block mb-1">Phone Number</label>
                     <input
                       id="checkout-phone"
                       type="tel"
@@ -181,21 +181,21 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
                       placeholder="Optional, for delivery questions"
                       value={customer.phone}
                       onChange={(event) => setCustomer({ ...customer, phone: event.target.value })}
-                      className="w-full bg-white border border-[#D6D1C7] p-3 text-sm text-[#2C2A26] placeholder-[#A8A29E] outline-none focus:border-[#2C2A26]"
+                      className="w-full bg-white border border-[#D4D8C6] p-3 text-sm text-[#1A231C] placeholder-[#9AA094] outline-none focus:border-[#1A231C]"
                     />
                   </div>
                 </div>
               </div>
 
               <div>
-                <h2 className="text-xl font-serif text-[#2C2A26] mb-6 flex items-center justify-between">
+                <h2 className="text-xl font-serif text-[#1A231C] mb-6 flex items-center justify-between">
                   <span>2. Delivery destination</span>
-                  <span className="text-xs uppercase tracking-widest text-[#A8A29E] font-sans">Step 2 of 3</span>
+                  <span className="text-xs uppercase tracking-widest text-[#9AA094] font-sans">Step 2 of 3</span>
                 </h2>
 
                 <div className="space-y-4">
                   <div>
-                    <label htmlFor="checkout-name" className="text-xs uppercase tracking-widest text-[#5D5A53] block mb-1">Full Name *</label>
+                    <label htmlFor="checkout-name" className="text-xs uppercase tracking-widest text-[#3E463C] block mb-1">Full Name *</label>
                     <input
                       id="checkout-name"
                       type="text"
@@ -204,12 +204,12 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
                       placeholder="First and last name"
                       value={customer.fullName}
                       onChange={(event) => setCustomer({ ...customer, fullName: event.target.value })}
-                      className="w-full bg-white border border-[#D6D1C7] p-3 text-sm text-[#2C2A26] placeholder-[#A8A29E] outline-none focus:border-[#2C2A26]"
+                      className="w-full bg-white border border-[#D4D8C6] p-3 text-sm text-[#1A231C] placeholder-[#9AA094] outline-none focus:border-[#1A231C]"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="checkout-address" className="text-xs uppercase tracking-widest text-[#5D5A53] block mb-1">Street Address *</label>
+                    <label htmlFor="checkout-address" className="text-xs uppercase tracking-widest text-[#3E463C] block mb-1">Street Address *</label>
                     <input
                       id="checkout-address"
                       type="text"
@@ -218,25 +218,25 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
                       placeholder="House number and street name"
                       value={customer.address}
                       onChange={(event) => setCustomer({ ...customer, address: event.target.value })}
-                      className="w-full bg-white border border-[#D6D1C7] p-3 text-sm text-[#2C2A26] placeholder-[#A8A29E] outline-none focus:border-[#2C2A26]"
+                      className="w-full bg-white border border-[#D4D8C6] p-3 text-sm text-[#1A231C] placeholder-[#9AA094] outline-none focus:border-[#1A231C]"
                     />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="checkout-apartment" className="text-xs uppercase tracking-widest text-[#5D5A53] block mb-1">Apartment, Suite, Unit</label>
+                      <label htmlFor="checkout-apartment" className="text-xs uppercase tracking-widest text-[#3E463C] block mb-1">Apartment, Suite, Unit</label>
                       <input
                         id="checkout-apartment"
                         type="text"
                         placeholder="Optional"
                         value={customer.apartment}
                         onChange={(event) => setCustomer({ ...customer, apartment: event.target.value })}
-                        className="w-full bg-white border border-[#D6D1C7] p-3 text-sm text-[#2C2A26] placeholder-[#A8A29E] outline-none focus:border-[#2C2A26]"
+                        className="w-full bg-white border border-[#D4D8C6] p-3 text-sm text-[#1A231C] placeholder-[#9AA094] outline-none focus:border-[#1A231C]"
                       />
                     </div>
 
                     <div>
-                      <label htmlFor="checkout-city" className="text-xs uppercase tracking-widest text-[#5D5A53] block mb-1">City *</label>
+                      <label htmlFor="checkout-city" className="text-xs uppercase tracking-widest text-[#3E463C] block mb-1">City *</label>
                       <input
                         id="checkout-city"
                         type="text"
@@ -245,14 +245,14 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
                         placeholder="City"
                         value={customer.city}
                         onChange={(event) => setCustomer({ ...customer, city: event.target.value })}
-                        className="w-full bg-white border border-[#D6D1C7] p-3 text-sm text-[#2C2A26] placeholder-[#A8A29E] outline-none focus:border-[#2C2A26]"
+                        className="w-full bg-white border border-[#D4D8C6] p-3 text-sm text-[#1A231C] placeholder-[#9AA094] outline-none focus:border-[#1A231C]"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
-                      <label htmlFor="checkout-state" className="text-xs uppercase tracking-widest text-[#5D5A53] block mb-1">State / Province</label>
+                      <label htmlFor="checkout-state" className="text-xs uppercase tracking-widest text-[#3E463C] block mb-1">State / Province</label>
                       <input
                         id="checkout-state"
                         type="text"
@@ -260,12 +260,12 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
                         placeholder="Region"
                         value={customer.stateProvince}
                         onChange={(event) => setCustomer({ ...customer, stateProvince: event.target.value })}
-                        className="w-full bg-white border border-[#D6D1C7] p-3 text-sm text-[#2C2A26] placeholder-[#A8A29E] outline-none focus:border-[#2C2A26]"
+                        className="w-full bg-white border border-[#D4D8C6] p-3 text-sm text-[#1A231C] placeholder-[#9AA094] outline-none focus:border-[#1A231C]"
                       />
                     </div>
 
                     <div>
-                      <label htmlFor="checkout-postal" className="text-xs uppercase tracking-widest text-[#5D5A53] block mb-1">Postal Code *</label>
+                      <label htmlFor="checkout-postal" className="text-xs uppercase tracking-widest text-[#3E463C] block mb-1">Postal Code *</label>
                       <input
                         id="checkout-postal"
                         type="text"
@@ -274,17 +274,17 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
                         placeholder="Postcode"
                         value={customer.postalCode}
                         onChange={(event) => setCustomer({ ...customer, postalCode: event.target.value })}
-                        className="w-full bg-white border border-[#D6D1C7] p-3 text-sm text-[#2C2A26] placeholder-[#A8A29E] outline-none focus:border-[#2C2A26]"
+                        className="w-full bg-white border border-[#D4D8C6] p-3 text-sm text-[#1A231C] placeholder-[#9AA094] outline-none focus:border-[#1A231C]"
                       />
                     </div>
 
                     <div>
-                      <label htmlFor="checkout-country" className="text-xs uppercase tracking-widest text-[#5D5A53] block mb-1">Country *</label>
+                      <label htmlFor="checkout-country" className="text-xs uppercase tracking-widest text-[#3E463C] block mb-1">Country *</label>
                       <select
                         id="checkout-country"
                         value={customer.country}
                         onChange={(event) => setCustomer({ ...customer, country: event.target.value })}
-                        className="w-full bg-white border border-[#D6D1C7] p-3 text-sm text-[#2C2A26] outline-none focus:border-[#2C2A26]"
+                        className="w-full bg-white border border-[#D4D8C6] p-3 text-sm text-[#1A231C] outline-none focus:border-[#1A231C]"
                       >
                         {COUNTRIES.map(country => (
                           <option key={country} value={country}>{country}</option>
@@ -296,9 +296,9 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
               </div>
 
               <div>
-                <h2 className="text-xl font-serif text-[#2C2A26] mb-6 flex items-center justify-between">
+                <h2 className="text-xl font-serif text-[#1A231C] mb-6 flex items-center justify-between">
                   <span>3. How you would like to pay</span>
-                  <span className="text-xs uppercase tracking-widest text-[#A8A29E] font-sans">Step 3 of 3</span>
+                  <span className="text-xs uppercase tracking-widest text-[#9AA094] font-sans">Step 3 of 3</span>
                 </h2>
 
                 <div className="space-y-3">
@@ -309,10 +309,10 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
                         key={provider.id}
                         className={`block p-4 border transition-all ${
                           !provider.enabled
-                            ? 'bg-[#EBE7DE]/30 border-[#D6D1C7] opacity-70 cursor-not-allowed'
+                            ? 'bg-[#E7EADF]/30 border-[#D4D8C6] opacity-70 cursor-not-allowed'
                             : isSelected
-                              ? 'bg-white border-[#2C2A26] shadow-sm cursor-pointer'
-                              : 'bg-[#EBE7DE]/40 border-[#D6D1C7] hover:border-[#2C2A26]/50 cursor-pointer'
+                              ? 'bg-white border-[#1A231C] shadow-sm cursor-pointer'
+                              : 'bg-[#E7EADF]/40 border-[#D4D8C6] hover:border-[#1A231C]/50 cursor-pointer'
                         }`}
                       >
                         <div className="flex items-start gap-3">
@@ -323,16 +323,16 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
                             checked={isSelected}
                             disabled={!provider.enabled}
                             onChange={() => setPaymentMethod(provider.id)}
-                            className="mt-1 accent-[#2C2A26]"
+                            className="mt-1 accent-[#1A231C]"
                           />
                           <div className="flex-1">
                             <div className="flex items-center justify-between gap-4 mb-1">
-                              <span className="font-serif text-[#2C2A26] text-base">{provider.name}</span>
-                              <span className="text-[10px] uppercase tracking-widest text-[#8C7355] font-medium whitespace-nowrap">
+                              <span className="font-serif text-[#1A231C] text-base">{provider.name}</span>
+                              <span className="text-[10px] uppercase tracking-widest text-[#6D5C2E] font-medium whitespace-nowrap">
                                 {provider.enabled ? 'Available' : 'Not connected'}
                               </span>
                             </div>
-                            <p className="text-xs text-[#5D5A53] leading-relaxed">{provider.note}</p>
+                            <p className="text-xs text-[#3E463C] leading-relaxed">{provider.note}</p>
                             {!provider.enabled && provider.unavailableReason && (
                               <p className="text-[11px] text-[#7A4038] mt-1">{provider.unavailableReason}</p>
                             )}
@@ -344,14 +344,14 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
                 </div>
 
                 <div className="mt-6">
-                  <label htmlFor="checkout-note" className="text-xs uppercase tracking-widest text-[#5D5A53] block mb-1">Anything we should know?</label>
+                  <label htmlFor="checkout-note" className="text-xs uppercase tracking-widest text-[#3E463C] block mb-1">Anything we should know?</label>
                   <textarea
                     id="checkout-note"
                     rows={3}
                     placeholder="Optional. For example a delivery question or an item you would like us to check first."
                     value={note}
                     onChange={(event) => setNote(event.target.value)}
-                    className="w-full bg-white border border-[#D6D1C7] p-3 text-sm text-[#2C2A26] placeholder-[#A8A29E] outline-none focus:border-[#2C2A26] resize-y"
+                    className="w-full bg-white border border-[#D4D8C6] p-3 text-sm text-[#1A231C] placeholder-[#9AA094] outline-none focus:border-[#1A231C] resize-y"
                   />
                 </div>
               </div>
@@ -360,7 +360,7 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
                 <button
                   type="submit"
                   disabled={isProcessing || items.length === 0}
-                  className="w-full py-5 bg-[#2C2A26] text-[#F5F2EB] text-xs uppercase tracking-widest font-medium hover:bg-[#433E38] transition-colors disabled:opacity-50 flex items-center justify-center gap-3"
+                  className="w-full py-5 bg-[#1A231C] text-[#EFF1E7] text-xs uppercase tracking-widest font-medium hover:bg-[#433E38] transition-colors disabled:opacity-50 flex items-center justify-center gap-3"
                 >
                   {isProcessing ? (
                     <>
@@ -371,66 +371,66 @@ const Checkout: React.FC<CheckoutProps> = ({ items, onBack, onOrderComplete }) =
                     <span>Request invoice — nothing is charged now</span>
                   )}
                 </button>
-                <p className="text-center text-[11px] text-[#A8A29E] mt-3 leading-relaxed">
+                <p className="text-center text-[11px] text-[#9AA094] mt-3 leading-relaxed">
                   Submitting creates an order request on this device. It is not a contract and no money moves.
                 </p>
               </div>
             </form>
           </div>
 
-          <div className="lg:col-span-5 lg:pl-8 lg:border-l border-[#D6D1C7]">
-            <h2 className="text-xl font-serif text-[#2C2A26] mb-8">
+          <div className="lg:col-span-5 lg:pl-8 lg:border-l border-[#D4D8C6]">
+            <h2 className="text-xl font-serif text-[#1A231C] mb-8">
               Summary ({items.reduce((count, item) => count + item.quantity, 0)} {items.reduce((count, item) => count + item.quantity, 0) === 1 ? 'item' : 'items'})
             </h2>
 
             <div className="space-y-6 mb-8 max-h-[400px] overflow-y-auto pr-2">
               {items.map((item, index) => (
                 <div key={`${item.product.id}-${index}`} className="flex gap-4">
-                  <div className="w-16 h-20 bg-[#EBE7DE] relative flex-shrink-0">
+                  <div className="w-16 h-20 bg-[#E7EADF] relative flex-shrink-0">
                     <img src={item.product.imageUrl} alt={item.product.name} className="w-full h-full object-cover" />
-                    <span className="absolute -top-2 -right-2 w-5 h-5 bg-[#2C2A26] text-white text-[10px] flex items-center justify-center font-mono">
+                    <span className="absolute -top-2 -right-2 w-5 h-5 bg-[#1A231C] text-white text-[10px] flex items-center justify-center font-mono">
                       {item.quantity}
                     </span>
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-serif text-[#2C2A26] text-base">{item.product.name}</h3>
-                    <p className="text-xs text-[#A8A29E]">{item.selectedVariant || item.product.category}</p>
-                    <span className="text-xs text-[#5D5A53] mt-1 block">{Number.isFinite(item.product.price) ? `${symbol}${item.product.price.toFixed(2)} each` : 'Price pending'}</span>
+                    <h3 className="font-serif text-[#1A231C] text-base">{item.product.name}</h3>
+                    <p className="text-xs text-[#9AA094]">{item.selectedVariant || item.product.category}</p>
+                    <span className="text-xs text-[#3E463C] mt-1 block">{Number.isFinite(item.product.price) ? `${symbol}${item.product.price.toFixed(2)} each` : 'Price pending'}</span>
                   </div>
-                  <span className="text-sm font-serif text-[#2C2A26] tabular-nums">
+                  <span className="text-sm font-serif text-[#1A231C] tabular-nums">
                     {Number.isFinite(item.product.price) ? `${symbol}${(item.product.price * item.quantity).toFixed(2)}` : '—'}
                   </span>
                 </div>
               ))}
             </div>
 
-            <div className="border-t border-[#D6D1C7] pt-6 space-y-3 text-sm text-[#5D5A53]">
+            <div className="border-t border-[#D4D8C6] pt-6 space-y-3 text-sm text-[#3E463C]">
               <div className="flex justify-between">
                 <span>Subtotal</span>
                 <span className="tabular-nums">{hasPendingPrice ? 'Price pending' : `${symbol}${subtotal.toFixed(2)}`}</span>
               </div>
               <div className="flex justify-between gap-6">
                 <span>Shipping</span>
-                <span className="text-right text-[#A8A29E]">Quoted on your invoice</span>
+                <span className="text-right text-[#9AA094]">Quoted on your invoice</span>
               </div>
               <div className="flex justify-between gap-6">
                 <span>Taxes and duties</span>
-                <span className="text-right text-[#A8A29E]">Confirmed before payment</span>
+                <span className="text-right text-[#9AA094]">Confirmed before payment</span>
               </div>
             </div>
 
-            <div className="border-t border-[#D6D1C7] mt-6 pt-6 flex justify-between items-end">
+            <div className="border-t border-[#D4D8C6] mt-6 pt-6 flex justify-between items-end">
               <div>
-                <span className="font-serif text-2xl text-[#2C2A26] block">Items total</span>
-                <span className="text-xs text-[#A8A29E]">Not a final amount</span>
+                <span className="font-serif text-2xl text-[#1A231C] block">Items total</span>
+                <span className="text-xs text-[#9AA094]">Not a final amount</span>
               </div>
               <div className="text-right">
-                <span className="text-xs text-[#A8A29E] mr-1 font-mono">{settings.currency === '$' ? 'USD' : 'GBP'}</span>
-                <span className="font-serif text-3xl text-[#2C2A26] tabular-nums">{hasPendingPrice ? 'Price pending' : `${symbol}${subtotal.toFixed(2)}`}</span>
+                <span className="text-xs text-[#9AA094] mr-1 font-mono">{settings.currency === '$' ? 'USD' : 'GBP'}</span>
+                <span className="font-serif text-3xl text-[#1A231C] tabular-nums">{hasPendingPrice ? 'Price pending' : `${symbol}${subtotal.toFixed(2)}`}</span>
               </div>
             </div>
 
-            <p className="text-[11px] text-[#A8A29E] mt-6 leading-relaxed">
+            <p className="text-[11px] text-[#9AA094] mt-6 leading-relaxed">
               The final invoice will show the confirmed item price, shipping, and any duty. Nothing is charged until you
               agree to that invoice.
             </p>

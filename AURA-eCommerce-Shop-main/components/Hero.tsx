@@ -1,77 +1,64 @@
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
-*/
+ *
+ * Hero.
+ *
+ * The dark Moss ground carries the first impression. A photography slot is
+ * reserved but empty: supplier or stock imagery is never used as brand art, so
+ * the owner's own photographs drop into the marked element later.
+ */
 
 import React from 'react';
 
 const Hero: React.FC = () => {
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    e.preventDefault();
-    const element = document.getElementById(targetId);
-    if (element) {
-      const headerOffset = 85;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-      
-      try {
-        window.history.pushState(null, '', `#${targetId}`);
-      } catch (err) {
-        // Ignore in sandboxed environments
-      }
-    }
-  };
-
   return (
-    <section className="relative w-full h-screen min-h-[800px] overflow-hidden bg-[#D6D1C7]">
-      
-      {/* Background Image - Serene Misty Landscape */}
-      <div className="absolute inset-0 w-full h-full">
-        <img 
-          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2000" 
-          alt="Serene misty mountain sanctuary" 
-          className="w-full h-full object-cover grayscale contrast-[0.7] brightness-[0.95] animate-[pulse_15s_ease-in-out_infinite_alternate]"
-        />
-        {/* Warm Tonal Overlays for Depth */}
-        <div className="absolute inset-0 bg-[#433E38]/40 mix-blend-multiply"></div>
-        <div className="absolute inset-0 bg-[#313030]/25"></div>
-      </div>
+    <section className="relative flex min-h-[88svh] w-full items-end overflow-hidden bg-canvas">
 
-      {/* Content */}
-      <div className="relative z-10 h-full flex flex-col justify-center items-start text-left md:items-center md:text-center px-6">
-        <div className="animate-fade-in-up w-full md:w-auto">
-          <span className="block text-xs md:text-sm font-medium uppercase tracking-[0.25em] text-white/90 mb-6 backdrop-blur-sm bg-white/10 px-5 py-2 mx-0 md:mx-auto w-fit border border-white/20">
-            The Bodhi Sanctuary
-          </span>
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif font-normal text-white tracking-tight mb-8 drop-shadow-sm">
-            Quiet <span className="italic text-[#F5F2EB]">presence.</span>
-          </h1>
-          <p className="max-w-xl mx-0 md:mx-auto text-lg md:text-xl text-white/95 font-light leading-relaxed mb-12 text-shadow-sm">
-            Sacred Ayurvedic botanicals, timeless yogic texts, 432Hz meditative audio, <br className="hidden sm:inline" />
-            and tactile tools crafted to lessen desire and quiet the mind.
-          </p>
-          
-          <a 
-            href="#products" 
-            onClick={(e) => handleNavClick(e, 'products')}
-            className="group relative px-10 py-4 bg-[#F5F2EB] text-[#2C2A26] text-xs font-semibold uppercase tracking-widest hover:bg-white transition-all duration-500 overflow-hidden shadow-lg hover:shadow-xl inline-block"
+      {/* Photography slot — reserve only. Add the owner-supplied image here. */}
+      <div className="absolute inset-0" data-photography-slot="hero" aria-hidden="true" />
+
+      {/* Grain: the ground should never read as flat digital green. */}
+      <div className="grain absolute inset-0" aria-hidden="true" />
+
+      {/* Tonal veil so type stays legible over any future photograph. */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-canvas via-canvas/55 to-canvas/10" aria-hidden="true" />
+
+      <div className="relative z-10 mx-auto w-full max-w-[1580px] px-6 pb-24 pt-40 md:px-12 md:pb-28">
+        <p className="mb-10 flex items-center gap-5 text-[10px] font-semibold uppercase tracking-[0.34em] text-brass">
+          <span aria-hidden="true" className="h-px w-12 bg-brass/70" />
+          OPAR
+        </p>
+
+        <h1 className="max-w-5xl font-serif text-[clamp(3.2rem,9vw,8rem)] font-normal leading-[0.92] tracking-[-0.02em] text-paper">
+          A world of
+          <br />
+          <span className="italic text-paper/75">conscious living.</span>
+        </h1>
+
+        <p className="mt-10 max-w-xl text-sm font-light leading-relaxed text-paper/70 md:text-base">
+          Objects and knowledge for a slower, more sensory life — herbs, everyday care, sound, practice
+          and craft, described honestly. Ordering opens after the first pieces are verified.
+        </p>
+
+        <div className="mt-12 flex flex-wrap items-center gap-4">
+          <a
+            href="/shop/"
+            className="inline-flex min-h-[52px] items-center border border-brass px-9 text-[10px] font-semibold uppercase tracking-[0.24em] text-brass transition-colors duration-300 hover:bg-brass hover:text-ink"
           >
-            <span className="relative z-10 group-hover:text-[#2C2A26]">Explore Sanctuary</span>
+            Enter the shop
+          </a>
+          <a
+            href="/about/"
+            className="inline-flex min-h-[52px] items-center border border-paper/25 px-9 text-[10px] font-semibold uppercase tracking-[0.24em] text-paper/80 transition-colors duration-300 hover:border-paper hover:text-paper"
+          >
+            About OPAR
           </a>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce text-white/60">
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
-      </div>
+      {/* Hairline base: the gold rule closes the ground. */}
+      <div className="absolute inset-x-0 bottom-0 h-px bg-brass/20" aria-hidden="true" />
     </section>
   );
 };

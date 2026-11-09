@@ -1,7 +1,7 @@
 # AURA — Status
 
-**Updated:** 2026-11-09  
-**Phase:** One branch (`main`). Branch consolidation done: verified OPAR storefront tree merged into `main` (`14b70d7`), `master` deleted locally and on the remote, backup tag `backup/master-20261109`. 45/45 tests, 41-page production build verified locally before push. Two brand-preview skins (OPAR ivory / Moss-style dark, decision D-030) built for the owner's comparison and committed locally; awaiting the skin choice plus approval to push the preview commit.
+**Updated:** 2026-11-10  
+**Phase:** Moss rollout executed (owner-confirmed 2026-11-10). Dark ground `#28332A` + cool-ivory paper (`#EFF1E7`) re-skin across the static pages and the React shell; Tailwind compiled (D-021 option B); P0 truth hygiene in the same commit (false schema, CDN, GSC placeholder, Unsplash assets, seeded demo catalogue all removed). 45/45 tests, clean build, committed locally on `main` (not pushed). Next: photography to drop into the reserved slots when the owner supplies images; push and deployment need the owner's go-ahead.
 
 ## Current intake (D-020 takes precedence over older notes)
 
@@ -28,6 +28,13 @@
 - Books must have documented publication rights. Prior candidates need further edition/territory checks; access and pricing are undecided.
 
 ## Completed work since last status
+
+### Moss rollout — D-030 executed, D-021 (compiled Tailwind), P0 truth hygiene (2026-11-10, owner approved "go")
+- **Skin:** dark Moss ground `#28332A` with cool-ivory "paper" reading surfaces. Static layer: `:root` roles flipped in `public/assets/product-pages.css` and a `body.theme-paper` override (threaded via a new `theme` param on `documentPage()`, used only for content/policy pages); dark-tuned chips/badges/buttons; CSS-only grain; `theme-color` `#28332A`. React side: `index.css` roles + Tailwind semantic colour names (`canvas/surface/paper/brass/moss`), dark Hero with reserved `data-photography-slot`, re-skinned PilotProducts/Navbar/Footer, legacy chrome hexes cooled to the cool-ivory family.
+- **Tailwind:** `tailwind.config.js` at repo root (content globs from the repo root; explicit PostCSS config path in `vite.config.ts`), `@tailwind` directives in `index.css`; Play CDN, GSC placeholder, false `Store`/`Offer` JSON-LD, Unsplash preloads removed from `index.html`. Compiled CSS contains the semantic utilities; build clean.
+- **Truth hygiene:** `PRODUCTS` in `constants.ts` emptied (D-018 demo catalogue removed); `App.tsx` no longer renders demo grid/category/journal/about views — home is Hero + pilot previews; nav/footer link to the real static rooms via the new `SHOP_ROOMS` list; `storeService` defaults to `OPAR` / `hello@opar.example` and the products key bumped to `aura_products_v9`.
+- **QA (2026-11-10):** `npm run test:templates` **45/45**; `npm run build` clean (40 static pages + Vite bundle); browser probes on the built `dist` (vite preview): 0 horizontal overflow at 375/768/1440 on home, `/shop/`, `/policies/privacy/`; body colours verified (`#28332A` ground, `#EFF1E7` paper with `#1A231C` ink); 12/12 internal routes 200. Screenshots captured during QA.
+- **Not done (deliberate):** photography (slots reserved; owner supplies images), push/deploy, `package-lock.json` commit decision, store name/email domain before launch.
 
 ### Branch consolidation — one branch `main` (2026-11-09, owner approved "go")
 - Task 02+03 work committed on master first (`2884188`, 71 files): `data/brand.json`, `brand.config.ts`, `public/assets/brand/`, token layer, templates, tests — the OPAR system existed nowhere in history before this.
@@ -141,7 +148,7 @@
 
 ## Next work
 
-- **P0 (truth hygiene), then the React chrome:** remove the fabricated demo catalogue in `constants.ts`, the false `Store` schema and health claim in `index.html`, the placeholder GSC token, and settle Tailwind delivery (D-021). The generated cart/wishlist now work, so this is the next structural blocker.
+- **P0 (truth hygiene) + Tailwind delivery: done 2026-11-10** (see the Moss rollout entry above). Remaining structural blocker: none — the launch gate list in the "Inputs still needed" table stands.
 - Ask the supplier for the exact-product physical label, a batch-linked certificate of analysis, and any actual organic certificate. The current PDF only provides label content.
 - Add the product photograph when supplied with publication permission. The page is usable as a preview meanwhile.
 - Keep taking owner-selected links through the same factual intake. Decide the remaining category structure and reconcile the legacy React demo catalogue with the generated catalogue before launch.
@@ -156,7 +163,7 @@
 | Supplier terms | Confirmed ingredient lists, safety reports, responsible persons, image permissions for each product. |
 | Affiliate payout | Verify commission eligibility from AliExpress/CJ/Amazon for Bangladesh entity. |
 | Books | Exact editions with established hosting rights for full publication/sale. |
-| Wider site | Homepage claim cleanup (P0), then decide Tailwind delivery (D-021). |
+| Wider site | Photography to drop into the reserved slots (owner supplies) |
 
 These do not block product-preview intake. Live payments, deployment, and new installations need their own approval.
 

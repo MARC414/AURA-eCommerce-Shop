@@ -27,17 +27,37 @@
   --opar-forest-soft: #3E463C;    /* stone green for long body copy */
   --opar-forest-line: #3A4638;    /* hairline on dark surfaces */
 
-  /* — Layer 2 · semantic roles — */
-  --canvas: var(--opar-warm-ivory);
-  --surface: var(--opar-ivory-raised);
-  --surface-well: var(--opar-ivory-well);
-  --sage-tint: var(--opar-sage-tint);
-  --ink: var(--opar-forest-green);
-  --body: var(--opar-forest-soft);
-  --line: #D2CBb6;
+  /* D-030 ground + paper primitives (owner-confirmed 2026-11-10): the dark
+     Moss ground carries the site, cool ivory is the reading paper. */
+  --opar-moss-dark: #28332A;      /* brand ground */
+  --opar-moss-raised: #31402F;    /* raised surface on the ground */
+  --opar-moss-well: #22301F;      /* inset well on the ground */
+  --opar-sage-body: #C6CCBD;      /* body copy on the ground */
+  --opar-moss-line: #4A5443;      /* hairline on the ground */
+  --opar-ivory-cool: #EFF1E7;     /* cool paper */
+  --opar-ivory-cool-raised: #E7EADF;
+
+  /* — Layer 2 · semantic roles (D-030: dark ground is the canvas) — */
+  --canvas: var(--opar-moss-dark);
+  --surface: var(--opar-moss-raised);
+  --surface-well: var(--opar-moss-well);
+  --sage-tint: var(--opar-moss-raised);
+  --ink: var(--opar-ivory-cool);
+  --body: var(--opar-sage-body);
+  --line: var(--opar-moss-line);
   --brass: var(--opar-antique-gold);
-  --accent-text: var(--opar-gold-deep);
-  --moss: var(--opar-moss-deep);
+  --accent-text: var(--opar-antique-gold);
+  --moss: #96A576; /* moss lightened for small text on the ground (large text only) */
+
+  /* Paper (cool ivory) — applied by .theme-paper on reading pages.
+     Values are the same roles, resolved for a light ground. */
+  --paper-canvas: var(--opar-ivory-cool);
+  --paper-surface: var(--opar-ivory-cool-raised);
+  --paper-well: #E2E5D7;
+  --paper-ink: #1A231C;
+  --paper-body: #3E463C;
+  --paper-line: #D4D8C6;
+  --paper-sage-tint: var(--opar-sage-tint);
 
   /* Dark forest surface (branding / editorial) */
   --forest-canvas: var(--opar-forest-green);
@@ -112,8 +132,9 @@
   --transition-lift: transform var(--dur-med) var(--ease-out), box-shadow var(--dur-med) var(--ease-out);
 
   /* — Focus — */
-  --focus-ring-light: var(--opar-gold-deep);
+  --focus-ring-light: var(--opar-antique-gold);
   --focus-ring-dark: var(--opar-antique-gold);
+  --focus-ring-paper: var(--opar-gold-deep);
 
   /*
     Responsive breakpoints (documentation tokens; media queries cannot read
@@ -127,8 +148,8 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 180px; }
-body { margin: 0; background: var(--canvas); color: var(--ink); font-family: var(--sans); font-size: var(--text-body); line-height: var(--leading-body); }
-::selection { background: var(--opar-soft-sage); color: var(--opar-forest-green); }
+body { margin: 0; background: var(--canvas); color: var(--ink); font-family: var(--sans); font-size: var(--text-body); line-height: var(--leading-body); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E"); }
+::selection { background: var(--opar-antique-gold); color: var(--opar-forest-green); }
 a { color: inherit; text-decoration: none; }
 button, select { font: inherit; }
 button, a, select { -webkit-tap-highlight-color: transparent; }
@@ -158,7 +179,7 @@ h3 { font-size: var(--text-h3); }
 .site-search { flex: 1 1 auto; display: flex; align-items: center; min-width: 0; border-bottom: 1px solid var(--line); }
 .site-search:focus-within { border-color: var(--ink); }
 .site-search input { flex: 1 1 auto; min-width: 0; min-height: 44px; padding: 0 6px; border: 0; background: transparent; color: var(--ink); font-size: 14px; }
-.site-search input::placeholder { color: var(--opar-forest-soft); opacity: .75; }
+.site-search input::placeholder { color: var(--body); opacity: .65; }
 .site-search button { display: grid; place-items: center; width: 44px; height: 44px; border: 0; background: transparent; }
 .site-search button svg { width: 18px; height: 18px; }
 .header-utility { display: flex; align-items: center; gap: 2px; }
@@ -392,7 +413,8 @@ h3 { font-size: var(--text-h3); }
 .wishlist-toggle:hover { text-decoration: underline; text-underline-offset: 5px; }
 .wishlist-toggle.is-saved { color: var(--ink); }
 .wishlist-toggle.is-saved svg { fill: currentColor; }
-.button.is-confirmed { background: var(--accent-text); border-color: var(--accent-text); }
+.button.is-confirmed { background: var(--accent-text); border-color: var(--accent-text); color: var(--opar-forest-green); }
+body.theme-paper .button.is-confirmed { color: var(--opar-warm-ivory); }
 
 /* Partner (affiliate) CTA: antique gold — visibly distinct from the house
    forest-green purchasing button. It still leaves the site externally. */
@@ -548,3 +570,56 @@ h3 { font-size: var(--text-h3); }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* — Layer 3 · D-030 component reconciliation (dark-default, dark-safe) — */
+
+/* Status chips: light washes read as glare on the ground. */
+.status-verified { background: rgba(130, 145, 91, .16); border-color: rgba(130, 145, 91, .45); color: #B9C48E; }
+.status-pending { background: rgba(197, 173, 112, .13); border-color: rgba(197, 173, 112, .45); color: #D9C892; }
+.status-not-provided { background: rgba(224, 167, 152, .12); border-color: rgba(224, 167, 152, .45); color: #E0A798; }
+
+/* Partner badge (L199) and not-provided colour (#7a4038): swap for dark-tuned pairs. */
+.badge-partner { background: rgba(197, 173, 112, .14); border-color: rgba(197, 173, 112, .55); color: #D9C892; }
+.claims-panel li::before { color: #E0A798; }
+/* card title hover: --moss was light-only; use gold (AA on ground) on dark */
+.card-copy h3 a:hover { color: var(--brass); }
+
+/* Buttons: primary becomes pale-paper text on deep moss-veil (forest/ivory read poorly on dark). */
+.button-primary { color: var(--opar-ivory-cool); background: var(--opar-evergreen); border-color: var(--opar-evergreen); }
+.button-primary:hover:not(:disabled) { background: var(--opar-forest-green); }
+.button-secondary { color: var(--opar-ivory-cool); border-color: var(--opar-ivory-cool); background: transparent; }
+.button-secondary:hover:not(:disabled) { background: rgba(197, 173, 112, .12); }
+.external-cta { color: var(--opar-forest-green); }
+
+/* Card availability: moss-sage reads on dark, but the swatch needs the bright moss. */
+.card-availability { color: var(--brass); }
+.card-availability::before { background: var(--opar-moss-green); }
+
+/* Paper mode: reading pages get the cool-ivory ground; roles mirror Layer 2. */
+body.theme-paper {
+  --canvas: var(--paper-canvas);
+  --surface: var(--paper-surface);
+  --surface-well: var(--paper-well);
+  --sage-tint: var(--paper-sage-tint);
+  --ink: var(--paper-ink);
+  --body: var(--paper-body);
+  --line: var(--paper-line);
+  --accent-text: var(--opar-gold-deep);
+  --moss: var(--opar-moss-deep);
+  background-image: none;
+}
+body.theme-paper .status-verified { background: #E7EFE6; border-color: #B9CBB5; color: #33502F; }
+body.theme-paper .status-pending { background: #F6EFDD; border-color: #DDCEAC; color: #6D5A2F; }
+body.theme-paper .status-not-provided { background: #F4E7E4; border-color: #DFC3BD; color: #7A4038; }
+body.theme-paper .badge-partner { background: var(--opar-ivory-cool-raised); border-color: var(--brass); color: var(--opar-gold-deep); }
+body.theme-paper .button-primary { color: var(--opar-warm-ivory); background: var(--opar-forest-green); border-color: var(--opar-forest-green); }
+body.theme-paper .button-primary:hover:not(:disabled) { background: var(--opar-evergreen); }
+body.theme-paper .button-secondary { color: var(--opar-forest-green); border-color: var(--opar-forest-green); background: transparent; }
+body.theme-paper .button-secondary:hover:not(:disabled) { background: var(--sage-tint); }
+body.theme-paper .claims-panel li::before { color: #7A4038; }
+body.theme-paper .card-availability { color: var(--opar-moss-deep); }
+body.theme-paper .card-availability::before { background: var(--opar-moss-green); }
+body.theme-paper .skip-link { background: var(--opar-forest-green); color: var(--opar-warm-ivory); }
+body.theme-paper ::selection { background: var(--opar-soft-sage); color: var(--opar-forest-green); }
+body.theme-paper :focus-visible { outline-color: var(--focus-ring-paper); }
+body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring-paper); }

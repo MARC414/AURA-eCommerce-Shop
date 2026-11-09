@@ -56,19 +56,19 @@ const Assistant: React.FC = () => {
   return (
     <div className="fixed bottom-8 right-8 z-50 flex flex-col items-end font-sans">
       {isOpen && (
-        <div className="bg-[#F5F2EB] rounded-none shadow-2xl shadow-[#2C2A26]/10 w-[90vw] sm:w-[380px] h-[550px] mb-6 flex flex-col overflow-hidden border border-[#D6D1C7] animate-slide-up-fade">
-          <div className="bg-[#EBE7DE] p-5 border-b border-[#D6D1C7] flex justify-between items-center">
+        <div className="bg-[#EFF1E7] rounded-none shadow-2xl shadow-[#1A231C]/10 w-[90vw] sm:w-[380px] h-[550px] mb-6 flex flex-col overflow-hidden border border-[#D4D8C6] animate-slide-up-fade">
+          <div className="bg-[#E7EADF] p-5 border-b border-[#D4D8C6] flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-[#2C2A26] rounded-full"></div>
+              <div className="w-2 h-2 bg-[#1A231C] rounded-full"></div>
               <div>
-                <span className="font-serif italic text-[#2C2A26] text-lg block leading-tight">Concierge</span>
-                <span className="text-[10px] uppercase tracking-widest text-[#A8A29E]">Written answers · no AI model</span>
+                <span className="font-serif italic text-[#1A231C] text-lg block leading-tight">Concierge</span>
+                <span className="text-[10px] uppercase tracking-widest text-[#9AA094]">Written answers · no AI model</span>
               </div>
             </div>
             <button
               onClick={() => setIsOpen(false)}
               aria-label="Close concierge"
-              className="text-[#A8A29E] hover:text-[#2C2A26] transition-colors"
+              className="text-[#9AA094] hover:text-[#1A231C] transition-colors"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -76,14 +76,14 @@ const Assistant: React.FC = () => {
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#F5F2EB]" ref={scrollRef}>
+          <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#EFF1E7]" ref={scrollRef}>
             {messages.map((message, index) => (
               <div key={`${message.timestamp}-${index}`} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div
                   className={`max-w-[85%] p-5 text-sm leading-relaxed ${
                     message.role === 'user'
-                      ? 'bg-[#2C2A26] text-[#F5F2EB]'
-                      : 'bg-white border border-[#EBE7DE] text-[#5D5A53] shadow-sm'
+                      ? 'bg-[#1A231C] text-[#EFF1E7]'
+                      : 'bg-white border border-[#E7EADF] text-[#3E463C] shadow-sm'
                   }`}
                 >
                   {message.text}
@@ -93,12 +93,12 @@ const Assistant: React.FC = () => {
 
             {showSuggestions && (
               <div className="space-y-2 pt-2">
-                <span className="text-[10px] uppercase tracking-widest text-[#A8A29E] block">You could ask</span>
+                <span className="text-[10px] uppercase tracking-widest text-[#9AA094] block">You could ask</span>
                 {CONCIERGE_SUGGESTIONS.map(suggestion => (
                   <button
                     key={suggestion}
                     onClick={() => send(suggestion)}
-                    className="block w-full text-left text-xs px-3 py-2 border border-[#D6D1C7] bg-white/60 text-[#5D5A53] hover:border-[#2C2A26] hover:text-[#2C2A26] transition-colors"
+                    className="block w-full text-left text-xs px-3 py-2 border border-[#D4D8C6] bg-white/60 text-[#3E463C] hover:border-[#1A231C] hover:text-[#1A231C] transition-colors"
                   >
                     {suggestion}
                   </button>
@@ -107,7 +107,7 @@ const Assistant: React.FC = () => {
             )}
           </div>
 
-          <div className="p-5 bg-[#F5F2EB] border-t border-[#D6D1C7]">
+          <div className="p-5 bg-[#EFF1E7] border-t border-[#D4D8C6]">
             <div className="flex gap-2">
               <input
                 type="text"
@@ -116,20 +116,20 @@ const Assistant: React.FC = () => {
                 onKeyDown={handleKeyDown}
                 placeholder="Ask about the shop…"
                 aria-label="Ask the concierge"
-                className="flex-1 bg-white border border-[#D6D1C7] focus:border-[#2C2A26] px-4 py-3 text-sm outline-none transition-colors placeholder-[#A8A29E] text-[#2C2A26]"
+                className="flex-1 bg-white border border-[#D4D8C6] focus:border-[#1A231C] px-4 py-3 text-sm outline-none transition-colors placeholder-[#9AA094] text-[#1A231C]"
               />
               <button
                 onClick={handleSend}
                 disabled={!inputValue.trim()}
                 aria-label="Send question"
-                className="bg-[#2C2A26] text-[#F5F2EB] px-4 hover:bg-[#444] transition-colors disabled:opacity-50"
+                className="bg-[#1A231C] text-[#EFF1E7] px-4 hover:bg-[#444] transition-colors disabled:opacity-50"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                 </svg>
               </button>
             </div>
-            <p className="text-[10px] text-[#A8A29E] mt-2 leading-relaxed">
+            <p className="text-[10px] text-[#9AA094] mt-2 leading-relaxed">
               Answers are pre-written and checked. It will say when it does not know rather than guess.
             </p>
           </div>
@@ -139,7 +139,7 @@ const Assistant: React.FC = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         aria-label={isOpen ? 'Close concierge' : 'Open concierge'}
-        className="bg-[#2C2A26] text-[#F5F2EB] w-14 h-14 flex items-center justify-center rounded-full shadow-xl hover:scale-105 transition-all duration-500 z-50"
+        className="bg-[#1A231C] text-[#EFF1E7] w-14 h-14 flex items-center justify-center rounded-full shadow-xl hover:scale-105 transition-all duration-500 z-50"
       >
         {isOpen ? (
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6">

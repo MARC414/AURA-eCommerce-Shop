@@ -2,6 +2,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +22,16 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: true,
     },
     plugins: [react()],
+    /* D-021: compiled Tailwind. The config path is explicit so the plugin is
+       found regardless of which directory the build is started from. */
+    css: {
+      postcss: {
+        plugins: [
+          tailwindcss({ config: path.resolve(__dirname, 'tailwind.config.js') }),
+          autoprefixer(),
+        ],
+      },
+    },
     define: {
       'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)

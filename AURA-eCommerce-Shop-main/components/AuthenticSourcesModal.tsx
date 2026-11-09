@@ -208,27 +208,27 @@ export const AuthenticSourcesModal: React.FC<AuthenticSourcesModalProps> = ({ is
   const current = SOURCES_DATA[selectedCategory];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#2C2A26]/70 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#1A231C]/70 backdrop-blur-sm animate-fade-in">
       <div 
-        className="bg-[#F5F2EB] border border-[#D6D1C7] w-full max-w-5xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden"
+        className="bg-[#EFF1E7] border border-[#D4D8C6] w-full max-w-5xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-6 md:p-8 border-b border-[#D6D1C7] flex items-center justify-between bg-[#EBE7DE]/60">
+        <div className="p-6 md:p-8 border-b border-[#D4D8C6] flex items-center justify-between bg-[#E7EADF]/60">
           <div>
-            <span className="text-[10px] uppercase tracking-widest text-[#8C7355] font-semibold block mb-1">
+            <span className="text-[10px] uppercase tracking-widest text-[#6D5C2E] font-semibold block mb-1">
               Store Master Authority & Procurement Guide
             </span>
-            <h2 className="text-2xl md:text-3xl font-serif text-[#2C2A26]">
+            <h2 className="text-2xl md:text-3xl font-serif text-[#1A231C]">
               Authentic Sourcing & Lineage Directory
             </h2>
-            <p className="text-xs text-[#5D5A53] font-light mt-1 max-w-2xl">
+            <p className="text-xs text-[#3E463C] font-light mt-1 max-w-2xl">
               Authentic publishers, lineages, and practical dropshipping fulfillment pathways for Sufism, philosophy, sacred sound, and botanicals.
             </p>
           </div>
           <button 
             onClick={onClose}
-            className="w-10 h-10 border border-[#D6D1C7] text-[#2C2A26] hover:bg-[#2C2A26] hover:text-[#F5F2EB] transition-colors flex items-center justify-center text-sm font-mono"
+            className="w-10 h-10 border border-[#D4D8C6] text-[#1A231C] hover:bg-[#1A231C] hover:text-[#EFF1E7] transition-colors flex items-center justify-center text-sm font-mono"
             aria-label="Close modal"
           >
             ✕
@@ -236,11 +236,11 @@ export const AuthenticSourcesModal: React.FC<AuthenticSourcesModalProps> = ({ is
         </div>
 
         {/* Content: Left sidebar + Right details */}
-        <div className="flex-1 overflow-y-auto grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-[#D6D1C7]">
+        <div className="flex-1 overflow-y-auto grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-[#D4D8C6]">
           
           {/* Sidebar tabs (4 cols) */}
-          <div className="md:col-span-4 p-4 md:p-6 space-y-2 overflow-y-auto max-h-[60vh] md:max-h-none bg-[#F5F2EB]">
-            <span className="text-[10px] uppercase tracking-widest text-[#A8A29E] font-medium block px-2 mb-2">
+          <div className="md:col-span-4 p-4 md:p-6 space-y-2 overflow-y-auto max-h-[60vh] md:max-h-none bg-[#EFF1E7]">
+            <span className="text-[10px] uppercase tracking-widest text-[#9AA094] font-medium block px-2 mb-2">
               Select Tradition / Master
             </span>
             {SOURCES_DATA.map((item, idx) => (
@@ -249,15 +249,15 @@ export const AuthenticSourcesModal: React.FC<AuthenticSourcesModalProps> = ({ is
                 onClick={() => setSelectedCategory(idx)}
                 className={`w-full text-left p-3 text-xs transition-all border ${
                   selectedCategory === idx
-                    ? 'border-[#2C2A26] bg-[#EBE7DE] text-[#2C2A26] font-medium shadow-sm'
-                    : 'border-transparent text-[#5D5A53] hover:bg-[#EBE7DE]/50 hover:text-[#2C2A26]'
+                    ? 'border-[#1A231C] bg-[#E7EADF] text-[#1A231C] font-medium shadow-sm'
+                    : 'border-transparent text-[#3E463C] hover:bg-[#E7EADF]/50 hover:text-[#1A231C]'
                 }`}
               >
-                <div className="font-serif text-sm text-[#2C2A26] leading-snug">{item.figure}</div>
+                <div className="font-serif text-sm text-[#1A231C] leading-snug">{item.figure}</div>
                 {item.bengaliName && (
-                  <div className="text-[11px] text-[#8C7355] mt-0.5">{item.bengaliName}</div>
+                  <div className="text-[11px] text-[#6D5C2E] mt-0.5">{item.bengaliName}</div>
                 )}
-                <div className="text-[10px] text-[#A8A29E] uppercase tracking-wider mt-1 truncate">
+                <div className="text-[10px] text-[#9AA094] uppercase tracking-wider mt-1 truncate">
                   {item.title}
                 </div>
               </button>
@@ -269,32 +269,32 @@ export const AuthenticSourcesModal: React.FC<AuthenticSourcesModalProps> = ({ is
             
             {/* Header info */}
             <div>
-              <span className="text-[11px] uppercase tracking-widest text-[#8C7355] font-semibold block mb-1">
+              <span className="text-[11px] uppercase tracking-widest text-[#6D5C2E] font-semibold block mb-1">
                 {current.title}
               </span>
-              <h3 className="text-2xl md:text-3xl font-serif text-[#2C2A26] mb-1">
+              <h3 className="text-2xl md:text-3xl font-serif text-[#1A231C] mb-1">
                 {current.figure}
               </h3>
               {current.authenticScript && (
-                <p className="text-sm font-serif text-[#8C7355] tracking-wide mb-3">
+                <p className="text-sm font-serif text-[#6D5C2E] tracking-wide mb-3">
                   {current.authenticScript}
                 </p>
               )}
-              <div className="p-3 bg-[#EBE7DE]/70 border-l-2 border-[#8C7355] text-xs text-[#5D5A53] italic">
+              <div className="p-3 bg-[#E7EADF]/70 border-l-2 border-[#6D5C2E] text-xs text-[#3E463C] italic">
                 Lineage / Tradition: <strong>{current.lineage}</strong>
               </div>
             </div>
 
             {/* Core Masterworks */}
             <div>
-              <h4 className="text-xs uppercase tracking-widest text-[#2C2A26] font-semibold mb-3">
+              <h4 className="text-xs uppercase tracking-widest text-[#1A231C] font-semibold mb-3">
                 Core Masterworks & Canonical Texts
               </h4>
               <ul className="space-y-2">
                 {current.coreTexts.map((text, i) => (
-                  <li key={i} className="text-xs text-[#5D5A53] flex items-start gap-2.5">
-                    <span className="text-[#8C7355] mt-0.5">✦</span>
-                    <span className="font-medium text-[#2C2A26]">{text}</span>
+                  <li key={i} className="text-xs text-[#3E463C] flex items-start gap-2.5">
+                    <span className="text-[#6D5C2E] mt-0.5">✦</span>
+                    <span className="font-medium text-[#1A231C]">{text}</span>
                   </li>
                 ))}
               </ul>
@@ -302,12 +302,12 @@ export const AuthenticSourcesModal: React.FC<AuthenticSourcesModalProps> = ({ is
 
             {/* Authentic Publishers */}
             <div>
-              <h4 className="text-xs uppercase tracking-widest text-[#2C2A26] font-semibold mb-3">
+              <h4 className="text-xs uppercase tracking-widest text-[#1A231C] font-semibold mb-3">
                 Authentic Authorized Publishers & Archives
               </h4>
               <ul className="space-y-2">
                 {current.authenticPublishers.map((pub, i) => (
-                  <li key={i} className="text-xs text-[#5D5A53] flex items-start gap-2.5">
+                  <li key={i} className="text-xs text-[#3E463C] flex items-start gap-2.5">
                     <span className="text-emerald-700 mt-0.5">✓</span>
                     <span>{pub}</span>
                   </li>
@@ -316,17 +316,17 @@ export const AuthenticSourcesModal: React.FC<AuthenticSourcesModalProps> = ({ is
             </div>
 
             {/* Practical Dropship & Procurement Strategy */}
-            <div className="p-5 bg-[#F5F2EB] border border-[#D6D1C7] space-y-3">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#2C2A26]">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#8C7355]">
+            <div className="p-5 bg-[#EFF1E7] border border-[#D4D8C6] space-y-3">
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#1A231C]">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#6D5C2E]">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                 </svg>
                 <span>Practical Dropshipping & Distribution Pathway</span>
               </div>
               <ul className="space-y-2.5">
                 {current.dropshipAndSourcingPaths.map((path, i) => (
-                  <li key={i} className="text-xs text-[#5D5A53] leading-relaxed flex items-start gap-2">
-                    <span className="font-mono text-[10px] text-[#8C7355] mt-0.5">[{i + 1}]</span>
+                  <li key={i} className="text-xs text-[#3E463C] leading-relaxed flex items-start gap-2">
+                    <span className="font-mono text-[10px] text-[#6D5C2E] mt-0.5">[{i + 1}]</span>
                     <span>{path}</span>
                   </li>
                 ))}
@@ -334,8 +334,8 @@ export const AuthenticSourcesModal: React.FC<AuthenticSourcesModalProps> = ({ is
             </div>
 
             {/* Esoteric Significance & Purpose */}
-            <div className="pt-2 text-xs text-[#5D5A53] leading-relaxed font-light border-t border-[#D6D1C7]">
-              <span className="font-medium text-[#2C2A26]">Spiritual Intention: </span>
+            <div className="pt-2 text-xs text-[#3E463C] leading-relaxed font-light border-t border-[#D4D8C6]">
+              <span className="font-medium text-[#1A231C]">Spiritual Intention: </span>
               {current.notes}
             </div>
 
@@ -344,13 +344,13 @@ export const AuthenticSourcesModal: React.FC<AuthenticSourcesModalProps> = ({ is
         </div>
 
         {/* Footer */}
-        <div className="p-4 md:p-6 border-t border-[#D6D1C7] bg-[#EBE7DE]/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#5D5A53]">
+        <div className="p-4 md:p-6 border-t border-[#D4D8C6] bg-[#E7EADF]/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#3E463C]">
           <span className="italic font-light">
             All texts in the Aura collection are vetted for authentic lineage and historical integrity.
           </span>
           <button 
             onClick={onClose}
-            className="px-6 py-2.5 bg-[#2C2A26] text-[#F5F2EB] uppercase tracking-widest text-[11px] font-medium hover:bg-[#433E38] transition-colors"
+            className="px-6 py-2.5 bg-[#1A231C] text-[#EFF1E7] uppercase tracking-widest text-[11px] font-medium hover:bg-[#433E38] transition-colors"
           >
             Return to Sanctuary
           </button>

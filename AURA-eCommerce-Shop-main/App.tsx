@@ -6,15 +6,9 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import ProductGrid from './components/ProductGrid';
 import PilotProducts from './components/PilotProducts';
-import About from './components/About';
-import Journal from './components/Journal';
 import Assistant from './components/Assistant';
 import Footer from './components/Footer';
-import ProductDetail from './components/ProductDetail';
-import JournalDetail from './components/JournalDetail';
-import CategoryPage from './components/CategoryPage';
 import WishlistDrawer from './components/WishlistDrawer';
 import CartDrawer from './components/CartDrawer';
 import Checkout from './components/Checkout';
@@ -26,6 +20,12 @@ import { Product, ViewState, CartItem, Order, LegalPolicyType } from './types';
 import { storeService } from './services/storeService';
 import { commerce } from './services/commerce';
 
+/**
+ * D-018: the React shell no longer renders a seeded demo catalogue. The home
+ * view is the editorial hero plus the four verified product previews, and all
+ * category/product/journal navigation goes to the generated static pages
+ * under /shop/, /discover/ and /journal/.
+ */
 function App() {
   const [view, setView] = useState<ViewState>({ type: 'home' });
   const [cartItems, setCartItems] = useState<CartItem[]>(() => commerce.getCart());
@@ -54,46 +54,9 @@ function App() {
     setWishlistIds(storeService.getWishlist());
   };
 
-  // Scroll or navigate between sections
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    e.preventDefault();
-    
-    if (view.type !== 'home') {
-      setView({ type: 'home' });
-      setTimeout(() => scrollToSection(targetId), 50);
-    } else {
-      scrollToSection(targetId);
-    }
-  };
-
-  const scrollToSection = (targetId: string) => {
-    if (!targetId) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    
-    const element = document.getElementById(targetId);
-    if (element) {
-      const headerOffset = 85;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-
-      try {
-        window.history.pushState(null, '', `#${targetId}`);
-      } catch (err) {
-        // Ignore in restricted sandboxes
-      }
-    }
-  };
-
+  /** Category rooms are static pages now; leave the shell entirely. */
   const handleSelectCategory = (categorySlug: string) => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setView({ type: 'category', categorySlug });
+    window.location.assign(`/shop/${categorySlug}/`);
   };
 
   const addToCart = (product: Product, quantity = 1, variant?: string) => {
@@ -121,17 +84,15 @@ function App() {
   const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="min-h-screen bg-[#F5F2EB] font-sans text-[#2C2A26] selection:bg-[#D6D1C7] selection:text-[#2C2A26]">
-      
+    <div className="min-h-screen bg-canvas font-sans text-paper">
+
       {/* Navbar rendered on customer views */}
       {view.type !== 'checkout' && view.type !== 'admin' && (
-        <Navbar 
-          onNavClick={handleNavClick} 
+        <Navbar
           cartCount={totalCartCount}
           wishlistCount={wishlistIds.length}
           onOpenCart={() => setIsCartOpen(true)}
           onOpenWishlist={() => setIsWishlistOpen(true)}
-          onSelectCategory={handleSelectCategory}
           onOpenSources={() => setIsSourcesModalOpen(true)}
           onOpenAdmin={() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -139,74 +100,17 @@ function App() {
           }}
         />
       )}
-      
+
       <main>
         {view.type === 'home' && (
           <>
             <Hero />
             <PilotProducts />
-            <ProductGrid 
-              initialCategory={view.initialCategory || 'All'}
-              wishlistIds={wishlistIds}
-              onToggleWishlist={handleToggleWishlist}
-              onSelectCategory={handleSelectCategory}
-              onProductClick={(p) => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                setView({ type: 'product', product: p });
-              }} 
-            />
-            <About />
-            <Journal onArticleClick={(a) => {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-              setView({ type: 'journal', article: a });
-            }} />
           </>
         )}
 
-        {view.type === 'category' && (
-          <CategoryPage 
-            categorySlug={view.categorySlug}
-            products={allProducts}
-            wishlistIds={wishlistIds}
-            onToggleWishlist={handleToggleWishlist}
-            onProductClick={(p) => {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-              setView({ type: 'product', product: p });
-            }}
-            onBackToHome={() => {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-              setView({ type: 'home' });
-            }}
-            onSelectCategory={handleSelectCategory}
-          />
-        )}
-
-        {view.type === 'product' && (
-          <ProductDetail 
-            product={view.product} 
-            isWishlisted={wishlistIds.includes(view.product.id)}
-            onToggleWishlist={handleToggleWishlist}
-            onBack={() => {
-              setView({ type: 'home' });
-              setTimeout(() => scrollToSection('products'), 50);
-            }}
-            onAddToCart={addToCart}
-            onProductClick={(p) => {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-              setView({ type: 'product', product: p });
-            }}
-          />
-        )}
-
-        {view.type === 'journal' && (
-          <JournalDetail 
-            article={view.article} 
-            onBack={() => setView({ type: 'home' })}
-          />
-        )}
-
         {view.type === 'checkout' && (
-          <Checkout 
+          <Checkout
             items={cartItems}
             onBack={() => setView({ type: 'home' })}
             onOrderComplete={handleOrderComplete}
@@ -214,11 +118,11 @@ function App() {
         )}
 
         {view.type === 'order_success' && (
-          <OrderSuccess 
+          <OrderSuccess
             order={view.order}
             onContinueShopping={() => {
               setView({ type: 'home' });
-              setTimeout(() => scrollToSection('products'), 50);
+              window.location.assign('/shop/');
             }}
             onOpenAdmin={() => {
               window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -228,7 +132,7 @@ function App() {
         )}
 
         {view.type === 'admin' && (
-          <AdminDashboard 
+          <AdminDashboard
             onBackToShop={() => {
               window.scrollTo({ top: 0, behavior: 'smooth' });
               setView({ type: 'home' });
@@ -239,8 +143,7 @@ function App() {
 
       {/* Footer rendered on storefront views */}
       {view.type !== 'checkout' && view.type !== 'admin' && (
-        <Footer 
-          onLinkClick={handleNavClick} 
+        <Footer
           onOpenPolicy={(policy) => setActivePolicy(policy)}
           onOpenSources={() => setIsSourcesModalOpen(true)}
           onSelectCategory={handleSelectCategory}
@@ -250,12 +153,12 @@ function App() {
           }}
         />
       )}
-      
+
       {/* AI Concierge Assistant (Always available on storefront) */}
       {view.type !== 'admin' && <Assistant />}
-      
+
       {/* Slide-out Cart Drawer */}
-      <CartDrawer 
+      <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         items={cartItems}
@@ -268,33 +171,31 @@ function App() {
         }}
       />
 
-      {/* Slide-out Wishlist Drawer */}
-      <WishlistDrawer 
+      {/* Slide-out Wishlist Drawer — saved items live in this browser only */}
+      <WishlistDrawer
         isOpen={isWishlistOpen}
         onClose={() => setIsWishlistOpen(false)}
         products={wishlistedProducts}
         onRemoveItem={handleRemoveWishlist}
         onAddToCart={(product, qty) => addToCart(product, qty || 1)}
-        onProductClick={(product) => {
+        onProductClick={() => {
           setIsWishlistOpen(false);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          setView({ type: 'product', product });
+          window.location.assign('/shop/');
         }}
         onExploreShop={() => {
           setIsWishlistOpen(false);
-          if (view.type !== 'home') setView({ type: 'home' });
-          setTimeout(() => scrollToSection('products'), 50);
+          window.location.assign('/shop/');
         }}
       />
 
-      {/* Policy Modal */}
-      <PolicyModal 
-        policy={activePolicy} 
-        onClose={() => setActivePolicy(null)} 
+      {/* Policy Modal (legacy helper; the canonical policies are static pages) */}
+      <PolicyModal
+        policy={activePolicy}
+        onClose={() => setActivePolicy(null)}
       />
 
       {/* Authentic Sources & Lineage Guide Modal */}
-      <AuthenticSourcesModal 
+      <AuthenticSourcesModal
         isOpen={isSourcesModalOpen}
         onClose={() => setIsSourcesModalOpen(false)}
       />
