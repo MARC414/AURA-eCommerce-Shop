@@ -254,8 +254,8 @@ export const AuthenticSourcesModal: React.FC<AuthenticSourcesModalProps> = ({ is
                 }`}
               >
                 <div className="font-serif text-sm text-[#2C2A26] leading-snug">{item.figure}</div>
-                {item.bengaliName && (
-                  <div className="text-[11px] text-[#8C7355] mt-0.5">{item.bengaliName}</div>
+                {item.authenticScript && (
+                  <div className="text-[11px] text-[#8C7355] mt-0.5">{item.authenticScript}</div>
                 )}
                 <div className="text-[10px] text-[#A8A29E] uppercase tracking-wider mt-1 truncate">
                   {item.title}

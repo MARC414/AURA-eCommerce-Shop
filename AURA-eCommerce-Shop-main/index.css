@@ -1,0 +1,116 @@
+/**
+ * OPAR Global Styles & Theme Custom Properties
+ * Brand: OPAR — A World of Conscious Living
+ */
+
+:root {
+  /* OPAR Core Brand Color Tokens */
+  --opar-forest-green: #101B12;
+  --opar-evergreen: #1D3020;
+  --opar-antique-gold: #C5AD70;
+  --opar-moss-green: #82915B;
+  --opar-warm-ivory: #F1EBDD;
+  --opar-soft-sage: #B8BEAA;
+  --opar-stone: #34382D;
+
+  /* Typography */
+  --font-heading: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Semantic Theme Mappings */
+  --color-primary: var(--opar-forest-green);
+  --color-secondary: var(--opar-evergreen);
+  --color-accent: var(--opar-antique-gold);
+  --color-natural: var(--opar-moss-green);
+  --color-canvas: var(--opar-warm-ivory);
+  --color-surface: #EBE7DE;
+  --color-text-primary: #101B12;
+  --color-text-secondary: #5D5A53;
+  --color-text-muted: var(--opar-soft-sage);
+  --color-border-subtle: #D6D1C7;
+  --color-border-strong: var(--opar-stone);
+  --color-border-accent: var(--opar-antique-gold);
+
+  /* Elevation Shadows */
+  --shadow-subtle: 0 1px 3px rgba(16, 27, 18, 0.05);
+  --shadow-soft: 0 4px 14px rgba(16, 27, 18, 0.07);
+  --shadow-elevated: 0 14px 34px rgba(16, 27, 18, 0.09);
+  --shadow-card-hover: 0 8px 24px rgba(16, 27, 18, 0.08);
+
+  /* Radii */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-full: 9999px;
+}
+
+/* Global Typography, Overflow, & Focus Reset */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-canvas);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+}
+
+:focus-visible {
+  outline: 2px solid var(--opar-antique-gold);
+  outline-offset: 3px;
+}
+
+/* Helper typography classes */
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--opar-antique-gold);
+}
+
+/* Surface Themes */
+.surface-ivory {
+  background-color: var(--opar-warm-ivory);
+  color: var(--opar-forest-green);
+}
+
+.surface-forest {
+  background-color: var(--opar-forest-green);
+  color: var(--opar-warm-ivory);
+}
+
+.surface-evergreen {
+  background-color: var(--opar-evergreen);
+  color: var(--opar-warm-ivory);
+}
+
+/* Micro-interaction & Motion */
+.transition-lift {
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-lift:hover {
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

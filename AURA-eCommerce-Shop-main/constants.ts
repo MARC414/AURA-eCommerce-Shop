@@ -6,7 +6,8 @@
 import React from 'react';
 import { Product, JournalArticle, CategoryInfo } from './types';
 
-export const BRAND_NAME = 'Aura';
+export const BRAND_NAME = 'ORVANYA';
+export const BRAND_TAGLINE = 'A World of Conscious Living';
 export const PRIMARY_COLOR = 'stone-900'; 
 export const ACCENT_COLOR = 'stone-500';
 

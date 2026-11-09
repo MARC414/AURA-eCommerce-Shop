@@ -49,12 +49,21 @@ const Footer: React.FC<FooterProps> = ({ onLinkClick, onOpenPolicy, onOpenAdmin,
     <footer className="bg-[#EBE7DE] pt-24 pb-12 px-6 md:px-12 text-[#5D5A53]">
       <div className="max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 mb-20">
         <div className="md:col-span-4">
-          <h4 className="text-3xl font-serif text-[#2C2A26] mb-4">Aura</h4>
-          <p className="max-w-xs font-light leading-relaxed text-sm mb-6">
-            A small shop for a slower, more sensory life: instruments, art, books, quiet technology, and the materials of
-            practice. The catalogue is being built one verified item at a time.
+          <div className="flex items-center gap-2.5 mb-3">
+            <img 
+              src="/assets/brand/orvanya-seed-orbit.svg" 
+              alt="OPAR Seed and Orbit Emblem" 
+              className="w-7 h-7 shrink-0"
+              width="28"
+              height="28"
+            />
+            <h4 className="text-3xl font-serif text-[#101B12]">OPAR</h4>
+          </div>
+          <p className="text-xs uppercase tracking-widest text-[#82915B] font-medium mb-3">A World of Conscious Living</p>
+          <p className="max-w-xs font-light leading-relaxed text-sm mb-6 text-[#5D5A53]">
+            Objects, books, instruments, and materials for conscious, contemplative living. The catalogue is being built one verified item at a time.
           </p>
-          <div className="flex flex-col gap-1 text-xs text-[#8C7355] font-medium">
+          <div className="flex flex-col gap-1 text-xs text-[#82915B] font-medium">
             <span>· No health claims, ever</span>
             <span>· Every product page states what is still unverified</span>
           </div>
@@ -150,7 +159,7 @@ const Footer: React.FC<FooterProps> = ({ onLinkClick, onOpenPolicy, onOpenAdmin,
       </div>
 
       <div className="max-w-[1800px] mx-auto pt-8 border-t border-[#D6D1C7] flex flex-col sm:flex-row justify-between items-center text-xs tracking-widest uppercase opacity-75 gap-4">
-        <p>© 2026 Aura · Preview build, not open for orders</p>
+        <p>© 2026 OPAR · A World of Conscious Living · Preview build, not open for orders</p>
         <div className="flex items-center gap-6">
           <button onClick={() => onOpenPolicy('privacy')} className="hover:text-[#2C2A26] transition-colors">
             Privacy

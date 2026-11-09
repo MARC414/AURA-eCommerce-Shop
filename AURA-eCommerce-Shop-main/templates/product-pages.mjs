@@ -262,16 +262,16 @@ function documentPage({ title, description, active = null, content, canonical = 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${escapeHtml(title)} — AURA</title>
+  <title>${escapeHtml(title)} — ORVANYA</title>
   <meta name="description" content="${escapeHtml(description)}">
   ${keywords ? `<meta name="keywords" content="${escapeHtml(keywords)}">\n  ` : ''}${canonical ? `<link rel="canonical" href="${escapeHtml(canonical)}">\n  ` : ''}<meta name="robots" content="${INDEXABLE ? 'index, follow' : 'noindex, follow'}">
   <meta property="og:type" content="${jsonLd ? 'product' : 'website'}">
-  <meta property="og:title" content="${escapeHtml(title)} — AURA">
+  <meta property="og:title" content="${escapeHtml(title)} — ORVANYA">
   <meta property="og:description" content="${escapeHtml(description)}">
-  ${image ? `<meta property="og:image" content="${escapeHtml(image)}">\n  ` : ''}${canonical ? `<meta property="og:url" content="${escapeHtml(canonical)}">\n  ` : ''}<meta name="theme-color" content="#F5F2EB">${jsonLdTag}
+  ${image ? `<meta property="og:image" content="${escapeHtml(image)}">\n  ` : ''}${canonical ? `<meta property="og:url" content="${escapeHtml(canonical)}">\n  ` : ''}<meta name="theme-color" content="#F1EBDD">${jsonLdTag}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Manrope:wght@300;400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/product-pages.css">
   ${['/assets/cart.js', '/assets/site.js', ...scripts].map(src => `<script src="${escapeHtml(src)}" defer></script>`).join('\n  ')}
 </head>

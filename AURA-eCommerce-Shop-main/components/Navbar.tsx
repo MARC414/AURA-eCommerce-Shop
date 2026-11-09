@@ -86,7 +86,7 @@ const Navbar: React.FC<NavbarProps> = ({
       >
         <div className="max-w-[1800px] mx-auto px-6 md:px-8 flex items-center justify-between">
           
-          {/* Brand Logo */}
+          {/* Brand Logo & Seed + Orbit Emblem */}
           <a 
             href="#" 
             onClick={(e) => {
@@ -94,9 +94,16 @@ const Navbar: React.FC<NavbarProps> = ({
               window.scrollTo({ top: 0, behavior: 'smooth' });
               onNavClick(e, '');
             }}
-            className={`text-3xl font-serif font-medium tracking-tight z-50 relative transition-colors duration-500 ${textColorClass}`}
+            className={`flex items-center gap-2.5 text-2xl md:text-3xl font-serif font-medium tracking-tight z-50 relative transition-colors duration-500 ${textColorClass} focus-visible:outline-2 focus-visible:outline-[#C5AD70]`}
           >
-            {BRAND_NAME}
+            <img 
+              src="/assets/brand/orvanya-seed-orbit.svg" 
+              alt="OPAR Seed and Orbit Emblem" 
+              className="w-7 h-7 shrink-0"
+              width="28"
+              height="28"
+            />
+            <span>{BRAND_NAME}</span>
           </a>
           
           {/* Desktop Navigation Links */}

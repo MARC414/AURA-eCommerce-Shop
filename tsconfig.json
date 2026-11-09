@@ -29,5 +29,11 @@
   },
   "include": [
     "AURA-eCommerce-Shop-main/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "AURA-eCommerce-Shop-main/public/**/*",
+    "AURA-eCommerce-Shop-main/tests/**/*"
   ]
 }

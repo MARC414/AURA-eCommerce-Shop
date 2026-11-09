@@ -1,14 +1,39 @@
-/* AURA's existing cream, sandstone, charcoal, Inter, and Playfair identity. */
+/* ORVANYA brand tokens & palette */
 :root {
-  --canvas: #f5f2eb;
+  /* ORVANYA Core Brand Tokens */
+  --orvanya-forest-green: #101B12;
+  --orvanya-evergreen: #1D3020;
+  --orvanya-antique-gold: #C5AD70;
+  --orvanya-moss-green: #82915B;
+  --orvanya-warm-ivory: #F1EBDD;
+  --orvanya-soft-sage: #B8BEAA;
+  --orvanya-stone: #34382D;
+
+  /* Aliases for backward compatibility */
+  --opar-forest-green: var(--orvanya-forest-green);
+  --opar-evergreen: var(--orvanya-evergreen);
+  --opar-antique-gold: var(--orvanya-antique-gold);
+  --opar-moss-green: var(--orvanya-moss-green);
+  --opar-warm-ivory: var(--orvanya-warm-ivory);
+  --opar-soft-sage: var(--orvanya-soft-sage);
+  --opar-stone: var(--orvanya-stone);
+
+  /* Typography */
+  --orvanya-font-headings: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --orvanya-font-body: 'Manrope', 'Inter', Arial, sans-serif;
+  --opar-font-headings: var(--orvanya-font-headings);
+  --opar-font-body: var(--orvanya-font-body);
+
+  /* Existing theme mappings mapped to ORVANYA tokens */
+  --canvas: var(--orvanya-warm-ivory);
   --surface: #ebe7de;
   --ink: #2c2a26;
   --body: #5d5a53;
   --line: #d6d1c7;
-  --brass: #8c7355;
+  --brass: var(--orvanya-antique-gold);
   --accent-text: #735b40;
-  --serif: 'Playfair Display', Georgia, serif;
-  --sans: 'Inter', Arial, sans-serif;
+  --serif: var(--orvanya-font-headings);
+  --sans: var(--orvanya-font-body);
 }
 
 * { box-sizing: border-box; }

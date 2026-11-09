@@ -11,6 +11,7 @@
     "dev": "vite",
     "prebuild": "node AURA-eCommerce-Shop-main/scripts/generate-product-pages.mjs",
     "build": "vite build",
+    "lint": "tsc --noEmit",
     "preview": "vite preview"
   },
   "dependencies": {

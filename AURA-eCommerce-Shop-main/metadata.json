@@ -1,6 +1,8 @@
 {
-  "name": "Aura Quiet Living",
-  "description": "A serene e-commerce sample experience with an AI concierge.",
+  "name": "ORVANYA — A World of Conscious Living",
+  "description": "An international premium eCommerce platform for conscious, contemplative living, authentic botanicals, practice tools, and sanctuary objects.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
