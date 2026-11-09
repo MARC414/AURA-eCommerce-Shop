@@ -11,6 +11,7 @@
     "dev": "vite",
     "prebuild": "node AURA-eCommerce-Shop-main/scripts/generate-product-pages.mjs",
     "build": "vite build",
+    "check:site": "node AURA-eCommerce-Shop-main/scripts/check-site.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
