@@ -9,7 +9,9 @@
 
 **T4.5 is done too** (`8710208`), unpushed: the header is one row at every width — 65px at ≤760 and 73px above, against 198px and 120px before. Below 761 the four sections live in a `<details>` panel behind a menu icon (no duplicated nav markup, no `:has()`, no JavaScript needed to open it); search is a field above 1279 and an icon linking to `/search/` below, so exactly one search control is ever visible; utilities are icons with a screen-reader-only label; at 320 the wordmark drops its text and keeps its accessible name. The hero scrim was re-measured against the new height — worst composited pixel in the header band is 6.36:1 for mist and 8.65:1 for ink at 761/1024/1440. Gates: 53/53 tests, `tsc` clean, 41 pages, `check:site` passes, 15 page/width combinations with 0 overflow and one `h1`, all 20 unique nav hrefs 200, Escape/focus-return and outside-click verified, no layout shift when the panel opens. Next: **T5**, commerce verification. Open owner-side facts still block any real sale: no price, no shipping cost, no stock, no hosting.
 
-**T5 is done as verification only** (`planning/T5-COMMERCE-VERIFICATION.md`), nothing changed: 48 checks across cart (priced, unpriced and empty), checkout (unpriced and mixed), account, wishlist, search and both supplier models — 0 defects, 0 console errors. The priced path only exists by seeding the cart, because no product carries a price. Next: **T6**, the admin and concierge disposition.
+**T5 is done as verification only** (`planning/T5-COMMERCE-VERIFICATION.md`), nothing changed: 48 checks across cart (priced, unpriced and empty), checkout (unpriced and mixed), account, wishlist, search and both supplier models — 0 defects, 0 console errors. The priced path only exists by seeding the cart, because no product carries a price.
+
+**T6, T7 and T8 are done and pushed** (see D-033's executed block). T6 re-points the admin panel at `aura_order_requests_v1` as a read-only requests list. T7 defines the one button system (four roles on one pill, `button()` template helper, specimen on `/brand-preview/`) — the Moss file is a forest photograph, not a UI sheet, so the owner approved the documented values, which were then measured in the browser and match the house spec exactly. T8 deletes the eight dead components and closes the last CWV budget: the hero is a 171.3 kB AVIF (was 605.8 kB JPEG), homepage ~692 kB → ~258 kB. **The static-first migration T1–T8 is complete.** Still open, all owner-side: price/shipping/stock decisions, domain and hosting (deploy not approved), photography, herbal evidence review before enabling orders.
 
 ## Current intake (D-020 takes precedence over older notes)
 
@@ -36,6 +38,23 @@
 - Books must have documented publication rights. Prior candidates need further edition/territory checks; access and pricing are undecided.
 
 ## Completed work since last status
+
+### T8 — cleanup and the hero budget closed (2026-11-10, D-033 §4)
+- **Dead components deleted** (`28b6122`): `About`, `Features`, `Journal`, `JournalDetail`, `ProductCard`, `ProductDetail`, `ProductGrid`, `CategoryPage` — zero imports outside themselves (the only calls were between them). They carried invented prices, "stock > 10", `"verified: true"` reviews and an invented `#8C7355` accent; Git history keeps them.
+- **Hero converted** (`f0fb138`): the 605.8 kB 2000×1333 JPEG became a 1920×1080 16:9 crop — all the full-bleed hero displays — encoded through an ephemeral uv+Pillow session (no project dependency): **AVIF q54 at 171.3 kB**, WebP q56 at 179.9 kB, JPG kept as fallback and og:image. At full frame no acceptable quality fit the ≤180 kB budget (WebP bottomed at 260 kB), so the crop was the conversion.
+- **Delivery:** `<picture>` tries AVIF → WebP → JPG; the preload carries `type="image/avif"`, so browsers without AVIF skip that fetch — nobody downloads two heroes. The hero test pins the new markup, and the real-file test now validates `srcset` sources too.
+- **Verified in the browser:** `currentSrc` is the AVIF, `fetchpriority=high`, image fills the photo container, no shift, 0 overflow. Homepage payload ~692 kB → ~258 kB (20.3 kB HTML + ~57 kB CSS + ~10 kB JS + 171.3 kB AVIF).
+
+### T7 — the one button system, settled (2026-11-10, D-033 §4 and §6)
+- **The system** (`9535193`): one `.button` base, four roles (`button-primary/-secondary/-quiet/-icon`), sizes (`-small`, `-inline`, `-compact`), states (active 1px translate, focus-visible 3px offset, disabled 0.4, `[aria-busy]` progress, `is-confirmed` 1200 ms). A `button()` helper in `templates/chrome.mjs` emits the classes, so generated pages cannot invent pill markup. Full specimen on `/brand-preview/`.
+- **The reference finding:** the Moss JPEG is a forest photograph, not a UI sheet — there are no measurements to take from it. The owner approved approximating from the existing `.button`; every value was marked provisional in the CSS, the specimen and `docs/BRAND-GUIDELINES.md`.
+- **Settled the same day** (settle commit): the rendered system was measured in the browser and matches the house spec (BRAND-GUIDELINES §Buttons) exactly — 56px default / 40px small / 44×44 icon, 11px/600 uppercase, .12em tracking, 999px radius, hover to mist. "Provisional" language replaced by the measurement record.
+- **Two deviations fixed while settling:** the hero's private 52px min-height now uses the 56px token (hero buttons measured 56px), and the specimen page's own `.specimen-row .button { min-width: 210px }` rule had been inflating the icon pill to 210×44 — exempted, now 44×44. Also added the missing `.button:disabled { opacity: .4 }` rule the docs already claimed.
+- **Gate:** 53/53 tests, `tsc` clean, 41 pages, `check:site` passes, specimen re-measured in-browser, 0 overflow.
+
+### T6 — the admin panel reads real requests (2026-11-10, D-033 §4, owner decision)
+- The owner chose to re-point the order tab rather than retire the panel (`2da7c4b`). `AdminDashboard` reads `aura_order_requests_v1` through a new `InvoiceRequest` type — the same shape `checkout-page.js` writes — as a read-only table with detail view and CSV export. The page states nothing can be marked paid.
+- The imaginary payment/revenue/fulfilment pipeline was deleted, not mapped: no server, no payment provider, no shipment exists, so mapping would have invented data. Overview cards now count requests, priced-on-request share, pieces and catalogue items.
 
 ### T5 — commerce verification, 48 checks, 0 defects (2026-11-10, D-033 §4)
 - **What was driven:** the built `dist/` on the preview server, in Chromium, with real clicks and real `localStorage`. Full table in `planning/T5-COMMERCE-VERIFICATION.md`.

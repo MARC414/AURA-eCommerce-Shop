@@ -37,8 +37,8 @@ export const external = '<svg viewBox="0 0 24 24" fill="none" stroke="currentCol
  *   variant: 'primary' (default) | 'secondary' | 'quiet' | 'icon'
  *   size:    'default' (56px)    | 'small'
  * One implementation, mirroring the CSS roles above. `attrs` is an object of
- * extra attributes, escaped. Values are provisional until the Moss reference
- * is measured (T7 note).
+ * extra attributes, escaped. Values match the house spec in
+ * docs/BRAND-GUIDELINES.md (§Buttons), settled 2026-11-10.
  */
 export function button({ label = '', href = null, variant = 'primary', size = null, icon = null, attrs = {} } = {}) {
   const variants = new Set(['primary', 'secondary', 'quiet', 'icon']);

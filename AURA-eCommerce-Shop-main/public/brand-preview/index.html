@@ -32,6 +32,8 @@
     .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 28px; }
     .specimen-row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 18px; }
     .specimen-row .button { width: auto; min-width: 210px; }
+    /* The icon pill is 44x44 by spec; a row min-width would misrepresent it. */
+    .specimen-row .button-icon { min-width: 44px; }
     .specimen-list { display: grid; gap: 10px; margin-top: 16px; }
     .specimen-list .badge, .specimen-list .status-pill { justify-self: start; }
     .guide-card { min-width: 0; }
@@ -334,10 +336,11 @@
     </section>
 
   <section class="specimen" id="buttons">
-      <h2>Button system (T7, provisional)</h2>
+      <h2>Button system (T7, settled 2026-11-10)</h2>
       <p class="small-note" style="margin-bottom: 18px;">
-        Four roles, three sizes (default / small), one pill. Pending confirmation
-        against the Moss reference; values below are provisional and marked as such.
+        Four roles, three sizes (default / small), one pill. Measured in the
+        browser against the house spec in docs/BRAND-GUIDELINES.md (§Buttons):
+        the values below are the settled system, not an approximation.
       </p>
 
       <div class="specimen-row" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
@@ -367,8 +370,8 @@
           <dd style="margin-top: 8px; font-size: 12px; line-height: 1.7; color: var(--body);">Width auto within the container. Full-width in columns because the form column, not the pill, sets the width. One circumference, 999px radius; pill only elsewhere stays square.</dd>
         </div>
         <div class="specimen-tile" style="padding: 16px; border: 1px solid var(--line); background: var(--surface);">
-          <dt class="eyebrow">Provisional values</dt>
-          <dd style="margin-top: 8px; font-size: 12px; line-height: 1.7; color: var(--body);">Height 44px (small) / 56px (default), padding 17px 22px, 11px uppercase Manrope 600, tracking 0.12em, 18px icon. Primary hover lifts to mist (#D0D3C4), never a new hue. Approved to change once Moss is measured.</dd>
+          <dt class="eyebrow">Settled values</dt>
+          <dd style="margin-top: 8px; font-size: 12px; line-height: 1.7; color: var(--body);">Height 40px (small) / 56px (default), padding 10px 18px (small) / 17px 22px (default), 11px uppercase Manrope 600, tracking 0.12em, 18px icon. Primary hover lifts to mist (#D0D3C4), never a new hue.</dd>
         </div>
         <div class="specimen-tile" style="padding: 16px; border: 1px solid var(--line); background: var(--surface);">
           <dt class="eyebrow">Focus</dt>

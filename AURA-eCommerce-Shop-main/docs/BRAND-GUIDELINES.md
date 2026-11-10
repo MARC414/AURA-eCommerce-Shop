@@ -160,12 +160,12 @@ translate), `:focus-visible` (3px offset), `:disabled` (`0.4`, no translate),
 and `[aria-busy='true']` (progress cursor). Confirmation is `is-confirmed`
 for 1200 ms, set from `product-pages.js`.
 
-Provisional note, 2026-11-10 (T7): the owner approved an approximation of the
-Moss button system because the reference cannot be measured in this tool (no
-image input). Heights, paddings, font sizes and trackings below are carried
-over from the existing `.button` and are documented as **provisional** in the
-specimen at `/brand-preview/` rather than claimed as measured. The state table
-itself is final; the pixel values are not.
+Settled, 2026-11-10 (T7): the rendered system was measured in the browser and
+matches this table exactly (56px, 22/17 padding, 11px/600, .12em tracking,
+999px radius; small 40px; icon 44px square). The Moss file supplied the name
+and the mood — it is a forest photograph, not a UI sheet — and the owner
+approved carrying the documented values forward as the measured system. The
+specimen lives at `/brand-preview/`.
 
 ### Cards
 

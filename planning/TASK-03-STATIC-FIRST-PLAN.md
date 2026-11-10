@@ -430,6 +430,16 @@ in Tailwind and once in CSS, and then deleting the Tailwind half.
 Gate: every button state rendered on `/brand-preview/`; contrast table for each state; keyboard
 order; reduced motion; no ad-hoc pill left in any shipped file.
 
+**Done 2026-11-10.** One `.button` base with four role modifiers (`button-primary`, `-secondary`,
+`-quiet`, `-icon`), size modifiers (`-small`, `-inline`, `-compact`) and the state set (active,
+focus-visible, disabled 0.4, `[aria-busy]`, `is-confirmed`). A `button()` helper in
+`templates/chrome.mjs` emits the classes so generated pages cannot invent pill markup. The Moss file
+turned out to be a forest photograph, not a UI sheet, so the owner approved carrying the documented
+values (BRAND-GUIDELINES §Buttons) forward; the rendered system was then measured in the browser and
+matches that spec exactly. Two deviations fixed while settling it: the hero's 52px override now uses
+the 56px token, and the specimen page's own `min-width: 210px` row rule was exempting the icon pill
+(now 44x44 as specified). Committed in `9535193`/`37bb593` and the settle commit.
+
 ### T8 - Cleanup and memory (2 h, risk: low)
 
 1. Delete the dead components (`ProductDetail`, `ProductGrid`, `ProductCard`, `CategoryPage`,
@@ -443,6 +453,13 @@ order; reduced motion; no ad-hoc pill left in any shipped file.
 5. Re-measure and record page weight and header height before/after.
 
 Gate: tests, clean build, no unused file left in `components/`, docs match the code.
+
+**Done 2026-11-10.** The eight dead components are deleted (`28b6122`; the admin's catalogue tab still
+calls the product/review helpers, so those stay in `storeService.ts` — items 2 and 3 move with the
+admin). The hero is converted: 2000x1333 JPEG 605.8 kB → 1920x1080 AVIF 171.3 kB + WebP 179.9 kB, a
+16:9 crop at the displayed `object-position`, wired through `<picture>` with a typed preload so no
+browser fetches two files (`f0fb138`). Homepage payload ~692 kB → ~258 kB; the last open CWV budget is
+closed. Docs and memory updated in the settle commit.
 
 ---
 
