@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node AURA-eCommerce-Shop-main/scripts/preview-products.mjs",
-    "dev:admin": "vite --config AURA-eCommerce-Shop-main/vite.config.ts --open /admin.html",
+    "dev": "vite",
+    "dev:admin": "vite --open /admin.html",
     "build:templates": "node AURA-eCommerce-Shop-main/scripts/generate-product-pages.mjs",
     "test:templates": "node --test AURA-eCommerce-Shop-main/tests/product-pages.test.mjs",
     "preview:templates": "node AURA-eCommerce-Shop-main/scripts/preview-products.mjs",
