@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, readdir } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import {
   escapeHtml,
   validateProduct,
@@ -807,6 +807,16 @@ test('every image the homepage references is a real file', () => {
   assert.ok(sources.length >= products.length + 1, 'the hero and one image per piece');
   for (const source of sources) {
     assert.ok(existsSync(new URL(`../public${source}`, import.meta.url)), `${source} is referenced but missing`);
+  }
+});
+
+test('every section background the homepage CSS references is a real file', () => {
+  const css = readFileSync(new URL('../public/assets/product-pages.css', import.meta.url), 'utf8');
+  const urls = [...css.matchAll(/url\("(\/assets\/[^"]+)"\)/g)].map(match => match[1]);
+  // bg-featured and bg-rooms each appear three times (avif, webp, jpg fallback).
+  assert.ok(urls.length >= 6, 'both section backgrounds carry a modern pair and a fallback');
+  for (const url of urls) {
+    assert.ok(existsSync(new URL(`../public${url}`, import.meta.url)), `${url} is referenced in CSS but missing`);
   }
 });
 

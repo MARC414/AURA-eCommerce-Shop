@@ -798,6 +798,30 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
 .room-index__item:hover h3 { color: var(--cta); }
 .room-index p { margin-top: 12px; max-width: 384px; font-size: 13px; line-height: 1.8; color: var(--body); }
 
+/* ── Section backgrounds (owner instruction 2026-11-10, after the Moss
+   reference's image-backed bands). Two declarations: the plain-url one is
+   the fallback where image-set() is unsupported; the image-set one then wins,
+   offering AVIF then WebP. Scrim alphas are measured, not guessed: canvas
+   sampling of every decoded pixel under the scrim gives mist a worst-case
+   4.95:1 on bg-rooms at .78 (its moss hotspot needed more than the .72 first
+   tried, which measured 4.28:1) and 6.75:1 on bg-featured at .88. Raise a
+   scrim and re-measure, as with the hero's. Featured sits dimmer because the
+   paper product tiles, not the photograph, are the imagery there. */
+.home-featured {
+  background-color: var(--opar-ground);
+  background-image: linear-gradient(rgba(47, 51, 43, .88), rgba(47, 51, 43, .88)), url("/assets/brand/bg-featured.jpg");
+  background-image: linear-gradient(rgba(47, 51, 43, .88), rgba(47, 51, 43, .88)), image-set(url("/assets/brand/bg-featured.avif") type("image/avif"), url("/assets/brand/bg-featured.webp") type("image/webp"));
+  background-size: cover;
+  background-position: 50% 45%;
+}
+.home-rooms {
+  background-color: var(--opar-ground);
+  background-image: linear-gradient(rgba(47, 51, 43, .78), rgba(47, 51, 43, .78)), url("/assets/brand/bg-rooms.jpg");
+  background-image: linear-gradient(rgba(47, 51, 43, .78), rgba(47, 51, 43, .78)), image-set(url("/assets/brand/bg-rooms.avif") type("image/avif"), url("/assets/brand/bg-rooms.webp") type("image/webp"));
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
 /* Width modifiers for the one button system. `.button` is full-width by design
    (it fills a form column); these two only change width and size, so the pill
    itself is still defined once, at the top of this file. */

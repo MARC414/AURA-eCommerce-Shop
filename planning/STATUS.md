@@ -39,6 +39,15 @@
 
 ## Completed work since last status
 
+### Section backgrounds on the homepage (owner instruction, 2026-11-10)
+- The owner asked for photographs behind the homepage sections, matching the Moss reference's image-backed bands (the reference itself is `Branding/bf7d…webp`, an interfacer case study — reference only, never published).
+- **Wired:** the rooms band gets `moss.jpg` (the reference's moss-macro mood) and the featured band gets `04.jpg`, both dimmed. The hero keeps the owner's OPAR landscape; the featured band sits at a heavier scrim (.88) because the paper product tiles, not the photograph, are the imagery there.
+- **Conversion:** both cropped to 1920×1080 and encoded through the ephemeral uv+Pillow pipeline — `bg-rooms` AVIF 89.9 kB / WebP 91.4 kB, `bg-featured` AVIF 105.9 kB / WebP 70.0 kB, JPG fallbacks for `image-set()`-less browsers. Below the fold, so no preload and no LCP impact; the hero budget is untouched.
+- **Contrast is measured, not guessed:** canvas sampling of every decoded pixel under the scrim gave mist a worst-case 4.95:1 on rooms at .78 — the first attempt at .72 measured **4.28:1, below AA, and was raised** — and 6.75:1 on featured at .88. The numbers live in the CSS comment.
+- **Not used, with reasons:** `03.jpg` (a cosmetics dropper-bottle stock shot — using it would misrepresent a shop that sells no skincare), `01.png` (a 12-tile collage sheet, not a single photograph; tiles could be extracted later), `root and wood.jpg`/`wooden pots.jpg` (light warm still-lifes — they fight the paper tiles and the dark canvas; available for a future light band if the owner wants one).
+- **Rights caveat, stated:** the licenses of the untracked `Branding/` photographs are unverified. Before launch the owner must confirm each is licensed for commercial web use.
+- Gate: 54/54 tests (a new one asserts every CSS-referenced background file exists), `tsc` clean, 41 pages, `check:site` passes, 0 overflow and one `h1` at 320/375/414/600/760/761/1024/1440.
+
 ### T8 — cleanup and the hero budget closed (2026-11-10, D-033 §4)
 - **Dead components deleted** (`28b6122`): `About`, `Features`, `Journal`, `JournalDetail`, `ProductCard`, `ProductDetail`, `ProductGrid`, `CategoryPage` — zero imports outside themselves (the only calls were between them). They carried invented prices, "stock > 10", `"verified: true"` reviews and an invented `#8C7355` accent; Git history keeps them.
 - **Hero converted** (`f0fb138`): the 605.8 kB 2000×1333 JPEG became a 1920×1080 16:9 crop — all the full-bleed hero displays — encoded through an ephemeral uv+Pillow session (no project dependency): **AVIF q54 at 171.3 kB**, WebP q56 at 179.9 kB, JPG kept as fallback and og:image. At full frame no acceptable quality fit the ≤180 kB budget (WebP bottomed at 260 kB), so the crop was the conversion.
