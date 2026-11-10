@@ -67,8 +67,8 @@
          Variant 4: Environmental Moss & Slate Integration (Seamless ground)
        ========================================================================== */
     .exp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 28px; margin-top: 24px; }
-    .exp-card { border: 1px solid var(--line); background: var(--surface); padding: 20px; display: flex; flex-direction: column; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease; }
-    .exp-card:hover { transform: translateY(-3px); border-color: rgba(197, 173, 112, 0.4); }
+    .exp-card { border: 1px solid var(--line); background: var(--surface); padding: 20px; display: flex; flex-direction: column; }
+    .exp-card:hover { border-color: rgba(197, 173, 112, 0.4); }
     .exp-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--opar-gold); margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
     .exp-badge { font-size: 10px; padding: 2px 8px; border-radius: 999px; background: var(--well); color: var(--body); border: 1px solid var(--line); }
     
@@ -87,9 +87,7 @@
     .exp-media--moss-well img {
       width: 100%; height: 100%; object-fit: contain; padding: 22px;
       filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.45));
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .exp-card:hover .exp-media--moss-well img { transform: scale(1.03) translateY(-2px); }
     .exp-specimen-tag {
       position: absolute; bottom: 10px; left: 12px;
       font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
@@ -105,9 +103,7 @@
       width: 100%; height: 100%; object-fit: contain; padding: 22px;
       mix-blend-mode: multiply;
       filter: contrast(1.02);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .exp-card:hover .exp-media--warm-paper img { transform: scale(1.02); }
     .exp-corner-tick {
       position: absolute; width: 8px; height: 8px; border: 1px solid rgba(85, 99, 42, 0.35); pointer-events: none;
     }
@@ -120,9 +116,7 @@
     }
     .exp-media--environmental img {
       width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .exp-card:hover .exp-media--environmental img { transform: scale(1.04); }
     .exp-scrim-edge {
       position: absolute; inset: 0; pointer-events: none;
       box-shadow: inset 0 0 24px rgba(36, 40, 32, 0.7);
@@ -141,10 +135,9 @@
     
     /* Living Corner Botanical Accents */
     .corner-foliage {
-      position: absolute; pointer-events: none; z-index: 2;
+      position: absolute; pointer-events: none; z-index: 3;
       mix-blend-mode: screen; opacity: 0.88;
       filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6));
-      transition: opacity 0.4s ease;
     }
     .corner-foliage--neem-tr {
       top: -20px; right: -30px; width: clamp(220px, 28vw, 380px);
@@ -157,16 +150,26 @@
 
     /* Asymmetrical Editorial Food Spreads (No cards, individual presence) */
     .editorial-spread {
-      display: grid; grid-template-columns: 1fr; gap: 36px;
+      position: relative; overflow: clip; isolation: isolate;
       padding: clamp(48px, 6vw, 80px) 0;
       border-bottom: 1px solid var(--line);
-      position: relative; align-items: center;
+      color: var(--ink);
+      display: grid; grid-template-columns: 1fr; gap: 36px; align-items: center;
+    }
+    /* One scrim over the whole section, under text and specimen alike.
+       Alpha runs 0.92 at the top (where the quote sits) to 0.75 at the foot.
+       Measured against the real pixels under the text column, worst case:
+       4.69:1 (black cumin), 5.84:1 (ashwagandha), 6.76:1 (turmeric) — AA. */
+    .spread-scrim {
+      position: absolute; inset: 0; z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(47,51,43,0.92) 0%, rgba(41,45,38,0.75) 100%);
     }
     @media (min-width: 860px) {
       .editorial-spread { grid-template-columns: 1.05fr 1.15fr; gap: 64px; }
       .editorial-spread--reverse { grid-template-columns: 1.15fr 1.05fr; }
       .editorial-spread--reverse .editorial-spread__text { order: 2; }
-      .editorial-spread--reverse .editorial-spread__visual { order: 1; }
+      .editorial-spread--reverse .spread-figure { order: 1; }
     }
     .editorial-spread__eyebrow {
       display: inline-flex; align-items: center; gap: 10px;
@@ -189,38 +192,38 @@
     }
     .editorial-spread__science strong { color: var(--ink); font-weight: 600; }
     
-    /* Environmental Panorama Stage with Floating Foreground Specimen */
-    .environmental-stage {
-      position: relative; border: 1px solid var(--line); overflow: hidden;
-      aspect-ratio: 16 / 10; background: var(--well);
-      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55);
-      display: flex; align-items: center; justify-content: center;
+    /* The habitat image is the whole section ground, not a framed picture. */
+    .spread-bg {
+      position: absolute; inset: 0; z-index: 0;
+      width: 100%; height: 100%; object-fit: cover; object-position: center;
     }
-    .environmental-stage__bg {
-      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-      filter: brightness(0.65) contrast(1.05); transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    .editorial-spread__text { position: relative; z-index: 2; }
+    .spread-figure { margin: 0; position: relative; z-index: 2; }
+    .spread-figure__caption {
+      margin-top: 14px; font-size: 11px; line-height: 1.6; color: var(--body);
+      letter-spacing: 0.02em;
     }
-    .environmental-stage:hover .environmental-stage__bg { transform: scale(1.03); }
-    .environmental-stage__scrim {
-      position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(circle at 50% 50%, rgba(47, 51, 43, 0.25) 0%, rgba(41, 45, 38, 0.85) 95%);
+    .spread-figure__caption cite { font-style: normal; color: rgba(208, 211, 196, 0.6); }
+
+    /* Archival botanical plate: a true record of the fruit, not a mood image. */
+    .spread-plate { margin: 0; display: flex; gap: 16px; align-items: flex-start; }
+    .spread-plate img {
+      flex: none; width: clamp(96px, 12vw, 132px); height: auto;
+      background: var(--paper-canvas); padding: 8px; border: 1px solid var(--line);
     }
-    
-    /* Floating Cutout Element (Free from card boxes) */
+    .spread-plate figcaption {
+      font-size: 11px; line-height: 1.6; color: var(--body); margin: 0;
+      letter-spacing: 0.02em;
+    }
+    .spread-plate figcaption strong {
+      display: block; color: var(--ink); font-weight: 500; margin-bottom: 4px;
+    }
+
+    /* Floating specimen over the section ground. No hover motion. */
     .floating-specimen {
-      position: relative; z-index: 2; width: 88%; max-height: 85%;
+      position: relative; z-index: 2; width: 100%; max-height: 70vh;
       object-fit: contain;
-      filter: drop-shadow(0 22px 28px rgba(0, 0, 0, 0.8)) drop-shadow(0 6px 10px rgba(0, 0, 0, 0.6));
-      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .environmental-stage:hover .floating-specimen { transform: translateY(-4px) scale(1.02); }
-    
-    .environmental-stage__badge {
-      position: absolute; bottom: 14px; left: 16px; z-index: 3;
-      font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
-      color: rgba(244, 242, 238, 0.8); background: rgba(41, 45, 38, 0.88);
-      padding: 5px 12px; border: 1px solid var(--line); backdrop-filter: blur(6px);
-      border-radius: 999px;
+      filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.7));
     }
 
     /* Alternating Living Foliage Corners */
@@ -229,20 +232,22 @@
       transform: rotate(20deg);
     }
 
-    /* Grand Botanical Archipelago Canvas (Unified cluster) */
+    /* Grand Botanical Archipelago Canvas — same full-bleed ground as the spreads */
     .archipelago-block {
-      margin: 48px 0; border: 1px solid var(--line); background: var(--well);
-      position: relative; overflow: hidden;
+      margin: 0; padding: clamp(48px, 6vw, 80px) 0;
+      position: relative; overflow: clip; isolation: isolate;
+      border-top: 1px solid var(--line);
+      color: var(--ink);
     }
-    .archipelago-visual { position: relative; width: 100%; aspect-ratio: 16 / 9; }
-    .archipelago-visual img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .archipelago-block .spread-bg { z-index: 0; }
+    .archipelago-visual { position: relative; z-index: 2; }
     .archipelago-scrim {
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(47, 51, 43, 0.1) 0%, rgba(41, 45, 38, 0.88) 100%);
+      position: absolute; inset: 0; z-index: 1;
       pointer-events: none;
+      background: linear-gradient(180deg, rgba(47,51,43,0.92) 0%, rgba(41,45,38,0.75) 100%);
     }
     .archipelago-overlay {
-      position: absolute; bottom: 28px; left: 28px; right: 28px;
+      position: relative; z-index: 2;
       display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px;
     }
     .archipelago-overlay h3 { font-family: var(--serif); font-size: clamp(1.6rem, 2.8vw, 2.4rem); color: var(--ink); margin: 0 0 8px; }
@@ -691,38 +696,51 @@
         its natural habitat panorama—paired with ancient lineage, verified utility, and dedicated action pills.
       </p>
 
-      <!-- Spread 1: True Nigella Sativa Bursting Pod & Real Black Seeds -->
+      <!-- Spread 1: Black cumin / kalonji — real seeds as the ground, true fruit on the plate -->
       <article class="editorial-spread">
+        <img class="spread-bg" src="/assets/botanicals/nigella-seeds-real.jpg" alt="Black cumin seeds, photographed close: small, angular, matte-black" width="1920" height="1440" loading="lazy">
+        <div class="spread-scrim" aria-hidden="true"></div>
         <div class="editorial-spread__text">
           <span class="editorial-spread__eyebrow">
             <span class="home-rule" style="width:24px;display:inline-block;height:1px;background:var(--opar-gold);" aria-hidden="true"></span>
-            Nigella sativa · Ripe Horned Pod &amp; Seed
+            Nigella sativa · Black Cumin · Kalo Jeera · Kalonji
           </span>
           <h3 class="editorial-spread__quote">
             "The ancient <em>Habbat al-Barakah</em>—a remedy of restorative endurance."
           </h3>
           <p class="editorial-spread__heritage">
-            Celebrated in classical prophetic tradition as an indispensable daily seed for whole-body fortitude.
-            The dried horned pod naturally ruptures at maturity to release its intense, aromatic seeds.
+            Sahih al-Bukhari (5688), narrated by Abu Hurairah: the Prophet ﷺ said, "There is healing in
+            black cumin for all diseases except death." The black seeds known as kalo jeera — also called
+            kalonji or black cumin — come from the <em>Nigella sativa</em> plant.
           </p>
           <div class="editorial-spread__science">
-            <strong>Phytochemical Reality:</strong> Abundant in bioactive crystalline thymoquinone and essential
-            nigellone, proven to reinforce immune defense and cellular integrity.
+            <strong>Botany:</strong> The fruit is an inflated, bladder-like capsule crowned with five
+            persistent styles. It dries on the stem and splits at maturity, releasing the small, angular,
+            matte-black seeds that carry the aroma.
           </div>
           <div class="editorial-spread__actions">
             <a class="button button-secondary button-small" href="/shop/herbal-botanicals/">View Herbal Botanicals &rarr;</a>
           </div>
         </div>
-        <div class="environmental-stage">
-          <img class="environmental-stage__bg" src="/assets/botanicals/black-seed-env-arid.jpg" alt="Arid Mediterranean terra-cotta soil habitat" width="1280" height="800" loading="lazy">
-          <div class="environmental-stage__scrim"></div>
-          <img class="floating-specimen" src="/assets/botanicals/nigella-bursting-pod.jpg" alt="Authentic papery Nigella sativa pod bursting with matte black seeds" width="960" height="540" loading="lazy">
-          <span class="environmental-stage__badge">Bursting Pod · Arid Soil Habitat</span>
-        </div>
+        <figure class="spread-figure">
+          <figure class="spread-plate">
+            <img src="/assets/botanicals/nigella-botanical-plate.jpg" alt="Botanical plate of Nigella sativa showing the inflated fruit capsule crowned with five persistent styles, the flower, and the seed in section" width="486" height="589" loading="lazy">
+            <figcaption>
+              <strong>The true fruit, drawn true.</strong>
+              An inflated capsule crowned with five persistent styles, opening into valves around the seeds
+              — not a horned pod. <cite>After Köhler's Medizinal-Pflanzen, 1897. Public domain.</cite>
+            </figcaption>
+          </figure>
+          <figcaption class="spread-figure__caption">
+            The ground above is the real seed. <cite>Kalonji by ashish2, public domain, via Wikimedia Commons.</cite>
+          </figcaption>
+        </figure>
       </article>
 
       <!-- Spread 2: Ashwagandha Whole Root & Sub-Himalayan Forest (Alternating reverse) -->
       <article class="editorial-spread editorial-spread--reverse">
+        <img class="spread-bg" src="/assets/botanicals/ashwagandha-env-forest.jpg" alt="Misty sub-Himalayan forest understory, the habitat of Withania somnifera" width="1280" height="800" loading="lazy">
+        <div class="spread-scrim" aria-hidden="true"></div>
         <div class="editorial-spread__text">
           <span class="editorial-spread__eyebrow">
             <span class="home-rule" style="width:24px;display:inline-block;height:1px;background:var(--opar-gold);" aria-hidden="true"></span>
@@ -743,17 +761,19 @@
             <a class="button button-primary button-small" href="/shop/ashwagandha-with-black-pepper/">Explore Ashwagandha Piece &rarr;</a>
           </div>
         </div>
-        <div class="environmental-stage">
-          <img class="environmental-stage__bg" src="/assets/botanicals/ashwagandha-env-forest.jpg" alt="Misty sub-Himalayan forest floor" width="1280" height="800" loading="lazy">
-          <div class="environmental-stage__scrim"></div>
-          <img class="floating-specimen" src="/assets/botanicals/ashwagandha-roots-still.jpg" alt="Raw whole Ashwagandha roots bound with organic twine" width="960" height="540" loading="lazy">
-          <span class="environmental-stage__badge">Whole Root · Misty Forest Understory</span>
-        </div>
+        <figure class="spread-figure">
+          <img class="floating-specimen" src="/assets/botanicals/ashwagandha-roots-still.jpg" alt="Raw whole Ashwagandha roots bound with organic twine" width="1376" height="768" loading="lazy">
+          <figcaption class="spread-figure__caption">
+            Whole dried roots, tied with twine. <cite>Withania somnifera.</cite>
+          </figcaption>
+        </figure>
       </article>
 
       <!-- Spread 3: Turmeric Polished Ritual & Fresh Broken Rhizome -->
-      <article class="editorial-spread" style="position:relative;">
+      <article class="editorial-spread">
         <img class="corner-foliage corner-foliage--turmeric-tr" src="/assets/botanicals/corner-turmeric-leaf.jpg" alt="" aria-hidden="true" loading="lazy">
+        <img class="spread-bg" src="/assets/botanicals/turmeric-env-ritual.jpg" alt="Serene person with skin polished in golden turmeric paste" width="1280" height="800" loading="lazy">
+        <div class="spread-scrim" aria-hidden="true"></div>
         <div class="editorial-spread__text">
           <span class="editorial-spread__eyebrow">
             <span class="home-rule" style="width:24px;display:inline-block;height:1px;background:var(--opar-gold);" aria-hidden="true"></span>
@@ -774,19 +794,19 @@
             <a class="button button-secondary button-small" href="/shop/turmeric-cleansing-soap/">View Cleansing Soap &rarr;</a>
           </div>
         </div>
-        <div class="environmental-stage">
-          <img class="environmental-stage__bg" src="/assets/botanicals/turmeric-env-ritual.jpg" alt="Serene person with skin polished in golden turmeric paste" width="1280" height="800" loading="lazy">
-          <div class="environmental-stage__scrim"></div>
-          <img class="floating-specimen" src="/assets/botanicals/turmeric-rhizome-still.jpg" alt="Fresh broken turmeric rhizome with fine golden powder" width="960" height="540" loading="lazy">
-          <span class="environmental-stage__badge">Living Ritual · Fresh Rhizome</span>
-        </div>
+        <figure class="spread-figure">
+          <img class="floating-specimen" src="/assets/botanicals/turmeric-rhizome-still.jpg" alt="Fresh broken turmeric rhizome with fine golden powder" width="1376" height="768" loading="lazy">
+          <figcaption class="spread-figure__caption">
+            A broken rhizome and its powder. <cite>Curcuma longa.</cite>
+          </figcaption>
+        </figure>
       </article>
 
       <!-- Grand Botanical Archipelago Canvas (Unified cluster) -->
       <div class="archipelago-block">
+        <img class="spread-bg" src="/assets/botanicals/botanical-archipelago.jpg" alt="Natural arrangement of Black Seeds, Ashwagandha roots, fresh turmeric, moringa leaves, and raw honeycomb" width="1920" height="1080" loading="lazy">
+        <div class="archipelago-scrim" aria-hidden="true"></div>
         <div class="archipelago-visual">
-          <img src="/assets/botanicals/botanical-archipelago.jpg" alt="Natural arrangement of Black Seeds, Ashwagandha roots, fresh turmeric, moringa leaves, and raw honeycomb" width="1920" height="1080" loading="lazy">
-          <div class="archipelago-scrim"></div>
           <div class="archipelago-overlay">
             <div>
               <span class="home-overline" style="color:var(--opar-gold);margin-bottom:8px;display:block;"><span class="home-rule" style="width:24px;display:inline-block;height:1px;background:var(--opar-gold);" aria-hidden="true"></span>The Sustenance Cluster</span>
