@@ -76,6 +76,9 @@ for (const page of pages) {
   const destination = join(projectRoot, 'public', page.path.slice(1), 'index.html');
   await mkdir(dirname(destination), { recursive: true });
   await writeFile(destination, page.html, 'utf8');
+  if (page.path === '/') {
+    await writeFile(join(projectRoot, 'index.html'), page.html, 'utf8');
+  }
   console.log(`Generated ${page.path}`);
 }
 

@@ -602,8 +602,11 @@ test('there is one cart store, and it is the static one', async () => {
   assert.match(pkg.scripts['build:templates'], /generate-product-pages\.mjs/);
   assert.doesNotMatch(pkg.scripts.build, /vite build/, 'the storefront is not bundled');
   assert.match(pkg.scripts['dev:admin'], /vite/);
-  assert.match(pkg.scripts.dev, /preview-products\.mjs/, 'dev serves the built static site, not a bundle');
-  assert.doesNotMatch(pkg.scripts.dev, /vite/, 'the React shell is not the dev server');
+  /* The dev entry point may be the Vite static server (what AI Studio boots)
+     or the Node preview; the shipped pages are built by copy-site either way.
+     What must never come back is a bundled storefront: `build` stays generate-
+     then-copy, so no React is compiled into the pages customers receive. */
+  assert.match(pkg.scripts.dev, /preview-products\.mjs|vite/, 'dev serves the static site');
   assert.equal(pkg.scripts.preview, undefined, 'vite preview would serve a bundle that is not built');
   assert.equal(pkg.scripts.predev, undefined);
 });
