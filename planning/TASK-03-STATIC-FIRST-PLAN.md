@@ -343,6 +343,10 @@ existing pages byte-identical.
 
 ### T4 - Cutover (2-3 h, risk: high, atomic)
 
+> **Done, in three commits** (`c0cc156`, `962c622`, `5d0bb11`, 2026-11-10). Atomicity stopped
+> being required once part 1 had moved the build off Vite; the split and its two deviations are
+> recorded in D-033 under "Executed 2026-11-10".
+
 **T4 must land as one commit.** Writing `public/index.html` while the root `index.html` still exists
 means Vite emits `dist/index.html` from the root stub and overwrites the generated homepage.
 
@@ -361,6 +365,10 @@ one browser; `dist/` contains no `.jsx`, no importmap, no Tailwind; page weight 
 roughly 400 kB.
 
 ### T4.5 - Header consolidation (2-3 h, risk: medium)
+
+> **Done** (`8710208`, 2026-11-10): 65px at ≤760 and 73px above, one row at every width, the
+> panel behind a `<details>` icon below 761, one search control at every width. Gate numbers and the
+> re-measured scrim are in D-033.
 
 The measured problem: the static header is 198px at 375px (25% of an 800px viewport) and 120px at
 768/1440. Unifying on it unchanged would make that the site-wide default and push the hero's LCP
