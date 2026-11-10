@@ -57,6 +57,82 @@
     .note-band { border-left: 2px solid var(--cta); padding: 16px 20px; background: var(--surface); margin-top: 28px; }
     .note-band p { color: var(--body); font-size: 13px; line-height: 1.85; }
     @media (min-width: 1100px) { .guide-card { min-width: 0; } }
+
+    /* ==========================================================================
+       Experiment: Moss Layout Product Card & Background Matching
+       Exploring 3 variants:
+         Variant 1: Current baseline (Paper tile)
+         Variant 2: Moss Inset Well with ambient underlight (#292D26)
+         Variant 3: Archival Warm Paper Mount (#EAE6DF) with specimen indexing
+         Variant 4: Environmental Moss & Slate Integration (Seamless ground)
+       ========================================================================== */
+    .exp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 28px; margin-top: 24px; }
+    .exp-card { border: 1px solid var(--line); background: var(--surface); padding: 20px; display: flex; flex-direction: column; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease; }
+    .exp-card:hover { transform: translateY(-3px); border-color: rgba(197, 173, 112, 0.4); }
+    .exp-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--opar-gold); margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+    .exp-badge { font-size: 10px; padding: 2px 8px; border-radius: 999px; background: var(--well); color: var(--body); border: 1px solid var(--line); }
+    
+    /* Media Wells */
+    .exp-media { position: relative; aspect-ratio: 4 / 5; border: 1px solid var(--line); overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+    
+    /* Variant 1: Baseline */
+    .exp-media--baseline { background: var(--paper-canvas); }
+    .exp-media--baseline img { width: 100%; height: 100%; object-fit: contain; padding: 20px; }
+    
+    /* Variant 2: Moss Inset Well */
+    .exp-media--moss-well {
+      background: radial-gradient(circle at 50% 55%, rgba(61, 64, 57, 0.7) 0%, rgba(41, 45, 38, 0.98) 75%), var(--well);
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    .exp-media--moss-well img {
+      width: 100%; height: 100%; object-fit: contain; padding: 22px;
+      filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.45));
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .exp-card:hover .exp-media--moss-well img { transform: scale(1.03) translateY(-2px); }
+    .exp-specimen-tag {
+      position: absolute; bottom: 10px; left: 12px;
+      font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(208, 211, 196, 0.55); font-family: var(--sans);
+    }
+    
+    /* Variant 3: Warm Archival Paper Specimen */
+    .exp-media--warm-paper {
+      background: #EAE6DF;
+      border-color: #CDCCC7;
+    }
+    .exp-media--warm-paper img {
+      width: 100%; height: 100%; object-fit: contain; padding: 22px;
+      mix-blend-mode: multiply;
+      filter: contrast(1.02);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .exp-card:hover .exp-media--warm-paper img { transform: scale(1.02); }
+    .exp-corner-tick {
+      position: absolute; width: 8px; height: 8px; border: 1px solid rgba(85, 99, 42, 0.35); pointer-events: none;
+    }
+    .exp-corner-tick--tl { top: 8px; left: 8px; border-right: 0; border-bottom: 0; }
+    .exp-corner-tick--br { bottom: 8px; right: 8px; border-left: 0; border-top: 0; }
+    
+    /* Variant 4: Seamless Environmental Moss/Slate */
+    .exp-media--environmental {
+      background: #242820;
+    }
+    .exp-media--environmental img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .exp-card:hover .exp-media--environmental img { transform: scale(1.04); }
+    .exp-scrim-edge {
+      position: absolute; inset: 0; pointer-events: none;
+      box-shadow: inset 0 0 24px rgba(36, 40, 32, 0.7);
+      border: 1px solid rgba(79, 82, 74, 0.4);
+    }
+
+    .exp-copy h4 { font-family: var(--serif); font-size: 1.35rem; margin: 0 0 6px; line-height: 1.2; color: var(--ink); }
+    .exp-copy p { font-size: 13px; line-height: 1.6; color: var(--body); margin: 0 0 12px; }
+    .exp-meta { font-size: 11px; color: rgba(208, 211, 196, 0.7); border-top: 1px dashed var(--line); padding-top: 10px; line-height: 1.6; }
+    .exp-meta strong { color: var(--ink); font-weight: 500; }
   </style>
 </head>
 <body>
@@ -311,6 +387,117 @@
             <span class="card-price">Price on request</span>
           </div>
         </article>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         EXPERIMENT: Product Card & Background Matching (D-032 / D-035)
+         Testing container treatments and art direction against the Moss ground
+         ===================================================================== -->
+    <section class="guide-band" id="experiment-backgrounds">
+      <span class="eyebrow" style="color:var(--opar-gold)">Visual Experiment · Brand System Lab</span>
+      <h2>Product Image &amp; Background Matching (Moss Layout Study)</h2>
+      <p class="guide-lede">
+        Evaluating four ways to ground product photography within the Moss dark palette (<code>#2F332B</code>).
+        Under <strong>D-035</strong>, the product pixels remain completely authentic and un-doctored, while the setting,
+        container well, lighting vignette, and architectural framing are art-directed to harmonize with the site.
+      </p>
+
+      <div class="exp-grid">
+        <!-- Variant 1: Current Baseline -->
+        <article class="exp-card">
+          <div class="exp-label">
+            <span>Variant 1: Baseline</span>
+            <span class="exp-badge">Current build</span>
+          </div>
+          <div class="exp-media exp-media--baseline">
+            <img src="/assets/products/aliexpress-turmeric-soap.jpg" alt="Turmeric soap" width="640" height="640" loading="lazy">
+          </div>
+          <div class="exp-copy">
+            <h4>Paper Tile Ground</h4>
+            <p>Product sits in an unbleached `#F4F2EE` tile. Light studio backgrounds merge cleanly, but cards create high-contrast bright blocks against the dark canvas.</p>
+            <div class="exp-meta">
+              <strong>Container:</strong> `#F4F2EE` Paper Canvas<br>
+              <strong>Light contrast:</strong> High contrast cutout block<br>
+              <strong>Status:</strong> Production default
+            </div>
+          </div>
+        </article>
+
+        <!-- Variant 2: Moss Inset Well with Ambient Underlight -->
+        <article class="exp-card">
+          <div class="exp-label">
+            <span>Variant 2: Moss Inset Well</span>
+            <span class="exp-badge">Radial underlight</span>
+          </div>
+          <div class="exp-media exp-media--moss-well">
+            <img src="/assets/products/aliexpress-turmeric-soap.jpg" alt="Turmeric soap" width="640" height="640" loading="lazy">
+            <span class="exp-specimen-tag">OPAR · BOT-01</span>
+          </div>
+          <div class="exp-copy">
+            <h4>Recessed Gallery Tray</h4>
+            <p>Container uses `#292D26` Inset Well with a gentle radial underlight (`#3D4039`). The product feels resting on a dimly lit museum shelf with soft depth elevation on hover.</p>
+            <div class="exp-meta">
+              <strong>Container:</strong> `#292D26` Inset Well + Radial<br>
+              <strong>Depth:</strong> Inset shadow + 14px floor shadow<br>
+              <strong>Hover:</strong> +1.03 scale lift &amp; gold hairline
+            </div>
+          </div>
+        </article>
+
+        <!-- Variant 3: Archival Warm Paper Mount -->
+        <article class="exp-card">
+          <div class="exp-label">
+            <span>Variant 3: Archival Mount</span>
+            <span class="exp-badge">Specimen Folio</span>
+          </div>
+          <div class="exp-media exp-media--warm-paper">
+            <span class="exp-corner-tick exp-corner-tick--tl"></span>
+            <span class="exp-corner-tick exp-corner-tick--br"></span>
+            <img src="/assets/products/aliexpress-turmeric-soap.jpg" alt="Turmeric soap" width="640" height="640" loading="lazy">
+            <span class="exp-specimen-tag" style="color:rgba(85,99,42,0.85);left:auto;right:12px;">NO. 082 · CARE</span>
+          </div>
+          <div class="exp-copy">
+            <h4>Herbarium Ledger Plate</h4>
+            <p>Uses an unbleached botanical paper backing (`#EAE6DF`) with corner tick marks. Light studio shots blend seamlessly via natural multiply pass without halos.</p>
+            <div class="exp-meta">
+              <strong>Container:</strong> `#EAE6DF` Archival mount<br>
+              <strong>Details:</strong> Olive `#55632A` corner crop brackets<br>
+              <strong>Feel:</strong> Antique botanical catalog
+            </div>
+          </div>
+        </article>
+
+        <!-- Variant 4: Environmental Moss & Slate Integration -->
+        <article class="exp-card">
+          <div class="exp-label">
+            <span>Variant 4: Environmental</span>
+            <span class="exp-badge">D-035 Real Art Direction</span>
+          </div>
+          <div class="exp-media exp-media--environmental">
+            <img src="/assets/products/specimen-botanical-dropper.jpg" alt="Botanical dropper on moss and slate" width="640" height="640" loading="lazy">
+            <div class="exp-scrim-edge"></div>
+            <span class="exp-specimen-tag" style="bottom:12px;left:14px;color:rgba(244,242,238,0.7);">PERENNIS · EXTRACT</span>
+          </div>
+          <div class="exp-copy">
+            <h4>Natural Loam &amp; Slate</h4>
+            <p>Real botanical product photographed directly on damp slate rock and moss. Zero digital cut-out. The image background is the exact physical environment of the brand.</p>
+            <div class="exp-meta">
+              <strong>Container:</strong> Seamless deep loam `#242820`<br>
+              <strong>Source:</strong> Brand archive `03.jpg`<br>
+              <strong>Mood:</strong> Matches Moss reference sheet
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="note-band" style="margin-top:28px;">
+        <p>
+          <strong>Observation for decision:</strong> 
+          <em>Variant 2 (Moss Inset Well)</em> darkens the overall card so the shop grid feels monolithic and serene. 
+          <em>Variant 3 (Archival Mount)</em> treats the cards like authentic herbarium folios on vintage paper. 
+          <em>Variant 4 (Environmental)</em> shows what happens when the actual photograph is taken in the moss and stone world (as permitted by D-035).
+        </p>
       </div>
     </section>
 
