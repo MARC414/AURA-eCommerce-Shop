@@ -1,36 +1,45 @@
-/**
- * The admin panel's dev server, and nothing else.
- *
- * Until T4 this config built the storefront. It does not any more: the
- * storefront is generated HTML in `public/`, `npm run build` copies it to
- * `dist/`, and no step in that path runs Vite. `npm run dev:admin` opens
- * admin.html here, which is the only page Vite still serves.
- *
- * That is why `outDir` is not set to `../dist`: a production build from this
- * config would write a React bundle into the tree that copy-site.mjs empties
- * and refills. Do not add a `build` target to this file without deciding that
- * something is meant to ship.
- */
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, '.', '');
-    return {
-      server: {
-        port: 3000,
-        host: '0.0.0.0',
+  const env = loadEnv(mode, path.resolve(__dirname, '..'), '');
+  return {
+    root: __dirname,
+    publicDir: path.resolve(__dirname, 'public'),
+    server: {
+      port: Number(process.env.PORT || 3000),
+      host: '0.0.0.0',
+    },
+    build: {
+      outDir: path.resolve(__dirname, '..', 'dist'),
+      emptyOutDir: true,
+    },
+    plugins: [react()],
+    /* D-021: compiled Tailwind. The config path is explicit so the plugin is
+       found regardless of which directory the build is started from. */
+    css: {
+      postcss: {
+        plugins: [
+          tailwindcss({ config: path.resolve(__dirname, '..', 'tailwind.config.js') }),
+          autoprefixer(),
+        ],
       },
-      plugins: [react()],
-      define: {
-        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
-      },
-      resolve: {
-        alias: {
-          '@': path.resolve(__dirname, '.'),
-        }
+    },
+    define: {
+      'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+    },
+    resolve: {
+      alias: {
+        '@': __dirname,
       }
-    };
+    }
+  };
 });

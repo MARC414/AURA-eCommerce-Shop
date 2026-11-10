@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 const publicDir = fileURLToPath(new URL('../public/', import.meta.url));
 const root = publicDir.endsWith(sep) ? publicDir.slice(0, -1) : publicDir;
 const port = Number(process.env.PORT || 4174);
+const host = process.env.HOST || '127.0.0.1';
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.avif': 'image/avif' };
 
 const server = createServer(async (request, response) => {
@@ -45,7 +46,7 @@ const server = createServer(async (request, response) => {
   }
 });
 
-server.listen(port, '127.0.0.1', () => {
-  console.log(`OPAR storefront: http://127.0.0.1:${port}/`);
+server.listen(port, host, () => {
+  console.log(`OPAR storefront: http://${host}:${port}/`);
   console.log('Local only. Serves public/, which is what `npm run build` ships.');
 });
