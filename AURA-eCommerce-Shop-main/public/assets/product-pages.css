@@ -828,7 +828,21 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
   .room-index { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
-@media (max-width: 480px) {
-  .home-hero__actions .button { width: 100%; }
-  .feature-card__foot { flex-wrap: wrap; }
-}
+/* ==========================================================================
+   T7 — one button system, four roles on one pill (provisional values; see the
+   approximation note above and the specimen at /brand-preview/).
+   ========================================================================== */
+.button-quiet { width: auto; padding: 0; background: transparent; border-color: transparent; color: var(--accent-text); text-decoration: underline; text-underline-offset: 5px; }
+.button-quiet:hover:not(:disabled) { color: var(--cta); }
+.button-icon { width: auto; min-height: 44px; min-width: 44px; padding: 0; display: inline-grid; place-items: center; gap: 0; }
+.button-small { min-height: 40px; padding: 10px 18px; font-size: 10px; letter-spacing: .1em; gap: 8px; }
+.button-small svg { width: 16px; height: 16px; }
+.button[aria-busy='true'] { cursor: progress; }
+
+/* T7 - one button system, four roles on one pill (provisional values). */
+.button.button-quiet { width: auto; padding: 0; background: transparent; border-color: transparent; color: var(--accent-text); text-decoration: underline; text-underline-offset: 5px; }
+.button.button-quiet:hover:not(:disabled) { color: var(--cta); }
+.button.button-icon { width: auto; min-height: 44px; min-width: 44px; padding: 0; display: inline-grid; place-items: center; gap: 0; }
+.button.button-small { min-height: 40px; padding: 10px 18px; font-size: 10px; letter-spacing: .1em; gap: 8px; }
+.button.button-small svg { width: 16px; height: 16px; }
+.button[aria-busy="true"] { cursor: progress; }

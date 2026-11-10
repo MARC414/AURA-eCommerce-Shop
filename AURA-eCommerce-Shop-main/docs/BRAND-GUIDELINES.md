@@ -152,6 +152,21 @@ in the Button colour.
 - A partner CTA is never the filled pill: the visitor must be able to tell a
   house purchase from an external referral at a glance.
 
+Roles: `button-primary` (filled), `button-secondary` (mist hairline), `button-quiet`
+(text link, Button colour), `button-icon` (44px square, no fill). Sizes:
+`button-small` (40px), `button-inline` (auto width). Modifiers combine with the
+base: `button button-quiet button-small`. States include `:active` (1px
+translate), `:focus-visible` (3px offset), `:disabled` (`0.4`, no translate),
+and `[aria-busy='true']` (progress cursor). Confirmation is `is-confirmed`
+for 1200 ms, set from `product-pages.js`.
+
+Provisional note, 2026-11-10 (T7): the owner approved an approximation of the
+Moss button system because the reference cannot be measured in this tool (no
+image input). Heights, paddings, font sizes and trackings below are carried
+over from the existing `.button` and are documented as **provisional** in the
+specimen at `/brand-preview/` rather than claimed as measured. The state table
+itself is final; the pixel values are not.
+
 ### Cards
 
 Image tile → category eyebrow → serif name → price/availability row → CTA.

@@ -32,6 +32,32 @@ export function escapeHtml(value = '') {
 export const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>';
 export const external = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 5h5v5m0-5L9 15M10 5H5v14h14v-5"/></svg>';
 
+/**
+ * button({ label, href, variant, size, icon, attrs })
+ *   variant: 'primary' (default) | 'secondary' | 'quiet' | 'icon'
+ *   size:    'default' (56px)    | 'small'
+ * One implementation, mirroring the CSS roles above. `attrs` is an object of
+ * extra attributes, escaped. Values are provisional until the Moss reference
+ * is measured (T7 note).
+ */
+export function button({ label = '', href = null, variant = 'primary', size = null, icon = null, attrs = {} } = {}) {
+  const variants = new Set(['primary', 'secondary', 'quiet', 'icon']);
+  const sizes = new Set([null, 'small']);
+  if (!variants.has(variant)) variant = 'primary';
+  if (!sizes.has(size)) size = null;
+  const tag = href ? 'a' : 'button';
+  const cls = ['button', 'button-' + variant, size ? 'button-' + size : null].filter(Boolean).join(' ');
+  const attrList = Object.entries(attrs || {}).map(([key, value]) => ` ${escapeHtml(key)}="${escapeHtml(String(value))}"`);
+  const iconHtml = icon ? `<span aria-hidden="true">${icon}</span>` : '';
+  const type = tag === 'button' ? ' type="button"' : '';
+  const hrefAttr = href ? ` href="${escapeHtml(href)}"` : '';
+  const labelHtml = label ? `<span>${escapeHtml(label)}</span>` : '';
+  if (icon && !label) {
+    return `<${tag} class="${cls}"${hrefAttr}${type}${attrList.join('')} aria-label="${escapeHtml(icon)}">${iconHtml}</${tag}>`;
+  }
+  return `<${tag} class="${cls}"${hrefAttr}${type}${attrList.join('')}>${iconHtml}${labelHtml}</${tag}>`;
+}
+
 export const icons = {
   search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>',
   heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 20s-7-4.4-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.6-7 9-7 9Z"/></svg>',

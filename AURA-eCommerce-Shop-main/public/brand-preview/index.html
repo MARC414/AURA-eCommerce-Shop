@@ -333,6 +333,52 @@
       </p>
     </section>
 
+  <section class="specimen" id="buttons">
+      <h2>Button system (T7, provisional)</h2>
+      <p class="small-note" style="margin-bottom: 18px;">
+        Four roles, three sizes (default / small), one pill. Pending confirmation
+        against the Moss reference; values below are provisional and marked as such.
+      </p>
+
+      <div class="specimen-row" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+        <a class="button button-primary" href="#">Primary action</a>
+        <a class="button button-secondary" href="#">Secondary</a>
+        <a class="button button-quiet" href="#">Quiet link</a>
+        <button type="button" class="button button-icon" aria-label="Open cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        </button>
+        <a class="button button-primary button-small" href="#">Small primary</a>
+        <a class="button button-secondary button-small" href="#">Small secondary</a>
+        <a class="button button-primary button-inline" href="#">Inline primary</a>
+      </div>
+
+      <div class="specimen-row" style="margin-top: 24px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+        <button type="button" class="button button-primary" disabled aria-disabled="true">Disabled</button>
+        <button type="button" class="button button-primary" aria-busy="true">Pending</button>
+        <button type="button" class="button button-primary is-confirmed">Confirmed</button>
+        <a class="button button-primary button-compact" href="/">Compact primary</a>
+        <a class="external-cta" href="https://example.org" rel="noopener noreferrer" target="_blank">Partner offer &rarr; leaves site</a>
+        <a class="text-link" href="#">Quiet text link</a>
+      </div>
+
+      <dl class="specimen-grid" style="margin-top: 28px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;">
+        <div class="specimen-tile" style="padding: 16px; border: 1px solid var(--line); background: var(--surface);">
+          <dt class="eyebrow">Base</dt>
+          <dd style="margin-top: 8px; font-size: 12px; line-height: 1.7; color: var(--body);">Width auto within the container. Full-width in columns because the form column, not the pill, sets the width. One circumference, 999px radius; pill only elsewhere stays square.</dd>
+        </div>
+        <div class="specimen-tile" style="padding: 16px; border: 1px solid var(--line); background: var(--surface);">
+          <dt class="eyebrow">Provisional values</dt>
+          <dd style="margin-top: 8px; font-size: 12px; line-height: 1.7; color: var(--body);">Height 44px (small) / 56px (default), padding 17px 22px, 11px uppercase Manrope 600, tracking 0.12em, 18px icon. Primary hover lifts to mist (#D0D3C4), never a new hue. Approved to change once Moss is measured.</dd>
+        </div>
+        <div class="specimen-tile" style="padding: 16px; border: 1px solid var(--line); background: var(--surface);">
+          <dt class="eyebrow">Focus</dt>
+          <dd style="margin-top: 8px; font-size: 12px; line-height: 1.7; color: var(--body);">2px outline, 3px offset, uses the mist ring. Tiles flip the offset inward.</dd>
+        </div>
+      </dl>
+
+      <p style="margin-top: 16px; color: var(--body); font-size: 11px;">Button text uses 10-11px Manrope uppercase at 600 weight. Hover is restricted to transform and background-color only, and is suppressed under <code>prefers-reduced-motion: reduce</code> via the existing media query.</p>
+    </section>
+
   </main>
 
   <footer class="site-footer">
