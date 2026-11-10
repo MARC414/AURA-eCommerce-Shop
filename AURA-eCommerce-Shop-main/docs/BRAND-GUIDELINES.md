@@ -232,3 +232,42 @@ palette. See `PRODUCT-IMAGE-GUIDE.md`.
 
 If a hero or scrim needs the ground as an alpha value, write it as
 `rgba(47, 51, 43, x)` — the ground at an opacity — not as a new grey.
+
+---
+
+## Gold — the secret accent (D-034)
+
+Antique gold #C5AD70 is approved as a sixth colour, subject to strict constraints.
+It is a muted, desaturated, earthy gold (aged brass / honey), not bright or shiny.
+
+### Constraints
+
+1. **Maximum 4 touches per page.** Gold is a reward for engagement, not a theme.
+2. **Only on the dark ground (#2F332B).** All other combinations fail WCAG:
+   | Gold on... | Ratio | Verdict |
+   |---|---|---|
+   | Ground #2F332B | 6.16:1 | Pass (AA) |
+   | Mist #D0D3C4 | 1.40:1 | Fail |
+   | Main Text #F4F2EE | 1.94:1 | Fail |
+   | Button fill #9AA66C | 1.52:1 | Fail |
+3. **Only interaction moments and micro-details.** Hover states, focus rings, selection highlights, signature lines. Never a surface, large fill, or text on light.
+4. **Never on the Button colour.** The gold sits on the CTA fill at 1.52:1 and on the mist hover fill at 1.40:1, so it cannot draw on the primary button in either state. The button stays green fill, mist hover.
+5. **Never in nav or footer.** Structural elements stay neutral.
+6. **Never a gradient on a surface.** Gold is a solid colour in thin lines and micro-details.
+
+### Approved uses (4, all dark ground only)
+
+Measured in place on 2026-11-11, not assumed.
+
+1. `::selection` background gold, text ground ink (6.16:1). Paper pages keep their accent selection (`body.theme-paper ::selection`).
+2. `.text-link` hover: gold text on the dark ground (6.16:1). Scoped `body:not(.theme-paper)`; paper pages keep the CTA hover.
+3. Hero hairline: gold at 20% instead of CTA at 25% (decorative line).
+4. One gold word in the hero headline, "conscious" (the taste-skill "dealt moment").
+
+**Rejected after measurement — the primary-button "light catch":** a 1px gold line inside the pill fails on both of the button's states, because the gold sits on the CTA fill (1.52:1) by default and on the mist hover fill (1.40:1) on hover. Gold cannot draw on the Button colour. The button keeps its green fill and mist hover; the gold accent lives in text, selection and hairlines only.
+
+**Hero word, measured against the real photograph:** base scrim + brand grade applied to `hero-opar.jpg`, 33,500 samples across the headline band. Full-strength gold: 6.38:1 median, 4.34:1 worst case. The line renders at 51-128px, so WCAG large-text AA (3:1) is met at every sample; the small worst-case dip is a bright spot in the treeline and is accepted for display type. The headline's second line uses `rgba(244, 242, 238, .78)` rather than `opacity: .78` so the gold word stays at full strength inside it.
+
+### Token
+
+`--opar-gold: #C5AD70;` and `--gold-ink: #2F332B;` — in the primitives block, `Layer 1b`, with the other sampled colours.

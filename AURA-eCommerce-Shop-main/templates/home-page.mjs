@@ -53,7 +53,7 @@ function hero() {
       <div class="hero-scrim-base" aria-hidden="true"></div>
       <div class="home-shell home-hero__inner">
         <p class="home-overline"><span class="home-rule" aria-hidden="true"></span>${escapeHtml(BRAND)}</p>
-        <h1 id="home-heading" class="home-hero__title">A world of<br><em>conscious living.</em></h1>
+        <h1 id="home-heading" class="home-hero__title">A world of<br><em><span class="gold">conscious</span> living.</em></h1>
         <p class="home-hero__lede">${escapeHtml(HERO_LEDE)}</p>
         <div class="home-hero__actions">
           <a class="button button-primary button-inline" href="/shop/">Enter the shop</a>

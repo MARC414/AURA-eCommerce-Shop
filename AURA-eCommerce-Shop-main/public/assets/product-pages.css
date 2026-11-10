@@ -36,6 +36,10 @@
   --opar-paper-line: #CDCCC7;     /* text − 20% toward ground */
   --opar-paper-body: #43463F;     /* ground + 10% text — body ink on paper (8.59:1) */
   --opar-accent-soft: #DDE1CE;    /* text mixed toward accent, tint only (paper wash) */
+
+  /* — Layer 1b · the secret accent (D-034) — gold, dark ground only — */
+  --opar-gold: #C5AD70;           /* antique gold — aged brass / honey, muted */
+  --gold-ink: #2F332B;            /* ground ink on gold (same as cta-ink) */
 }
 
 :root {
@@ -755,11 +759,14 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
 .home-hero .home-overline { color: var(--ink); letter-spacing: .34em; margin-bottom: 40px; }
 .home-hero .home-rule { width: 48px; }
 .home-hero__title { max-width: 1024px; font-size: clamp(3.2rem, 9vw, 8rem); line-height: .92; letter-spacing: -.02em; }
-.home-hero__title em { font-style: italic; opacity: .78; }
+/* The second line sits at 78% text strength. It is an rgba colour rather than
+   opacity so the gold word (D-034) can sit inside the line at full strength:
+   an opacity would dim the gold with the rest of the line. */
+.home-hero__title em { font-style: italic; color: rgba(244, 242, 238, .78); }
 .home-hero__lede { max-width: 36rem; margin-top: 40px; font-size: 14px; font-weight: 300; line-height: 1.8; color: var(--opar-mist); }
 .home-hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 48px; }
 .home-hero__actions .button { min-height: var(--button-min-height); padding-left: 34px; padding-right: 34px; }
-.home-hero__hairline { position: absolute; inset: auto 0 0; height: 1px; background: rgba(154, 166, 108, .25); }
+.home-hero__hairline { position: absolute; inset: auto 0 0; height: 1px; background: rgba(197, 173, 112, .2); }
 
 /* ── Featured pieces ── */
 .feature-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
@@ -866,3 +873,23 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
 .button-small { min-height: 40px; padding: 10px 18px; font-size: 10px; letter-spacing: .1em; gap: 8px; }
 .button-small svg { width: 16px; height: 16px; }
 .button[aria-busy='true'] { cursor: progress; }
+
+/* ==========================================================================
+   Gold — the secret accent (D-034). Four touches, dark ground only, all
+   measured before use. Paper pages keep their accent selection and CTA link
+   hover; gold never appears on a light surface.
+   Measured: gold #C5AD70 on ground #2F332B = 6.16:1 (AA). Gold on mist
+   #D0D3C4 = 1.40:1, on paper #F4F2EE = 1.94:1, on the Button fill #9AA66C =
+   1.52:1 — all fail, so none of those combinations are used.
+   ========================================================================== */
+
+/* Touch 1 — selection highlight: the gold reward for reading (dark only). */
+body:not(.theme-paper) ::selection { background: var(--opar-gold); color: var(--gold-ink); }
+
+/* Touch 2 — text links on the dark ground: gold hover, 6.16:1. */
+body:not(.theme-paper) .text-link:hover { color: var(--opar-gold); }
+
+/* Touch 3 — the hero hairline is gold at 20% (set with the hero rules). */
+
+/* Touch 4 — the gold word in the hero headline (D-034, the dealt moment). */
+.gold { color: var(--opar-gold); }

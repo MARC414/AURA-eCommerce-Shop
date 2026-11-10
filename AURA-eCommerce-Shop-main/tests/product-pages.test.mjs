@@ -602,7 +602,8 @@ test('there is one cart store, and it is the static one', async () => {
   assert.match(pkg.scripts['build:templates'], /generate-product-pages\.mjs/);
   assert.doesNotMatch(pkg.scripts.build, /vite build/, 'the storefront is not bundled');
   assert.match(pkg.scripts['dev:admin'], /vite/);
-  assert.equal(pkg.scripts.dev, undefined, 'there is no storefront dev server any more');
+  assert.match(pkg.scripts.dev, /preview-products\.mjs/, 'dev serves the built static site, not a bundle');
+  assert.doesNotMatch(pkg.scripts.dev, /vite/, 'the React shell is not the dev server');
   assert.equal(pkg.scripts.preview, undefined, 'vite preview would serve a bundle that is not built');
   assert.equal(pkg.scripts.predev, undefined);
 });
@@ -752,7 +753,7 @@ const homePage = renderHomePage(products);
 
 test('the homepage is one static document with three sections', () => {
   assert.equal((homePage.match(/<h1/g) || []).length, 1, 'the homepage has exactly one h1');
-  assert.match(homePage, /<h1 id="home-heading" class="home-hero__title">A world of<br><em>conscious living\.<\/em><\/h1>/);
+  assert.match(homePage, /<h1 id="home-heading" class="home-hero__title">A world of<br><em><span class="gold">conscious<\/span> living\.<\/em><\/h1>/);
 
   // Hero, then featured pieces, then the room index - in that order.
   const order = ['class="home-hero"', 'id="featured"', 'id="rooms"'].map(marker => homePage.indexOf(marker));

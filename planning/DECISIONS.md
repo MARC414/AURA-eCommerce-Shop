@@ -441,3 +441,55 @@ Gate: 53/53 tests (a new one asserts the one-row contract), `tsc` clean, 41 page
 - **T8, cleanup and hero, `28b6122` + `f0fb138`.** The eight dead components with invented prices/stock/reviews are deleted. The hero JPEG (605.8 kB, the last open CWV budget) became a 1920x1080 16:9 crop at the displayed `object-position` — the full frame was unfittable, bottoming at 260 kB WebP visibly degraded — landing at **171.3 kB AVIF q54** with a 179.9 kB WebP fallback, wired through `<picture>` with `type="image/avif"` on the preload so no browser downloads two heroes. Homepage payload ~692 kB → ~258 kB, verified in-browser (`currentSrc` is the AVIF, `fetchpriority=high`, no shift).
 
 **State after T8.** The static-first migration T1–T8 is complete: 41 generated pages, 53/53 tests, `tsc` clean, `check:site` passing, `dist/` 70 files / 2394 kB. Owner-side facts still open before any sale: price, shipping, stock decisions; domain and hosting (deploy not approved); product photography; herbal evidence review before enabling orders.
+
+
+---
+
+## D-034 - Antique gold #C5AD70 approved as a sixth colour (the secret accent)
+**2026-11-11 - OWNER DECISION.** Amends D-032 "no new hue, gradient, gold" rule. Antique gold (#C5AD70) approved as sixth colour, strict constraints.
+
+**What gold is:** muted, desaturated, earthy gold (aged brass / honey). Sits between olive greens and warm off-white Main Text.
+
+**Constraints (all must hold):**
+1. Maximum 4 touches per page.
+2. Only on dark ground (#2F332B). Gold on ground = 6.16:1 (AA pass). Gold on mist = 1.40:1 (fail). Gold on paper = 1.94:1 (fail). Gold on button fill = 1.52:1 (fail). No exceptions.
+3. Only interaction moments and micro-details. Never a surface, large fill, or text on light background.
+4. Never primary button default fill. Gold may appear as hover edge only.
+5. Never in nav or footer.
+6. Never a gradient on a surface.
+
+**Approved uses (5 maximum):**
+1. ::selection background gold, text ground ink.
+2. .text-link hover: gold underline.
+3. Primary button hover: subtle gold gradient edge on bottom border (Moss "light catch").
+4. Hero hairline: gold at 20% opacity instead of CTA at 25%.
+5. One gold word in hero headline - "conscious" in "A world of conscious living."
+
+**Contrast:** gold #C5AD70 on ground #2F332B = 6.16:1 (AA pass). All other combinations fail.
+
+**Why amends D-032:** D-032 removed gold tokens. D-034 re-introduces gold as strictly controlled sixth colour in a handful of micro-interaction moments (4 in the final build - see the implementation note), all on dark ground, all measured.
+
+**Reversible:** yes. Remove gold CSS block and the gold touches revert. No structural or data changes.
+
+**Status:** APPROVED (owner, 2026-11-11). Implementation pending (D-034 phases 2-5).
+
+**Implementation note (2026-11-11, phases 2-3 built):**
+- **Use 3 (button hover gold edge) rejected by measurement.** A gold line inside the pill sits on the CTA fill (1.52:1) by default and on the mist hover fill (1.40:1) on hover — invisible in both states. Gold cannot draw on the Button colour. The primary button keeps its green fill and mist hover.
+- **Final set is 4 touches, dark ground only:** `::selection` (6.16:1, paper pages keep their accent selection), `.text-link:hover` (scoped `body:not(.theme-paper)`, 6.16:1), hero hairline at 20%, and the hero word "conscious". Paper pages are untouched.
+- **Hero word measured, not assumed:** base scrim + brand grade applied to the real `hero-opar.jpg`, 33,500 samples across the headline band. Gold at full strength: 6.38:1 median, 4.34:1 worst case. The line is 51-128px display type, so large-text AA (3:1) holds at every sample.
+- **Headline second line** changed from `opacity: .78` to `color: rgba(244, 242, 238, .78)` so the gold word is not dimmed with the line; the rendered look of "living." is unchanged.
+- **Cost:** CSS +420 B gzipped (14,334 -> 14,754). No JS, no images, no layout metric change, no CLS.
+
+---
+
+## D-035 - Product integrity rule (corrects the "no fabricated product appearance" wording)
+**2026-11-11 - OWNER CORRECTION.** The earlier phrasing risked reading as a ban on art direction. The owner confirmed: the product itself stays exactly as photographed; the setting may be designed.
+
+**The rule:**
+- **Product integrity:** the product's appearance - form, texture, colour, packaging, label, quantity, capsule/root appearance - must come from the real photographed product. No AI re-rendering, no invented variants, no generated packaging.
+- **Art direction is allowed:** background, surface (stone, wood, forest), lighting, shadow, crop, framing, colour field, and a model holding the product may all be art-directed to the brand palette.
+- This is normal studio practice, not misrepresentation. Composites are honest while the product pixels remain the actual product.
+
+**Scope:** applies to cards, hero/branding imagery, detail pages and future photography. Marketing context may be styled; the product shown to the customer must be the one shipped (D-020).
+
+**Status:** APPROVED (owner, 2026-11-11).
