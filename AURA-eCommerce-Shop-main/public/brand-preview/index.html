@@ -36,6 +36,10 @@
     .specimen-row .button-icon { min-width: 44px; }
     .specimen-list { display: grid; gap: 10px; margin-top: 16px; }
     .specimen-list .badge, .specimen-list .status-pill { justify-self: start; }
+    /* Gold specimens (D-034). Guide-only layout; every value is a production token. */
+    .gold-specimen { margin: 0; font-size: var(--text-body); line-height: 1.8; color: var(--ink); }
+    .gold-specimen--word { font-family: var(--serif); font-size: clamp(24px, 3.4vw, 34px); line-height: 1.25; }
+    .gold-rule { display: block; height: 1px; background: var(--opar-gold); opacity: .2; margin: 4px 0 8px; }
     .guide-card { min-width: 0; }
     .guide-tile { display: grid; place-items: center; aspect-ratio: 4 / 5; background: var(--paper-canvas); border: 1px solid var(--line); overflow: hidden; }
     .guide-tile img { width: 100%; height: 100%; object-fit: contain; padding: 20px; }
@@ -80,16 +84,18 @@
       <span class="eyebrow">Internal reference · noindex</span>
       <h1>OPAR brand system, v1.0.</h1>
       <p class="guide-lede">
-        Five colours sampled from the approved reference sheet, documented mixes
-        for everything else, Cormorant Garamond with Manrope, and squared surfaces
-        with pills for actions. This page loads the production token layer, so the
-        values below are the values the site renders. Written guidance lives in
+        Five colours sampled from the approved reference sheet, one recorded exception
+        (antique gold, D-034, dark ground only), documented mixes for everything else,
+        Cormorant Garamond with Manrope, and squared surfaces with pills for actions.
+        This page loads the production token layer, so the values below are the values
+        the site renders. Written guidance lives in
         <code>docs/BRAND-GUIDELINES.md</code> and <code>docs/PRODUCT-IMAGE-GUIDE.md</code>.
       </p>
       <div class="note-band">
-        <p><strong>Rule of the sheet.</strong> No sixth colour, no gold, no gradient, no
-        "premium" neutral. If a value is not one of the five below or a stated mix of
-        them, it does not belong on the site.</p>
+        <p><strong>Rule of the sheet.</strong> No unreviewed sixth colour, no gradient, no
+        "premium" neutral. If a value is not one of the five below, a stated mix of them,
+        or the recorded gold accent in its four approved places, it does not belong on
+        the site.</p>
       </div>
     </section>
 
@@ -142,6 +148,52 @@
           </figcaption>
         </figure>
       </div>
+    </section>
+
+    <section class="guide-band">
+      <h2>Gold — the secret accent (D-034, 2026-11-11)</h2>
+      <p class="guide-lede">
+        Antique gold is a sixth colour with a narrow job. It never fills a surface and
+        never sits on a light ground — it is a reward for interaction, on the dark ground
+        only. Four touches exist in the built site, and no more. Live specimens: select
+        the first line, hover the link, read the hairline, and look at the word.
+      </p>
+      <div class="guide-grid">
+        <div class="guide-card">
+          <h3>The colour</h3>
+          <div class="swatches">
+            <figure class="swatch">
+              <div class="swatch-chip" style="background:#C5AD70"></div>
+              <figcaption class="swatch-body">
+                <span class="swatch-role">Antique gold — accent only</span>
+                <span class="swatch-hex">#C5AD70</span>
+                <span class="swatch-note">6.16:1 on the ground. On mist 1.40:1, on paper 1.94:1, on the Button fill 1.52:1 — unusable there, so never asked to sit there.</span>
+              </figcaption>
+            </figure>
+          </div>
+          <div class="specimen-list">
+            <span class="badge">Allowed: interaction, micro-detail, display type on ground</span>
+            <span class="badge">Never: surface, large fill, text on light, nav, footer, the button</span>
+          </div>
+        </div>
+        <div class="guide-card">
+          <h3>Where it appears — four touches</h3>
+          <div class="specimen-list">
+            <p class="gold-specimen">Touch 1 · select this line to see the gold selection highlight.</p>
+            <p class="gold-specimen">Touch 2 · hover <a class="text-link" href="/shop/">this link</a> — gold, on the dark ground only.</p>
+            <p class="gold-specimen">Touch 3 · the hero hairline, gold at 20 %.</p>
+            <span class="gold-rule" aria-hidden="true"></span>
+            <p class="gold-specimen gold-specimen--word">Touch 4 · A world of <em><span class="gold">conscious</span> living.</em></p>
+          </div>
+        </div>
+      </div>
+      <p class="guide-lede" style="margin:28px 0 0">
+        Measured 2026-11-11, not assumed. Through the real hero photograph — scrim and
+        brand grade applied, 33,500 samples across the headline band — the gold word holds
+        6.38:1 median and 4.34:1 at its worst point, on 51–128px display type, so
+        large-text AA holds everywhere. A gold line inside the primary button was
+        <strong>rejected</strong>: 1.52:1 on the fill, 1.40:1 on the mist hover.
+      </p>
     </section>
 
     <section class="guide-band">
