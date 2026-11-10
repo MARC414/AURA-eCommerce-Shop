@@ -133,6 +133,135 @@
     .exp-copy p { font-size: 13px; line-height: 1.6; color: var(--body); margin: 0 0 12px; }
     .exp-meta { font-size: 11px; color: rgba(208, 211, 196, 0.7); border-top: 1px dashed var(--line); padding-top: 10px; line-height: 1.6; }
     .exp-meta strong { color: var(--ink); font-weight: 500; }
+
+    /* ==========================================================================
+       EDITORIAL MONOGRAPH: Natural Living Foliage & Asymmetrical Botanical Spreads
+       ========================================================================== */
+    .botanical-monograph { position: relative; overflow: hidden; padding-top: 48px; }
+    
+    /* Living Corner Botanical Accents */
+    .corner-foliage {
+      position: absolute; pointer-events: none; z-index: 2;
+      mix-blend-mode: screen; opacity: 0.88;
+      filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6));
+      transition: opacity 0.4s ease;
+    }
+    .corner-foliage--neem-tr {
+      top: -20px; right: -30px; width: clamp(220px, 28vw, 380px);
+      transform: rotate(15deg);
+    }
+    .corner-foliage--moringa-bl {
+      bottom: -30px; left: -25px; width: clamp(200px, 25vw, 360px);
+      transform: rotate(-10deg);
+    }
+
+    /* Asymmetrical Editorial Food Spreads (No cards, individual presence) */
+    .editorial-spread {
+      display: grid; grid-template-columns: 1fr; gap: 36px;
+      padding: clamp(48px, 6vw, 80px) 0;
+      border-bottom: 1px solid var(--line);
+      position: relative; align-items: center;
+    }
+    @media (min-width: 860px) {
+      .editorial-spread { grid-template-columns: 1.05fr 1.15fr; gap: 64px; }
+      .editorial-spread--reverse { grid-template-columns: 1.15fr 1.05fr; }
+      .editorial-spread--reverse .editorial-spread__text { order: 2; }
+      .editorial-spread--reverse .editorial-spread__visual { order: 1; }
+    }
+    .editorial-spread__eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: var(--text-micro); letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--opar-gold); margin-bottom: 16px;
+    }
+    .editorial-spread__quote {
+      font-family: var(--serif); font-size: clamp(1.85rem, 3.2vw, 2.75rem);
+      line-height: 1.15; color: var(--ink); margin: 0 0 16px; font-weight: 400;
+    }
+    .editorial-spread__quote em { font-style: italic; color: rgba(244, 242, 238, 0.82); }
+    .editorial-spread__heritage {
+      font-size: 15px; line-height: 1.8; color: var(--paper);
+      margin-bottom: 14px; border-left: 2px solid var(--opar-gold); padding-left: 18px;
+    }
+    .editorial-spread__science {
+      font-size: 13.5px; line-height: 1.75; color: var(--body);
+      background: rgba(61, 64, 57, 0.6); padding: 14px 18px; border: 1px solid var(--line);
+      margin-bottom: 20px;
+    }
+    .editorial-spread__science strong { color: var(--ink); font-weight: 600; }
+    
+    /* Environmental Panorama Stage with Floating Foreground Specimen */
+    .environmental-stage {
+      position: relative; border: 1px solid var(--line); overflow: hidden;
+      aspect-ratio: 16 / 10; background: var(--well);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .environmental-stage__bg {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.65) contrast(1.05); transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .environmental-stage:hover .environmental-stage__bg { transform: scale(1.03); }
+    .environmental-stage__scrim {
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(47, 51, 43, 0.25) 0%, rgba(41, 45, 38, 0.85) 95%);
+    }
+    
+    /* Floating Cutout Element (Free from card boxes) */
+    .floating-specimen {
+      position: relative; z-index: 2; width: 88%; max-height: 85%;
+      object-fit: contain;
+      filter: drop-shadow(0 22px 28px rgba(0, 0, 0, 0.8)) drop-shadow(0 6px 10px rgba(0, 0, 0, 0.6));
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .environmental-stage:hover .floating-specimen { transform: translateY(-4px) scale(1.02); }
+    
+    .environmental-stage__badge {
+      position: absolute; bottom: 14px; left: 16px; z-index: 3;
+      font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(244, 242, 238, 0.8); background: rgba(41, 45, 38, 0.88);
+      padding: 5px 12px; border: 1px solid var(--line); backdrop-filter: blur(6px);
+      border-radius: 999px;
+    }
+
+    /* Alternating Living Foliage Corners */
+    .corner-foliage--turmeric-tr {
+      top: -25px; right: -25px; width: clamp(200px, 26vw, 360px);
+      transform: rotate(20deg);
+    }
+
+    /* Grand Botanical Archipelago Canvas (Unified cluster) */
+    .archipelago-block {
+      margin: 48px 0; border: 1px solid var(--line); background: var(--well);
+      position: relative; overflow: hidden;
+    }
+    .archipelago-visual { position: relative; width: 100%; aspect-ratio: 16 / 9; }
+    .archipelago-visual img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .archipelago-scrim {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(47, 51, 43, 0.1) 0%, rgba(41, 45, 38, 0.88) 100%);
+      pointer-events: none;
+    }
+    .archipelago-overlay {
+      position: absolute; bottom: 28px; left: 28px; right: 28px;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px;
+    }
+    .archipelago-overlay h3 { font-family: var(--serif); font-size: clamp(1.6rem, 2.8vw, 2.4rem); color: var(--ink); margin: 0 0 8px; }
+    .archipelago-overlay p { font-size: 13.5px; color: var(--body); max-width: 620px; margin: 0; line-height: 1.65; }
+
+    /* The 4 Pillars of the Human Support Ecosystem */
+    .ecosystem-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2px;
+      border: 1px solid var(--line); background: var(--line); margin-top: 32px;
+    }
+    .ecosystem-pillar {
+      background: var(--surface); padding: 32px 24px 28px; display: flex; flex-direction: column;
+      position: relative; transition: background 0.3s ease;
+    }
+    .ecosystem-pillar:hover { background: #44473F; }
+    .pillar-num { font-size: var(--text-micro); letter-spacing: 0.16em; color: var(--opar-gold); text-transform: uppercase; margin-bottom: 12px; }
+    .pillar-title { font-family: var(--serif); font-size: 1.55rem; line-height: 1.15; color: var(--ink); margin: 0 0 12px; }
+    .pillar-desc { font-size: 13px; line-height: 1.75; color: var(--body); margin: 0 0 24px; flex-grow: 1; }
+    .ecosystem-pillar .button { width: 100%; justify-content: center; }
   </style>
 </head>
 <body>
@@ -471,8 +600,8 @@
         <!-- Variant 4: Environmental Moss & Slate Integration -->
         <article class="exp-card">
           <div class="exp-label">
-            <span>Variant 4: Environmental</span>
-            <span class="exp-badge">D-035 Real Art Direction</span>
+            <span>Variant 4: Environmental Dropper</span>
+            <span class="exp-badge">Brand Archive `03.jpg`</span>
           </div>
           <div class="exp-media exp-media--environmental">
             <img src="/assets/products/specimen-botanical-dropper.jpg" alt="Botanical dropper on moss and slate" width="640" height="640" loading="lazy">
@@ -481,11 +610,55 @@
           </div>
           <div class="exp-copy">
             <h4>Natural Loam &amp; Slate</h4>
-            <p>Real botanical product photographed directly on damp slate rock and moss. Zero digital cut-out. The image background is the exact physical environment of the brand.</p>
+            <p>Real botanical dropper photographed directly on damp slate and living moss. Zero white box. The physical environment is the exact dark tone of the brand.</p>
             <div class="exp-meta">
               <strong>Container:</strong> Seamless deep loam `#242820`<br>
               <strong>Source:</strong> Brand archive `03.jpg`<br>
               <strong>Mood:</strong> Matches Moss reference sheet
+            </div>
+          </div>
+        </article>
+
+        <!-- Variant 5: Bespoke Ashwagandha Supplement Still -->
+        <article class="exp-card">
+          <div class="exp-label">
+            <span>Variant 5: Bespoke Ashwagandha</span>
+            <span class="exp-badge" style="color:var(--opar-gold);border-color:rgba(197,173,112,0.4)">Generated Studio Still</span>
+          </div>
+          <div class="exp-media exp-media--environmental">
+            <img src="/assets/products/ashwagandha-moss-slate.jpg" alt="Ashwagandha bottle on moss and slate" width="640" height="640" loading="lazy">
+            <div class="exp-scrim-edge"></div>
+            <span class="exp-specimen-tag" style="bottom:12px;left:14px;color:rgba(244,242,238,0.85);">OPAR · ASHWAGANDHA 60 CAP</span>
+          </div>
+          <div class="exp-copy">
+            <h4>Ashwagandha on Wet Slate &amp; Moss</h4>
+            <p>Bespoke studio photography generated right here: Amber apothecary bottle and real pullulan herbal capsules resting on wet dark slate with lush forest moss.</p>
+            <div class="exp-meta">
+              <strong>Background:</strong> `#2F332B` forest depth, zero white box<br>
+              <strong>Product Form:</strong> 60 capsules (conforms to D-020 &amp; D-035)<br>
+              <strong>Status:</strong> Ready for catalogue use
+            </div>
+          </div>
+        </article>
+
+        <!-- Variant 6: Bespoke Turmeric Cleansing Soap Still -->
+        <article class="exp-card">
+          <div class="exp-label">
+            <span>Variant 6: Bespoke Turmeric Soap</span>
+            <span class="exp-badge" style="color:var(--opar-gold);border-color:rgba(197,173,112,0.4)">Generated Studio Still</span>
+          </div>
+          <div class="exp-media exp-media--environmental">
+            <img src="/assets/products/turmeric-soap-moss-stone.jpg" alt="Turmeric soap bar on moss and stone" width="640" height="640" loading="lazy">
+            <div class="exp-scrim-edge"></div>
+            <span class="exp-specimen-tag" style="bottom:12px;left:14px;color:rgba(244,242,238,0.85);">OPAR · TURMERIC SOAP 100G</span>
+          </div>
+          <div class="exp-copy">
+            <h4>Turmeric Soap on Wet Slate</h4>
+            <p>Bespoke studio photography generated right here: Rich amber turmeric cleansing bar resting on dark weathered stone and living emerald moss.</p>
+            <div class="exp-meta">
+              <strong>Background:</strong> Natural moss canopy, zero white box<br>
+              <strong>Product Form:</strong> 100g solid soap bar<br>
+              <strong>Status:</strong> Ready for catalogue use
             </div>
           </div>
         </article>
@@ -496,8 +669,192 @@
           <strong>Observation for decision:</strong> 
           <em>Variant 2 (Moss Inset Well)</em> darkens the overall card so the shop grid feels monolithic and serene. 
           <em>Variant 3 (Archival Mount)</em> treats the cards like authentic herbarium folios on vintage paper. 
-          <em>Variant 4 (Environmental)</em> shows what happens when the actual photograph is taken in the moss and stone world (as permitted by D-035).
+          <em>Variant 4, 5, 6 (Environmental)</em> show what happens when the actual photograph or ingredients are captured directly in the moss and stone world (as permitted by D-035).
         </p>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         NEW SECTION: THE BOTANICAL MONOGRAPH & CORNER FOLIAGE ACCENTS
+         Asymmetrical layout: individual foods with breathing space, quotes,
+         and authentic phytochemical utility.
+         ===================================================================== -->
+    <section class="guide-band botanical-monograph" id="editorial-botanicals">
+      <!-- Living Botanical Corner Accents (Alternating Leaves) -->
+      <img class="corner-foliage corner-foliage--neem-tr" src="/assets/botanicals/corner-neem.jpg" alt="" aria-hidden="true" loading="lazy">
+      <img class="corner-foliage corner-foliage--moringa-bl" src="/assets/botanicals/corner-moringa.jpg" alt="" aria-hidden="true" loading="lazy">
+
+      <span class="eyebrow" style="color:var(--opar-gold)">Editorial Monograph · Living Botany</span>
+      <h2>The Materia Medica: Whole Roots &amp; Sacred Seeds</h2>
+      <p class="guide-lede">
+        Completely liberated from card boxes. Each botanical food floats freely as an authentic specimen against
+        its natural habitat panorama—paired with ancient lineage, verified utility, and dedicated action pills.
+      </p>
+
+      <!-- Spread 1: True Nigella Sativa Bursting Pod & Real Black Seeds -->
+      <article class="editorial-spread">
+        <div class="editorial-spread__text">
+          <span class="editorial-spread__eyebrow">
+            <span class="home-rule" style="width:24px;display:inline-block;height:1px;background:var(--opar-gold);" aria-hidden="true"></span>
+            Nigella sativa · Ripe Horned Pod &amp; Seed
+          </span>
+          <h3 class="editorial-spread__quote">
+            "The ancient <em>Habbat al-Barakah</em>—a remedy of restorative endurance."
+          </h3>
+          <p class="editorial-spread__heritage">
+            Celebrated in classical prophetic tradition as an indispensable daily seed for whole-body fortitude.
+            The dried horned pod naturally ruptures at maturity to release its intense, aromatic seeds.
+          </p>
+          <div class="editorial-spread__science">
+            <strong>Phytochemical Reality:</strong> Abundant in bioactive crystalline thymoquinone and essential
+            nigellone, proven to reinforce immune defense and cellular integrity.
+          </div>
+          <div class="editorial-spread__actions">
+            <a class="button button-secondary button-small" href="/shop/herbal-botanicals/">View Herbal Botanicals &rarr;</a>
+          </div>
+        </div>
+        <div class="environmental-stage">
+          <img class="environmental-stage__bg" src="/assets/botanicals/black-seed-env-arid.jpg" alt="Arid Mediterranean terra-cotta soil habitat" width="1280" height="800" loading="lazy">
+          <div class="environmental-stage__scrim"></div>
+          <img class="floating-specimen" src="/assets/botanicals/nigella-bursting-pod.jpg" alt="Authentic papery Nigella sativa pod bursting with matte black seeds" width="960" height="540" loading="lazy">
+          <span class="environmental-stage__badge">Bursting Pod · Arid Soil Habitat</span>
+        </div>
+      </article>
+
+      <!-- Spread 2: Ashwagandha Whole Root & Sub-Himalayan Forest (Alternating reverse) -->
+      <article class="editorial-spread editorial-spread--reverse">
+        <div class="editorial-spread__text">
+          <span class="editorial-spread__eyebrow">
+            <span class="home-rule" style="width:24px;display:inline-block;height:1px;background:var(--opar-gold);" aria-hidden="true"></span>
+            Withania somnifera · Whole Root
+          </span>
+          <h3 class="editorial-spread__quote">
+            "The sovereign root of classical Ayurveda, yielding <em>grounded vitality</em>."
+          </h3>
+          <p class="editorial-spread__heritage">
+            Recorded in the <em>Charaka Samhita</em> as the prime rasayana of serenity and deep vigor.
+            An uncultivated winter-cherry root prized for nourishing the nervous system during prolonged exertion.
+          </p>
+          <div class="editorial-spread__science">
+            <strong>Phytochemical Reality:</strong> Concentrates natural steroidal lactones (withanolides)
+            that regulate physical cortisol balance and sustain endurance without artificial stimulation.
+          </div>
+          <div class="editorial-spread__actions">
+            <a class="button button-primary button-small" href="/shop/ashwagandha-with-black-pepper/">Explore Ashwagandha Piece &rarr;</a>
+          </div>
+        </div>
+        <div class="environmental-stage">
+          <img class="environmental-stage__bg" src="/assets/botanicals/ashwagandha-env-forest.jpg" alt="Misty sub-Himalayan forest floor" width="1280" height="800" loading="lazy">
+          <div class="environmental-stage__scrim"></div>
+          <img class="floating-specimen" src="/assets/botanicals/ashwagandha-roots-still.jpg" alt="Raw whole Ashwagandha roots bound with organic twine" width="960" height="540" loading="lazy">
+          <span class="environmental-stage__badge">Whole Root · Misty Forest Understory</span>
+        </div>
+      </article>
+
+      <!-- Spread 3: Turmeric Polished Ritual & Fresh Broken Rhizome -->
+      <article class="editorial-spread" style="position:relative;">
+        <img class="corner-foliage corner-foliage--turmeric-tr" src="/assets/botanicals/corner-turmeric-leaf.jpg" alt="" aria-hidden="true" loading="lazy">
+        <div class="editorial-spread__text">
+          <span class="editorial-spread__eyebrow">
+            <span class="home-rule" style="width:24px;display:inline-block;height:1px;background:var(--opar-gold);" aria-hidden="true"></span>
+            Curcuma longa · Fresh Broken Rhizome
+          </span>
+          <h3 class="editorial-spread__quote">
+            "Centuries of <em>golden hearths</em> and tactile skin restoration."
+          </h3>
+          <p class="editorial-spread__heritage">
+            Used across centuries of domestic ritual: polished directly onto skin for soothing purification,
+            and decocted into evening milk to restore tired muscles after physical labor.
+          </p>
+          <div class="editorial-spread__science">
+            <strong>Phytochemical Reality:</strong> The luminous orange core packs polyphenol curcuminoids;
+            enhances natural skin moisture barrier and defends against oxidative environmental fatigue.
+          </div>
+          <div class="editorial-spread__actions">
+            <a class="button button-secondary button-small" href="/shop/turmeric-cleansing-soap/">View Cleansing Soap &rarr;</a>
+          </div>
+        </div>
+        <div class="environmental-stage">
+          <img class="environmental-stage__bg" src="/assets/botanicals/turmeric-env-ritual.jpg" alt="Serene person with skin polished in golden turmeric paste" width="1280" height="800" loading="lazy">
+          <div class="environmental-stage__scrim"></div>
+          <img class="floating-specimen" src="/assets/botanicals/turmeric-rhizome-still.jpg" alt="Fresh broken turmeric rhizome with fine golden powder" width="960" height="540" loading="lazy">
+          <span class="environmental-stage__badge">Living Ritual · Fresh Rhizome</span>
+        </div>
+      </article>
+
+      <!-- Grand Botanical Archipelago Canvas (Unified cluster) -->
+      <div class="archipelago-block">
+        <div class="archipelago-visual">
+          <img src="/assets/botanicals/botanical-archipelago.jpg" alt="Natural arrangement of Black Seeds, Ashwagandha roots, fresh turmeric, moringa leaves, and raw honeycomb" width="1920" height="1080" loading="lazy">
+          <div class="archipelago-scrim"></div>
+          <div class="archipelago-overlay">
+            <div>
+              <span class="home-overline" style="color:var(--opar-gold);margin-bottom:8px;display:block;"><span class="home-rule" style="width:24px;display:inline-block;height:1px;background:var(--opar-gold);" aria-hidden="true"></span>The Sustenance Cluster</span>
+              <h3>The Balanced Natural Ecology</h3>
+              <p>When whole seeds, grounding roots, bitter leaves, and raw honeycomb unite, they form a self-sustaining dietary foundation—a timeless matrix of nourishment requiring no synthetic additives.</p>
+            </div>
+            <a class="button button-primary" href="/shop/herbal-botanicals/">Enter Botanical Apothecary &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         NEW SECTION: THE COMPLETE SUPPORT ECOSYSTEM FOR HUMAN VITALITY
+         OPAR as a comprehensive sanctuary: Food, Movement, Stillness, Wisdom
+         ===================================================================== -->
+    <section class="guide-band" id="human-ecosystem">
+      <span class="eyebrow" style="color:var(--opar-gold)">OPAR Brand Philosophy</span>
+      <h2>A Complete Support Ecosystem for Conscious Living</h2>
+      <p class="guide-lede">
+        OPAR does not exist merely to trade objects. We curate an integrated architecture for human vitality—uniting
+        unaltered biological sustenance, somatic discipline, mental stillness, and classical philosophical wisdom.
+      </p>
+
+      <div class="ecosystem-grid">
+        <!-- Pillar 1: Pure Sustenance -->
+        <div class="ecosystem-pillar">
+          <span class="pillar-num">Pillar I</span>
+          <h3 class="pillar-title">Botanical Sustenance</h3>
+          <p class="pillar-desc">
+            Raw roots, cold-pressed seeds, and unheated wild honey. Pure, unadulterated whole foods that provide
+            the biological fuel and cellular equilibrium necessary for an energetic life.
+          </p>
+          <a class="button button-secondary button-small" href="/shop/herbal-botanicals/">Browse Whole Foods</a>
+        </div>
+
+        <!-- Pillar 2: Movement & Practice -->
+        <div class="ecosystem-pillar">
+          <span class="pillar-num">Pillar II</span>
+          <h3 class="pillar-title">Daily Somatic Practice</h3>
+          <p class="pillar-desc">
+            Physical exercise, mindful breathwork, and postural alignment. Daily movement circulates vital fluids,
+            calibrates the nervous system, and grounds physical endurance.
+          </p>
+          <a class="button button-secondary button-small" href="/shop/yoga-practice/">Somatic Practice Tools</a>
+        </div>
+
+        <!-- Pillar 3: Stillness & Meditation -->
+        <div class="ecosystem-pillar">
+          <span class="pillar-num">Pillar III</span>
+          <h3 class="pillar-title">Contemplative Stillness</h3>
+          <p class="pillar-desc">
+            Sensory quietude and meditation. Deliberate spaces to detach from sensory overload, silence digital chatter,
+            and allow the mind to settle like clear mountain water.
+          </p>
+          <a class="button button-secondary button-small" href="/shop/quiet-living/">Quiet Living Pieces</a>
+        </div>
+
+        <!-- Pillar 4: Perennis Wisdom Literature -->
+        <div class="ecosystem-pillar">
+          <span class="pillar-num">Pillar IV</span>
+          <h3 class="pillar-title">Perennis Literature</h3>
+          <p class="pillar-desc">
+            Timeless philosophical, geometric, and contemplative works. Books selected from public domain candidate
+            editions (such as <em>The Book of Wisdom</em>) to nourish the reflective intellect.
+          </p>
+          <a class="button button-primary button-small" href="/perennis/books/">Read Perennis Library &rarr;</a>
+        </div>
       </div>
     </section>
 
