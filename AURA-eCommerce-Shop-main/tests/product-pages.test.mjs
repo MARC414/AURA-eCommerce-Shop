@@ -785,18 +785,25 @@ test('the homepage is one static document with three sections', () => {
 });
 
 test('the hero is preloaded on the homepage and nowhere else', () => {
-  assert.match(homePage, /<link rel="preload" as="image" href="\/assets\/brand\/hero-opar\.jpg" fetchpriority="high">/);
+  assert.match(homePage, /<link rel="preload" as="image" href="\/assets\/brand\/hero-opar\.avif" type="image\/avif" fetchpriority="high">/);
   assert.ok(homePage.indexOf('rel="preload"') < homePage.indexOf('rel="stylesheet" href="/assets/product-pages.css"'),
     'the preload must be discovered before the stylesheet');
+  // The modern sources, tried in order; a browser that supports neither falls
+  // through to the JPG.
+  assert.match(homePage, /<source type="image\/avif" srcset="\/assets\/brand\/hero-opar\.avif">/);
+  assert.match(homePage, /<source type="image\/webp" srcset="\/assets\/brand\/hero-opar\.webp">/);
   // Explicit dimensions, so the photograph cannot shift the layout when it lands.
-  assert.match(homePage, /<img src="\/assets\/brand\/hero-opar\.jpg" alt="" width="2000" height="1333" fetchpriority="high" decoding="async">/);
+  assert.match(homePage, /<img src="\/assets\/brand\/hero-opar\.jpg" alt="" width="1920" height="1080" fetchpriority="high" decoding="async">/);
   for (const page of [shopPage, affiliatePage, checkoutPage, cartPage, newsletterPage]) {
     assert.doesNotMatch(page, /rel="preload"/, 'only the homepage preloads an image');
   }
 });
 
 test('every image the homepage references is a real file', () => {
-  const sources = [...homePage.matchAll(/<img src="(\/assets\/[^"]+)"/g)].map(match => match[1]);
+  const sources = [
+    ...homePage.matchAll(/<img src="(\/assets\/[^"]+)"/g),
+    ...homePage.matchAll(/srcset="(\/assets\/[^"]+)"/g)
+  ].map(match => match[1]);
   assert.ok(sources.length >= products.length + 1, 'the hero and one image per piece');
   for (const source of sources) {
     assert.ok(existsSync(new URL(`../public${source}`, import.meta.url)), `${source} is referenced but missing`);

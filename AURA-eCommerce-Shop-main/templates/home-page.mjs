@@ -20,6 +20,12 @@ import { BRAND, collections, escapeHtml, documentPage, arrow } from './chrome.mj
 import { collectionFor, categoryPath, formatMoney } from './product-page.mjs';
 
 const HERO_IMAGE = '/assets/brand/hero-opar.jpg';
+// T8: the modern sources are 16:9 crops of the JPG (1920x1080), which is all
+// the full-bleed hero ever displays (object-fit: cover, object-position 50% 45%).
+// The AVIF is preloaded with a type attribute, so browsers without AVIF skip
+// that fetch and take the WebP or the JPG instead - nobody downloads two.
+const HERO_IMAGE_AVIF = '/assets/brand/hero-opar.avif';
+const HERO_IMAGE_WEBP = '/assets/brand/hero-opar.webp';
 
 const HERO_LEDE = `Objects and knowledge for a slower, more sensory life — herbs, everyday care, sound, practice and craft, described honestly. Ordering opens after the first pieces are verified.`;
 
@@ -35,7 +41,11 @@ function hero() {
   return `
     <section class="home-hero" aria-labelledby="home-heading">
       <div class="home-hero__photo" aria-hidden="true">
-        <img src="${HERO_IMAGE}" alt="" width="2000" height="1333" fetchpriority="high" decoding="async">
+        <picture>
+          <source type="image/avif" srcset="${HERO_IMAGE_AVIF}">
+          <source type="image/webp" srcset="${HERO_IMAGE_WEBP}">
+          <img src="${HERO_IMAGE}" alt="" width="1920" height="1080" fetchpriority="high" decoding="async">
+        </picture>
       </div>
       <div class="home-hero__grade" aria-hidden="true"></div>
       <div class="grain home-hero__grain" aria-hidden="true"></div>
@@ -135,7 +145,7 @@ export function renderHomePage(products = []) {
     description: HERO_LEDE,
     theme: 'theme-home',
     image: HERO_IMAGE,
-    preload: [{ as: 'image', href: HERO_IMAGE, fetchpriority: 'high' }],
+    preload: [{ as: 'image', href: HERO_IMAGE_AVIF, type: 'image/avif', fetchpriority: 'high' }],
     content: `${hero()}${featured(products)}${rooms()}`
   });
 }

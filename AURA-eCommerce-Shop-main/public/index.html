@@ -18,7 +18,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" sizes="128x128" href="/assets/brand/opar-mark-tile-128.png">
   <link rel="apple-touch-icon" href="/assets/brand/opar-mark-tile-128.png">
-  <link rel="preload" as="image" href="/assets/brand/hero-opar.jpg" fetchpriority="high">
+  <link rel="preload" as="image" href="/assets/brand/hero-opar.avif" type="image/avif" fetchpriority="high">
   <link rel="stylesheet" href="/assets/product-pages.css">
   <script src="/assets/cart.js" defer></script>
   <script src="/assets/site.js" defer></script>
@@ -91,7 +91,11 @@
   <main id="main-content" tabindex="-1">
     <section class="home-hero" aria-labelledby="home-heading">
       <div class="home-hero__photo" aria-hidden="true">
-        <img src="/assets/brand/hero-opar.jpg" alt="" width="2000" height="1333" fetchpriority="high" decoding="async">
+        <picture>
+          <source type="image/avif" srcset="/assets/brand/hero-opar.avif">
+          <source type="image/webp" srcset="/assets/brand/hero-opar.webp">
+          <img src="/assets/brand/hero-opar.jpg" alt="" width="1920" height="1080" fetchpriority="high" decoding="async">
+        </picture>
       </div>
       <div class="home-hero__grade" aria-hidden="true"></div>
       <div class="grain home-hero__grain" aria-hidden="true"></div>
