@@ -16,7 +16,7 @@
  */
 
 import React, { useMemo, useState } from 'react';
-import { AdminRole, AdminSession, AdminUser, ComplianceRegister, Order, Product, StoreSettings } from '../types';
+import { AdminRole, AdminSession, AdminUser, ComplianceRegister, InvoiceRequest, Product, StoreSettings } from '../types';
 import { storeService } from '../services/storeService';
 import { auth, ROLE_LABELS } from '../services/auth';
 import { commerce } from '../services/commerce';
@@ -47,12 +47,8 @@ const STATUS_STYLE: Record<string, string> = {
   'not-applicable': 'bg-[#E2E1DC] border-[#CDCCC7] text-[#43463F]'
 };
 
-const PAYMENT_STYLE: Record<string, string> = {
-  awaiting_payment: 'bg-[#E2E1DC] border-[#CDCCC7] text-[#55632A]',
-  paid: 'bg-[#E2E1DC] border-[#CDCCC7] text-[#55632A]',
-  refunded: 'bg-[#E2E1DC] border-[#CDCCC7] text-[#43463F]',
-  cancelled: 'bg-[#E2E1DC] border-[#CDCCC7] text-[#2F332B]'
-};
+/** A request is a request: it is not paid and it is not a sale. */
+const REQUEST_STYLE = 'bg-[#E2E1DC] border-[#CDCCC7] text-[#55632A]';
 
 const Pill: React.FC<{ children: React.ReactNode; className: string }> = ({ children, className }) => (
   <span className={`inline-flex px-2 py-0.5 text-[10px] uppercase tracking-wider border whitespace-nowrap ${className}`}>
@@ -64,13 +60,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToShop }) => {
   const [session, setSession] = useState<AdminSession | null>(() => auth.getSession());
   const [tab, setTab] = useState<Tab>('overview');
   const [settings, setSettings] = useState<StoreSettings>(() => storeService.getSettings());
-  const [orders, setOrders] = useState<Order[]>(() => storeService.getOrders());
+  const [requests, setRequests] = useState<InvoiceRequest[]>(() => storeService.getInvoiceRequests());
   const [products] = useState<Product[]>(() => storeService.getProducts());
   const [users, setUsers] = useState<AdminUser[]>(() => auth.getUsers());
   const [search, setSearch] = useState('');
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const [trackingDraft, setTrackingDraft] = useState('');
-  const [carrierDraft, setCarrierDraft] = useState('');
+  const [selectedRequest, setSelectedRequest] = useState<InvoiceRequest | null>(null);
   const [settingsSaved, setSettingsSaved] = useState(false);
   const [newUser, setNewUser] = useState({ name: '', email: '', role: 'viewer' as AdminRole });
   const [teamMessage, setTeamMessage] = useState<string | null>(null);
@@ -79,22 +73,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToShop }) => {
   const symbol = settings.currency || '£';
 
   const stats = useMemo(() => {
-    const awaiting = orders.filter(order => order.paymentStatus === 'awaiting_payment');
-    const paid = orders.filter(order => order.paymentStatus === 'paid');
-    const revenue = paid.reduce((sum, order) => sum + order.total, 0);
-    const unknownCosts = orders.filter(order => order.supplierCostTotal === 0).length;
-    return { awaiting, paid, revenue, unknownCosts };
-  }, [orders]);
+    // No payment provider is connected, so nothing here can be "awaiting
+    // payment" or "settled". What can be counted is what exists.
+    const onRequest = requests.filter(request => request.priceOnRequest).length;
+    const pieces = requests.reduce((sum, request) => sum + (request.items ? request.items.length : 0), 0);
+    return { onRequest, pieces };
+  }, [requests]);
 
-  const filteredOrders = useMemo(() => {
+  const filteredRequests = useMemo(() => {
     const term = search.trim().toLowerCase();
-    if (!term) return orders;
-    return orders.filter(order =>
-      order.id.toLowerCase().includes(term) ||
-      order.customer.fullName.toLowerCase().includes(term) ||
-      order.customer.email.toLowerCase().includes(term)
+    if (!term) return requests;
+    return requests.filter(request =>
+      request.reference.toLowerCase().includes(term) ||
+      String(request.customer && request.customer.name || '').toLowerCase().includes(term) ||
+      String(request.customer && request.customer.email || '').toLowerCase().includes(term)
     );
-  }, [orders, search]);
+  }, [requests, search]);
 
   if (!session) {
     return <AdminGate onAuthenticated={setSession} onBackToShop={onBackToShop} />;
@@ -102,17 +96,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToShop }) => {
 
   const canWriteCatalogue = auth.can(session, 'catalogue:write');
   const canWriteTeam = auth.can(session, 'team:write');
-  const canWriteOrders = auth.can(session, 'orders:write');
   const currentUser = users.find(user => user.id === session.userId) || null;
 
-  const refreshOrders = () => setOrders(storeService.getOrders());
+  const refreshRequests = () => setRequests(storeService.getInvoiceRequests());
 
-  const handleFulfilment = (order: Order, status: Order['fulfillmentStatus']) => {
-    storeService.updateOrderStatus(order.id, status, trackingDraft || undefined, carrierDraft || undefined);
-    refreshOrders();
-    setSelectedOrder(null);
-    setTrackingDraft('');
-    setCarrierDraft('');
+  const handleRemoveRequest = (request: InvoiceRequest) => {
+    if (!window.confirm(`Remove the local copy of request ${request.reference}? The customer's own copy is not affected.`)) return;
+    storeService.removeInvoiceRequest(request.reference);
+    refreshRequests();
+    setSelectedRequest(null);
   };
 
   const handleSaveSettings = (event: React.FormEvent) => {
@@ -184,10 +176,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToShop }) => {
 
           <div className="flex flex-wrap items-center gap-3">
             <button
-              onClick={() => storeService.exportOrdersCSV()}
+              onClick={() => storeService.exportInvoiceRequestsCSV()}
               className="px-4 py-2.5 bg-paper border border-[#CDCCC7] text-[#2F332B] text-xs uppercase tracking-widest font-medium hover:bg-[#E2E1DC] transition-colors"
             >
-              Export orders CSV
+              Export requests CSV
             </button>
             <button
               onClick={handleSignOut}
@@ -206,9 +198,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToShop }) => {
 
         <div className="border border-[#CDCCC7] bg-paper/60 p-4 mb-8 text-xs text-[#43463F] leading-relaxed">
           <strong className="text-[#2F332B] font-medium">Read this before trusting any number here.</strong> There is no
-          server, no database, and no payment provider. Orders, team members, and newsletter sign-ups live in this
-          browser. Clearing site data erases them. Nothing here is a real sale, and no payment status can be set to
-          &ldquo;paid&rdquo; from this screen.
+          server, no database, and no payment provider. Invoice requests, team members and newsletter sign-ups live in
+          this browser, and only for the browser they were made in. Clearing site data erases them. A request is not a
+          sale: nothing is paid, no stock is reserved and no shipping is quoted.
         </div>
 
         <div className="flex border-b border-[#CDCCC7] gap-6 mb-10 overflow-x-auto">
@@ -231,19 +223,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToShop }) => {
           <div className="space-y-10">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="p-7 bg-[#E2E1DC]/50 border border-[#CDCCC7]">
-                <span className="text-xs uppercase tracking-widest text-[#43463F] block mb-2">Order requests</span>
-                <span className="text-3xl font-serif text-[#2F332B] tabular-nums block">{orders.length}</span>
+                <span className="text-xs uppercase tracking-widest text-[#43463F] block mb-2">Invoice requests</span>
+                <span className="text-3xl font-serif text-[#2F332B] tabular-nums block">{requests.length}</span>
                 <span className="text-xs text-[#43463F] mt-2 block">Recorded on this device</span>
               </div>
               <div className="p-7 bg-[#E2E1DC]/50 border border-[#CDCCC7]">
-                <span className="text-xs uppercase tracking-widest text-[#43463F] block mb-2">Awaiting payment</span>
-                <span className="text-3xl font-serif text-[#55632A] tabular-nums block">{stats.awaiting.length}</span>
-                <span className="text-xs text-[#43463F] mt-2 block">Invoice not yet settled</span>
+                <span className="text-xs uppercase tracking-widest text-[#43463F] block mb-2">Priced on request</span>
+                <span className="text-3xl font-serif text-[#55632A] tabular-nums block">{stats.onRequest}</span>
+                <span className="text-xs text-[#43463F] mt-2 block">No total exists yet, by design</span>
               </div>
               <div className="p-7 bg-[#E2E1DC]/50 border border-[#CDCCC7]">
-                <span className="text-xs uppercase tracking-widest text-[#43463F] block mb-2">Settled revenue</span>
-                <span className="text-3xl font-serif text-[#2F332B] tabular-nums block">{symbol}{stats.revenue.toFixed(2)}</span>
-                <span className="text-xs text-[#43463F] mt-2 block">Only orders marked paid by a server</span>
+                <span className="text-xs uppercase tracking-widest text-[#43463F] block mb-2">Pieces requested</span>
+                <span className="text-3xl font-serif text-[#2F332B] tabular-nums block">{stats.pieces}</span>
+                <span className="text-xs text-[#43463F] mt-2 block">Across every request here</span>
               </div>
               <div className="p-7 bg-[#E2E1DC]/50 border border-[#CDCCC7]">
                 <span className="text-xs uppercase tracking-widest text-[#43463F] block mb-2">Catalogue items</span>
@@ -265,7 +257,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToShop }) => {
               <div className="p-7 bg-paper/70 border border-[#CDCCC7]">
                 <h3 className="font-serif text-[#2F332B] text-xl mb-3">Data quality warnings</h3>
                 <ul className="text-sm text-[#43463F] space-y-2 leading-relaxed">
-                  <li>· {stats.unknownCosts} order request(s) have no recorded supplier cost, so margin is not meaningful.</li>
+                  <li>· This browser sees only requests made in this browser. Another device shows nothing.</li>
+                  <li>· No request carries a total unless every piece in it had a real price.</li>
                   <li>· Newsletter addresses are queued locally; no mailing provider is connected.</li>
                   <li>· Team roles are stored but cannot be enforced without a server.</li>
                 </ul>
@@ -284,14 +277,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToShop }) => {
                 placeholder="Search by order number, name, or email"
                 className="w-full sm:max-w-sm bg-paper border border-[#CDCCC7] p-3 text-sm outline-none focus:border-[#2F332B]"
               />
-              <span className="text-xs text-[#43463F]">{filteredOrders.length} of {orders.length} shown</span>
+              <span className="text-xs text-[#43463F]">{filteredRequests.length} of {requests.length} shown</span>
             </div>
 
-            {orders.length === 0 ? (
+            {requests.length === 0 ? (
               <div className="border border-[#CDCCC7] bg-paper/60 p-12 text-center">
                 <p className="font-serif text-xl text-[#2F332B] mb-2">No order requests yet</p>
                 <p className="text-sm text-[#43463F]">
-                  Requests placed through checkout appear here as <em>awaiting payment</em>. None have been made on this device.
+                  Requests placed through checkout appear here for the same browser. None have been made on this device.
                 </p>
               </div>
             ) : (
@@ -302,133 +295,112 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToShop }) => {
                       <th className="p-4 font-medium">Reference</th>
                       <th className="p-4 font-medium">Date</th>
                       <th className="p-4 font-medium">Customer</th>
-                      <th className="p-4 font-medium">Items total</th>
-                      <th className="p-4 font-medium">Payment</th>
-                      <th className="p-4 font-medium">Fulfilment</th>
+                      <th className="p-4 font-medium">Pieces</th>
+                      <th className="p-4 font-medium">Total</th>
+                      <th className="p-4 font-medium">Priced?</th>
                       <th className="p-4 font-medium"></th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#CDCCC7]">
-                    {filteredOrders.map(order => (
-                      <tr key={order.id} className="bg-paper/40 hover:bg-paper/80 transition-colors">
-                        <td className="p-4 font-mono text-xs text-[#2F332B]">{order.id}</td>
-                        <td className="p-4 text-xs text-[#43463F]">{new Date(order.date).toLocaleDateString()}</td>
-                        <td className="p-4 text-xs text-[#2F332B]">
-                          {order.customer.fullName}
-                          <span className="block text-[#43463F]">{order.customer.email}</span>
-                        </td>
-                        <td className="p-4 text-xs tabular-nums text-[#2F332B]">{symbol}{order.total.toFixed(2)}</td>
-                        <td className="p-4">
-                          <Pill className={PAYMENT_STYLE[order.paymentStatus] || PAYMENT_STYLE.cancelled}>
-                            {order.paymentStatus.replace('_', ' ')}
-                          </Pill>
-                        </td>
-                        <td className="p-4 text-xs text-[#43463F]">{order.fulfillmentStatus}</td>
-                        <td className="p-4 text-right">
-                          <button
-                            onClick={() => {
-                              setSelectedOrder(order);
-                              setTrackingDraft(order.trackingNumber || '');
-                              setCarrierDraft(order.carrier || '');
-                            }}
-                            className="text-xs uppercase tracking-widest text-[#55632A] hover:underline"
-                          >
-                            Open
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                    {filteredRequests.map(request => {
+                      const name = request.customer && request.customer.name ? request.customer.name : 'Unnamed';
+                      const total = request.priceOnRequest || request.subtotal === null ? 'On invoice' : `${symbol}${Number(request.subtotal).toFixed(2)}`;
+                      return (
+                        <tr key={request.reference} className="bg-paper/40 hover:bg-paper/80 transition-colors">
+                          <td className="p-4 font-mono text-xs text-[#2F332B]">{request.reference}</td>
+                          <td className="p-4 text-xs text-[#43463F]">{new Date(request.createdAt).toLocaleDateString('en-GB')}</td>
+                          <td className="p-4 text-xs text-[#2F332B]">
+                            {name}
+                            <span className="block text-[#43463F]">{request.customer.email}</span>
+                          </td>
+                          <td className="p-4 text-xs tabular-nums text-[#2F332B]">{request.items.length}</td>
+                          <td className="p-4 text-xs tabular-nums text-[#2F332B]">{total}</td>
+                          <td className="p-4">
+                            <Pill className={REQUEST_STYLE}>
+                              {request.priceOnRequest ? 'on request' : 'priced'}
+                            </Pill>
+                          </td>
+                          <td className="p-4 text-right flex gap-3 justify-end">
+                            <button
+                              onClick={() => setSelectedRequest(request)}
+                              className="text-xs uppercase tracking-widest text-[#55632A] hover:underline"
+                            >
+                              Open
+                            </button>
+                            <button
+                              onClick={() => handleRemoveRequest(request)}
+                              className="text-xs uppercase tracking-widest text-[#8B7E73] hover:text-[#2F332B]"
+                            >
+                              Remove
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
             )}
 
-            {selectedOrder && (
-              <div className="mt-8 border border-[#CDCCC7] bg-paper p-6 md:p-8">
-                <div className="flex items-start justify-between gap-4 mb-6">
-                  <div>
-                    <span className="text-xs uppercase tracking-widest text-[#43463F] block">Request {selectedOrder.id}</span>
-                    <h3 className="font-serif text-2xl text-[#2F332B]">{selectedOrder.customer.fullName}</h3>
-                  </div>
-                  <button onClick={() => setSelectedOrder(null)} className="text-xs uppercase tracking-widest text-[#43463F] hover:text-[#2F332B]">
-                    Close
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  <div>
-                    <h4 className="text-xs uppercase tracking-widest text-[#43463F] mb-3">Items</h4>
-                    <ul className="divide-y divide-[#CDCCC7] text-sm">
-                      {selectedOrder.items.map((item, index) => (
-                        <li key={`${item.productId}-${index}`} className="py-2 flex justify-between gap-4">
-                          <span className="text-[#2F332B]">{item.name} × {item.quantity}</span>
-                          <span className="tabular-nums text-[#43463F]">{symbol}{(item.price * item.quantity).toFixed(2)}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="text-xs text-[#43463F] mt-3">
-                      Shipping is quoted on the invoice and is not included here.
-                    </p>
-                    {selectedOrder.customerNote && (
-                      <p className="text-xs text-[#55632A] italic mt-3">&ldquo;{selectedOrder.customerNote}&rdquo;</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <h4 className="text-xs uppercase tracking-widest text-[#43463F] mb-3">Delivery & payment</h4>
-                    <p className="text-xs text-[#43463F] leading-relaxed">
-                      {selectedOrder.customer.address}
-                      {selectedOrder.customer.apartment ? `, ${selectedOrder.customer.apartment}` : ''}<br />
-                      {selectedOrder.customer.city} {selectedOrder.customer.postalCode}<br />
-                      {selectedOrder.customer.country}
-                    </p>
-                    <p className="text-xs text-[#43463F] mt-3">
-                      Requested route: {getProvider(selectedOrder.paymentMethod)?.name || selectedOrder.paymentMethod}
-                    </p>
-                    <p className="text-xs text-[#2F332B] mt-2">
-                      Payment status is set by a server webhook only. This panel cannot mark an order paid.
-                    </p>
-                  </div>
-                </div>
-
-                {canWriteOrders ? (
-                  <div className="mt-8 pt-6 border-t border-[#CDCCC7]">
-                    <h4 className="text-xs uppercase tracking-widest text-[#43463F] mb-3">Record fulfilment</h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-                      <input
-                        value={carrierDraft}
-                        onChange={(event) => setCarrierDraft(event.target.value)}
-                        placeholder="Carrier (only if a real one is booked)"
-                        className="bg-paper border border-[#CDCCC7] p-3 text-sm outline-none focus:border-[#2F332B]"
-                      />
-                      <input
-                        value={trackingDraft}
-                        onChange={(event) => setTrackingDraft(event.target.value)}
-                        placeholder="Tracking number (only if real)"
-                        className="bg-paper border border-[#CDCCC7] p-3 text-sm outline-none focus:border-[#2F332B]"
-                      />
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {(['unfulfilled', 'processing', 'shipped', 'delivered'] as const).map(status => (
-                        <button
-                          key={status}
-                          onClick={() => handleFulfilment(selectedOrder, status)}
-                          className="px-4 py-2 border border-[#CDCCC7] text-xs uppercase tracking-widest text-[#2F332B] hover:bg-[#E2E1DC] transition-colors"
-                        >
-                          {status}
-                        </button>
-                      ))}
-                    </div>
-                    <p className="text-[11px] text-[#43463F] mt-3">
-                      Leave the carrier and tracking fields empty unless a shipment genuinely exists. Never invent either.
-                    </p>
-                  </div>
-                ) : (
-                  <p className="text-xs text-[#2F332B] mt-6">Your role cannot change fulfilment status.</p>
-                )}
+                    {selectedRequest && (
+          <div className="mt-8 border border-[#CDCCC7] bg-paper p-6 md:p-8">
+            <div className="flex items-start justify-between gap-4 mb-6">
+              <div>
+                <span className="text-xs uppercase tracking-widest text-[#43463F] block">Invoice request {selectedRequest.reference}</span>
+                <h3 className="font-serif text-2xl text-[#2F332B]">{selectedRequest.customer && selectedRequest.customer.name}</h3>
               </div>
-            )}
+              <button onClick={() => setSelectedRequest(null)} className="text-xs uppercase tracking-widest text-[#43463F] hover:text-[#2F332B]">
+                Close
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div>
+                <h4 className="text-xs uppercase tracking-widest text-[#43463F] mb-3">Pieces</h4>
+                <ul className="divide-y divide-[#CDCCC7] text-sm">
+                  {selectedRequest.items.map((item, index) => (
+                    <li key={`${item.id}-${index}`} className="py-2 flex justify-between gap-4">
+                      <span className="text-[#2F332B]">
+                        {item.name} x {item.quantity}
+                        {item.selectedVariant ? <span className="text-[#43463F]"> - {item.selectedVariant}</span> : null}
+                      </span>
+                      <span className="tabular-nums text-[#43463F]">
+                        {typeof item.price === 'number' && Number.isFinite(item.price) ? `${symbol}${(item.price * item.quantity).toFixed(2)}` : 'On invoice'}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-xs text-[#43463F] mt-3">
+                  Shipping is quoted on the invoice and is not included here.
+                </p>
+                {selectedRequest.customer && selectedRequest.customer.notes ? (
+                  <p className="text-xs text-[#55632A] italic mt-3">&ldquo;{selectedRequest.customer.notes}&rdquo;</p>
+                ) : null}
+                <p className="text-xs tabular-nums text-[#2F332B] mt-4">
+                  {selectedRequest.priceOnRequest || selectedRequest.subtotal === null ? 'Full amount: on invoice' : `Subtotal: ${symbol}${Number(selectedRequest.subtotal).toFixed(2)}`}
+                </p>
+              </div>
+
+              <div>
+                <h4 className="text-xs uppercase tracking-widest text-[#43463F] mb-3">Customer</h4>
+                <p className="text-xs text-[#43463F] leading-relaxed">
+                  {selectedRequest.customer && selectedRequest.customer.name}<br />
+                  {selectedRequest.customer && selectedRequest.customer.email}<br />
+                  {selectedRequest.customer && selectedRequest.customer.address}<br />
+                  {selectedRequest.customer && selectedRequest.customer.city} {selectedRequest.customer && selectedRequest.customer.postcode}<br />
+                  {selectedRequest.customer && selectedRequest.customer.country}<br />
+                  {selectedRequest.customer && selectedRequest.customer.phone ? <>Phone {selectedRequest.customer.phone}<br /></> : null}
+                </p>
+                <p className="text-xs text-[#2F332B] mt-4">
+                  Nothing here can be marked paid: there is no payment provider and no server. OPAR replies with
+                  the price, delivery and payment method before any payment is taken.
+                </p>
+              </div>
+            </div>
           </div>
+        )}
+
+        </div>
         )}
 
         {tab === 'catalogue' && (

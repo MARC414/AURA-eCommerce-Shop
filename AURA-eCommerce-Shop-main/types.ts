@@ -94,6 +94,44 @@ export interface Order {
   estimatedDelivery?: string;
 }
 
+/**
+ * What the static checkout writes to `aura_order_requests_v1`. Deliberately not
+ * called an order: nothing was paid, no stock was reserved and no shipping was
+ * quoted. The panel reads it so a request placed on this device is visible.
+ */
+export interface InvoiceRequestItem {
+  id: string;
+  name: string;
+  slug: string;
+  category: string;
+  price: number | null;
+  currency: string;
+  imageUrl: string;
+  quantity: number;
+  selectedVariant: string | null;
+}
+
+export interface InvoiceRequest {
+  reference: string;
+  createdAt: string;
+  status: 'invoice-requested';
+  currency: string;
+  /** Null when any piece is priced on request — the invoice sets the amount. */
+  subtotal: number | null;
+  priceOnRequest: boolean;
+  items: InvoiceRequestItem[];
+  customer: {
+    name: string;
+    email: string;
+    country: string;
+    city: string;
+    address: string;
+    postcode: string;
+    phone: string;
+    notes: string;
+  };
+}
+
 export interface Review {
   id: string;
   productId: string;

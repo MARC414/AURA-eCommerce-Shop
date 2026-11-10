@@ -3,12 +3,18 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 
-import { Product, Order, Review, StoreSettings, CartItem, CustomerDetails, PaymentMethod } from '../types';
+import { Product, Review, StoreSettings, InvoiceRequest } from '../types';
 import { PRODUCTS } from '../constants';
 
 const STORAGE_KEYS = {
   PRODUCTS: 'aura_products_v9',
-  ORDERS: 'aura_orders_v8',
+  /**
+   * Written by `public/assets/checkout-page.js`, read here (T6). It replaced
+   * `aura_orders_v8`, which only the retired React checkout ever wrote — the
+   * panel and the storefront have to name the same key or the panel shows an
+   * empty list while a request sits in the browser.
+   */
+  INVOICE_REQUESTS: 'aura_order_requests_v1',
   REVIEWS: 'aura_reviews_v8',
   SETTINGS: 'aura_settings_v8',
   WISHLIST: 'aura_wishlist_v1',
@@ -24,8 +30,6 @@ export const INITIAL_SETTINGS: StoreSettings = {
 };
 
 export const INITIAL_PRODUCTS: Product[] = PRODUCTS;
-
-export const INITIAL_ORDERS: Order[] = [];
 
 export const INITIAL_REVIEWS: Review[] = [];
 
@@ -91,126 +95,73 @@ export const storeService = {
     setStoredItem(STORAGE_KEYS.PRODUCTS, INITIAL_PRODUCTS);
   },
 
-  // ORDERS
-  getOrders(): Order[] {
-    return getStoredItem<Order[]>(STORAGE_KEYS.ORDERS, INITIAL_ORDERS);
+  // INVOICE REQUESTS (the static checkout's output; read-only here)
+  getInvoiceRequests(): InvoiceRequest[] {
+    const stored = getStoredItem<InvoiceRequest[]>(STORAGE_KEYS.INVOICE_REQUESTS, []);
+    if (!Array.isArray(stored)) return [];
+    // Newest first, and never trust a shape written by an older build.
+    return stored
+      .filter(request => request && typeof request.reference === 'string')
+      .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
   },
 
-  createOrder(params: {
-    customer: CustomerDetails;
-    cartItems: CartItem[];
-    paymentMethod: PaymentMethod;
-    customerNote?: string;
-  }): Order {
-    const settings = this.getSettings();
-    const items = params.cartItems.map(item => ({
-      productId: item.product.id,
-      name: item.product.name,
-      price: item.product.price,
-      // Never invent a supplier cost. Unknown is recorded as zero and flagged.
-      supplierCost: item.product.supplierCost ?? 0,
-      quantity: item.quantity,
-      selectedVariant: item.selectedVariant,
-      imageUrl: item.product.imageUrl
-    }));
-
-    const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    // Shipping is quoted on the invoice, so the request carries no shipping charge.
-    const shipping = 0;
-    const discount = 0;
-    const total = subtotal;
-    const supplierCostTotal = items.reduce((sum, item) => sum + (item.supplierCost * item.quantity), 0);
-    const estimatedProfit = total - supplierCostTotal;
-
-    const randomId = Math.floor(10000 + Math.random() * 90000);
-    const newOrder: Order = {
-      id: `AUR-${randomId}`,
-      date: new Date().toISOString(),
-      customer: params.customer,
-      items,
-      subtotal,
-      shipping,
-      discount,
-      total,
-      supplierCostTotal,
-      estimatedProfit,
-      paymentMethod: params.paymentMethod,
-      // Only a server-side provider callback may change this to 'paid'.
-      paymentStatus: 'awaiting_payment',
-      fulfillmentStatus: 'unfulfilled',
-      customerNote: params.customerNote
-    };
-
-    const orders = this.getOrders();
-    orders.unshift(newOrder);
-    setStoredItem(STORAGE_KEYS.ORDERS, orders);
-
-    // Stock is not reserved by an unpaid request. Nothing is decremented here.
-    return newOrder;
+  removeInvoiceRequest(reference: string): void {
+    const kept = this.getInvoiceRequests().filter(request => request.reference !== reference);
+    setStoredItem(STORAGE_KEYS.INVOICE_REQUESTS, kept);
   },
 
-  updateOrderStatus(orderId: string, status: Order['fulfillmentStatus'], trackingNumber?: string, carrier?: string): void {
-    const orders = this.getOrders();
-    const order = orders.find(o => o.id === orderId);
-    if (order) {
-      order.fulfillmentStatus = status;
-      if (trackingNumber !== undefined) order.trackingNumber = trackingNumber;
-      if (carrier !== undefined) order.carrier = carrier;
-      setStoredItem(STORAGE_KEYS.ORDERS, orders);
-    }
-  },
-
-  exportOrdersCSV(): void {
-    const orders = this.getOrders();
+  exportInvoiceRequestsCSV(): void {
+    const requests = this.getInvoiceRequests();
     const headers = [
-      'Order ID',
+      'Reference',
       'Date',
-      'Customer Name',
+      'Name',
       'Email',
       'Phone',
-      'Street Address',
-      'Apartment',
+      'Address',
       'City',
-      'State/Province',
-      'Postal Code',
+      'Postcode',
       'Country',
-      'Product Name',
-      'Supplier SKU',
+      'Notes',
+      'Piece',
       'Variant',
       'Quantity',
-      'Unit Wholesale Cost',
-      'Retail Total Paid',
-      'Fulfillment Status',
-      'Tracking Number'
+      'Unit Price (blank = on request)',
+      'Line Total',
+      'Request Subtotal',
     ];
 
     const rows: string[] = [];
+    const quote = (value: unknown) => `"${String(value ?? '').replace(/"/g, '""')}"`;
 
-    orders.forEach(order => {
-      order.items.forEach(item => {
-        const product = this.getProductById(item.productId);
-        const row = [
-          order.id,
-          new Date(order.date).toLocaleDateString(),
-          `"${order.customer.fullName.replace(/"/g, '""')}"`,
-          order.customer.email,
-          `"${order.customer.phone || ''}"`,
-          `"${order.customer.address.replace(/"/g, '""')}"`,
-          `"${(order.customer.apartment || '').replace(/"/g, '""')}"`,
-          `"${order.customer.city.replace(/"/g, '""')}"`,
-          `"${order.customer.stateProvince || ''}"`,
-          order.customer.postalCode,
-          order.customer.country,
-          `"${item.name.replace(/"/g, '""')}"`,
-          product?.supplierSku || 'N/A',
-          `"${(item.selectedVariant || 'Standard').replace(/"/g, '""')}"`,
-          item.quantity,
-          item.supplierCost,
-          order.total,
-          order.fulfillmentStatus,
-          order.trackingNumber || ''
-        ];
-        rows.push(row.join(','));
+    requests.forEach(request => {
+      const customer = request.customer || ({} as InvoiceRequest['customer']);
+      const items = Array.isArray(request.items) ? request.items : [];
+      const subtotal = request.priceOnRequest || request.subtotal === null ? 'on request' : request.subtotal;
+      if (!items.length) {
+        rows.push([
+          request.reference,
+          new Date(request.createdAt).toLocaleDateString('en-GB'),
+          quote(customer.name), customer.email || '', quote(customer.phone),
+          quote(customer.address), quote(customer.city), quote(customer.postcode),
+          quote(customer.country), quote(customer.notes),
+          'no items recorded', '', '', '', '', subtotal
+        ].join(','));
+        return;
+      }
+      items.forEach(item => {
+        const priced = typeof item.price === 'number' && Number.isFinite(item.price);
+        rows.push([
+          request.reference,
+          new Date(request.createdAt).toLocaleDateString('en-GB'),
+          quote(customer.name), customer.email || '', quote(customer.phone),
+          quote(customer.address), quote(customer.city), quote(customer.postcode),
+          quote(customer.country), quote(customer.notes),
+          quote(item.name), quote(item.selectedVariant || ''), item.quantity,
+          priced ? item.price : '',
+          priced ? (item.price as number) * item.quantity : 'on request',
+          subtotal
+        ].join(','));
       });
     });
 
@@ -218,7 +169,7 @@ export const storeService = {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `aura_dropship_orders_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute('download', `opar_invoice_requests_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
