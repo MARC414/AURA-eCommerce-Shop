@@ -303,10 +303,50 @@ test('styles include visible focus, responsive layouts, checkout and reduced mot
   assert.match(css, /\.checkout-layout/);
   assert.match(css, /\.category-strip/);
   assert.match(css, /\.nav-panel-grouped/);
-  assert.match(css, /\.header-bottom \{[^}]*justify-content: center/);
   assert.match(css, /\.primary-nav \{[^}]*justify-content: center/);
   assert.match(css, /\.nav-panel \{[^}]*left: 50%/);
   assert.doesNotMatch(css, /\.category-nav/);
+});
+
+test('the header is one row at every width, with one search control', async () => {
+  const css = await readFile(new URL('../public/assets/product-pages.css', import.meta.url), 'utf8');
+  const chrome = await readFile(new URL('../templates/chrome.mjs', import.meta.url), 'utf8');
+  const page = cartPage;
+
+  // One row. The two-row header it replaced is gone rather than hidden.
+  // (Media queries only adjust the row's height and gap; the rule itself is
+  // written once, before the first breakpoint.)
+  const base = css.split('@media')[0];
+  assert.equal((base.match(/\.header-row \{/g) || []).length, 1);
+  assert.match(base, /\.header-row \{[^}]*min-height: 72px/);
+  assert.doesNotMatch(css, /\.header-top\s*\{|\.header-bottom\s*\{/, 'a retired header row is still styled');
+  assert.equal((page.match(/<div class="header-row">/g) || []).length, 1);
+  assert.doesNotMatch(page, /header-top|header-bottom/);
+
+  // Utilities are icons with a count chip; the label survives for the screen
+  // reader once the row is too narrow to carry it.
+  assert.match(css, /\.utility-icon \{[^}]*display: inline-flex/);
+  assert.match(css, /@media \(max-width: 1279px\) \{[\s\S]*?\.utility-label \{[^}]*clip: rect\(0, 0, 0, 0\)/);
+
+  // Exactly one search control is visible at any width: the field above 1279,
+  // the icon that links to /search/ below it.
+  assert.match(css, /\.utility-search \{ display: none; \}/);
+  assert.match(css, /@media \(max-width: 1279px\) \{[\s\S]*?\.site-search \{ display: none; \}[\s\S]*?\.utility-search \{ display: inline-flex; \}/);
+  assert.match(page, /<form class="site-search" role="search" action="\/search\/" method="get">/);
+  assert.match(page, /<a class="utility-link utility-search" href="\/search\/" aria-label="Search">/);
+
+  // Below 761 the sections live in a `<details>` panel: no duplicated nav
+  // markup, no JavaScript needed to open it, no `:has()`.
+  assert.match(chrome, /<details class="nav-toggle">\s*<summary aria-label="Menu">/);
+  assert.match(css, /@media \(max-width: 760px\) \{[\s\S]*?\.nav-toggle \{ display: block; \}/);
+  assert.match(css, /\.nav-toggle\[open\] ~ \.primary-nav \{ display: flex; \}/);
+  assert.doesNotMatch(css, /:has\(/);
+  assert.equal((page.match(/aria-label="Primary navigation"/g) || []).length, 1, 'the nav is duplicated for mobile');
+
+  // 320px still fits: the wordmark drops its text, not its accessible name.
+  assert.match(css, /@media \(max-width: 359px\) \{[\s\S]*?\.wordmark-text \{[^}]*clip: rect\(0, 0, 0, 0\)/);
+  assert.match(page, /<span class="wordmark-text">OPAR<\/span>/);
+  assert.match(page, /aria-label="OPAR home"/);
 });
 
 test('the menu stays small and every published link has a generated page', () => {

@@ -30,20 +30,11 @@
 
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
-      <div class="header-top">
-        <a class="wordmark" href="/" aria-label="OPAR home"><img class="wordmark-emblem" src="/assets/brand/opar-seed-orbit-on-dark.png" alt="OPAR seed and orbit emblem" width="32" height="32">OPAR<span class="wordmark-note">A World of Conscious Living</span></a>
-        <form class="site-search" role="search" action="/search/" method="get">
-          <label class="sr-only" for="site-search-input">Search pieces, books, music, writing…</label>
-          <input id="site-search-input" type="search" name="q" placeholder="Search pieces, books, music, writing…" autocomplete="off">
-          <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg></button>
-        </form>
-        <div class="header-utility">
-          <a class="utility-link" href="/account/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1.4-3.6 4-5.4 7-5.4s5.6 1.8 7 5.4"/></svg><span class="utility-label">Account</span></a>
-          <a class="utility-link" href="/wishlist/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 20s-7-4.4-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.6-7 9-7 9Z"/></svg><span class="utility-label">Wishlist</span><span class="utility-count" data-wishlist-count hidden></span></a>
-          <a class="utility-link" href="/cart/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="utility-label">Cart</span><span class="utility-count" data-cart-count hidden></span></a>
-        </div>
-      </div>
-      <div class="header-bottom">
+      <div class="header-row">
+        <a class="wordmark" href="/" aria-label="OPAR home"><img class="wordmark-emblem" src="/assets/brand/opar-seed-orbit-on-dark.png" alt="OPAR seed and orbit emblem" width="32" height="32"><span class="wordmark-text">OPAR</span><span class="wordmark-note">A World of Conscious Living</span></a>
+        <details class="nav-toggle">
+          <summary aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+        </details>
         <nav class="primary-nav" aria-label="Primary navigation">
           <details class="nav-group" data-current="true">
           <summary aria-current="page"><span>Shop</span><span class="nav-chevron" aria-hidden="true"></span></summary>
@@ -87,7 +78,17 @@
           </div>
         </details>
         </nav>
+        <div class="header-utility">
+        <form class="site-search" role="search" action="/search/" method="get">
+          <label class="sr-only" for="site-search-input">Search pieces, books, music, writing…</label>
+          <input id="site-search-input" type="search" name="q" placeholder="Search pieces, books, music, writing…" autocomplete="off">
+          <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg></button>
+        </form><a class="utility-link utility-search" href="/search/" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg></a>
+          <a class="utility-link" href="/account/"><span class="utility-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1.4-3.6 4-5.4 7-5.4s5.6 1.8 7 5.4"/></svg></span><span class="utility-label">Account</span></a>
+          <a class="utility-link" href="/wishlist/"><span class="utility-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 20s-7-4.4-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.6-7 9-7 9Z"/></svg></span><span class="utility-label">Wishlist</span><span class="utility-count" data-wishlist-count hidden></span></a>
+          <a class="utility-link" href="/cart/"><span class="utility-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></span><span class="utility-label">Cart</span><span class="utility-count" data-cart-count hidden></span></a>
 
+        </div>
       </div>
     </header>
   <main id="main-content" tabindex="-1">

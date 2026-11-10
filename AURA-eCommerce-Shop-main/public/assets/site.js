@@ -1,10 +1,15 @@
 /**
  * Shared chrome behaviour only: one navigation panel open at a time, Escape to
- * close, and live cart and wishlist counts. No orders, no network calls, no
- * tracking. Counts come from cart.js; the fallback only reads storage.
+ * close, the mobile section menu, and live cart and wishlist counts. No orders,
+ * no network calls, no tracking. Counts come from cart.js; the fallback only
+ * reads storage.
  */
 (function () {
   var groups = Array.prototype.slice.call(document.querySelectorAll('.nav-group'));
+  /* The mobile section menu (T4.5). It is a <details> of its own, so it opens
+     without this file; what it needs is Escape and a click elsewhere to close,
+     with focus going back to the icon that opened it. */
+  var menu = document.querySelector('.nav-toggle');
 
   groups.forEach(function (group) {
     group.addEventListener('toggle', function () {
@@ -15,18 +20,31 @@
     });
   });
 
+  function closeMenu() {
+    if (!menu || !menu.open) return false;
+    menu.open = false;
+    var summary = menu.querySelector('summary');
+    if (summary) summary.focus();
+    return true;
+  }
+
   document.addEventListener('keydown', function (event) {
     if (event.key !== 'Escape') return;
     var open = document.querySelector('.nav-group[open]');
-    if (!open) return;
-    open.open = false;
-    var summary = open.querySelector('summary');
-    if (summary) summary.focus();
+    if (open) {
+      open.open = false;
+      var summary = open.querySelector('summary');
+      if (summary) summary.focus();
+      return;
+    }
+    closeMenu();
   });
 
   document.addEventListener('click', function (event) {
-    if (event.target.closest('.nav-group')) return;
-    groups.forEach(function (group) { group.open = false; });
+    if (!event.target.closest('.nav-group')) {
+      groups.forEach(function (group) { group.open = false; });
+    }
+    if (menu && menu.open && !event.target.closest('.header-row')) closeMenu();
   });
 
   function setCount(selector, count, singular, plural) {

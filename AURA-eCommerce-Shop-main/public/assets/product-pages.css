@@ -173,27 +173,41 @@ h3 { font-size: var(--text-h3); }
 .small-note { font-size: var(--text-caption); font-weight: 400; color: var(--body); letter-spacing: 0; text-transform: none; }
 
 /* The header is transparent on the ground, so a hero photograph can run
-   beneath it and every page opens the same way it continues. The menu itself
-   keeps the ground colour, so a dropdown never shows text through it. */
-.site-header { display: grid; padding: 12px max(24px, calc((100vw - 1580px) / 2)) 0; border-bottom: 1px solid var(--line); background: transparent; }
-.header-top { display: flex; align-items: center; gap: clamp(16px, 3vw, 44px); min-height: 58px; }
-.wordmark { display: inline-flex; gap: 16px; align-items: center; font-family: var(--serif); font-size: 34px; font-weight: 600; line-height: 1.2; letter-spacing: .01em; }
-.wordmark-emblem { width: 32px; height: 32px; object-fit: contain; flex-shrink: 0; }
+   beneath it and every page opens the same way it continues. The menu panels
+   keep the ground colour, so a dropdown never shows text through it.
+   One row at every width (T4.5): 65px at 375 and 73px above 760, measured,
+   against 198px and 120px for the two-row header it replaced. */
+.site-header { padding: 0 max(24px, calc((100vw - 1580px) / 2)); border-bottom: 1px solid var(--line); background: transparent; }
+.header-row { display: flex; align-items: center; gap: clamp(12px, 2.2vw, 40px); min-height: 72px; }
+.wordmark { order: 1; display: inline-flex; gap: 14px; align-items: center; font-family: var(--serif); font-size: 30px; font-weight: 600; line-height: 1.2; letter-spacing: .01em; }
+.wordmark-emblem { width: 30px; height: 30px; object-fit: contain; flex-shrink: 0; }
 .wordmark-note { font-family: var(--sans); color: var(--body); font-size: 9px; letter-spacing: .17em; text-transform: uppercase; border-left: 1px solid var(--line); padding-left: 16px; font-weight: 500; }
-.site-search { flex: 1 1 auto; display: flex; align-items: center; min-width: 0; border-bottom: 1px solid var(--line); }
+/* Above 1280 the field fits beside the menu; below it, the icon in
+   `.utility-search` links to /search/, which carries the same form. */
+.site-search { display: flex; align-items: center; width: clamp(180px, 18vw, 240px); border-bottom: 1px solid var(--line); }
 .site-search:focus-within { border-color: var(--ink); }
-.site-search input { flex: 1 1 auto; min-width: 0; min-height: 44px; padding: 0 6px; border: 0; background: transparent; color: var(--ink); font-size: 14px; }
+.site-search input { flex: 1 1 auto; min-width: 0; min-height: 44px; padding: 0 6px; border: 0; background: transparent; color: var(--ink); font-size: 13px; }
 .site-search input::placeholder { color: var(--body); opacity: .65; }
-.site-search button { display: grid; place-items: center; width: 44px; height: 44px; border: 0; background: transparent; }
+.site-search button { display: grid; place-items: center; width: 40px; height: 44px; border: 0; background: transparent; }
 .site-search button svg { width: 18px; height: 18px; }
-.header-utility { display: flex; align-items: center; gap: 2px; }
-.utility-link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 10px; font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; }
+.header-utility { order: 3; display: flex; align-items: center; gap: 2px; margin-left: auto; }
+.primary-nav { order: 2; display: flex; align-items: center; justify-content: center; flex: 1 1 auto; gap: clamp(14px, 2.2vw, 34px); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; }
+.utility-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 9px; font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; }
+.utility-icon { display: inline-flex; }
 .utility-link svg { width: 19px; height: 19px; }
 .utility-link:hover { text-decoration: underline; text-underline-offset: 5px; }
+/* The icon form of the same destination. Hidden while the field is shown (above
+   1279), so the header never offers search twice. */
+.utility-search { display: none; }
 .utility-count { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--radius-pill); background: var(--ink); color: var(--canvas); font-size: 9px; letter-spacing: 0; font-weight: 600; }
 .utility-count[hidden] { display: none; }
-.header-bottom { display: flex; align-items: center; justify-content: center; gap: 24px; border-top: 1px solid var(--line); }
-.primary-nav { display: flex; align-items: center; justify-content: center; width: 100%; gap: clamp(16px, 2.4vw, 34px); padding: 2px 0; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; }
+/* The section menu's own disclosure, below 761 only. It is a plain <details>
+   so it opens with JavaScript off; site.js adds Escape and outside-click. */
+.nav-toggle { order: 4; display: none; }
+.nav-toggle > summary { display: grid; place-items: center; width: 44px; height: 44px; cursor: pointer; list-style: none; }
+.nav-toggle > summary::-webkit-details-marker { display: none; }
+.nav-toggle > summary::marker { content: ''; }
+.nav-toggle > summary svg { width: 22px; height: 22px; }
 .primary-nav > a, .nav-group > summary { display: inline-flex; align-items: center; gap: 7px; min-height: var(--target-min); border-bottom: 1px solid transparent; transition: var(--transition-color); }
 .primary-nav > a:hover, .nav-group > summary:hover { border-color: var(--cta); }
 .primary-nav > a[aria-current], .nav-group > summary[aria-current] { border-color: var(--ink); }
@@ -497,10 +511,19 @@ body.theme-paper .button.is-confirmed { border-color: var(--opar-accent); }
 .newsletter-remove { margin-top: 8px; padding: 0; border: 0; background: none; }
 
 @media (min-width: 1600px) { .site-header { padding-left: max(48px, calc((100vw - 1484px) / 2)); padding-right: max(48px, calc((100vw - 1484px) / 2)); } }
-@media (max-width: 1100px) {
+/* Below this the header cannot hold the brand note, three utility labels and a
+   search field beside four sections: measured, at 1279 the row needs ~1262px of
+   a 1183px line. So the labels go to the screen reader only, the field becomes
+   the icon that links to /search/, and the wordmark drops its note - one row,
+   nothing hidden from a keyboard or a screen reader. */
+@media (max-width: 1279px) {
   .wordmark-note { display: none; }
+  .site-search { display: none; }
+  .utility-search { display: inline-flex; }
+  .utility-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+}
+@media (max-width: 1100px) {
   .header-status { display: none; }
-  .site-search input { font-size: 13px; }
   .footer-columns { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px 24px; }
   .page-shell { padding-left: 32px; padding-right: 32px; }
   .product-layout { gap: 36px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
@@ -514,13 +537,21 @@ body.theme-paper .button.is-confirmed { border-color: var(--opar-accent); }
   .nav-panel-grouped { min-width: 420px; }
 }
 @media (max-width: 760px) {
-  .site-header { padding: 12px 24px 0; }
-  .header-top { flex-wrap: wrap; gap: 4px 10px; min-height: 0; }
-  .header-top .wordmark { font-size: 29px; }
-  .site-search { order: 3; flex-basis: 100%; }
-  .header-bottom { margin-top: 4px; }
-  .primary-nav { flex-wrap: wrap; gap: 4px 20px; font-size: 10px; letter-spacing: .09em; }
-  .nav-panel { position: static; width: 100%; min-width: 0; transform: none; margin: 2px 0 8px; padding: 6px 0 6px 12px; border: 0; border-left: 1px solid var(--line); box-shadow: none; }
+  .site-header { position: relative; padding: 0 20px; }
+  .header-row { min-height: 64px; gap: 4px; }
+  .wordmark { font-size: 24px; gap: 10px; }
+  .wordmark-emblem { width: 26px; height: 26px; }
+  .utility-link { padding: 0 7px; }
+  .utility-link svg { width: 18px; height: 18px; }
+  .utility-count { min-width: 16px; height: 16px; padding: 0 4px; font-size: 9px; }
+  .nav-toggle { display: block; }
+  /* The sections, revealed by the icon above. Absolute, so opening it never
+     moves the page and never adds to the 64px row. */
+  .primary-nav { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 30; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0; padding: 4px 20px 12px; background: var(--canvas); border-bottom: 1px solid var(--line); box-shadow: var(--shadow-panel); }
+  .nav-toggle[open] ~ .primary-nav { display: flex; }
+  .primary-nav > a, .nav-group > summary { min-height: 48px; justify-content: space-between; border-top: 1px solid var(--line); font-size: 11px; }
+  .nav-group { position: static; }
+  .nav-panel { position: static; width: 100%; min-width: 0; transform: none; margin: 0 0 8px; padding: 4px 0 4px 12px; border: 0; border-left: 1px solid var(--line); box-shadow: none; }
   .page-shell { padding: 0 24px 64px; }
   .breadcrumbs { padding: 22px 0; font-size: 10px; }
   .preview-notice { flex-direction: column; gap: 7px; padding: 14px 0; margin-bottom: 28px; }
@@ -571,6 +602,15 @@ body.theme-paper .button.is-confirmed { border-color: var(--opar-accent); }
   .empty-collection { align-items: start; flex-direction: column; }
   .commerce-total strong { font-size: 24px; }
   .category-strip { grid-template-columns: minmax(0, 1fr); }
+}
+/* 320px is the narrowest phone still in use (the first SE). The row needs the
+   wordmark's text width back, so the emblem carries the identity alone - the
+   link keeps its accessible name, so nothing is lost to a screen reader. */
+@media (max-width: 359px) {
+  .header-row { gap: 2px; }
+  .wordmark { gap: 0; }
+  .wordmark-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+  .utility-link { padding: 0 5px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -764,17 +804,16 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
 .button-compact { min-height: 44px; padding: 10px 18px; font-size: 10px; letter-spacing: .1em; gap: 8px; }
 
 /* Wide screens: the header goes over the photograph, as it does in the React
-   shell, and the top scrim covers it. Below 760px the two-row header is too
-   deep to overlay safely, so it stays in flow and the hero opens under it.
-   T4.5 shrinks the header; this condition can widen then, not before. */
+   shell, and the top scrim covers it. T4.5 shrank the header to one row (88px
+   at 1440), so this overlay now starts at 761 with room to spare and the scrim
+   was re-measured against the new height rather than the old 120px. */
 @media (min-width: 761px) {
   body.theme-home .site-header { position: absolute; inset: 0 0 auto; z-index: 20; }
-  /* Measured: the header is 120px deep here, so the default 176px scrim leaves
-     its last row on 0.42 alpha - 3.72:1 for Main Text, under AA. 260px holds
-     0.72 alpha at y=120 and measures 6.71:1 for the nav and 4.93:1 for mist.
-     Re-measure when T4.5 changes the header height. */
-  .home-hero .hero-scrim-top { height: 260px; }
-  .home-hero { padding-top: 200px; }
+  /* Measured after consolidation: the header is 88px deep here and the scrim
+     holds 0.72 alpha at its bottom edge, which keeps Main Text at 6.71:1 and
+     mist at 4.93:1. Raise the header again and this number has to follow. */
+  .home-hero .hero-scrim-top { height: 200px; }
+  .home-hero { padding-top: 152px; }
   .home-section { padding: 112px 0; }
   .home-section__head { flex-direction: row; align-items: flex-end; justify-content: space-between; gap: 32px; }
   .home-hero__lede { font-size: 16px; }

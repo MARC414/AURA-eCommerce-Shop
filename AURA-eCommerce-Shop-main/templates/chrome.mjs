@@ -36,7 +36,8 @@ export const icons = {
   search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>',
   heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 20s-7-4.4-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.6-7 9-7 9Z"/></svg>',
   bag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>',
-  user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1.4-3.6 4-5.4 7-5.4s5.6 1.8 7 5.4"/></svg>'
+  user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1.4-3.6 4-5.4 7-5.4s5.6 1.8 7 5.4"/></svg>',
+  menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>'
 };
 
 const chevron = '<span class="nav-chevron" aria-hidden="true"></span>';
@@ -53,17 +54,35 @@ function navGroups(children) {
   return [...groups.entries()];
 }
 
-/** Two-row header: identity + search + utility, then the section menu. */
+/**
+ * One row at every width: identity, sections, utilities (T4.5).
+ *
+ * The two-row header it replaced measured 198px at 375 (a quarter of the
+ * viewport) and 120px above 760, because identity + search + utilities and the
+ * section menu each got their own line. Four sections, a wordmark and four
+ * utilities do not fit on one 375px line, so below 761 the sections move into a
+ * `<details>` panel opened from an icon: no JavaScript, no duplicated nav
+ * markup, and the same Escape/closes-on-outside-click behaviour the shop panels
+ * already have. Above 1100 the search is a field; below that it is an icon that
+ * links to `/search/`, which carries the field.
+ */
 function header(active = null, emblem = brand.logo.assetPathOnDark) {
   const utility = site.utility || {};
-  const search = isPublished(utility.search) ? `
+  const searchPublished = isPublished(utility.search);
+  const search = searchPublished ? `
         <form class="site-search" role="search" action="${escapeHtml(utility.search.action)}" method="get">
           <label class="sr-only" for="site-search-input">${escapeHtml(utility.search.placeholder)}</label>
           <input id="site-search-input" type="search" name="q" placeholder="${escapeHtml(utility.search.placeholder)}" autocomplete="off">
           <button type="submit" aria-label="${escapeHtml(utility.search.label)}">${icons.search}</button>
         </form>` : '';
   const utilityLink = (item, icon, extra = '') => isPublished(item)
-    ? `<a class="utility-link" href="${escapeHtml(item.href)}">${icon}<span class="utility-label">${escapeHtml(item.label)}</span>${extra}</a>`
+    ? `<a class="utility-link" href="${escapeHtml(item.href)}"><span class="utility-icon">${icon}</span><span class="utility-label">${escapeHtml(item.label)}</span>${extra}</a>`
+    : '';
+  /* The icon form of the same destination: the field is only wide enough to be
+     useful above 1100, and a submit button with no visible field is not a
+     control. `/search/` has the field. */
+  const searchLink = searchPublished
+    ? `<a class="utility-link utility-search" href="${escapeHtml(utility.search.action)}" aria-label="${escapeHtml(utility.search.label)}">${icons.search}</a>`
     : '';
   const status = site.status?.preview
     ? `<span class="header-status"><span aria-hidden="true"></span>${escapeHtml(site.status.label)}</span>`
@@ -94,19 +113,20 @@ function header(active = null, emblem = brand.logo.assetPathOnDark) {
   return `
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
-      <div class="header-top">
-        <a class="wordmark" href="${escapeHtml(site.brand.homeHref)}" aria-label="${escapeHtml(site.brand.name)} home"><img class="wordmark-emblem" src="${escapeHtml(emblem)}" alt="${escapeHtml(brand.logo.altText)}" width="32" height="32">${escapeHtml(site.brand.wordmark)}<span class="wordmark-note">${escapeHtml(site.brand.note)}</span></a>${search}
-        <div class="header-utility">
-          ${utilityLink(utility.account, icons.user)}
-          ${utilityLink(utility.wishlist, icons.heart, '<span class="utility-count" data-wishlist-count hidden></span>')}
-          ${utilityLink(utility.cart, icons.bag, '<span class="utility-count" data-cart-count hidden></span>')}
-        </div>
-      </div>
-      <div class="header-bottom">
+      <div class="header-row">
+        <a class="wordmark" href="${escapeHtml(site.brand.homeHref)}" aria-label="${escapeHtml(site.brand.name)} home"><img class="wordmark-emblem" src="${escapeHtml(emblem)}" alt="${escapeHtml(brand.logo.altText)}" width="32" height="32"><span class="wordmark-text">${escapeHtml(site.brand.wordmark)}</span><span class="wordmark-note">${escapeHtml(site.brand.note)}</span></a>
+        <details class="nav-toggle">
+          <summary aria-label="Menu">${icons.menu}</summary>
+        </details>
         <nav class="primary-nav" aria-label="Primary navigation">
           ${site.nav.filter(isPublished).map(navItem).join('\n          ')}
         </nav>
-        ${status}
+        <div class="header-utility">${search}${searchLink}
+          ${utilityLink(utility.account, icons.user)}
+          ${utilityLink(utility.wishlist, icons.heart, '<span class="utility-count" data-wishlist-count hidden></span>')}
+          ${utilityLink(utility.cart, icons.bag, '<span class="utility-count" data-cart-count hidden></span>')}
+          ${status}
+        </div>
       </div>
     </header>`;
 }
