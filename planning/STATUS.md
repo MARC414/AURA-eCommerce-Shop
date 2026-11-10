@@ -9,6 +9,8 @@
 
 **T4.5 is done too** (`8710208`), unpushed: the header is one row at every width — 65px at ≤760 and 73px above, against 198px and 120px before. Below 761 the four sections live in a `<details>` panel behind a menu icon (no duplicated nav markup, no `:has()`, no JavaScript needed to open it); search is a field above 1279 and an icon linking to `/search/` below, so exactly one search control is ever visible; utilities are icons with a screen-reader-only label; at 320 the wordmark drops its text and keeps its accessible name. The hero scrim was re-measured against the new height — worst composited pixel in the header band is 6.36:1 for mist and 8.65:1 for ink at 761/1024/1440. Gates: 53/53 tests, `tsc` clean, 41 pages, `check:site` passes, 15 page/width combinations with 0 overflow and one `h1`, all 20 unique nav hrefs 200, Escape/focus-return and outside-click verified, no layout shift when the panel opens. Next: **T5**, commerce verification. Open owner-side facts still block any real sale: no price, no shipping cost, no stock, no hosting.
 
+**T5 is done as verification only** (`planning/T5-COMMERCE-VERIFICATION.md`), nothing changed: 48 checks across cart (priced, unpriced and empty), checkout (unpriced and mixed), account, wishlist, search and both supplier models — 0 defects, 0 console errors. The priced path only exists by seeding the cart, because no product carries a price. Next: **T6**, the admin and concierge disposition.
+
 ## Current intake (D-020 takes precedence over older notes)
 
 - Added `/shop/ashwagandha-with-black-pepper/`, CJ `1898627038642925570`, SKU `CJHP232030301AZ`, under **Herbal Botanicals**. Shop is the intake assumption for this sourcing link; no affiliate token was supplied.
@@ -34,6 +36,14 @@
 - Books must have documented publication rights. Prior candidates need further edition/territory checks; access and pricing are undecided.
 
 ## Completed work since last status
+
+### T5 — commerce verification, 48 checks, 0 defects (2026-11-10, D-033 §4)
+- **What was driven:** the built `dist/` on the preview server, in Chromium, with real clicks and real `localStorage`. Full table in `planning/T5-COMMERCE-VERIFICATION.md`.
+- **Flows:** cart (unpriced, priced, quantity, remove, empty), checkout (unpriced and a mixed priced/unpriced cart), account (find the reference, remove it), wishlist (save, list, remove), search (a room, a product, a policy), both supplier models, and variant selection on the aloe page.
+- **What it proved about the two price states:** an unpriced piece shows "Price on request", its line total is `—` and the subtotal is **"On invoice"**, never `£0.00`; a priced piece formats normally (£12.50 × 2 = £25.00); a mixed cart withholds the subtotal and stores `subtotal: null, priceOnRequest: true` with the request.
+- **Caveat, stated in the record:** no product carries a price, so the priced path can only be reached by seeding `aura_cart_v1`. The check proves the code path, not that a price exists.
+- **Also verified:** no card/CVC field and no request to a payment host anywhere in checkout; the affiliate page has no cart control, links out with `rel="sponsored noopener noreferrer"` and carries a referral disclosure; the chosen variant is stored with the item and named in the cart.
+- **Not a defect, worth an owner decision:** affiliate offers live under `/discover/`, so no affiliate piece appears in a `/shop/` room. Supplier-neutral hubs were the owner's rule, so this is a question, not a bug.
 
 ### T4.5 — the header is one row, and the hero moves up with it (2026-11-10, D-033 §4)
 - **The problem, measured.** The header was 198px at 375 (25% of an 800px viewport) and 120px above 760, on every page, above the hero. Two rows: identity + search field + four utilities, then four sections.

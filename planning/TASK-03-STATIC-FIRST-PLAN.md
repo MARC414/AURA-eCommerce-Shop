@@ -386,6 +386,10 @@ Escape closes and returns focus; no CLS introduced.
 
 ### T5 - Commerce verification (2 h, risk: low)
 
+> **Done as verification only** (2026-11-10): 48 checks, 0 defects, nothing changed. The table is in
+> `planning/T5-COMMERCE-VERIFICATION.md`. Its one caveat: no product carries a price, so the priced
+> path was exercised by seeding `aura_cart_v1` rather than by browsing.
+
 1. Scripted pass on the built site: add a priced item and an unpriced item, change quantity, remove,
    reach `/checkout/`, submit, read the reference, find it on `/account/`, remove it.
 2. Wishlist: save on a product page, see it on `/wishlist/`, remove.
