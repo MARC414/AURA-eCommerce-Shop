@@ -480,6 +480,10 @@ Gate: 53/53 tests (a new one asserts the one-row contract), `tsc` clean, 41 page
 - **Headline second line** changed from `opacity: .78` to `color: rgba(244, 242, 238, .78)` so the gold word is not dimmed with the line; the rendered look of "living." is unchanged.
 - **Cost:** CSS +420 B gzipped (14,334 -> 14,754). No JS, no images, no layout metric change, no CLS.
 
+**Amendment (2026-11-13, monograph and homepage built).** The monograph spends gold once per plate: a 24px heritage rule before the eyebrow. That is four rules on the homepage (three plates and the archipelago), on top of the hero's word and hairline. Counted one by one that exceeds the cap of four, so the count is settled by role instead: gold *type* stays at exactly one word on the page (the hero's "conscious"), and below the fold the gold device is the heritage rule and nothing else. It repeats because it is the plate's label device, not a new accent each time. Two consequences recorded at the same time: the 2px gold left border on `.editorial-spread__heritage` became `var(--line)`, so a plate never spends gold twice; and gold micro-text never sits on a photograph (D-036), so the eyebrow is Main Text and only the rule is gold.
+
+**Status of the amendment:** agent resolution, owner informed, owner's eye on the rendered page still the check.
+
 ---
 
 ## D-035 - Product integrity rule (corrects the "no fabricated product appearance" wording)
@@ -493,3 +497,142 @@ Gate: 53/53 tests (a new one asserts the one-row contract), `tsc` clean, 41 page
 **Scope:** applies to cards, hero/branding imagery, detail pages and future photography. Marketing context may be styled; the product shown to the customer must be the one shipped (D-020).
 
 **Status:** APPROVED (owner, 2026-11-11).
+
+---
+
+## D-036 - Botanical monograph is full-bleed ground, not a framed card
+**2026-11-13 - OWNER APPROVED (direction); implemented on `/brand-preview/`.**
+
+**Decision:** the three botanical plates and the closing archipelago are full-bleed photographic grounds. The bordered, rounded, shadowed card that AI Studio's `f95f25d` introduced is removed.
+
+**Rules:**
+- A plate spans the viewport exactly, edge to edge: no inset, 0 radius, no border, no shadow, no fill. Same construction as `.home-hero`.
+- The habitat photograph is the section ground (`object-fit: cover`), never a framed picture inside the section.
+- Contrast is carried by **one directional scrim** — solid over the text column, falling to zero over the specimen — not a flat wash.
+- Words stay on the page grid (shell inset, else the gutter); only the ground goes to the edge.
+- No hover transform on specimens. They are still objects, not buttons.
+- **Gold micro-text never sits on a photograph.** On a photographic ground the eyebrow is Main Text; gold remains the hairline accent and the heritage rule. This follows the rule already written into `product-pages.css` for the hero.
+- Stacking order declared once per plate: photo 0, foliage 1, scrim 2, words/specimen 3.
+
+**Measured** (877px viewport, sampled against the real photograph pixels, not a flat fill):
+- Plates 0 -> 877 = viewport width; text at 35.7 = `.guide` content edge; horizontal overflow 0.
+- Worst contrast per plate: **6.64 / 7.29 / 6.69 / 7.03 : 1** against the 4.5 target. The previous flat wash measured 6.12 / 6.47 / 6.13, i.e. it was over-dark and was spending two thirds of the usable contrast.
+
+**Notes:**
+- The preview page publishes `--sbw` (real scrollbar width) so a `100vw` bleed lands exactly on the viewport edge while nested inside the capped `.guide`. Production does not need this: there the section is a direct child of the page, so `width: 100%` is already the viewport.
+- Habitat photographs are 1376x768, so full-bleed upscales them about 1.4x on a wide desktop. That is an asset gap for the real-photography pass, not a layout fault.
+
+**Out of scope, still open:** the image-treatment variant block and `.ecosystem-pillar:hover` still use off-palette values (`#242820`, `#292D26`, `#44473F`, `#EAE6DF`, `#CDCCC7`). Separate decision.
+
+**Status:** implemented on the preview page. Port into `templates/home-page.mjs` pending owner sign-off on the rendered result.
+
+---
+
+## D-037 - The front shelf is a mount, not a product tile
+**2026-11-13 - implemented on the homepage; owner sign-off on the rendered result pending.**
+
+**Decision:** the featured row is three pieces on archival mounts, not four product cards in a four-column grid.
+
+**Rules:**
+- Three across from 761px up. A fourth column left a hole in the row, and the old two-column middle step orphaned the third card on its own line.
+- The mount is the light role (`--paper-canvas`), because supplier photographs are shot on light backgrounds and belong on paper, not on the ground. Square corners, no border, no shadow, no radius.
+- A piece with no photograph gets an **empty mount**: specimen index, four corner ticks, a hairline, "Photograph in preparation". Never a grey placeholder graphic. A real photograph drops into the same box with `object-fit: cover` and changes nothing else.
+- No hover motion on the photograph (owner, 2026-11-13).
+- One link per card in the tab order (the name) plus a text link; no per-card pill. The section keeps one pill.
+- The eyebrow is mist, not the Button colour: on this section's scrimmed photograph the Button colour measured **4.22:1** and **4.36:1** on cards 2 and 3. Mist measures 7.24 / 7.47 / 7.86.
+
+**Photography:** `SHOW_SUPPLIED_IMAGERY = false` in `templates/home-page.mjs`. The only supplied image is a hand holding a plastic-wrapped bar on a light background: a supplier snapshot, not a photograph of the piece, and it breaks the food-only image rule. Flip the flag to show it in the same mounts.
+
+**Measured** (877px viewport): 3 cards, 3 columns, equal heights, mount 247x309 = 4:5, horizontal overflow 0.
+
+**Status:** implemented. Monograph and journal port pending.
+
+---
+
+## D-038 - Morning light: one sun for the page, and where it may fall
+**2026-11-13 - OWNER DEMAND, IMPLEMENTED.** Owner: "use sunlight or ray of sun slightly like morning hue in the corner of some sections other than the monograph, that can support antique gold. make it true somehow, it is my demand."
+
+**Decision:** the homepage carries one warm light, not a gradient decoration. It enters high on the right, just outside the frame, and falls to the left.
+
+**Rules:**
+- **Where:** only on sections whose ground is already a photograph - the featured band and the rooms band. Never the hero (locked), never the monograph (owner excluded it), never a flat paper page.
+- **One direction:** the source is the top-right corner and the fall is down-left, on every section that takes it. The page reads as one room with one window.
+- **One hue:** warm amber `rgba(255, 228, 178, ...)`, the light that makes `#C5AD70` read as aged brass rather than as a painted accent.
+- **Smooth, no edge:** two radial falloffs (a source core beyond the corner, a long ellipse leaning 13deg down-left). A shaft with a hard edge on a photograph looks like a graphic; light in air has no edge.
+- **Above the ground, below the words:** the layer is z-index 1, the shell is z-index 2. No glyph is tinted. The ground behind the type is lit, so the light is capped by measurement, not by taste.
+
+**Measured (785px, canvas sampling of the real decoded background under the real scrim):**
+- Featured note: 7.53:1 unlit -> **6.52:1** lit.
+- Rooms note: 6.78:1 unlit -> **5.26:1** lit.
+- Worst alpha over any text rect across 375/414/785/1440/1920 widths: **0.155** (bounded by geometry, so narrow viewports cannot drift brighter).
+
+**Two defects found while measuring, both fixed:**
+1. The rooms scrim at .78 put a room paragraph at **4.34:1** at 785px. The cover crop changes with the section's aspect ratio, so the flat scrim has to hold the worst crop, not the crop it was first measured on. Raised to **.84**; the worst paragraph is now 5.21:1.
+2. `.room-index__number` in the Button colour measured **4.11:1** on the same ground. Changed to mist, the same correction D-037 made to the featured eyebrow.
+
+**Not gold:** the light adds no gold. Gold stays at the hero word, the hero hairline, and the 24px heritage rule before a label below the fold; the light is what those now sit in.
+
+**Reversible:** yes. Delete the `.sunlight` block and the two `<div class="sunlight">` lines; the sections keep their previous grounds.
+
+**Status:** implemented and measured. Owner's eye on the rendered result is the remaining check.
+
+**2026-11-13 - REVERSED BY OWNER, REMOVED.** Owner: "remove the morning light form the corner, it does not look good." The two `<div class="sunlight">` lines and the whole `.sunlight` CSS block (source, shaft, and the stacking rules that existed only for them) are deleted. The featured and rooms bands keep their photographic grounds and scrims; the section notes return to their unlit values — **7.53:1** (featured) and **6.78:1** (rooms) at 785px. The rooms scrim remains `.84`, which was a separate contrast correction, not part of the light. Build 41 pages, `check:site` clean, no `sunlight` reference remains. **Do not reintroduce without a new owner instruction**; the entry stays as history, not current design authority.
+
+---
+
+## D-039 - The Journal is a listing frame, and the homepage closes on its index
+**2026-11-13 - OWNER INSTRUCTION, HOMEPAGE PART IMPLEMENTED.** Owner: "journal is like Blog listing page where all writing will be listed, and the Plants, Mind and Devine are some main categories, under them the writing will distribute. Keep them structured, I am now start selling yet, I will tell you when marketing will start, your job is to make frame, furnish technical soundness."
+
+**Decision:** the Journal is a listing, not a second shop. `/journal/` is the listing; **Plants & practice**, **Mind & body** and **Worldly & divine** are the three categories every piece is filed under. The homepage closes on that frame rather than inventing articles to fill it.
+
+**Rules:**
+- **One source for the frame.** The columns are the journal's own nav children in `data/site.json`; each line is the category page's `description` in `data/pages.json`. The homepage cannot describe a category differently from the page it links to.
+- **No invented writing.** The index is three links, three descriptions and one way into `/journal/`. No article cards, dates, counts or teasers until articles exist. When writing is published it files under the categories and the listing fills; the homepage plate does not need to change.
+- **The second movement of the archipelago.** One photograph, one scrim, one plate: the monograph's closing statement above a hairline, the Journal index below it. No new ground, no card, no radius, no border on the columns (a hairline between them), no hover motion.
+- **No gold added.** The plate has already spent its one gold rule on "The sustenance cluster". The Journal label is mist, not the Button colour: the green measured **3.78:1** on that ground, the same failure D-037 corrected on the featured eyebrow.
+- **The scrim follows the words, not the section.** `.archipelago-block--journal` ties the scrim to `.archipelago-visual`, with a 160px mask at the top. A taller plate therefore shows more photograph instead of thinning the scrim under the text. The base `.archipelago-block` stays as it was, so `/brand-preview/` keeps its original closing.
+- **Full bleed by viewport, not percentage.** The scrim is one viewport wide, centred on the text and clipped by the plate: a percentage inset resolved against the text column, not the section, and left 163px of photograph un-scrimmed at 1920.
+
+**Measured (canvas sampling of the real decoded photograph under the real scrim):** worst text contrast **6.78:1** across 360/414/768/1024/1440/1920 widths; no horizontal overflow at any of them; scrim flush to both plate edges.
+
+**Reversible:** yes. Remove the `.journal-plate` markup and `journalIndex()`, and the `.archipelago-block--journal` rules; the old closing returns.
+
+**Status:** homepage plate built and measured. `/journal/` and the three category pages still render as prose empty states; converting them to the listing template (article data + list + empty state) is the next step. Owner's eye on the rendered plate is the remaining check.
+
+---
+
+## D-040 - The homepage sells: cards state the piece, rooms open with circles, the letter sits between them
+**2026-11-13 - OWNER APPROVED THE SEVEN REVIEW ANSWERS, IMPLEMENTED.** The review in `planning/DESIGN-REVIEW-2026-11-13.md` closed with seven questions. The owner answered all seven; this entry records what was built in the reviewed order. The hero is untouched.
+
+**The seven answers:**
+1. **Neem:** move it from the monograph's top-right to the foot of Rooms, bottom-right.
+2. **Sunrise:** a header band behind the Materia Medica only, not the three plate grounds.
+3. **Newsletter:** between Rooms and Monograph.
+4. **Card line:** approve a factual `cardLine` plus `format`, with price still pending.
+5. **Room circles:** data-driven circular images above each room, one hairline ring, no fill.
+6. **Grid:** features 1 column, then 2 at 761, then 3 at 1101.
+7. **Scrim:** apply the Section 4 lift.
+
+**What changed, in order:**
+- **Rooms and neem.** The leaf now sits at the bottom-right of the Rooms band, cropped by the section edge. Candidate A: `clamp(160px, 16vw, 220px)` wide, `right: -24px`, `bottom: -28px`, `rotate(-12deg)`, opacity `.6`. Hidden at and below 860; from 861 the section reserves `padding-bottom: clamp(120px, 14vw, 180px)`. The shell sits above the leaf (`z-index: 2`), so no room text is painted under it. Measured as bright pixels through the rotation: **0 hits on room text** at 861/1024/1440/1920, with 147-212px of foliage visible.
+- **Cards.** Each card now reads category, name, one factual line, format, price (or "Price on request"), then "View piece". The shop-state badge (`Preview - ordering not open` / `referral pending`) is gone from the card; that status belongs to the piece page. `cardLine` and `format` were added to all four products in `data/pilot-products.json`, traceable to the listings already reviewed: 100 g bar; pads with quantity on CJ; aloe 100 g in packs of 1, 3 or 5; Ashwagandha 60 capsules. No stars, no reviews, no stock claims.
+- **The letter.** A quiet band between Rooms and Monograph, using the same `/assets/newsletter-page.js` contract as `/newsletter/`. The homepage form carries `data-newsletter-quiet`, so the status line is empty at rest and speaks only after save or remove. Saving writes the address to this browser and says, in the same sentence, that nothing was sent; removing clears it. No provider is connected.
+- **The sunrise slot.** `MONOGRAPH_GROUND = null` in `templates/home-page.mjs`. No fabricated photograph, no CSS `url()` for a missing file. When the owner supplies a licensed long shot of sunrise crimson, setting `{ src, width, height }` turns the header into that photograph behind a scrim; the scrim direction and the heading contrast must then be measured against the real crop before it ships.
+- **The scrim.** Desktop `0% .97 / 32% .96 / 52% .90 / 68% .46 / 87% .11 / 100% 0`; single column `0% .97 / 44% .95 / 70% .64 / 100% .19`. This is a quieting choice, not a legibility repair: the previous ramp already cleared AA.
+- **Responsive alignment.** Features 1 to 2 at 761 and 3 at 1101; the journal listing stacks at 860 with the spreads and opens into three columns at 861; journal lines 12.5 to 13.5px. The room circle is `clamp(88px, 10vw, 120px)`, `border-radius: 50%`, a 1px `--line` ring, 16px above the heading, and renders only when `collections.json` carries `image`; without one the row stays text-only rather than showing an empty disc.
+
+**Measured:**
+- Spread text worst case: **6.73:1** (390), 7.33:1 (768), 6.97:1 (1024), **6.77:1** (1440), 6.87-7.47:1 (1920), against 4.5.
+- Card text worst case **6.61:1**; room paragraphs worst **5.20:1** (800), all above 4.5.
+- No horizontal overflow at 320/360/390/414/761/768/800/860/861/1024/1101/1440/1920; one `h1`; no duplicate IDs; no visible text clipping in the new bands.
+- Newsletter exercised in the browser: empty at rest (0px status), save stores `reader@example.com` locally and announces that nothing was sent, remove clears both.
+
+**One defect found and fixed:** the neem file is 1024x1024, and adding `width`/`height` attributes made the HTML dimensions presentational hints that stretched the leaf to 1024px tall. `.corner-foliage` now sets `height: auto`; the width clamp is the only size in play.
+
+**No new gold.** The gold remains at the hero word, the hero hairline, and the 24px rule before a below-fold label, within D-034's cap. The letter and the circles add no gold.
+
+**Not done, deliberately:** the Journal listing template. `/journal/` and the three category pages still render prose empty states; building the listing (article data model, list, empty state) needs separate approval.
+
+**Reversible:** yes. The template functions are isolated (`featureCard()`, `rooms()`, `newsletter()`, `monograph()`), and the CSS blocks are section-scoped.
+
+**Status:** implemented, built (41 pages), 55/55 tests, `check:site` clean; uncommitted. Two asset gates remain with the owner: the six room/category photographs and the sunrise-crimson long shot. Prices, shipping, stock and real product photography also remain owner-side; the newsletter has no provider.

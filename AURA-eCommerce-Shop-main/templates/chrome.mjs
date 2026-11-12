@@ -15,6 +15,10 @@ import { readFileSync } from 'node:fs';
 export const site = JSON.parse(readFileSync(new URL('../data/site.json', import.meta.url), 'utf8'));
 export const collections = JSON.parse(readFileSync(new URL('../data/collections.json', import.meta.url), 'utf8'));
 export const brand = JSON.parse(readFileSync(new URL('../data/brand.json', import.meta.url), 'utf8'));
+/* The content pages, read here so a template can quote a page's own words
+   instead of repeating them. The journal index on the homepage uses the
+   column's meta description, so the two can never drift apart. */
+export const pages = JSON.parse(readFileSync(new URL('../data/pages.json', import.meta.url), 'utf8'));
 export const BRAND = brand.name;
 
 /**

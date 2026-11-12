@@ -754,27 +754,58 @@ test('the homepage room index lists every room once, from the shop data', async 
 
 const homePage = renderHomePage(products);
 
-test('the homepage is one static document with three sections', () => {
+test('the homepage is one static document, and its sections read in order', () => {
   assert.equal((homePage.match(/<h1/g) || []).length, 1, 'the homepage has exactly one h1');
   assert.match(homePage, /<h1 id="home-heading" class="home-hero__title">A world of<br><em><span class="gold">conscious<\/span> living\.<\/em><\/h1>/);
 
-  // Hero, then featured pieces, then the room index - in that order.
-  const order = ['class="home-hero"', 'id="featured"', 'id="rooms"'].map(marker => homePage.indexOf(marker));
+  // Hero, shelf, rooms, letter, monograph - in that order (D-040).
+  const order = ['class="home-hero"', 'id="featured"', 'id="rooms"', 'id="letter"', 'id="botanicals"'].map(marker => homePage.indexOf(marker));
   assert.ok(order.every(index => index > 0), 'a section is missing');
   assert.deepEqual([...order].sort((a, b) => a - b), order, 'the sections are out of order');
 
-  // Every piece once. The room index has its own test above.
-  assert.equal((homePage.match(/class="feature-card"/g) || []).length, products.length);
+  // The letter is the same form contract as /newsletter/, loaded once, and it
+  // stays quiet at rest so the band does not open on a status message.
+  assert.equal((homePage.match(/<script src="\/assets\/newsletter-page\.js" defer><\/script>/g) || []).length, 1, 'the newsletter script should load once');
+  assert.match(homePage, /<form class="newsletter-form" data-newsletter-form data-newsletter-quiet>/);
+  assert.match(homePage, /<section id="letter" class="home-section home-letter" aria-labelledby="letter-heading">/);
 
-  // The standfirst counts the data instead of claiming a fixed number. The
-  // copy it replaced said "two OPAR house pieces and two partner offers" when
-  // the catalogue actually held three house pieces and one partner offer.
-  const house = products.filter(product => product.model === 'dropshipping').length;
-  const partner = products.filter(product => product.model === 'affiliate').length;
-  const count = (value, one, many) => `${value} ${value === 1 ? one : many}`;
+  // Three pieces on the front shelf, not the whole catalogue: a fourth column
+  // left a hole in the row. Every card must still resolve to a listed piece.
+  assert.equal((homePage.match(/class="feature-card"/g) || []).length, 3, 'the front shelf holds three pieces');
+  const listedPaths = new Set(products.map(product => `/${product.model === 'affiliate' ? 'discover' : 'shop'}/${product.slug}/`));
+  for (const [, href] of homePage.matchAll(/class="feature-card__mount" href="([^"]+)"/g)) {
+    assert.ok(listedPaths.has(href), `${href} is not a listed piece`);
+  }
+
+  // The standfirst counts the shelf and the catalogue, so neither can drift.
+  const shelf = (homePage.match(/class="feature-card"/g) || []).length;
   assert.ok(homePage.includes(
-    `${count(products.length, 'preview', 'previews')}: ${count(house, 'OPAR house piece', 'OPAR house pieces')} and ${count(partner, 'partner offer', 'partner offers')}.`
-  ), 'the standfirst must agree with the catalogue');
+    `${shelf} pieces on the front shelf, from ${products.length} listed.`
+  ), 'the standfirst must agree with the shelf and the catalogue');
+
+  // Each card states the piece: one factual line, one format, then the price.
+  // The shop-state badge that used to sit here is gone (D-040).
+  assert.equal((homePage.match(/class="feature-card__line"/g) || []).length, shelf);
+  assert.equal((homePage.match(/class="feature-card__format"/g) || []).length, shelf);
+  assert.doesNotMatch(homePage, /feature-card__meta|Preview &middot; ordering not open|referral pending/);
+  const productByPath = new Map(products.map(product => [
+    `/${product.model === 'affiliate' ? 'discover' : 'shop'}/${product.slug}/`,
+    product
+  ]));
+  for (const [, href] of homePage.matchAll(/<h3><a href="([^"]+)">/g)) {
+    const product = productByPath.get(href);
+    if (!product) continue;
+    if (product.cardLine) assert.ok(homePage.includes(escapeHtml(product.cardLine)), `${product.slug} is missing its card line`);
+    if (product.format) assert.ok(homePage.includes(escapeHtml(product.format)), `${product.slug} is missing its format`);
+  }
+
+  // A room circle renders only when collections.json carries an image, so the
+  // text-only row is the current truth until the six photographs arrive.
+  assert.equal(
+    (homePage.match(/class="room-index__figure"/g) || []).length,
+    collections.filter(room => room.image).length,
+    'a circle without an image would be an empty disc'
+  );
 
   // No price is invented, and nothing is billed as sold.
   for (const product of products.filter(item => !Number.isFinite(item.price))) {
@@ -808,7 +839,10 @@ test('every image the homepage references is a real file', () => {
     ...homePage.matchAll(/<img src="(\/assets\/[^"]+)"/g),
     ...homePage.matchAll(/srcset="(\/assets\/[^"]+)"/g)
   ].map(match => match[1]);
-  assert.ok(sources.length >= products.length + 1, 'the hero and one image per piece');
+  // A piece with no photograph gets an empty mount, never a placeholder graphic:
+  // the grey "photography pending" tile read as a broken shop.
+  assert.doesNotMatch(homePage, /photography-pending\.svg|cleansing-pads-placeholder\.svg/);
+  assert.ok(sources.length >= 1, 'the hero photograph');
   for (const source of sources) {
     assert.ok(existsSync(new URL(`../public${source}`, import.meta.url)), `${source} is referenced but missing`);
   }
@@ -822,6 +856,41 @@ test('every section background the homepage CSS references is a real file', () =
   for (const url of urls) {
     assert.ok(existsSync(new URL(`../public${url}`, import.meta.url)), `${url} is referenced in CSS but missing`);
   }
+});
+
+test('the journal plate is the second movement of the archipelago', () => {
+  const journal = site.nav.find(item => item.id === 'journal');
+  const columns = journal.children.filter(child => child.href !== journal.href);
+
+  // It follows the monograph's last plate, on the same ground, and it is the
+  // frame the writing will be filed under - not a set of invented articles.
+  const start = homePage.indexOf('class="archipelago-block');
+  // Prefix only: the reversed plate carries a second class after it.
+  assert.ok(homePage.indexOf('class="journal-plate"') > homePage.lastIndexOf('class="editorial-spread'),
+    'the journal plate must close the monograph');
+  assert.ok(homePage.slice(start, homePage.indexOf('</main>')).includes('class="journal-plate"'),
+    'the journal plate must sit on the archipelago ground');
+
+  const indexStart = homePage.indexOf('class="journal-index"');
+  const index = homePage.slice(indexStart, homePage.indexOf('</ul>', indexStart));
+  assert.equal((index.match(/class="journal-index__column"/g) || []).length, columns.length,
+    'one column per journal category');
+  for (const column of columns) {
+    assert.ok(index.includes(`href="${column.href}"`), `${column.href} is not in the index`);
+    assert.ok(existsSync(new URL(`../public${column.href}index.html`, import.meta.url)),
+      `${column.href} has no generated page`);
+    const page = sitePages.find(item => item.path === column.href);
+    assert.ok(page, `${column.href} has no page record`);
+    // The line is the page's own meta description, escaped for the document.
+    assert.ok(index.includes(escapeHtml(page.description)),
+      `${column.href} must carry its own description`);
+  }
+
+  // One way into the listing itself, and no article furniture before articles exist.
+  assert.ok(homePage.includes(`<a class="journal-plate__all" href="${journal.href}">All writing`),
+    'the journal root needs one link');
+  assert.doesNotMatch(index, /class="(journal-entry|article-card|post-card)/,
+    'the frame must not invent articles');
 });
 
 test('the homepage is `/`, generated, and listed once', async () => {
