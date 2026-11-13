@@ -945,27 +945,6 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
   filter: drop-shadow(0 8px 24px rgba(0, 0, 0, .6));
 }
 .corner-foliage--neem-tr { top: -20px; right: 0; width: clamp(220px, 28vw, 380px); transform: translateX(-11.24%) rotate(15deg); }
-/* ── The neem bridge (D-042) ──
-   A zero-height element between the rooms and the monograph. It owns no ground,
-   so the branch grows out of the Rooms bottom padding and its tip reaches the
-   "Editorial monograph" overline. The source tip sits at 80.2% of the image
-   width, so the left edge is set to the content shell: the stem lands at the
-   left content edge and the tip lands on the label. The bottom offset is the
-   same band the header reserves, so the tip meets the overline by construction.
-   Hidden below 861, where the band is not reserved. */
-.monograph-bridge { position: relative; height: 0; }
-.monograph-bridge__branch {
-  position: absolute; pointer-events: none;
-  left: max(var(--gutter), calc((100% - var(--width-shell)) / 2 + var(--gutter)));
-  bottom: calc(-1 * var(--monograph-band));
-  /* The Rooms clear band is 148px (36px item padding + 112px section). The image
-     is 1.2552 tall for its width, so sizing the width from the band keeps the
-     stem 12px below the last room text at every width: height = 136 + band. */
-  width: calc(0.7967 * (136px + var(--monograph-band)));
-  height: auto;
-  opacity: .95;
-}
-@media (max-width: 860px) { .monograph-bridge__branch { display: none; } }
 .corner-foliage--moringa-bl { bottom: -30px; left: 0; width: clamp(200px, 25vw, 360px); transform: translateX(7.92%) rotate(-10deg); }
 /* This one lives inside a plate, which clips its own overflow. */
 .corner-foliage--turmeric-tr { top: -25px; right: -25px; width: clamp(200px, 26vw, 360px); transform: rotate(20deg); }
@@ -1256,3 +1235,27 @@ body:not(.theme-paper) .text-link:hover { color: var(--opar-gold); }
 
 /* Touch 4 — the gold word in the hero headline (D-034, the dealt moment). */
 .gold { color: var(--opar-gold); }
+/* ── The neem at the foot of Rooms (D-043) ──
+   Same edge treatment as the moringa in the Journal: bottom-left, cropped by
+   the section, rotated, growing in from outside the page. The Rooms section
+   reserves a deeper bottom band so the leaf never crosses the room text, and
+   the alpha cutout uses normal blending (the moringa's screen blend is only
+   there to knock the black out of its jpg). Hidden below 861, where the single
+   column leaves no room for it. */
+.home-rooms {
+  position: relative;
+  overflow: clip;
+  padding-bottom: clamp(180px, 28vw, 420px);
+}
+.corner-foliage--neem-bl {
+  bottom: -30px; left: 0;
+  width: clamp(220px, 22vw, 340px);
+  transform: translateX(7.92%) rotate(-10deg);
+  mix-blend-mode: normal;
+  opacity: .88;
+  filter: none;
+}
+@media (max-width: 860px) {
+  .home-rooms { padding-bottom: 80px; }
+  .corner-foliage--neem-bl { display: none; }
+}

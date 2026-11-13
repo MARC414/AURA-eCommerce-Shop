@@ -698,3 +698,30 @@ Gate: 53/53 tests (a new one asserts the one-row contract), `tsc` clean, 41 page
 **Reversible:** yes. Delete `neemBridge()` from the content string and the `.monograph-bridge` rules; D-041's header image and CSS are recorded above if the owner wants them back.
 
 **Status:** implemented, 41 pages, 55/55 tests, `check:site` clean; committed locally, not pushed (owner has deliberately paused pushes). `corner-neem.jpg` stays because `/brand-preview/` still uses it.
+
+**2026-11-14 - CORRECTED BY D-043:** the owner asked for the moringa's edge treatment instead of the bridge. The bridge markup and CSS are removed; the neem now grows from the bottom-left edge of the Rooms section. See D-043.
+
+---
+
+## D-043 - Owner correction: the neem mirrors the moringa's edge emergence
+**2026-11-14 - OWNER INSTRUCTION, IMPLEMENTED.** Owner: "Actually place the Neem leaf image exactly like the Moringa leaf used in Journal, the way it branches outside seems coming from out of the website page, That is it, it can be resized if you think that can intensify its importance and beauty, overall how you feel the concept of using leaf in the site that are coming form outside of the website page?"
+
+**Decision:** the D-042 bridge is removed. The neem now uses the moringa's gesture: **bottom-left of a section, cropped by the section edge, rotated, growing in from outside the page.** It sits at the foot of **Rooms**, the section immediately before the monograph, so the leaf still belongs to the shop's close and the botanical sequence begins there. The moringa keeps the foot of the Journal; the two leaves form one left-margin thread rather than scattered decoration. This is a deliberate two-anchor device, not a leaf on every section.
+
+**The treatment, copied from `.corner-foliage--moringa-bl`:**
+- `bottom: -30px; left: 0; width: clamp(220px, 22vw, 340px); transform: translateX(7.92%) rotate(-10deg);`
+- `.home-rooms` gains `position: relative` and `overflow: clip`, so the stem is cut by the left page edge and the base by the section's bottom edge.
+- The neem is an alpha cutout, so `mix-blend-mode: normal` and `filter: none`; the moringa keeps `screen` only to knock the black out of its jpg. Opacity `.88`, matching the moringa's weight.
+- The Rooms section reserves `padding-bottom: clamp(180px, 28vw, 420px)` from 861 so the larger leaf never crosses the room text; below 861 the leaf is hidden and the padding returns to 80px.
+
+**Measured** at 861/1024/1280/1440/1920:
+- The leaf's transformed box top sits **14-53px below the last room text**, so no room word is covered.
+- Visible leaf height **263-423px**; the box is clipped 5-8px at the left edge and 47-56px at the bottom, which is the "outside the page" read.
+- No horizontal overflow at any width. At 320/390/768/860 the leaf is `display: none`, the section padding is 80px, and the page is unchanged.
+- The leaf is bright enough to read against the ground (mean opaque RGB 95,121,58; 2.11:1 decorative), and no text rides on it.
+
+**Why the concept works, and where it would fail:** a leaf entering from beyond the page edge is a depth device, not an ornament. It works when it is rare, when each leaf belongs to a specific section, and when the crop is confident enough to feel like the page is a window rather than a frame. Two anchors (Rooms and Journal) give the page a botanical thread; a leaf on every section would turn it into wallpaper, and a leaf that stops short of the edge reads as a sticker. The failure modes are a visible stem inside the page, a leaf floating in a margin, or foliage behind body text; this placement avoids all three.
+
+**Reversible:** yes. Delete the `.corner-foliage--neem-bl` image and rules, restore `.home-rooms` to its previous padding/overflow. The D-042 bridge markup and CSS remain in the history if the owner ever wants that version back.
+
+**Status:** implemented, 41 pages, 55/55 tests, `check:site` clean; committed locally, not pushed.

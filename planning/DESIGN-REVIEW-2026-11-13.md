@@ -223,3 +223,5 @@ Keep one link (the name) plus the quiet "View piece" text link. Do not add "Add 
 
 **Corrected again 2026-11-14 (D-042):** the owner rejected the header leaf. The neem is now a transparent cutout on a zero-height bridge between Rooms and the Materia Medica, growing out of the Rooms padding with its tip on the "Editorial monograph" overline; the letter stays after the Journal. Answers 2-7 stand.
 
+**Corrected again the same day (D-043):** the bridge is removed. The neem now uses the moringa's gesture - bottom-left of Rooms, cropped by the section edge, rotated, growing in from outside the page. The letter stays after the Journal. Answers 2-7 stand.
+
