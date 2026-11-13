@@ -6,6 +6,16 @@
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
 
-# Long-lived caching for immutable build assets
+# Short-lived revalidation for unhashed stylesheets, scripts, and JSON indexes
 /assets/*
+  Cache-Control: public, max-age=300, must-revalidate
+
+# Long-lived caching for immutable image and media assets
+/assets/brand/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/botanicals/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/products/*
   Cache-Control: public, max-age=31536000, immutable

@@ -57,7 +57,9 @@ export function button({ label = '', href = null, variant = 'primary', size = nu
   const hrefAttr = href ? ` href="${escapeHtml(href)}"` : '';
   const labelHtml = label ? `<span>${escapeHtml(label)}</span>` : '';
   if (icon && !label) {
-    return `<${tag} class="${cls}"${hrefAttr}${type}${attrList.join('')} aria-label="${escapeHtml(icon)}">${iconHtml}</${tag}>`;
+    const hasAriaLabel = attrs && (Object.hasOwn(attrs, 'aria-label') || Object.hasOwn(attrs, 'aria-labelledby'));
+    const ariaFallback = hasAriaLabel ? '' : ' aria-label="Action"';
+    return `<${tag} class="${cls}"${hrefAttr}${type}${attrList.join('')}${ariaFallback}>${iconHtml}</${tag}>`;
   }
   return `<${tag} class="${cls}"${hrefAttr}${type}${attrList.join('')}>${iconHtml}${labelHtml}</${tag}>`;
 }

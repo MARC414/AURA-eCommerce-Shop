@@ -42,7 +42,11 @@
   }
 
   function productHref(product) {
-    return product && product.slug ? '/shop/' + product.slug + '/' : '/shop/';
+    if (product && product.path) return product.path;
+    if (product && product.slug) {
+      return (product.model === 'affiliate' ? '/discover/' : '/shop/') + product.slug + '/';
+    }
+    return '/shop/';
   }
 
   function row(item) {
@@ -147,6 +151,8 @@
         id: product.id,
         name: product.name,
         slug: product.slug,
+        model: product.model || 'dropshipping',
+        path: productHref(product),
         category: product.category,
         price: Number.isFinite(price) ? price : null,
         currency: product.currency || 'GBP',

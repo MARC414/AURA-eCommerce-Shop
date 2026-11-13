@@ -44,6 +44,8 @@ function cartProduct(button) {
     price: Number.isFinite(price) ? price : null,
     currency: button.dataset.productCurrency || 'GBP',
     category: button.dataset.productCategory,
+    model: button.dataset.productModel || 'dropshipping',
+    path: button.dataset.productPath || '',
     imageUrl: button.dataset.productImage,
     gallery: button.dataset.productImage ? [button.dataset.productImage] : []
   };

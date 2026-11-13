@@ -764,13 +764,26 @@ test('the homepage is one static document, and its sections read in order', () =
   assert.ok(order.every(index => index > 0), 'a section is missing');
   assert.deepEqual([...order].sort((a, b) => a - b), order, 'the sections are out of order');
 
-  // The neem leaf sits at the top-left of the Rooms section, over the heading,
-  // growing in from outside the page in the same treatment as the moringa (D-044).
+  // The neem leaf sits inside the Rooms section, emerging cleanly from the left edge;
+  // the 3rd turmeric leaf is removed; the beehive cutout sits inside the grounded Materia Medica header;
+  // and the moringa leaf anchors the top-left outer corner of #letter.
   const neem = homePage.indexOf('corner-foliage--neem-head');
   assert.ok(neem > homePage.indexOf('id="rooms"'), 'the neem is inside the rooms section');
   assert.ok(neem < homePage.indexOf('id="botanicals"'), 'the neem is before the monograph');
+  const beehive = homePage.indexOf('corner-foliage--beehive-tr');
+  assert.ok(beehive > homePage.indexOf('class="monograph-head monograph-head--photo"'), 'the beehive sits inside the grounded monograph header');
+  assert.ok(beehive < homePage.indexOf('archipelago-block--journal'), 'the beehive anchors top of monograph');
+  assert.match(homePage, /src="\/assets\/botanicals\/monograph-apiary-garden\.jpg"/, 'the monograph header carries the apiary garden backdrop');
+  assert.match(homePage, /<div class="monograph-head__actions">\s*<a class="button button-secondary button-small button-inline" href="\/journal\/">Read the Journal/, 'the monograph header offers an outline button to the journal');
+  const moringa = homePage.indexOf('corner-foliage--moringa-letter');
+  assert.ok(moringa > homePage.indexOf('id="letter"'), 'the moringa leaf sits inside the letter section');
+  assert.doesNotMatch(homePage, /corner-foliage--moringa-bl/, 'the moringa leaf moved out of the monograph bottom');
   assert.doesNotMatch(homePage, /corner-foliage--neem-tl/), 'the old header neem is removed';
+  assert.doesNotMatch(homePage, /corner-foliage--turmeric-tr/), 'the 3rd turmeric corner leaf is removed';
   assert.doesNotMatch(homePage, /monograph-bridge/), 'the bridge is removed';
+
+  // Ecology overlay precedes journal plate in the Archipelago upper band.
+  assert.ok(homePage.indexOf('class="archipelago-overlay"') < homePage.indexOf('class="journal-plate"'));
 
   // The letter is the same form contract as /newsletter/, loaded once, and it
   // stays quiet at rest so the band does not open on a status message.
@@ -860,11 +873,16 @@ test('every image the homepage references is a real file', () => {
 test('every section background the homepage CSS references is a real file', () => {
   const css = readFileSync(new URL('../public/assets/product-pages.css', import.meta.url), 'utf8');
   const urls = [...css.matchAll(/url\("(\/assets\/[^"]+)"\)/g)].map(match => match[1]);
-  // bg-featured and bg-rooms each appear three times (avif, webp, jpg fallback).
-  assert.ok(urls.length >= 6, 'both section backgrounds carry a modern pair and a fallback');
+  // bg-featured, bg-rooms, newsletter-soil, and footer-roots each carry avif, webp, jpg fallback.
+  assert.ok(urls.length >= 12, 'all section backgrounds carry a modern pair and a fallback');
+  assert.ok(urls.includes('/assets/brand/footer-roots.avif'), 'site footer carries subterranean germination avif background');
   for (const url of urls) {
     assert.ok(existsSync(new URL(`../public${url}`, import.meta.url)), `${url} is referenced in CSS but missing`);
   }
+  const preview = readFileSync(new URL('../public/brand-preview/index.html', import.meta.url), 'utf8');
+  assert.ok(!preview.includes('id="footer-comparison"'), 'temporary footer comparison block is retired');
+  assert.ok(!preview.includes('corner-foliage--footer-roots') && !existsSync(new URL('../public/assets/botanicals/corner-roots.webp', import.meta.url)),
+    'temporary footer Option B cutout is retired cleanly');
 });
 
 test('the journal plate is the second movement of the archipelago', () => {

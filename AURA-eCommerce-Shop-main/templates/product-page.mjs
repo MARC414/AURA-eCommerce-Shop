@@ -174,6 +174,8 @@ function cartAttributes(product) {
     ['data-product-price', product.price === null || product.price === undefined ? '' : String(product.price)],
     ['data-product-currency', product.currency || 'GBP'],
     ['data-product-category', product.category],
+    ['data-product-model', product.model],
+    ['data-product-path', productPath(product)],
     ['data-product-image', image]
   ].map(([name, value]) => `${name}="${escapeHtml(value)}"`).join(' ');
 }
@@ -192,7 +194,7 @@ function dropshippingActions(product) {
       <div class="variant-field">
         <label class="field-label" for="product-variant">Options</label>
         <select id="product-variant" data-variant${product.variants.length ? '' : ' disabled'}>
-          ${product.variants.length ? product.variants.map(variant => `<option>${escapeHtml(variantLabel(variant))}</option>`).join('') : '<option>One edition</option>'}
+          ${product.variants.length ? product.variants.map(variant => `<option${typeof variant === 'object' && variant !== null && typeof variant.label === 'string' ? ` value="${escapeHtml(variant.label)}"` : ''}>${escapeHtml(variantLabel(variant))}</option>`).join('') : '<option>One edition</option>'}
         </select>
       </div>
       <div class="quantity-row">

@@ -25,7 +25,11 @@
   }
 
   function productHref(product) {
-    return product && product.slug ? '/shop/' + product.slug + '/' : '/shop/';
+    if (product && product.path) return product.path;
+    if (product && product.slug) {
+      return (product.model === 'affiliate' ? '/discover/' : '/shop/') + product.slug + '/';
+    }
+    return '/shop/';
   }
 
   /** Number(null) is 0, so a missing price needs its own check. */

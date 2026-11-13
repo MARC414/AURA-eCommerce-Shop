@@ -142,7 +142,7 @@
                 <span class="feature-card__format">100 g bar</span>
                 <span class="feature-card__price">Price on request</span>
               </span>
-              <a class="text-link" href="/shop/turmeric-cleansing-soap/">View piece <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+              <a class="text-link" href="/shop/turmeric-cleansing-soap/">View piece <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg><span class="sr-only"> about Turmeric Cleansing Soap</span></a>
             </div>
           </div>
         </article>
@@ -165,7 +165,7 @@
                 <span class="feature-card__format">60 capsules</span>
                 <span class="feature-card__price">Price on request</span>
               </span>
-              <a class="text-link" href="/shop/ashwagandha-with-black-pepper/">View piece <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+              <a class="text-link" href="/shop/ashwagandha-with-black-pepper/">View piece <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg><span class="sr-only"> about Ashwagandha with Black Pepper</span></a>
             </div>
           </div>
         </article>
@@ -188,7 +188,7 @@
                 <span class="feature-card__format">Cleansing pads · quantity on CJ</span>
                 <span class="feature-card__price">Price on request</span>
               </span>
-              <a class="text-link" href="/discover/turmeric-cleansing-pads/">View piece <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+              <a class="text-link" href="/discover/turmeric-cleansing-pads/">View piece <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg><span class="sr-only"> about Turmeric Cleansing Pads</span></a>
             </div>
           </div>
         </article>
@@ -271,18 +271,25 @@
           </li>
         </ul>
       </div>
-      <img class="corner-foliage corner-foliage--neem-head" src="/assets/botanicals/corner-neem.webp" alt="" width="768" height="964" loading="lazy" decoding="async">
+      <img class="corner-foliage corner-foliage--neem-head" src="/assets/botanicals/corner-neem.webp" alt="" aria-hidden="true" width="768" height="964" loading="lazy" decoding="async">
     </section>
-    <section id="botanicals" class="botanical-monograph" aria-labelledby="monograph-heading">
-      <img class="corner-foliage corner-foliage--moringa-bl" src="/assets/botanicals/corner-moringa.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
-
-      <div class="monograph-head">
-
+    <section id="botanicals" class="botanical-monograph botanical-monograph--grounded" aria-labelledby="monograph-heading">
+      <div class="monograph-head monograph-head--photo">
+        <picture class="spread-picture monograph-head__picture">
+          <source type="image/avif" srcset="/assets/botanicals/monograph-apiary-garden.avif">
+          <source type="image/webp" srcset="/assets/botanicals/monograph-apiary-garden.webp">
+          <img class="monograph-head__photo" src="/assets/botanicals/monograph-apiary-garden.jpg" alt="" aria-hidden="true" width="1376" height="768" loading="lazy" decoding="async">
+        </picture>
+        <div class="monograph-head__scrim" aria-hidden="true"></div>
+        <img class="corner-foliage corner-foliage--beehive-tr" src="/assets/botanicals/corner-beehive.webp" alt="" aria-hidden="true" width="760" height="760" loading="lazy" decoding="async">
         <div class="botanical-monograph__header">
           <div class="home-section__head">
             <div class="home-section__intro">
               <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>Editorial monograph</span>
               <h2 id="monograph-heading">The materia medica: whole roots &amp; sacred seeds.</h2>
+              <div class="monograph-head__actions">
+                <a class="button button-secondary button-small button-inline" href="/journal/">Read the Journal <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+              </div>
             </div>
             <p class="home-section__note">Three foods, photographed where they grow, with the lineage and the chemistry kept apart so neither has to borrow from the other.</p>
           </div>
@@ -290,7 +297,11 @@
       </div>
 
       <article class="editorial-spread">
-        <img class="spread-bg" src="/assets/botanicals/nigella-field-flowers.jpg" alt="Blooming Nigella sativa field with blue flowers and developing seed capsules at morning light" width="1376" height="768" loading="lazy" decoding="async">
+        <picture class="spread-picture">
+          <source type="image/avif" srcset="/assets/botanicals/nigella-field-flowers.avif">
+          <source type="image/webp" srcset="/assets/botanicals/nigella-field-flowers.webp">
+          <img class="spread-bg" src="/assets/botanicals/nigella-field-flowers.jpg" alt="Blooming Nigella sativa field with blue flowers and developing seed capsules at morning light" width="1376" height="768" loading="lazy" decoding="async">
+        </picture>
         <div class="spread-scrim" aria-hidden="true"></div>
         <div class="editorial-spread__text">
           <span class="editorial-spread__eyebrow">
@@ -318,7 +329,11 @@
       </article>
 
       <article class="editorial-spread editorial-spread--reverse">
-        <img class="spread-bg" src="/assets/botanicals/ashwagandha-env-forest.jpg" alt="Misty sub-Himalayan forest understory, the habitat of Withania somnifera" width="1376" height="768" loading="lazy" decoding="async">
+        <picture class="spread-picture">
+          <source type="image/avif" srcset="/assets/botanicals/ashwagandha-env-forest.avif">
+          <source type="image/webp" srcset="/assets/botanicals/ashwagandha-env-forest.webp">
+          <img class="spread-bg" src="/assets/botanicals/ashwagandha-env-forest.jpg" alt="Misty sub-Himalayan forest understory, the habitat of Withania somnifera" width="1376" height="768" loading="lazy" decoding="async">
+        </picture>
         <div class="spread-scrim" aria-hidden="true"></div>
         <div class="editorial-spread__text">
           <span class="editorial-spread__eyebrow">
@@ -344,8 +359,11 @@
       </article>
 
       <article class="editorial-spread">
-        <img class="corner-foliage corner-foliage--turmeric-tr" src="/assets/botanicals/corner-turmeric-leaf.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
-        <img class="spread-bg" src="/assets/botanicals/turmeric-plantation-env.jpg" alt="Lush tropical turmeric plantation with vibrant green Curcuma longa leaves and morning mist" width="1376" height="768" loading="lazy" decoding="async">
+        <picture class="spread-picture">
+          <source type="image/avif" srcset="/assets/botanicals/turmeric-plantation-env.avif">
+          <source type="image/webp" srcset="/assets/botanicals/turmeric-plantation-env.webp">
+          <img class="spread-bg" src="/assets/botanicals/turmeric-plantation-env.jpg" alt="Lush tropical turmeric plantation with vibrant green Curcuma longa leaves and morning mist" width="1376" height="768" loading="lazy" decoding="async">
+        </picture>
         <div class="spread-scrim" aria-hidden="true"></div>
         <div class="editorial-spread__text">
           <span class="editorial-spread__eyebrow">
@@ -371,11 +389,15 @@
       </article>
 
       <div class="archipelago-block archipelago-block--journal">
-        <img class="spread-bg" src="/assets/botanicals/botanical-archipelago.jpg" alt="Natural arrangement of black seeds, ashwagandha roots, fresh turmeric, moringa leaves and raw honeycomb" width="1376" height="768" loading="lazy" decoding="async">
+        <picture class="spread-picture">
+          <source type="image/avif" srcset="/assets/botanicals/botanical-archipelago.avif">
+          <source type="image/webp" srcset="/assets/botanicals/botanical-archipelago.webp">
+          <img class="spread-bg" src="/assets/botanicals/botanical-archipelago.jpg" alt="Natural arrangement of black seeds, ashwagandha roots, fresh turmeric, moringa leaves and raw honeycomb" width="1376" height="768" loading="lazy" decoding="async">
+        </picture>
+        <div class="archipelago-scrim" aria-hidden="true"></div>
         <div class="archipelago-visual">
-          <div class="archipelago-scrim" aria-hidden="true"></div>
           <div class="archipelago-overlay">
-            <div>
+            <div class="archipelago-overlay__copy">
               <span class="home-overline"><span class="home-rule home-rule--gold" aria-hidden="true"></span>The sustenance cluster</span>
               <h3>The balanced natural ecology</h3>
               <p>When whole seeds, grounding roots, bitter leaves and raw honeycomb unite, they form a self-sustaining dietary foundation&mdash;a timeless matrix of nourishment requiring no synthetic additives.</p>
@@ -420,6 +442,7 @@
       </div>
     </section>
     <section id="letter" class="home-section home-letter" aria-labelledby="letter-heading">
+      <img class="corner-foliage corner-foliage--moringa-letter" src="/assets/botanicals/corner-moringa.webp" alt="" aria-hidden="true" width="768" height="768" loading="lazy" decoding="async">
       <div class="home-shell home-letter__inner">
         <div class="home-letter__copy">
           <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>The letter</span>

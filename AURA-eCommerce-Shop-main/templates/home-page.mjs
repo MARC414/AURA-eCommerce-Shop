@@ -40,14 +40,17 @@ const HERO_LEDE = `Objects and knowledge for a slower, more sensory life — her
 const SHOW_SUPPLIED_IMAGERY = false;
 
 /**
- * The Materia Medica ground. The owner asked for a long shot of sunrise crimson
- * behind the monograph header. No such photograph exists in the repository yet,
- * so this slot stays empty and the header keeps the plain ground: an empty
- * string renders no image, no scrim and no extra padding. When the file is
- * supplied (and its licence recorded), set src, width and height here — the
- * header band becomes that photograph behind a scrim, and nothing else moves.
+ * The Materia Medica ground: natural flowering apiary and vine garden paired
+ * with the top-right beehive cutout, delivered in AVIF/WebP/JPG behind a
+ * calibrated moss scrim.
  */
-const MONOGRAPH_GROUND = null;
+const MONOGRAPH_GROUND = {
+  src: '/assets/botanicals/monograph-apiary-garden.jpg',
+  avif: '/assets/botanicals/monograph-apiary-garden.avif',
+  webp: '/assets/botanicals/monograph-apiary-garden.webp',
+  width: 1376,
+  height: 768
+};
 
 /**
  * The three pieces on the front shelf, in the order they are shown. Resolved
@@ -137,7 +140,7 @@ function featureCard(product, index) {
                 ${format ? `<span class="feature-card__format">${escapeHtml(format)}</span>` : ''}
                 <span class="feature-card__price">${priced ? escapeHtml(formatMoney(product.price, product.currency)) : 'Price on request'}</span>
               </span>
-              <a class="text-link" href="${escapeHtml(path)}">View piece ${arrow}</a>
+              <a class="text-link" href="${escapeHtml(path)}">View piece ${arrow}<span class="sr-only"> about ${escapeHtml(product.name)}</span></a>
             </div>
           </div>
         </article>`;
@@ -200,7 +203,7 @@ function rooms() {
         <ul class="room-index">${items}
         </ul>
       </div>
-      <img class="corner-foliage corner-foliage--neem-head" src="/assets/botanicals/corner-neem.webp" alt="" width="768" height="964" loading="lazy" decoding="async">
+      <img class="corner-foliage corner-foliage--neem-head" src="/assets/botanicals/corner-neem.webp" alt="" aria-hidden="true" width="768" height="964" loading="lazy" decoding="async">
     </section>`;
 }
 
@@ -213,6 +216,7 @@ function rooms() {
 function newsletter() {
   return `
     <section id="letter" class="home-section home-letter" aria-labelledby="letter-heading">
+      <img class="corner-foliage corner-foliage--moringa-letter" src="/assets/botanicals/corner-moringa.webp" alt="" aria-hidden="true" width="768" height="768" loading="lazy" decoding="async">
       <div class="home-shell home-letter__inner">
         <div class="home-letter__copy">
           <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>The letter</span>
@@ -288,20 +292,26 @@ function journalIndex() {
  */
 function monograph() {
   const ground = MONOGRAPH_GROUND
-    ? `<img class="monograph-head__photo" src="${escapeHtml(MONOGRAPH_GROUND.src)}" alt="" aria-hidden="true" width="${MONOGRAPH_GROUND.width}" height="${MONOGRAPH_GROUND.height}" loading="lazy" decoding="async">
+    ? `<picture class="spread-picture monograph-head__picture">
+          <source type="image/avif" srcset="${escapeHtml(MONOGRAPH_GROUND.avif)}">
+          <source type="image/webp" srcset="${escapeHtml(MONOGRAPH_GROUND.webp)}">
+          <img class="monograph-head__photo" src="${escapeHtml(MONOGRAPH_GROUND.src)}" alt="" aria-hidden="true" width="${MONOGRAPH_GROUND.width}" height="${MONOGRAPH_GROUND.height}" loading="lazy" decoding="async">
+        </picture>
         <div class="monograph-head__scrim" aria-hidden="true"></div>`
     : '';
   return `
     <section id="botanicals" class="botanical-monograph${ground ? ' botanical-monograph--grounded' : ''}" aria-labelledby="monograph-heading">
-      <img class="corner-foliage corner-foliage--moringa-bl" src="/assets/botanicals/corner-moringa.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
-
       <div class="monograph-head${ground ? ' monograph-head--photo' : ''}">
         ${ground}
+        <img class="corner-foliage corner-foliage--beehive-tr" src="/assets/botanicals/corner-beehive.webp" alt="" aria-hidden="true" width="760" height="760" loading="lazy" decoding="async">
         <div class="botanical-monograph__header">
           <div class="home-section__head">
             <div class="home-section__intro">
               <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>Editorial monograph</span>
               <h2 id="monograph-heading">The materia medica: whole roots &amp; sacred seeds.</h2>
+              <div class="monograph-head__actions">
+                <a class="button button-secondary button-small button-inline" href="/journal/">Read the Journal ${arrow}</a>
+              </div>
             </div>
             <p class="home-section__note">Three foods, photographed where they grow, with the lineage and the chemistry kept apart so neither has to borrow from the other.</p>
           </div>
@@ -309,7 +319,11 @@ function monograph() {
       </div>
 
       <article class="editorial-spread">
-        <img class="spread-bg" src="/assets/botanicals/nigella-field-flowers.jpg" alt="Blooming Nigella sativa field with blue flowers and developing seed capsules at morning light" width="1376" height="768" loading="lazy" decoding="async">
+        <picture class="spread-picture">
+          <source type="image/avif" srcset="/assets/botanicals/nigella-field-flowers.avif">
+          <source type="image/webp" srcset="/assets/botanicals/nigella-field-flowers.webp">
+          <img class="spread-bg" src="/assets/botanicals/nigella-field-flowers.jpg" alt="Blooming Nigella sativa field with blue flowers and developing seed capsules at morning light" width="1376" height="768" loading="lazy" decoding="async">
+        </picture>
         <div class="spread-scrim" aria-hidden="true"></div>
         <div class="editorial-spread__text">
           <span class="editorial-spread__eyebrow">
@@ -337,7 +351,11 @@ function monograph() {
       </article>
 
       <article class="editorial-spread editorial-spread--reverse">
-        <img class="spread-bg" src="/assets/botanicals/ashwagandha-env-forest.jpg" alt="Misty sub-Himalayan forest understory, the habitat of Withania somnifera" width="1376" height="768" loading="lazy" decoding="async">
+        <picture class="spread-picture">
+          <source type="image/avif" srcset="/assets/botanicals/ashwagandha-env-forest.avif">
+          <source type="image/webp" srcset="/assets/botanicals/ashwagandha-env-forest.webp">
+          <img class="spread-bg" src="/assets/botanicals/ashwagandha-env-forest.jpg" alt="Misty sub-Himalayan forest understory, the habitat of Withania somnifera" width="1376" height="768" loading="lazy" decoding="async">
+        </picture>
         <div class="spread-scrim" aria-hidden="true"></div>
         <div class="editorial-spread__text">
           <span class="editorial-spread__eyebrow">
@@ -363,8 +381,11 @@ function monograph() {
       </article>
 
       <article class="editorial-spread">
-        <img class="corner-foliage corner-foliage--turmeric-tr" src="/assets/botanicals/corner-turmeric-leaf.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
-        <img class="spread-bg" src="/assets/botanicals/turmeric-plantation-env.jpg" alt="Lush tropical turmeric plantation with vibrant green Curcuma longa leaves and morning mist" width="1376" height="768" loading="lazy" decoding="async">
+        <picture class="spread-picture">
+          <source type="image/avif" srcset="/assets/botanicals/turmeric-plantation-env.avif">
+          <source type="image/webp" srcset="/assets/botanicals/turmeric-plantation-env.webp">
+          <img class="spread-bg" src="/assets/botanicals/turmeric-plantation-env.jpg" alt="Lush tropical turmeric plantation with vibrant green Curcuma longa leaves and morning mist" width="1376" height="768" loading="lazy" decoding="async">
+        </picture>
         <div class="spread-scrim" aria-hidden="true"></div>
         <div class="editorial-spread__text">
           <span class="editorial-spread__eyebrow">
@@ -390,11 +411,15 @@ function monograph() {
       </article>
 
       <div class="archipelago-block archipelago-block--journal">
-        <img class="spread-bg" src="/assets/botanicals/botanical-archipelago.jpg" alt="Natural arrangement of black seeds, ashwagandha roots, fresh turmeric, moringa leaves and raw honeycomb" width="1376" height="768" loading="lazy" decoding="async">
+        <picture class="spread-picture">
+          <source type="image/avif" srcset="/assets/botanicals/botanical-archipelago.avif">
+          <source type="image/webp" srcset="/assets/botanicals/botanical-archipelago.webp">
+          <img class="spread-bg" src="/assets/botanicals/botanical-archipelago.jpg" alt="Natural arrangement of black seeds, ashwagandha roots, fresh turmeric, moringa leaves and raw honeycomb" width="1376" height="768" loading="lazy" decoding="async">
+        </picture>
+        <div class="archipelago-scrim" aria-hidden="true"></div>
         <div class="archipelago-visual">
-          <div class="archipelago-scrim" aria-hidden="true"></div>
           <div class="archipelago-overlay">
-            <div>
+            <div class="archipelago-overlay__copy">
               <span class="home-overline"><span class="home-rule home-rule--gold" aria-hidden="true"></span>The sustenance cluster</span>
               <h3>The balanced natural ecology</h3>
               <p>When whole seeds, grounding roots, bitter leaves and raw honeycomb unite, they form a self-sustaining dietary foundation&mdash;a timeless matrix of nourishment requiring no synthetic additives.</p>
