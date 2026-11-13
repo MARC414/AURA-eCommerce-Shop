@@ -725,3 +725,26 @@ Gate: 53/53 tests (a new one asserts the one-row contract), `tsc` clean, 41 page
 **Reversible:** yes. Delete the `.corner-foliage--neem-bl` image and rules, restore `.home-rooms` to its previous padding/overflow. The D-042 bridge markup and CSS remain in the history if the owner ever wants that version back.
 
 **Status:** implemented, 41 pages, 55/55 tests, `check:site` clean; committed locally, not pushed.
+
+**2026-11-14 - CORRECTED BY D-044:** the owner moved the neem from the foot of Rooms to the top-left, over the heading. The bottom-left placement is superseded. See D-044.
+
+---
+
+## D-044 - Owner correction: the neem canopy over the Rooms heading
+**2026-11-14 - OWNER INSTRUCTION, IMPLEMENTED.** Owner: "okay but I palce the neem leaf over the Rooms heaidng not in the bottom, yes moringa is in bottom, set neem over the heading in room followign the rest you decided." (Quote as typed.)
+
+**Decision:** the neem moves to the **top-left of Rooms**, with the same edge gesture as the moringa: stem cropped by the section corner, branch fanning into the page, rotated -10deg, alpha cutout, normal blend, opacity .88. The moringa keeps the foot of the Journal; the letter stays after the Journal. Two leaves, no third.
+
+**The corrections carried over from the previous review:**
+- **Primary anchor:** the neem is now larger than the moringa at every desktop width (transformed box width 1.25x at 861, 1.12x at 1024-1920). The moringa is the quieter echo.
+- **Deeper crop instead of a deeper band:** `top: clamp(-120px, -8vw, -70px); left: -64px`. Measured crop is **70-73px at the left** and **90-150px at the top**; the extra size is bought by hiding the stem outside the corner, not by another deep band.
+- **Band capped:** `padding-top: clamp(270px, 26vw, 375px)`, down from 480px at the widest viewport. The leaf fills the band; the actual opaque tip (the lowest leaf pixel, not the rotated bbox corner) hangs **22-30px above the overline** and **57-65px above the heading** at 861-1920. The bbox overlaps the overline by 6-28px because its transparent lower corner rotates past it; no leaf pixel sits behind the overline, heading, note, or room text.
+- **Width:** `clamp(260px, 27vw, 390px)`; visible leaf height **276-403px**. No horizontal overflow. At and below 860 the leaf is hidden and the section returns to 80px top padding.
+
+**One honest limit:** the top of Rooms is a section seam, not the viewport edge, so the leaf reads as growing out from behind the Featured panel rather than from outside the whole page. That is still a depth read, but weaker than the moringa's bottom-page crop. Letting the branch cross the seam would strengthen it, but it would put foliage over the featured pieces, which the owner asked not to churn. The current placement keeps the leaf inside Rooms.
+
+**Test:** the homepage test asserts `corner-foliage--neem-head` sits inside `id="rooms"` and before `id="botanicals"`, the old `neem-tl` class is absent, and the bridge is gone.
+
+**Reversible:** yes. Restore D-043's bottom-left rules or remove the image; both records carry the details.
+
+**Status:** implemented, 41 pages, 55/55 tests, `check:site` clean; committed locally, not pushed.

@@ -225,3 +225,5 @@ Keep one link (the name) plus the quiet "View piece" text link. Do not add "Add 
 
 **Corrected again the same day (D-043):** the bridge is removed. The neem now uses the moringa's gesture - bottom-left of Rooms, cropped by the section edge, rotated, growing in from outside the page. The letter stays after the Journal. Answers 2-7 stand.
 
+**Moved again the same day (D-044):** the owner asked for the neem over the Rooms heading, not at the section foot. The neem is now the top-left canopy: larger than the moringa (1.12-1.25x), cropped 70-73px at the left and 90-150px at the top, with the actual opaque tip 22-30px above the overline. The moringa stays at the foot of the Journal. Answers 2-7 stand; the two-anchor rule is unchanged.
+

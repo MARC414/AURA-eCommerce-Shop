@@ -1235,27 +1235,34 @@ body:not(.theme-paper) .text-link:hover { color: var(--opar-gold); }
 
 /* Touch 4 — the gold word in the hero headline (D-034, the dealt moment). */
 .gold { color: var(--opar-gold); }
-/* ── The neem at the foot of Rooms (D-043) ──
-   Same edge treatment as the moringa in the Journal: bottom-left, cropped by
-   the section, rotated, growing in from outside the page. The Rooms section
-   reserves a deeper bottom band so the leaf never crosses the room text, and
-   the alpha cutout uses normal blending (the moringa's screen blend is only
-   there to knock the black out of its jpg). Hidden below 861, where the single
-   column leaves no room for it. */
+/* ── The neem over the Rooms heading (D-044) ──
+   The same edge treatment as the moringa in the Journal, moved to the top-left:
+   the stem is cropped by the section corner and the branch fans down over the
+   heading, stopping above the words. Two deliberate choices:
+   - the neem is the primary anchor, a little larger than the moringa, which
+     stays the quieter echo at the Journal foot;
+   - the size is bought by hiding more of the stem outside the top-left corner,
+     not by deepening the band again. The band (270-375px) is shallower than the
+     first attempt and the leaf fills it; the visible tip hangs 22-30px above
+     the overline, so the canopy sits over the heading rather than floating.
+   The alpha cutout uses normal blending (the moringa's screen blend only knocks
+   the black out of its jpg). Hidden below 861, where the single column leaves no
+   room for it. */
 .home-rooms {
   position: relative;
   overflow: clip;
-  padding-bottom: clamp(180px, 28vw, 420px);
+  padding-top: clamp(270px, 26vw, 375px);
 }
-.corner-foliage--neem-bl {
-  bottom: -30px; left: 0;
-  width: clamp(220px, 22vw, 340px);
+.home-rooms .home-shell { position: relative; z-index: 2; }
+.corner-foliage--neem-head {
+  top: clamp(-120px, -8vw, -70px); left: -64px;
+  width: clamp(260px, 27vw, 390px);
   transform: translateX(7.92%) rotate(-10deg);
   mix-blend-mode: normal;
   opacity: .88;
   filter: none;
 }
 @media (max-width: 860px) {
-  .home-rooms { padding-bottom: 80px; }
-  .corner-foliage--neem-bl { display: none; }
+  .home-rooms { padding-top: 80px; }
+  .corner-foliage--neem-head { display: none; }
 }

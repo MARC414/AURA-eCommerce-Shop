@@ -200,7 +200,7 @@ function rooms() {
         <ul class="room-index">${items}
         </ul>
       </div>
-      <img class="corner-foliage corner-foliage--neem-bl" src="/assets/botanicals/corner-neem.webp" alt="" width="768" height="964" loading="lazy" decoding="async">
+      <img class="corner-foliage corner-foliage--neem-head" src="/assets/botanicals/corner-neem.webp" alt="" width="768" height="964" loading="lazy" decoding="async">
     </section>`;
 }
 

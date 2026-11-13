@@ -764,9 +764,9 @@ test('the homepage is one static document, and its sections read in order', () =
   assert.ok(order.every(index => index > 0), 'a section is missing');
   assert.deepEqual([...order].sort((a, b) => a - b), order, 'the sections are out of order');
 
-  // The neem leaf sits in the Rooms section, at its bottom-left edge, growing
-  // in from outside the page in the same treatment as the moringa (D-043).
-  const neem = homePage.indexOf('corner-foliage--neem-bl');
+  // The neem leaf sits at the top-left of the Rooms section, over the heading,
+  // growing in from outside the page in the same treatment as the moringa (D-044).
+  const neem = homePage.indexOf('corner-foliage--neem-head');
   assert.ok(neem > homePage.indexOf('id="rooms"'), 'the neem is inside the rooms section');
   assert.ok(neem < homePage.indexOf('id="botanicals"'), 'the neem is before the monograph');
   assert.doesNotMatch(homePage, /corner-foliage--neem-tl/), 'the old header neem is removed';
