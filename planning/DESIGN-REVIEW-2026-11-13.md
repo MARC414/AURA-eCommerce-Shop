@@ -221,3 +221,5 @@ Keep one link (the name) plus the quiet "View piece" text link. Do not add "Add 
 
 **Revised the same day (D-041):** the owner moved the neem to the top-left of the Materia Medica header and the letter to after the Journal, before the footer. Answers 2-7 stand.
 
+**Corrected again 2026-11-14 (D-042):** the owner rejected the header leaf. The neem is now a transparent cutout on a zero-height bridge between Rooms and the Materia Medica, growing out of the Rooms padding with its tip on the "Editorial monograph" overline; the letter stays after the Journal. Answers 2-7 stand.
+

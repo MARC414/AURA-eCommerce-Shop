@@ -664,3 +664,37 @@ Gate: 53/53 tests (a new one asserts the one-row contract), `tsc` clean, 41 page
 **Reversible:** yes. Move the `<img class="...--neem-tl">` back into `rooms()`, restore the Rooms padding rule, and place `${newsletter()}` before `${monograph()}` in the content string.
 
 **Status:** implemented, 41 pages, 55/55 tests, `check:site` clean; uncommitted.
+
+---
+
+## D-042 - Owner correction: the neem is a bridge, not a header ornament
+**2026-11-14 - OWNER INSTRUCTION, IMPLEMENTED.** Owner: "I don't like the neem leaf there, use this image instead, make it transparent and large, the branch will come from the previous section and its tip of the leaf will touch the Editorial monograph."
+
+**Decision:** D-041's top-left header leaf is **removed, not tuned**. The neem is now a true cutout carried by a zero-height bridge between Rooms and the Materia Medica: the stem grows out of the Rooms bottom padding, the branch crosses the seam, and the leaf tip lands on the "Editorial monograph" overline. The letter placement from D-041 is unchanged.
+
+**The asset:**
+- `public/assets/botanicals/corner-neem.webp`, 768x964, 184,462 bytes, a real alpha cutout made from the supplied `corner-neem.jpg`.
+- Keying method, after a border flood fill failed (enclosed black pockets between leaflets stayed opaque): neutral near-black (`luma <= 9`, `chroma <= 6`), connected blobs of 25px or more, a 0.7px alpha feather, and edge unpremultiply; the photographed interior is left alone.
+- Verified over ground, light and checker: no backdrop, no enclosed black, no fringe. The rim is greener than the interior (68,83,43 against 95,121,59), which is natural edge shading, not black fringing.
+- Mean opaque leaf colour is (95,121,58): luminance 111 against the ground's 50, a 2.11:1 decorative read. No text sits on it.
+
+**The bridge:**
+- Markup: `<div class="monograph-bridge" aria-hidden="true">` between `${rooms()}` and `${monograph()}` in `renderHomePage`, carrying the branch image with `width="768" height="964"`, lazy, `alt=""`. Zero height, no ground of its own; the branch paints above Rooms and below the monograph's words.
+- `--monograph-band: clamp(128px, 12vw, 170px)` is now the single number for the monograph header's top padding **and** the branch's bottom offset. The tip meets the overline by construction, not by eye.
+- `left` aligns the branch to the content shell: `max(var(--gutter), (100% - var(--width-shell)) / 2 + var(--gutter))`. The source tip sits at 80.2% of the image width, so the stem lands at the left content edge and the tip lands on the label.
+- Width `calc(0.7967 * (136px + var(--monograph-band)))`: the image is 1.2552 tall for its width, and the Rooms clear band is 148px (36px item padding + 112px section), so this keeps 12px between the stem and the last room text while using the empty padding. Rendered: 210x264 at 861-1024, 231x290 at 1280, 244x306 at 1440-1920.
+- `opacity: .95`, `mix-blend-mode: normal`, transparent background, no drop shadow. The shadow was removed deliberately: black is invisible on this ground and risked reading as the same smudge the owner rejected.
+
+**Measured** (sized same-origin frames, opaque pixels mapped through the rendered box):
+- Tip to overline top: **0-1px** at 861/900/1024/1110/1280/1366/1440/1600/1800/1920, always inside the overline's x-range.
+- Stem clearance from the last room text: **12px** at every width; the stem sits inside the Rooms padding, never on text.
+- 1 leaf pixel touches the overline box at the tip, which is the intended contact; 0 leaf pixels on the heading or note.
+- No horizontal overflow at any tested width (scrollWidth - innerWidth = -15, i.e. the scrollbar only).
+- At and below 860: branch `display: none`, bridge height 0, monograph keeps its normal 56px top padding; at 861 the band and branch switch on together.
+- Background computed `rgba(0, 0, 0, 0)`, blend `normal`, image loaded: no black rectangle.
+
+**Test:** the homepage order test now asserts the bridge sits after `id="rooms"` and before `id="botanicals"`, that the branch points at `corner-neem.webp`, and that no `corner-foliage--neem-*` remains.
+
+**Reversible:** yes. Delete `neemBridge()` from the content string and the `.monograph-bridge` rules; D-041's header image and CSS are recorded above if the owner wants them back.
+
+**Status:** implemented, 41 pages, 55/55 tests, `check:site` clean; committed locally, not pushed (owner has deliberately paused pushes). `corner-neem.jpg` stays because `/brand-preview/` still uses it.

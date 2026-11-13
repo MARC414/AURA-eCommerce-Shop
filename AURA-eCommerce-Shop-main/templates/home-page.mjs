@@ -296,7 +296,6 @@ function monograph() {
 
       <div class="monograph-head${ground ? ' monograph-head--photo' : ''}">
         ${ground}
-        <img class="corner-foliage corner-foliage--neem-tl" src="/assets/botanicals/corner-neem.jpg" alt="" aria-hidden="true" width="1024" height="1024" loading="lazy" decoding="async">
         <div class="botanical-monograph__header">
           <div class="home-section__head">
             <div class="home-section__intro">
@@ -407,6 +406,19 @@ function monograph() {
     </section>`;
 }
 
+/**
+ * The neem bridge. A zero-height element between the rooms and the monograph:
+ * it owns no ground of its own, so the branch can grow out of the Rooms bottom
+ * padding and its tip can reach the "Editorial monograph" overline. The stem
+ * sits in the Rooms padding; the leaf crosses the seam and points at the label.
+ */
+function neemBridge() {
+  return `
+      <div class="monograph-bridge" aria-hidden="true">
+        <img class="monograph-bridge__branch" src="/assets/botanicals/corner-neem.webp" alt="" width="768" height="964" loading="lazy" decoding="async">
+      </div>`;
+}
+
 export function renderHomePage(products = []) {
   return documentPage({
     title: 'A world of conscious living',
@@ -415,6 +427,6 @@ export function renderHomePage(products = []) {
     image: HERO_IMAGE,
     preload: [{ as: 'image', href: HERO_IMAGE_AVIF, type: 'image/avif', fetchpriority: 'high' }],
     scripts: ['/assets/newsletter-page.js'],
-    content: `${hero()}${featured(products)}${rooms()}${monograph()}${newsletter()}`
+    content: `${hero()}${featured(products)}${rooms()}${neemBridge()}${monograph()}${newsletter()}`
   });
 }

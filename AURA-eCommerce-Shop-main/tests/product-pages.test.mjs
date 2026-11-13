@@ -764,11 +764,13 @@ test('the homepage is one static document, and its sections read in order', () =
   assert.ok(order.every(index => index > 0), 'a section is missing');
   assert.deepEqual([...order].sort((a, b) => a - b), order, 'the sections are out of order');
 
-  // The neem belongs to the Materia Medica header now, not the Rooms band.
-  const neem = homePage.indexOf('corner-foliage--neem-tl');
-  assert.ok(neem > homePage.indexOf('id="botanicals"'), 'the neem is outside the monograph');
-  assert.ok(neem < homePage.indexOf('class="botanical-monograph__header"'), 'the neem should sit above the header content');
-  assert.doesNotMatch(homePage, /corner-foliage--neem-br/);
+  // The neem is a bridge between the rooms and the monograph: it grows out of
+  // the Rooms bottom padding and its tip meets the overline (D-042).
+  const bridge = homePage.indexOf('class="monograph-bridge"');
+  assert.ok(bridge > homePage.indexOf('id="rooms"'), 'the bridge sits after the rooms');
+  assert.ok(bridge < homePage.indexOf('id="botanicals"'), 'the bridge sits before the monograph');
+  assert.match(homePage, /class="monograph-bridge__branch"[^>]*src="\/assets\/botanicals\/corner-neem\.webp"/);
+  assert.doesNotMatch(homePage, /corner-foliage--neem-(tl|br|tr)/);
 
   // The letter is the same form contract as /newsletter/, loaded once, and it
   // stays quiet at rest so the band does not open on a status message.
