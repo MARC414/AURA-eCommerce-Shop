@@ -636,3 +636,31 @@ Gate: 53/53 tests (a new one asserts the one-row contract), `tsc` clean, 41 page
 **Reversible:** yes. The template functions are isolated (`featureCard()`, `rooms()`, `newsletter()`, `monograph()`), and the CSS blocks are section-scoped.
 
 **Status:** implemented, built (41 pages), 55/55 tests, `check:site` clean; uncommitted. Two asset gates remain with the owner: the six room/category photographs and the sunrise-crimson long shot. Prices, shipping, stock and real product photography also remain owner-side; the newsletter has no provider.
+
+**2026-11-13 - CORRECTED BY D-041:** the owner moved the neem to the top-left of the Materia Medica header and the letter to after the Journal. The other five answers and the measurements above stand.
+
+---
+
+## D-041 - Owner correction: neem to the Materia Medica header, letter after the Journal
+**2026-11-13 - OWNER INSTRUCTION, IMPLEMENTED.** Owner: "Change the nee[m] leaf on the top left corner, palce the newsletter or subscription section after journal or before footer."
+
+**Decision:** the neem moves from the foot of Rooms to the top-left of the Materia Medica header, inside the band reserved for the sunrise slot. The letter moves from between Rooms and Monograph to after the Journal plate, immediately before the footer. This corrects D-040's two placements; the rest of D-040 stands.
+
+**Neem:**
+- `corner-foliage--neem-tl`: `top: -40px`, `left: -24px`, `width: clamp(140px, 13vw, 180px)`, `rotate(-12deg)`, opacity `.6`; hidden at and below 860.
+- From 861 the header reserves `padding-top: clamp(128px, 12vw, 170px)`. Below 861 the leaf is hidden and the section keeps its original 56-88px top padding, so the band is never empty ground.
+- The section's top padding is 0 from 861, so the leaf sits in the section corner and `overflow: clip` crops it.
+- Measured: at 861/1024 the band is 128px, the leaf 140x140 with 113px visible and **15px** clearance to the overline; at 1440/1920 the band is 170px, the leaf 180x180 with 157px visible and **13px** clearance. **0 bright-pixel hits** on the overline, heading or note at all four widths.
+- Rooms loses the reserved bottom band: padding-bottom returns to 80px at 320/390 and 112px from 761. No leaf remains in Rooms.
+
+**Letter:**
+- Content order is now hero -> featured -> rooms -> monograph (ending on the Journal plate) -> letter -> footer.
+- The form keeps the same `/assets/newsletter-page.js` contract and `data-newsletter-quiet`: empty at rest, speaks after save or remove, writes to this browser only. No provider is connected.
+- Verified at 390 and 1440: letter after the Journal and before the footer; status empty at rest; save stores `reader@example.com` locally and says nothing was sent; remove clears it.
+- No horizontal overflow at 320/390/768/860/861/1024/1440/1920; one `h1`; no duplicate IDs.
+
+**Sunrise:** the leaf now sits above the dormant ground slot. When a photograph is supplied it covers the same band, and the leaf remains above the scrim and below the words.
+
+**Reversible:** yes. Move the `<img class="...--neem-tl">` back into `rooms()`, restore the Rooms padding rule, and place `${newsletter()}` before `${monograph()}` in the content string.
+
+**Status:** implemented, 41 pages, 55/55 tests, `check:site` clean; uncommitted.

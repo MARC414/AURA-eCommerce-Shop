@@ -219,3 +219,5 @@ Keep one link (the name) plus the quiet "View piece" text link. Do not add "Add 
 6. Grid: features 1→2→3 at 761/1101 (recommended)? - **Approved.** 1 column, 2 at 761, 3 at 1101.
 7. Scrim: apply the §4 lift (6.45 → 6.77:1), or leave it? - **Applied.** Desktop and single-column ramps replaced; measured 6.73-7.47:1 across 390-1920.
 
+**Revised the same day (D-041):** the owner moved the neem to the top-left of the Materia Medica header and the letter to after the Journal, before the footer. Answers 2-7 stand.
+

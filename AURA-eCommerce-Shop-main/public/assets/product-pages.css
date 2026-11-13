@@ -878,10 +878,6 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
   background-position: 50% 45%;
 }
 .home-rooms {
-  /* Positioned so the neem leaf can sit at the foot of the section and be
-     clipped by it; the shell above it carries z-index 2 so no room text is
-     ever painted under a leaf. */
-  position: relative; overflow: clip;
   background-color: var(--opar-ground);
   /* .84, not the .78 first measured: at a narrower viewport the cover crop
      zooms into the bright moss and the room paragraphs fell to 4.34:1. The
@@ -891,7 +887,6 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
   background-size: cover;
   background-position: 50% 50%;
 }
-.home-rooms .home-shell { position: relative; z-index: 2; }
 
 /* ==========================================================================
    The botanical monograph — full-bleed photographic plates (D-036)
@@ -914,6 +909,15 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
 .monograph-head { position: relative; isolation: isolate; }
 .monograph-head--photo { padding-block: clamp(72px, 8vw, 112px); }
 .botanical-monograph--grounded { padding-top: 0; }
+/* From 861 the header reserves a band for the neem. Below that the leaf is
+   hidden, so the band would be empty ground and the section keeps its original
+   spacing instead. The photo variant keeps the same top band, so a supplied
+   sunrise sits behind the leaf rather than starting below it. */
+@media (min-width: 861px) {
+  .botanical-monograph { padding-top: 0; }
+  .monograph-head,
+  .monograph-head--photo { padding-top: clamp(128px, 12vw, 170px); }
+}
 .monograph-head__photo { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .monograph-head__scrim {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
@@ -936,16 +940,16 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
   filter: drop-shadow(0 8px 24px rgba(0, 0, 0, .6));
 }
 .corner-foliage--neem-tr { top: -20px; right: 0; width: clamp(220px, 28vw, 380px); transform: translateX(-11.24%) rotate(15deg); }
-/* Production: the neem leaf settles at the foot of the Rooms band, cropped by
-   the section edge. Hidden below 861, where the reserved band is not there to
-   hold it, and never placed where a room paragraph can run under it. */
-.corner-foliage--neem-br {
-  bottom: -28px; right: -24px; z-index: 1;
-  width: clamp(160px, 16vw, 220px);
+/* Production: the neem sits at the top-left of the Materia Medica header,
+   inside the band the sunrise photograph will occupy. It is cropped by the
+   section edge, and hidden below 861 where the band is not reserved. */
+.corner-foliage--neem-tl {
+  top: -40px; left: -24px; z-index: 1;
+  width: clamp(140px, 13vw, 180px);
   transform: rotate(-12deg);
   opacity: .6;
 }
-@media (max-width: 860px) { .corner-foliage--neem-br { display: none; } }
+@media (max-width: 860px) { .corner-foliage--neem-tl { display: none; } }
 .corner-foliage--moringa-bl { bottom: -30px; left: 0; width: clamp(200px, 25vw, 360px); transform: translateX(7.92%) rotate(-10deg); }
 /* This one lives inside a plate, which clips its own overflow. */
 .corner-foliage--turmeric-tr { top: -25px; right: -25px; width: clamp(200px, 26vw, 360px); transform: rotate(20deg); }
@@ -1155,9 +1159,9 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
 }
 
 /* ── The letter ──
-   One solid band between the photographic rooms and the monograph: no card, no
-   radius, no photograph. The form is the same one /newsletter/ uses; its note
-   stays honest about the address being saved in this browser only. */
+   One solid band after the Journal, before the footer: no card, no radius, no
+   photograph. The form is the same one /newsletter/ uses; its note stays honest
+   about the address being saved in this browser only. */
 .home-letter { border-top: 1px solid var(--line); }
 .home-letter__inner { display: grid; gap: 36px; }
 .home-letter__copy p { margin-top: 18px; max-width: 520px; font-size: 14px; line-height: 1.8; color: var(--body); }
@@ -1194,13 +1198,6 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
   .home-featured__foot { flex-direction: row; align-items: center; justify-content: space-between; }
   .room-index { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .room-index__item { padding: 28px 0 36px; }
-}
-
-/* The neem leaf needs a band of its own at the foot of Rooms. From 861 up the
-   section reserves it; below that the leaf is hidden, so the padding is not
-   spent on empty ground. */
-@media (min-width: 861px) {
-  .home-rooms { padding-bottom: clamp(120px, 14vw, 180px); }
 }
 
 @media (min-width: 1101px) {

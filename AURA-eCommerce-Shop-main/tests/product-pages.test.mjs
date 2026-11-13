@@ -758,10 +758,17 @@ test('the homepage is one static document, and its sections read in order', () =
   assert.equal((homePage.match(/<h1/g) || []).length, 1, 'the homepage has exactly one h1');
   assert.match(homePage, /<h1 id="home-heading" class="home-hero__title">A world of<br><em><span class="gold">conscious<\/span> living\.<\/em><\/h1>/);
 
-  // Hero, shelf, rooms, letter, monograph - in that order (D-040).
-  const order = ['class="home-hero"', 'id="featured"', 'id="rooms"', 'id="letter"', 'id="botanicals"'].map(marker => homePage.indexOf(marker));
+  // Hero, shelf, rooms, monograph (ending on the Journal plate), letter - in
+  // that order. The letter is the last band before the footer (D-041).
+  const order = ['class="home-hero"', 'id="featured"', 'id="rooms"', 'id="botanicals"', 'archipelago-block--journal', 'id="letter"'].map(marker => homePage.indexOf(marker));
   assert.ok(order.every(index => index > 0), 'a section is missing');
   assert.deepEqual([...order].sort((a, b) => a - b), order, 'the sections are out of order');
+
+  // The neem belongs to the Materia Medica header now, not the Rooms band.
+  const neem = homePage.indexOf('corner-foliage--neem-tl');
+  assert.ok(neem > homePage.indexOf('id="botanicals"'), 'the neem is outside the monograph');
+  assert.ok(neem < homePage.indexOf('class="botanical-monograph__header"'), 'the neem should sit above the header content');
+  assert.doesNotMatch(homePage, /corner-foliage--neem-br/);
 
   // The letter is the same form contract as /newsletter/, loaded once, and it
   // stays quiet at rest so the band does not open on a status message.

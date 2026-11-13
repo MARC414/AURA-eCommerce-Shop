@@ -200,13 +200,12 @@ function rooms() {
         <ul class="room-index">${items}
         </ul>
       </div>
-      <img class="corner-foliage corner-foliage--neem-br" src="/assets/botanicals/corner-neem.jpg" alt="" aria-hidden="true" width="1024" height="1024" loading="lazy" decoding="async">
     </section>`;
 }
 
 /**
- * The letter. One quiet band between the rooms and the monograph: the form is
- * the same contract as /newsletter/ (`/assets/newsletter-page.js`), and while
+ * The letter. One quiet band after the Journal and before the footer: the form
+ * is the same contract as /newsletter/ (`/assets/newsletter-page.js`), and while
  * no mailing service is connected both the note here and the script's own
  * status say the address stays in this browser.
  */
@@ -297,6 +296,7 @@ function monograph() {
 
       <div class="monograph-head${ground ? ' monograph-head--photo' : ''}">
         ${ground}
+        <img class="corner-foliage corner-foliage--neem-tl" src="/assets/botanicals/corner-neem.jpg" alt="" aria-hidden="true" width="1024" height="1024" loading="lazy" decoding="async">
         <div class="botanical-monograph__header">
           <div class="home-section__head">
             <div class="home-section__intro">
@@ -415,6 +415,6 @@ export function renderHomePage(products = []) {
     image: HERO_IMAGE,
     preload: [{ as: 'image', href: HERO_IMAGE_AVIF, type: 'image/avif', fetchpriority: 'high' }],
     scripts: ['/assets/newsletter-page.js'],
-    content: `${hero()}${featured(products)}${rooms()}${newsletter()}${monograph()}`
+    content: `${hero()}${featured(products)}${rooms()}${monograph()}${newsletter()}`
   });
 }
