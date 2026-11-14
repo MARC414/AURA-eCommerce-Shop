@@ -303,17 +303,17 @@ function monograph() {
     <section id="botanicals" class="botanical-monograph${ground ? ' botanical-monograph--grounded' : ''}" aria-labelledby="monograph-heading">
       <div class="monograph-head${ground ? ' monograph-head--photo' : ''}">
         ${ground}
-        <img class="corner-foliage corner-foliage--beehive-tr" src="/assets/botanicals/corner-beehive.webp" alt="" aria-hidden="true" width="760" height="760" loading="lazy" decoding="async">
+        <img class="corner-foliage corner-foliage--beehive-tr" src="/assets/botanicals/corner-beehive.webp" alt="" aria-hidden="true" width="1200" height="896" loading="lazy" decoding="async">
         <div class="botanical-monograph__header">
           <div class="home-section__head">
             <div class="home-section__intro">
               <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>Editorial monograph</span>
               <h2 id="monograph-heading">The materia medica: whole roots &amp; sacred seeds.</h2>
+              <p class="home-section__note monograph-head__note">Three foods, photographed where they grow, with the lineage and the chemistry kept apart so neither has to borrow from the other.</p>
               <div class="monograph-head__actions">
                 <a class="button button-secondary button-small button-inline" href="/journal/">Read the Journal ${arrow}</a>
               </div>
             </div>
-            <p class="home-section__note">Three foods, photographed where they grow, with the lineage and the chemistry kept apart so neither has to borrow from the other.</p>
           </div>
         </div>
       </div>
