@@ -377,8 +377,8 @@ body.theme-paper .variant-field select { color-scheme: light; }
   display: grid;
   gap: 40px;
   background-color: var(--footer-canvas);
-  background-image: linear-gradient(180deg, rgba(34, 37, 31, .90) 0%, rgba(34, 37, 31, .86) 52%, rgba(34, 37, 31, .92) 100%), url("/assets/brand/footer-roots.jpg");
-  background-image: linear-gradient(180deg, rgba(34, 37, 31, .90) 0%, rgba(34, 37, 31, .86) 52%, rgba(34, 37, 31, .92) 100%), image-set(url("/assets/brand/footer-roots.avif") type("image/avif"), url("/assets/brand/footer-roots.webp") type("image/webp"));
+  background-image: linear-gradient(180deg, rgba(34, 37, 31, .94) 0%, rgba(34, 37, 31, .84) 48%, rgba(24, 27, 22, .95) 100%), url("/assets/brand/footer-roots.jpg");
+  background-image: linear-gradient(180deg, rgba(34, 37, 31, .94) 0%, rgba(34, 37, 31, .84) 48%, rgba(24, 27, 22, .95) 100%), image-set(url("/assets/brand/footer-roots.avif") type("image/avif"), url("/assets/brand/footer-roots.webp") type("image/webp"));
   background-size: cover;
   background-position: 50% 45%;
   color: var(--footer-ink);
@@ -891,18 +891,17 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
    the paper product tiles, not the photograph, are the imagery there. */
 .home-featured {
   background-color: var(--opar-ground);
-  background-image: linear-gradient(rgba(47, 51, 43, .88), rgba(47, 51, 43, .88)), url("/assets/brand/bg-featured.jpg");
-  background-image: linear-gradient(rgba(47, 51, 43, .88), rgba(47, 51, 43, .88)), image-set(url("/assets/brand/bg-featured.avif") type("image/avif"), url("/assets/brand/bg-featured.webp") type("image/webp"));
+  background-image: linear-gradient(180deg, rgba(47, 51, 43, .94) 0%, rgba(47, 51, 43, .88) 48%, rgba(47, 51, 43, .94) 100%), url("/assets/brand/bg-featured.jpg");
+  background-image: linear-gradient(180deg, rgba(47, 51, 43, .94) 0%, rgba(47, 51, 43, .88) 48%, rgba(47, 51, 43, .94) 100%), image-set(url("/assets/brand/bg-featured.avif") type("image/avif"), url("/assets/brand/bg-featured.webp") type("image/webp"));
   background-size: cover;
   background-position: 50% 45%;
 }
 .home-rooms {
   background-color: var(--opar-ground);
-  /* .84, not the .78 first measured: at a narrower viewport the cover crop
-     zooms into the bright moss and the room paragraphs fell to 4.34:1. The
-     flat scrim has to hold the worst crop, not the crop it was measured on. */
-  background-image: linear-gradient(rgba(47, 51, 43, .84), rgba(47, 51, 43, .84)), url("/assets/brand/bg-rooms.jpg");
-  background-image: linear-gradient(rgba(47, 51, 43, .84), rgba(47, 51, 43, .84)), image-set(url("/assets/brand/bg-rooms.avif") type("image/avif"), url("/assets/brand/bg-rooms.webp") type("image/webp"));
+  /* Holds >= .84 floor at every point: at narrower viewports the cover crop
+     zooms into bright moss, so mid-band stays >= .84 while top/bottom seam into neighbours. */
+  background-image: linear-gradient(180deg, rgba(47, 51, 43, .92) 0%, rgba(47, 51, 43, .84) 48%, rgba(47, 51, 43, .92) 100%), url("/assets/brand/bg-rooms.jpg");
+  background-image: linear-gradient(180deg, rgba(47, 51, 43, .92) 0%, rgba(47, 51, 43, .84) 48%, rgba(47, 51, 43, .92) 100%), image-set(url("/assets/brand/bg-rooms.avif") type("image/avif"), url("/assets/brand/bg-rooms.webp") type("image/webp"));
   background-size: cover;
   background-position: 50% 50%;
 }
@@ -922,26 +921,34 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
 
 /* The sunrise slot (MONOGRAPH_GROUND in the template). Inert until a long shot
    of sunrise crimson is supplied. */
-.monograph-head { position: relative; isolation: isolate; z-index: 2; }
+.monograph-head { position: relative; isolation: isolate; z-index: 2; border-top: 1px solid rgba(197, 173, 112, .14); }
 .monograph-head--photo { padding-block: clamp(72px, 8vw, 112px); overflow: clip; }
 .botanical-monograph--grounded { padding-top: 0; }
 .monograph-head__picture { position: absolute; inset: 0; z-index: 0; display: block; pointer-events: none; }
 .monograph-head__photo { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .monograph-head__scrim {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: linear-gradient(90deg,
-    rgba(47, 51, 43, 0.96) 0%,
-    rgba(47, 51, 43, 0.92) 48%,
-    rgba(47, 51, 43, 0.84) 76%,
-    rgba(47, 51, 43, 0.56) 100%);
+  background:
+    linear-gradient(180deg,
+      rgba(34, 37, 31, 0.72) 0%,
+      rgba(47, 51, 43, 0.08) 42%,
+      rgba(47, 51, 43, 0.78) 100%),
+    linear-gradient(90deg,
+      rgba(47, 51, 43, 0.96) 0%,
+      rgba(47, 51, 43, 0.94) 34%,
+      rgba(47, 51, 43, 0.86) 54%,
+      rgba(47, 51, 43, 0.56) 76%,
+      rgba(47, 51, 43, 0.24) 100%);
 }
 .monograph-head .botanical-monograph__header { position: relative; z-index: 3; }
+.monograph-head .home-overline { color: var(--ink); }
+.monograph-head .home-rule { width: 24px; background: var(--opar-gold); }
 .monograph-head__note { margin-top: 16px; max-width: 54ch; }
 .monograph-head__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 24px; }
 
-/* Reserve clean top-right stage for the oak branch & beehive so stacked copy never collides with it. */
+/* Reserve clean top-right stage for the honey tree branch, honeycomb slab, and flying bees. */
 .monograph-head .home-section__head {
-  padding-right: clamp(260px, 34vw, 480px);
+  padding-right: clamp(290px, 38vw, 540px);
   margin-bottom: clamp(48px, 6vw, 84px);
 }
 .monograph-head--photo .home-section__head {
@@ -973,16 +980,12 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
   filter: drop-shadow(0 12px 24px rgba(0, 0, 0, .48));
 }
 .corner-foliage--beehive-tr {
-  top: 0; right: 0;
-  width: clamp(290px, 37vw, 520px);
-  max-height: 100%;
-  object-fit: cover;
-  object-position: 55% 25%;
+  top: -6px; right: -8px;
+  width: clamp(290px, 36vw, 500px);
+  height: auto;
   z-index: 2;
-  opacity: .95;
-  filter: none;
-  -webkit-mask-image: radial-gradient(ellipse 90% 90% at 64% 40%, #000 46%, rgba(0, 0, 0, .65) 72%, transparent 98%);
-  mask-image: radial-gradient(ellipse 90% 90% at 64% 40%, #000 46%, rgba(0, 0, 0, .65) 72%, transparent 98%);
+  opacity: 1;
+  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, .56));
 }
 .corner-foliage--moringa-letter {
   top: -14px; left: -14px;
@@ -993,10 +996,10 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
 }
 @media (max-width: 760px) {
   .corner-foliage--beehive-tr {
-    width: clamp(200px, 54vw, 290px);
-    top: 0;
-    right: 0;
-    opacity: .62;
+    width: clamp(165px, 46vw, 235px);
+    top: -4px;
+    right: -8px;
+    opacity: .76;
   }
   .corner-foliage--moringa-letter {
     width: clamp(136px, 34vw, 190px);
@@ -1004,7 +1007,17 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
     left: -12px;
     opacity: .88;
   }
-  .monograph-head .home-overline { padding-right: 112px; }
+  .monograph-head .home-overline { padding-right: 120px; }
+  .monograph-head__scrim {
+    background:
+      linear-gradient(180deg,
+        rgba(34, 37, 31, 0.88) 0%,
+        rgba(47, 51, 43, 0.76) 52%,
+        rgba(47, 51, 43, 0.92) 100%),
+      linear-gradient(90deg,
+        rgba(47, 51, 43, 0.94) 0%,
+        rgba(47, 51, 43, 0.78) 100%);
+  }
 }
 
 .editorial-spread,
@@ -1022,30 +1035,43 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
   background: var(--canvas); color: var(--ink);
   display: grid; grid-template-columns: 1fr; gap: clamp(32px, 5vw, 64px); align-items: center;
 }
+.editorial-spread + .editorial-spread,
+.editorial-spread + .archipelago-block {
+  border-top: 1px solid rgba(197, 173, 112, .14);
+}
 /* One scrim, one direction: solid where the words sit, almost clear over the
-   specimen. The lift of 2026-11-13 is a quieting choice, not a legibility fix:
-   the previous ramp already measured 6.45:1 at worst. Re-measured over the real
-   photographs, the new ramp holds 6.77:1 at 1440, 6.97:1 at 1024 and 7.33:1 at
-   768, against a 4.5 target. */
+   specimen, plus subtle vertical edge feathering so plate seams read naturally. */
 .spread-scrim {
   position: absolute; inset: 0; z-index: 2; pointer-events: none;
-  background: linear-gradient(90deg,
-    rgba(47, 51, 43, 0.97) 0%,
-    rgba(47, 51, 43, 0.96) 32%,
-    rgba(47, 51, 43, 0.90) 52%,
-    rgba(47, 51, 43, 0.46) 68%,
-    rgba(47, 51, 43, 0.11) 87%,
-    rgba(47, 51, 43, 0) 100%);
+  background:
+    linear-gradient(180deg,
+      rgba(47, 51, 43, 0.42) 0%,
+      rgba(47, 51, 43, 0) 20%,
+      rgba(47, 51, 43, 0) 80%,
+      rgba(47, 51, 43, 0.46) 100%),
+    linear-gradient(90deg,
+      rgba(47, 51, 43, 0.97) 0%,
+      rgba(47, 51, 43, 0.96) 32%,
+      rgba(47, 51, 43, 0.90) 52%,
+      rgba(47, 51, 43, 0.46) 68%,
+      rgba(47, 51, 43, 0.11) 87%,
+      rgba(47, 51, 43, 0) 100%);
 }
 /* Reversed spreads put the words on the right, so the scrim mirrors with them. */
 .editorial-spread--reverse .spread-scrim {
-  background: linear-gradient(270deg,
-    rgba(47, 51, 43, 0.97) 0%,
-    rgba(47, 51, 43, 0.96) 32%,
-    rgba(47, 51, 43, 0.90) 52%,
-    rgba(47, 51, 43, 0.46) 68%,
-    rgba(47, 51, 43, 0.11) 87%,
-    rgba(47, 51, 43, 0) 100%);
+  background:
+    linear-gradient(180deg,
+      rgba(47, 51, 43, 0.42) 0%,
+      rgba(47, 51, 43, 0) 20%,
+      rgba(47, 51, 43, 0) 80%,
+      rgba(47, 51, 43, 0.46) 100%),
+    linear-gradient(270deg,
+      rgba(47, 51, 43, 0.97) 0%,
+      rgba(47, 51, 43, 0.96) 32%,
+      rgba(47, 51, 43, 0.90) 52%,
+      rgba(47, 51, 43, 0.46) 68%,
+      rgba(47, 51, 43, 0.11) 87%,
+      rgba(47, 51, 43, 0) 100%);
 }
 /* Single column: the text sits above the specimen, so the ramp runs downward. */
 @media (max-width: 859px) {
@@ -1055,7 +1081,7 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
       rgba(47, 51, 43, 0.97) 0%,
       rgba(47, 51, 43, 0.95) 44%,
       rgba(47, 51, 43, 0.64) 70%,
-      rgba(47, 51, 43, 0.19) 100%);
+      rgba(47, 51, 43, 0.24) 100%);
   }
 }
 @media (min-width: 860px) {
@@ -1143,13 +1169,18 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
 }
 .archipelago-block--journal .archipelago-scrim {
   inset: 0; z-index: 2;
-  background: linear-gradient(180deg,
-    rgba(47, 51, 43, 0.94) 0%,
-    rgba(47, 51, 43, 0.86) 24%,
-    rgba(47, 51, 43, 0.16) 44%,
-    rgba(47, 51, 43, 0.14) 56%,
-    rgba(47, 51, 43, 0.88) 74%,
-    rgba(47, 51, 43, 0.97) 100%);
+  background:
+    linear-gradient(90deg,
+      rgba(47, 51, 43, 0.40) 0%,
+      rgba(47, 51, 43, 0.14) 44%,
+      rgba(47, 51, 43, 0) 70%),
+    linear-gradient(180deg,
+      rgba(47, 51, 43, 0.95) 0%,
+      rgba(47, 51, 43, 0.87) 23%,
+      rgba(47, 51, 43, 0.14) 43%,
+      rgba(47, 51, 43, 0.12) 56%,
+      rgba(47, 51, 43, 0.90) 74%,
+      rgba(47, 51, 43, 0.97) 100%);
 }
 /* On the photograph the label is mist, not the Button colour: the accent green
    measured 3.78:1 here. Same correction D-037 made to the featured eyebrow. */
@@ -1233,15 +1264,21 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
 .home-letter {
   position: relative;
   overflow: clip;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid rgba(197, 173, 112, .14);
   background-color: var(--opar-ground);
-  background-image: linear-gradient(105deg, rgba(47, 51, 43, .92) 0%, rgba(47, 51, 43, .88) 52%, rgba(47, 51, 43, .84) 100%), url("/assets/brand/newsletter-soil.jpg");
-  background-image: linear-gradient(105deg, rgba(47, 51, 43, .92) 0%, rgba(47, 51, 43, .88) 52%, rgba(47, 51, 43, .84) 100%), image-set(url("/assets/brand/newsletter-soil.avif") type("image/avif"), url("/assets/brand/newsletter-soil.webp") type("image/webp"));
+  background-image:
+    linear-gradient(180deg, rgba(47, 51, 43, .90) 0%, rgba(47, 51, 43, .82) 48%, rgba(34, 37, 31, .95) 100%),
+    linear-gradient(105deg, rgba(47, 51, 43, .46) 0%, rgba(47, 51, 43, .14) 55%, rgba(47, 51, 43, 0) 100%),
+    url("/assets/brand/newsletter-soil.jpg");
+  background-image:
+    linear-gradient(180deg, rgba(47, 51, 43, .90) 0%, rgba(47, 51, 43, .82) 48%, rgba(34, 37, 31, .95) 100%),
+    linear-gradient(105deg, rgba(47, 51, 43, .46) 0%, rgba(47, 51, 43, .14) 55%, rgba(47, 51, 43, 0) 100%),
+    image-set(url("/assets/brand/newsletter-soil.avif") type("image/avif"), url("/assets/brand/newsletter-soil.webp") type("image/webp"));
   background-size: cover;
   background-position: 60% 50%;
 }
 .home-letter .home-overline { color: var(--body); }
-.home-letter .home-rule { background: var(--opar-gold); }
+.home-letter .home-rule { width: 24px; background: var(--opar-gold); }
 .home-letter__inner { position: relative; z-index: 2; display: grid; gap: 36px; }
 .home-letter__copy p { margin-top: 18px; max-width: 520px; font-size: 14px; line-height: 1.8; color: var(--body); }
 .home-letter__subscribe { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }

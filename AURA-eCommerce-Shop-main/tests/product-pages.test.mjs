@@ -773,7 +773,7 @@ test('the homepage is one static document, and its sections read in order', () =
   const beehive = homePage.indexOf('corner-foliage--beehive-tr');
   assert.ok(beehive > homePage.indexOf('class="monograph-head monograph-head--photo"'), 'the beehive sits inside the grounded monograph header');
   assert.ok(beehive < homePage.indexOf('archipelago-block--journal'), 'the beehive anchors top of monograph');
-  assert.match(homePage, /corner-beehive\.webp"[^>]*width="1200" height="896"/, 'the oak-branch beehive carries updated intrinsic dimensions');
+  assert.match(homePage, /corner-honey-hive\.webp"[^>]*width="1200" height="896"/, 'the honey tree beehive carries updated intrinsic dimensions');
   assert.match(homePage, /src="\/assets\/botanicals\/monograph-apiary-garden\.jpg"/, 'the monograph header carries the apiary garden backdrop');
   assert.match(homePage, /<div class="monograph-head__actions">\s*<a class="button button-secondary button-small button-inline" href="\/journal\/">Read the Journal/, 'the monograph header offers an outline button to the journal');
   const titlePos = homePage.indexOf('id="monograph-heading"');

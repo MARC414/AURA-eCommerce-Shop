@@ -303,7 +303,7 @@ function monograph() {
     <section id="botanicals" class="botanical-monograph${ground ? ' botanical-monograph--grounded' : ''}" aria-labelledby="monograph-heading">
       <div class="monograph-head${ground ? ' monograph-head--photo' : ''}">
         ${ground}
-        <img class="corner-foliage corner-foliage--beehive-tr" src="/assets/botanicals/corner-beehive.webp" alt="" aria-hidden="true" width="1200" height="896" loading="lazy" decoding="async">
+        <img class="corner-foliage corner-foliage--beehive-tr" src="/assets/botanicals/corner-honey-hive.webp" alt="" aria-hidden="true" width="1200" height="896" loading="lazy" decoding="async">
         <div class="botanical-monograph__header">
           <div class="home-section__head">
             <div class="home-section__intro">
