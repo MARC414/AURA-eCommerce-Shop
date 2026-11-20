@@ -748,3 +748,28 @@ Gate: 53/53 tests (a new one asserts the one-row contract), `tsc` clean, 41 page
 **Reversible:** yes. Restore D-043's bottom-left rules or remove the image; both records carry the details.
 
 **Status:** implemented, 41 pages, 55/55 tests, `check:site` clean; committed locally, not pushed.
+
+---
+
+## D-045 - No shaped image windows: the paper mount is the image system
+**2026-11-20 - OWNER DECISION, PLANNING ONLY. No storefront code changed.**
+
+**Owner, as typed:** "remove the idea of shape, may be it cannot be handled by ai tools, so far." And, earlier: "the shapes you are creating so bad."
+
+**What was tried and discarded.** Twice in one day. First a local implementation: six clip-path silhouettes (`seed`, `orbit`, `leaf`, `pebble`, `pod`, `stone`) drawn in `objectBoundingBox` units, applied to cards, the gallery and the homepage mounts, plus one test. It never reached a commit; reverted with `git checkout`, tree returned to `0c8d60b`, 41 pages / 55 tests / `check:site` clean afterwards. Second, a plan to have AI Studio design the shapes on a `/shape-preview/` specimen page. The owner closed that too before it started. There will not be a third attempt.
+
+**Decision:** product photographs are never clipped, masked, or cut to a silhouette. Every product image sits on the rectilinear paper mount that the homepage already uses (`.feature-card__mount`): `--paper-canvas` surface, `mix-blend-mode: multiply` so a flat white supplier background becomes the mount colour, `object-fit: contain`, square corners, a 1px `--line` ring only where the mount meets the page.
+
+**Why, in design terms.** The page already carries one botanical layer — the neem, the moringa, the honey hive at the edges — and the owner has spent four corrections (D-041 to D-044) getting that layer right. A second, louder botanical layer wrapped around every photograph competes with it and with the serif type. A product reads best as an object on a sheet; a sheet has four corners. The organic quality should come from the photograph and the paper, not from the geometry of the window.
+
+**Second reason, practical:** a clip-path silhouette has one correct curvature and no tolerance. It reads as either drawn or broken, at every size, and it is the hardest thing in the whole system to iterate on without visible design judgement. A mount has no failure mode: it is either paper or it is not.
+
+**Where the organic work now lives:** the dummy and real photography (unit 1.5), the drawn botanical mark inside an empty mount (unit 1.4), and the edge foliage map (Phase 2). Three separate, testable things instead of one fragile one.
+
+**Consequence:** the homepage and the rest of the site agree by construction — both are paper mounts with square corners. There is no consistency debt to pay later.
+
+**Affected:** `planning/AI-STUDIO-BUILD-PROMPT.md` Phase 1 rewritten from five shape units to six mount units (1.1 mount rule, 1.2 cards, 1.3 gallery, 1.4 empty mount, 1.5 dummy photography, 1.6 audit). Brief now has 32 build units over seven phases.
+
+**Reversible:** yes, but only with a fresh owner instruction and a specimen page first. The reverted implementation is described in this entry and in git history of this planning file; nothing else survives.
+
+**Status:** approved by the owner, recorded, not implemented.
