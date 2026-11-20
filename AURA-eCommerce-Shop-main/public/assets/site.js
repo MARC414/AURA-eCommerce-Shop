@@ -10,10 +10,26 @@
      without this file; what it needs is Escape and a click elsewhere to close,
      with focus going back to the icon that opened it. */
   var menu = document.querySelector('.nav-toggle');
+  var search = document.querySelector('.nav-search');
+  var searchInput = search ? search.querySelector('#site-search-input') : null;
+  var searchClose = search ? search.querySelector('[data-search-close]') : null;
+
+  if (searchClose) searchClose.hidden = false;
+
+  function closeSearch(restoreFocus) {
+    if (!search || !search.open) return false;
+    search.open = false;
+    if (restoreFocus) {
+      var summary = search.querySelector('summary');
+      if (summary) summary.focus();
+    }
+    return true;
+  }
 
   groups.forEach(function (group) {
     group.addEventListener('toggle', function () {
       if (!group.open) return;
+      closeSearch(false);
       groups.forEach(function (other) {
         if (other !== group) other.open = false;
       });
@@ -28,8 +44,30 @@
     return true;
   }
 
+  if (menu) {
+    menu.addEventListener('toggle', function () {
+      if (menu.open) closeSearch(false);
+    });
+  }
+
+  if (search) {
+    search.addEventListener('toggle', function () {
+      if (!search.open) return;
+      groups.forEach(function (group) { group.open = false; });
+      if (menu && menu.open) menu.open = false;
+      if (searchInput) {
+        window.requestAnimationFrame(function () { searchInput.focus(); });
+      }
+    });
+  }
+
+  if (searchClose) {
+    searchClose.addEventListener('click', function () { closeSearch(true); });
+  }
+
   document.addEventListener('keydown', function (event) {
     if (event.key !== 'Escape') return;
+    if (closeSearch(true)) return;
     var open = document.querySelector('.nav-group[open]');
     if (open) {
       open.open = false;
@@ -44,6 +82,7 @@
     if (!event.target.closest('.nav-group')) {
       groups.forEach(function (group) { group.open = false; });
     }
+    if (search && search.open && !event.target.closest('.nav-search')) closeSearch(false);
     if (menu && menu.open && !event.target.closest('.header-row')) closeMenu();
   });
 

@@ -181,28 +181,32 @@ h3 { font-size: var(--text-h3); }
    keep the ground colour, so a dropdown never shows text through it.
    One row at every width (T4.5): 65px at 375 and 73px above 760, measured,
    against 198px and 120px for the two-row header it replaced. */
-.site-header { padding: 0 max(24px, calc((100vw - 1580px) / 2)); border-bottom: 1px solid var(--line); background: transparent; }
-.header-row { display: flex; align-items: center; gap: clamp(12px, 2.2vw, 40px); min-height: 72px; }
-.wordmark { order: 1; display: inline-flex; gap: 14px; align-items: center; font-family: var(--serif); font-size: 30px; font-weight: 600; line-height: 1.2; letter-spacing: .01em; }
-.wordmark-emblem { width: 30px; height: 30px; object-fit: contain; flex-shrink: 0; }
+.site-header { position: relative; z-index: 25; padding: 0 max(var(--gutter), calc((100vw - 1484px) / 2)); border-bottom: 1px solid var(--line); background: transparent; }
+.header-row { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: clamp(16px, 2.5vw, 36px); min-height: 92px; }
+.wordmark { order: 1; justify-self: start; display: inline-flex; gap: 14px; align-items: center; font-family: var(--serif); font-size: 34px; font-weight: 600; line-height: 1.15; letter-spacing: .03em; }
+.wordmark-emblem { width: 40px; height: 40px; object-fit: contain; flex-shrink: 0; }
 .wordmark-note { font-family: var(--sans); color: var(--body); font-size: 9px; letter-spacing: .17em; text-transform: uppercase; border-left: 1px solid var(--line); padding-left: 16px; font-weight: 500; }
-/* Above 1280 the field fits beside the menu; below it, the icon in
-   `.utility-search` links to /search/, which carries the same form. */
-.site-search { display: flex; align-items: center; width: clamp(180px, 18vw, 240px); border-bottom: 1px solid var(--line); }
-.site-search:focus-within { border-color: var(--ink); }
-.site-search input { flex: 1 1 auto; min-width: 0; min-height: 44px; padding: 0 6px; border: 0; background: transparent; color: var(--ink); font-size: 13px; }
-.site-search input::placeholder { color: var(--body); opacity: .65; }
-.site-search button { display: grid; place-items: center; width: 40px; height: 44px; border: 0; background: transparent; }
-.site-search button svg { width: 18px; height: 18px; }
-.header-utility { order: 3; display: flex; align-items: center; gap: 2px; margin-left: auto; }
-.primary-nav { order: 2; display: flex; align-items: center; justify-content: center; flex: 1 1 auto; gap: clamp(14px, 2.2vw, 34px); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; }
-.utility-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 9px; font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; }
+.primary-nav { order: 2; justify-self: center; display: flex; align-items: center; justify-content: center; gap: clamp(14px, 2.2vw, 34px); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; }
+.header-utility { order: 3; justify-self: end; display: flex; align-items: center; gap: 4px; }
+.utility-link { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; padding: 0 9px; font-size: 10px; font-weight: 500; letter-spacing: .11em; text-transform: uppercase; white-space: nowrap; transition: var(--transition-color); }
 .utility-icon { display: inline-flex; }
 .utility-link svg { width: 19px; height: 19px; }
 .utility-link:hover { text-decoration: underline; text-underline-offset: 5px; }
-/* The icon form of the same destination. Hidden while the field is shown (above
-   1279), so the header never offers search twice. */
-.utility-search { display: none; }
+/* Single progressive search drawer across every width: no page hop, no cramped inline input. */
+.nav-search { position: static; }
+.nav-search > summary { cursor: pointer; list-style: none; }
+.nav-search > summary::-webkit-details-marker { display: none; }
+.nav-search > summary::marker { content: ''; }
+.nav-search[open] > summary { color: var(--cta); }
+.nav-search__drawer { position: absolute; top: 100%; left: 0; right: 0; z-index: 28; padding: 20px max(var(--gutter), calc((100vw - 1484px) / 2)); background: var(--canvas); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); box-shadow: var(--shadow-panel); }
+.site-search { display: flex; align-items: center; gap: 4px; width: min(640px, 100%); margin: 0 auto; border-bottom: 1px solid var(--line); }
+.site-search:focus-within { border-color: var(--ink); }
+.site-search input { flex: 1 1 auto; min-width: 0; min-height: 48px; padding: 0 8px 0 0; border: 0; background: transparent; color: var(--ink); font-size: 15px; }
+.site-search input::placeholder { color: var(--body); opacity: .72; }
+.site-search button { display: grid; place-items: center; width: 44px; height: 48px; border: 0; background: transparent; color: var(--body); transition: var(--transition-color); }
+.site-search button:hover { color: var(--ink); }
+.site-search button svg { width: 18px; height: 18px; }
+.site-search__close[hidden] { display: none; }
 .utility-count { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--radius-pill); background: var(--ink); color: var(--canvas); font-size: 9px; letter-spacing: 0; font-weight: 600; }
 .utility-count[hidden] { display: none; }
 /* The section menu's own disclosure, below 761 only. It is a plain <details>
@@ -534,19 +538,9 @@ body.theme-paper .button.is-confirmed { border-color: var(--opar-accent); }
 .newsletter-form .button { width: auto; padding-left: 32px; padding-right: 32px; }
 .newsletter-remove { margin-top: 8px; padding: 0; border: 0; background: none; }
 
-@media (min-width: 1600px) { .site-header { padding-left: max(48px, calc((100vw - 1484px) / 2)); padding-right: max(48px, calc((100vw - 1484px) / 2)); } }
-/* Below this the header cannot hold the brand note, three utility labels and a
-   search field beside four sections: measured, at 1279 the row needs ~1262px of
-   a 1183px line. So the labels go to the screen reader only, the field becomes
-   the icon that links to /search/, and the wordmark drops its note - one row,
-   nothing hidden from a keyboard or a screen reader. */
-@media (max-width: 1279px) {
-  .wordmark-note { display: none; }
-  .site-search { display: none; }
-  .utility-search { display: inline-flex; }
-  .utility-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
-}
 @media (max-width: 1100px) {
+  .wordmark-note { display: none; }
+  .utility-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
   .header-status { display: none; }
   .footer-columns { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px 24px; }
   .page-shell { padding-left: 32px; padding-right: 32px; }
@@ -561,10 +555,12 @@ body.theme-paper .button.is-confirmed { border-color: var(--opar-accent); }
   .nav-panel-grouped { min-width: 420px; }
 }
 @media (max-width: 760px) {
-  .site-header { position: relative; padding: 0 20px; }
-  .header-row { min-height: 64px; gap: 4px; }
-  .wordmark { font-size: 24px; gap: 10px; }
-  .wordmark-emblem { width: 26px; height: 26px; }
+  .site-header { position: relative; padding: 0 var(--gutter); }
+  .header-row { display: flex; min-height: 68px; gap: 4px; }
+  .header-utility { margin-left: auto; gap: 2px; }
+  .wordmark { font-size: 26px; gap: 11px; }
+  .wordmark-emblem { width: 30px; height: 30px; }
+  .nav-search__drawer { padding: 16px var(--gutter); }
   .utility-link { padding: 0 7px; }
   .utility-link svg { width: 18px; height: 18px; }
   .utility-count { min-width: 16px; height: 16px; padding: 0 4px; font-size: 9px; }
@@ -1302,11 +1298,10 @@ body.theme-paper .button-primary:focus-visible { outline-color: var(--focus-ring
    was re-measured against the new height rather than the old 120px. */
 @media (min-width: 761px) {
   body.theme-home .site-header { position: absolute; inset: 0 0 auto; z-index: 20; }
-  /* Measured after consolidation: the header is 88px deep here and the scrim
-     holds 0.72 alpha at its bottom edge, which keeps Main Text at 6.71:1 and
-     mist at 4.93:1. Raise the header again and this number has to follow. */
-  .home-hero .hero-scrim-top { height: 200px; }
-  .home-hero { padding-top: 152px; }
+  /* Scaled header (92px deep) needs slightly deeper top scrim to keep
+     Main Text and mist safely above WCAG AA over the upper treeline/sky. */
+  .home-hero .hero-scrim-top { height: 228px; }
+  .home-hero { padding-top: 172px; }
   .home-section { padding: 112px 0; }
   .home-section__head { flex-direction: row; align-items: flex-end; justify-content: space-between; gap: 32px; }
   .home-hero__lede { font-size: 16px; }

@@ -102,19 +102,19 @@ function header(active = null, emblem = brand.logo.assetPathOnDark) {
   const utility = site.utility || {};
   const searchPublished = isPublished(utility.search);
   const search = searchPublished ? `
-        <form class="site-search" role="search" action="${escapeHtml(utility.search.action)}" method="get">
-          <label class="sr-only" for="site-search-input">${escapeHtml(utility.search.placeholder)}</label>
-          <input id="site-search-input" type="search" name="q" placeholder="${escapeHtml(utility.search.placeholder)}" autocomplete="off">
-          <button type="submit" aria-label="${escapeHtml(utility.search.label)}">${icons.search}</button>
-        </form>` : '';
+        <details class="nav-search">
+          <summary class="utility-link nav-search__toggle" aria-label="${escapeHtml(utility.search.label)}"><span class="utility-icon">${icons.search}</span><span class="utility-label">${escapeHtml(utility.search.label)}</span></summary>
+          <div class="nav-search__drawer">
+            <form class="site-search" role="search" action="${escapeHtml(utility.search.action)}" method="get">
+              <label class="sr-only" for="site-search-input">${escapeHtml(utility.search.placeholder)}</label>
+              <input id="site-search-input" type="search" name="q" placeholder="${escapeHtml(utility.search.placeholder)}" autocomplete="off">
+              <button class="site-search__submit" type="submit" aria-label="${escapeHtml(utility.search.label)}">${icons.search}</button>
+              <button class="site-search__close" type="button" data-search-close aria-label="Close search" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+            </form>
+          </div>
+        </details>` : '';
   const utilityLink = (item, icon, extra = '') => isPublished(item)
     ? `<a class="utility-link" href="${escapeHtml(item.href)}"><span class="utility-icon">${icon}</span><span class="utility-label">${escapeHtml(item.label)}</span>${extra}</a>`
-    : '';
-  /* The icon form of the same destination: the field is only wide enough to be
-     useful above 1100, and a submit button with no visible field is not a
-     control. `/search/` has the field. */
-  const searchLink = searchPublished
-    ? `<a class="utility-link utility-search" href="${escapeHtml(utility.search.action)}" aria-label="${escapeHtml(utility.search.label)}">${icons.search}</a>`
     : '';
   const status = site.status?.preview
     ? `<span class="header-status"><span aria-hidden="true"></span>${escapeHtml(site.status.label)}</span>`
@@ -146,14 +146,14 @@ function header(active = null, emblem = brand.logo.assetPathOnDark) {
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
       <div class="header-row">
-        <a class="wordmark" href="${escapeHtml(site.brand.homeHref)}" aria-label="${escapeHtml(site.brand.name)} home"><img class="wordmark-emblem" src="${escapeHtml(emblem)}" alt="${escapeHtml(brand.logo.altText)}" width="32" height="32"><span class="wordmark-text">${escapeHtml(site.brand.wordmark)}</span><span class="wordmark-note">${escapeHtml(site.brand.note)}</span></a>
+        <a class="wordmark" href="${escapeHtml(site.brand.homeHref)}" aria-label="${escapeHtml(site.brand.name)} home"><img class="wordmark-emblem" src="${escapeHtml(emblem)}" alt="${escapeHtml(brand.logo.altText)}" width="40" height="40"><span class="wordmark-text">${escapeHtml(site.brand.wordmark)}</span>${site.brand.note ? `<span class="wordmark-note">${escapeHtml(site.brand.note)}</span>` : ''}</a>
         <details class="nav-toggle">
           <summary aria-label="Menu">${icons.menu}</summary>
         </details>
         <nav class="primary-nav" aria-label="Primary navigation">
           ${site.nav.filter(isPublished).map(navItem).join('\n          ')}
         </nav>
-        <div class="header-utility">${search}${searchLink}
+        <div class="header-utility">${search}
           ${utilityLink(utility.account, icons.user)}
           ${utilityLink(utility.wishlist, icons.heart, '<span class="utility-count" data-wishlist-count hidden></span>')}
           ${utilityLink(utility.cart, icons.bag, '<span class="utility-count" data-cart-count hidden></span>')}

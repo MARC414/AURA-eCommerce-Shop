@@ -318,22 +318,22 @@ test('the header is one row at every width, with one search control', async () =
   // written once, before the first breakpoint.)
   const base = css.split('@media')[0];
   assert.equal((base.match(/\.header-row \{/g) || []).length, 1);
-  assert.match(base, /\.header-row \{[^}]*min-height: 72px/);
+  assert.match(base, /\.header-row \{[^}]*min-height: 92px/);
+  assert.match(base, /\.header-row \{[^}]*grid-template-columns:\s*minmax\(0, 1fr\) auto minmax\(0, 1fr\)/);
   assert.doesNotMatch(css, /\.header-top\s*\{|\.header-bottom\s*\{/, 'a retired header row is still styled');
   assert.equal((page.match(/<div class="header-row">/g) || []).length, 1);
   assert.doesNotMatch(page, /header-top|header-bottom/);
 
   // Utilities are icons with a count chip; the label survives for the screen
-  // reader once the row is too narrow to carry it.
+  // reader once the row narrows below 1101px.
   assert.match(css, /\.utility-icon \{[^}]*display: inline-flex/);
-  assert.match(css, /@media \(max-width: 1279px\) \{[\s\S]*?\.utility-label \{[^}]*clip: rect\(0, 0, 0, 0\)/);
+  assert.match(css, /@media \(max-width: 1100px\) \{[\s\S]*?\.utility-label \{[^}]*clip: rect\(0, 0, 0, 0\)/);
 
-  // Exactly one search control is visible at any width: the field above 1279,
-  // the icon that links to /search/ below it.
-  assert.match(css, /\.utility-search \{ display: none; \}/);
-  assert.match(css, /@media \(max-width: 1279px\) \{[\s\S]*?\.site-search \{ display: none; \}[\s\S]*?\.utility-search \{ display: inline-flex; \}/);
+  // Exactly one progressive search drawer serves every viewport width.
+  assert.match(css, /\.nav-search__drawer \{/);
+  assert.match(page, /<details class="nav-search">/);
   assert.match(page, /<form class="site-search" role="search" action="\/search\/" method="get">/);
-  assert.match(page, /<a class="utility-link utility-search" href="\/search\/" aria-label="Search">/);
+  assert.doesNotMatch(page, /utility-search/);
 
   // Below 761 the sections live in a `<details>` panel: no duplicated nav
   // markup, no JavaScript needed to open it, no `:has()`.
