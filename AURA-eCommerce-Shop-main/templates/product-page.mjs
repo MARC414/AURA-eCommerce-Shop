@@ -269,8 +269,9 @@ export function card(product) {
     : escapeHtml(product.category);
   const badge = `<span class="badge${isAffiliate ? ' badge-partner' : ''}">${MODELS[product.model].badge}</span>`;
   const cta = isAffiliate ? 'View the offer' : 'View the piece';
+  const blendAttr = first.blend === 'none' ? ' data-blend="none"' : '';
   return `<article class="product-card" data-model="${product.model}">
-    <a class="card-image" href="${productPath(product)}" tabindex="-1" aria-hidden="true"><img src="${escapeHtml(first.src)}" alt="" width="640" height="640" loading="lazy" decoding="async" data-fallback="/assets/products/photography-pending.svg">${badge}</a>
+    <a class="card-image product-mount"${blendAttr} href="${productPath(product)}" tabindex="-1" aria-hidden="true"><img src="${escapeHtml(first.src)}" alt="" width="640" height="640" loading="lazy" decoding="async" data-fallback="/assets/products/photography-pending.svg">${badge}</a>
     <div class="card-copy"><span class="eyebrow">${eyebrow}</span><h3><a href="${productPath(product)}">${escapeHtml(product.name)} ${arrow}</a></h3><p>${escapeHtml(product.tagline)}</p>${cardAvailability(product)}<span class="card-price">${cardPrice(product)}</span><a class="text-link card-cta" href="${productPath(product)}">${cta} ${arrow}<span class="sr-only"> about ${escapeHtml(product.name)}</span></a></div>
   </article>`;
 }

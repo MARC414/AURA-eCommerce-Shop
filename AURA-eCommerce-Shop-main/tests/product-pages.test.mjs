@@ -980,3 +980,65 @@ test('the hero grain and scrims have one value across both stylesheets', async (
     );
   }
 });
+
+test('Unit 1.1: product photographs obey one paper mount rule without shadows, radii, or crop', async () => {
+  const css = await readFile(new URL('../public/assets/product-pages.css', import.meta.url), 'utf8');
+  const marker = '/* ── The mount rule (Phase 1.1 / D-045)';
+  const start = css.indexOf(marker);
+  assert.ok(start > 0, 'Unit 1.1 mount rule block is missing');
+  const section = css.slice(start, css.indexOf('.product-layout {', start));
+  const codeOnly = section.replace(/\/\*[\s\S]*?\*\//g, '');
+
+  assert.equal((css.match(/\.product-mount,/g) || []).length, 1, 'the mount rule is written in one place');
+  for (const selector of ['.product-mount', '.main-image', '.card-image', '.thumbnail', '.commerce-thumb']) {
+    assert.match(codeOnly, new RegExp(selector.replace(/\./g, '\\.')), `${selector} missing from mount rule`);
+  }
+  assert.match(codeOnly, /background:\s*var\(--paper-canvas\);/);
+  assert.match(codeOnly, /background-image:\s*none;/);
+  assert.match(codeOnly, /border:\s*1px solid var\(--line\);/);
+  assert.match(codeOnly, /border-radius:\s*0;/);
+  assert.match(codeOnly, /box-shadow:\s*none;/);
+  assert.match(codeOnly, /aspect-ratio:\s*4 \/ 5;/);
+  assert.match(codeOnly, /\.product-mount--square,\s*\.thumbnail\s*\{[^}]*aspect-ratio:\s*1 \/ 1;/);
+  assert.match(codeOnly, /object-fit:\s*contain;/);
+  assert.match(codeOnly, /mix-blend-mode:\s*multiply;/);
+  assert.match(codeOnly, /\[data-blend="none"\] > img\s*\{\s*mix-blend-mode:\s*normal;\s*\}/);
+  assert.match(section, /\[data-blend="none"\]/, 'comment documents the dark-photo escape hatch');
+  assert.doesNotMatch(codeOnly, /#[0-9a-fA-F]{3,8}/, 'mount rule uses palette tokens only, no raw hex');
+
+  // No card hover shadow or photograph scale remains, and mobile thumbnails preserve 1:1.
+  assert.doesNotMatch(css, /\.product-card:hover\s+\.card-image/);
+  assert.doesNotMatch(css, /\.preview-cards\s+\.card-image\s*\{\s*aspect-ratio:\s*1 \/ 1;/);
+  assert.doesNotMatch(css, /@media\s*\(max-width:\s*760px\)[^]*?\.main-image\s*\{\s*aspect-ratio:\s*1 \/ 1;/);
+});
+
+test('Unit 1.2: shop, room, partner, and related cards share one product-mount without touching homepage', async () => {
+  const css = await readFile(new URL('../public/assets/product-pages.css', import.meta.url), 'utf8');
+  assert.match(css, /grid-template-columns:\s*minmax\(0, 1fr\);/);
+  assert.match(css, /grid-template-rows:\s*minmax\(0, 1fr\);/);
+
+  const shop = renderCollection('dropshipping', products);
+  const discover = renderCollection('affiliate', products);
+  const rooms = collections.map(collection => renderCategoryPage(collection, products));
+  const relatedSections = [...productPages.values()].map(page => page.split('class="related-section"')[1]);
+
+  // Every rendered card across shop, non-empty rooms, discover, and related sections
+  // emits the shared `card-image product-mount` wrapper with badge inside and eyebrow in card-copy.
+  for (const html of [shop, discover, ...rooms, ...relatedSections]) {
+    const cards = (html.match(/<article class="product-card"/g) || []).length;
+    const mounts = (html.match(/<a class="card-image product-mount"/g) || []).length;
+    assert.equal(mounts, cards, 'every card uses the shared card-image product-mount wrapper');
+    if (cards > 0) {
+      assert.match(html, /<a class="card-image product-mount"[^>]*><img[^>]+><span class="badge[^"]*">[^<]+<\/span><\/a>\s*<div class="card-copy"><span class="eyebrow">/);
+    }
+  }
+
+  // Homepage stays untouched: no card-image or product-mount appears on /.
+  assert.doesNotMatch(homePage, /card-image|product-mount/);
+
+  // Optional dark-ground escape hatch flows from product image metadata onto the card mount.
+  const darkCardProduct = clone(shopProduct);
+  darkCardProduct.images = [{ ...darkCardProduct.images[0], blend: 'none' }];
+  const customShop = renderCollection('dropshipping', [darkCardProduct]);
+  assert.match(customShop, /<a class="card-image product-mount" data-blend="none"/);
+});
