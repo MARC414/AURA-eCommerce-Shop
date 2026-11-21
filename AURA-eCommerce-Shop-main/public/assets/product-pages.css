@@ -1442,3 +1442,378 @@ body:not(.theme-paper) .text-link:hover { color: var(--opar-gold); }
     padding-left: 112px;
   }
 }
+
+/* ==========================================================================
+   Construction storefront styles (Phases 1.4 - 6)
+   Strictly uses Layer 1 & Layer 2 design tokens — no raw hex outside :root.
+   ========================================================================== */
+
+/* Responsive <picture> inside paper product mounts + [hidden] safety */
+.product-mount > picture,
+.main-image > picture,
+.card-image > picture,
+.thumbnail > picture,
+.commerce-thumb > picture {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+}
+.product-mount picture > img,
+.main-image picture > img,
+.card-image picture > img,
+.thumbnail picture > img,
+.commerce-thumb picture > img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+[data-blend="none"] > picture > img {
+  mix-blend-mode: normal;
+}
+.image-corner-label,
+.card-image > .badge {
+  z-index: 2;
+}
+.empty-mount[hidden],
+[data-main-image][hidden],
+.product-mount picture[hidden] {
+  display: none !important;
+}
+
+/* Unit 1.4 — Stroke-only botanical empty mount inside paper frames */
+.empty-mount {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  text-align: center;
+  color: var(--paper-body);
+}
+.empty-mount__corner {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 1px solid rgba(85, 99, 42, .35);
+}
+.empty-mount__corner--tl { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+.empty-mount__corner--tr { top: 10px; right: 10px; border-left: 0; border-bottom: 0; }
+.empty-mount__corner--bl { bottom: 10px; left: 10px; border-right: 0; border-top: 0; }
+.empty-mount__corner--br { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+.empty-mount__mark {
+  width: clamp(84px, 32%, 128px);
+  height: auto;
+  color: var(--opar-accent);
+  opacity: .18;
+  flex-shrink: 0;
+}
+.empty-mount--card .empty-mount__mark {
+  width: clamp(64px, 30%, 96px);
+}
+.empty-mount__label {
+  font-size: 9px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--paper-body);
+}
+.thumbnail__empty-mark {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  color: var(--opar-accent);
+}
+.thumbnail__empty-mark svg {
+  width: 34px;
+  height: auto;
+  opacity: .26;
+}
+
+/* Phase 2 — Restrained corner botanicals on top-level hubs only */
+.hub-page {
+  position: relative;
+  overflow: clip;
+}
+.hub-foliage {
+  display: none;
+}
+@media (min-width: 861px) {
+  .hub-foliage--top-right {
+    display: block;
+    position: absolute;
+    top: 8px;
+    right: -14px;
+    width: clamp(190px, 21vw, 280px);
+    height: auto;
+    opacity: .9;
+    pointer-events: none;
+    z-index: 1;
+    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, .38));
+  }
+  .hub-page .breadcrumbs,
+  .hub-page .collection-heading {
+    position: relative;
+    z-index: 2;
+  }
+  .hub-page .collection-heading {
+    margin-right: clamp(210px, 23vw, 300px);
+  }
+}
+
+/* Phase 3 & 6.6 — Quiet construction-sample / browser-local banner */
+.sample-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 24px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 12px 0;
+  margin-bottom: 32px;
+}
+.sample-banner .eyebrow {
+  flex-shrink: 0;
+}
+.sample-banner p {
+  font-size: 12px;
+  color: var(--body);
+  line-height: 1.7;
+}
+.sample-banner--paper {
+  margin-top: 8px;
+  margin-bottom: 24px;
+}
+
+/* Phase 5 — Rich PDP hierarchy, tabular numbers, cross-links, FAQ & accordions */
+.price-value,
+.card-price,
+.specifications dd,
+.commerce-line-total {
+  font-variant-numeric: tabular-nums;
+}
+.product-format {
+  margin-top: 8px;
+  font-size: 12px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--body);
+}
+.dispatch-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--accent-text);
+}
+.whatsapp-inquiry {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.whatsapp-inquiry .small-note {
+  margin-top: 2px;
+  line-height: 1.65;
+}
+.pdp-jumps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.details-story h3 {
+  font-family: var(--serif);
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+.details-story > p + p {
+  margin-top: 14px;
+}
+.care-callout {
+  margin-top: 24px;
+  padding: 16px 18px;
+  background: var(--surface);
+  border-left: 2px solid var(--cta);
+}
+.care-callout p {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--body);
+  line-height: 1.75;
+}
+.cross-links-section,
+.product-faq-section,
+.compliance-details-section {
+  border-top: 1px solid var(--line);
+  padding-top: 54px;
+  margin-top: 80px;
+}
+.cross-links {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.cross-link-tile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 64px;
+  padding: 18px 20px;
+  background: var(--canvas);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  transition: var(--transition-color);
+}
+.cross-link-tile svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--accent-text);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.cross-link-tile:hover {
+  background: var(--surface);
+  color: var(--cta);
+}
+.cross-link-tile:hover svg {
+  transform: translateX(3px);
+}
+.compliance-accordion {
+  border-top: 1px solid var(--line);
+}
+.compliance-accordion details {
+  border-bottom: 1px solid var(--line);
+}
+.compliance-accordion summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 56px;
+  padding: 18px 0;
+  cursor: pointer;
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.4;
+}
+.compliance-accordion summary::after {
+  content: '+';
+  font-family: var(--sans);
+  font-size: 16px;
+  color: var(--accent-text);
+}
+.compliance-accordion details[open] summary::after {
+  content: '−';
+}
+.compliance-accordion__body {
+  padding: 0 0 24px;
+  display: grid;
+  gap: 16px;
+}
+.claims-panel--compact {
+  padding: 18px 20px;
+}
+.claims-panel--compact ul {
+  margin: 10px 0 0;
+}
+
+/* Phase 6 — Neutral payment preferences, order tracking & footer WhatsApp */
+.payment-preferences .small-note {
+  margin-bottom: 16px;
+  line-height: 1.75;
+}
+.payment-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.payment-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.payment-group .field-label {
+  color: var(--accent-text);
+  margin-bottom: 4px;
+}
+.radio-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--ink);
+  line-height: 1.6;
+  cursor: pointer;
+}
+.radio-field input {
+  width: 17px;
+  height: 17px;
+  margin: 2px 0 0;
+  flex-shrink: 0;
+  accent-color: var(--opar-accent);
+}
+.order-lookup-form {
+  max-width: 680px;
+  display: grid;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.order-lookup-result {
+  margin-top: 12px;
+  max-width: 680px;
+}
+.footer-whatsapp {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 14px;
+}
+.footer-whatsapp .text-link {
+  min-height: 34px;
+  color: var(--footer-ink);
+}
+.footer-whatsapp__note {
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--footer-muted);
+}
+
+@media (max-width: 1100px) {
+  .cross-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .cross-links-section,
+  .product-faq-section,
+  .compliance-details-section {
+    padding-top: 36px;
+    margin-top: 52px;
+  }
+  .payment-groups {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .cross-links {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+

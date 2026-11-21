@@ -6,8 +6,8 @@
  * the two navigation surfaces. Nothing here knows what a product is.
  *
  * It also holds the data every renderer reads (site.json, collections.json,
- * brand.json) and the shared inline icon set, so a new page cannot invent a
- * second header or a second bag icon.
+ * brand.json, foliage.json) and the shared inline icon set, so a new page cannot
+ * invent a second header or a second bag icon.
  */
 
 import { readFileSync } from 'node:fs';
@@ -15,10 +15,8 @@ import { readFileSync } from 'node:fs';
 export const site = JSON.parse(readFileSync(new URL('../data/site.json', import.meta.url), 'utf8'));
 export const collections = JSON.parse(readFileSync(new URL('../data/collections.json', import.meta.url), 'utf8'));
 export const brand = JSON.parse(readFileSync(new URL('../data/brand.json', import.meta.url), 'utf8'));
-/* The content pages, read here so a template can quote a page's own words
-   instead of repeating them. The journal index on the homepage uses the
-   column's meta description, so the two can never drift apart. */
 export const pages = JSON.parse(readFileSync(new URL('../data/pages.json', import.meta.url), 'utf8'));
+export const foliage = JSON.parse(readFileSync(new URL('../data/foliage.json', import.meta.url), 'utf8'));
 export const BRAND = brand.name;
 
 /**
@@ -33,6 +31,29 @@ export function escapeHtml(value = '') {
   }[character]));
 }
 
+export function whatsappLink(message = '') {
+  const base = site.contact?.whatsappUrl || 'https://wa.me/447700900412';
+  const text = message || `Hello ${BRAND}, I would like to enquire about an item or invoice.`;
+  return `${base}?text=${encodeURIComponent(text)}`;
+}
+
+export function whatsappDisclosure() {
+  return site.contact?.whatsappDisclosure
+    || 'WhatsApp is a third-party messaging service (Meta); opening this link leaves OPAR.';
+}
+
+/**
+ * Restrained hub foliage renderer: reads data/foliage.json only. Never renders
+ * on `/` (the homepage manages its own edge botanicals) or utility routes.
+ */
+export function hubFoliageMarkup(routePath) {
+  if (!routePath || routePath === '/') return '';
+  const entry = foliage.find(item => item.page === routePath);
+  if (!entry) return '';
+  const corner = entry.corner || 'top-right';
+  return `<img class="corner-foliage hub-foliage hub-foliage--${escapeHtml(corner)}" src="${escapeHtml(entry.asset)}" alt="" aria-hidden="true" width="${Number(entry.width) || 760}" height="${Number(entry.height) || 567}" loading="lazy" decoding="async">`;
+}
+
 export const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>';
 export const external = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 5h5v5m0-5L9 15M10 5H5v14h14v-5"/></svg>';
 
@@ -40,9 +61,6 @@ export const external = '<svg viewBox="0 0 24 24" fill="none" stroke="currentCol
  * button({ label, href, variant, size, icon, attrs })
  *   variant: 'primary' (default) | 'secondary' | 'quiet' | 'icon'
  *   size:    'default' (56px)    | 'small'
- * One implementation, mirroring the CSS roles above. `attrs` is an object of
- * extra attributes, escaped. Values match the house spec in
- * docs/BRAND-GUIDELINES.md (§Buttons), settled 2026-11-10.
  */
 export function button({ label = '', href = null, variant = 'primary', size = null, icon = null, attrs = {} } = {}) {
   const variants = new Set(['primary', 'secondary', 'quiet', 'icon']);
@@ -75,7 +93,6 @@ export const icons = {
 const chevron = '<span class="nav-chevron" aria-hidden="true"></span>';
 const isPublished = item => Boolean(item) && item.published !== false;
 
-/** Group a nav panel's children by their optional `group` label. */
 function navGroups(children) {
   const groups = new Map();
   children.forEach(child => {
@@ -86,18 +103,6 @@ function navGroups(children) {
   return [...groups.entries()];
 }
 
-/**
- * One row at every width: identity, sections, utilities (T4.5).
- *
- * The two-row header it replaced measured 198px at 375 (a quarter of the
- * viewport) and 120px above 760, because identity + search + utilities and the
- * section menu each got their own line. Four sections, a wordmark and four
- * utilities do not fit on one 375px line, so below 761 the sections move into a
- * `<details>` panel opened from an icon: no JavaScript, no duplicated nav
- * markup, and the same Escape/closes-on-outside-click behaviour the shop panels
- * already have. Above 1100 the search is a field; below that it is an icon that
- * links to `/search/`, which carries the field.
- */
 function header(active = null, emblem = brand.logo.assetPathOnDark) {
   const utility = site.utility || {};
   const searchPublished = isPublished(utility.search);
@@ -163,7 +168,7 @@ function header(active = null, emblem = brand.logo.assetPathOnDark) {
     </header>`;
 }
 
-/** Footer: real URLs only. No modal links, no dead sections. */
+/** Footer: real URLs only plus disclosed WhatsApp placeholder link. */
 function footer(emblem = brand.logo.assetPathOnDark) {
   const columns = site.footer.columns.map(column => {
     const id = `footer-${column.heading.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
@@ -173,12 +178,15 @@ function footer(emblem = brand.logo.assetPathOnDark) {
           ${column.links.map(link => `<a href="${escapeHtml(link.href)}">${escapeHtml(link.label)}</a>`).join('')}
         </nav>`;
   }).join('');
+  const waHref = whatsappLink();
+  const waNote = whatsappDisclosure();
   return `
     <footer class="site-footer">
       <div class="footer-top">
         <div class="footer-brand">
           <a class="wordmark" href="${escapeHtml(site.brand.homeHref)}" aria-label="${escapeHtml(site.brand.name)} home"><img class="wordmark-emblem" src="${escapeHtml(emblem)}" alt="${escapeHtml(brand.logo.altText)}" width="28" height="28">${escapeHtml(site.brand.wordmark)}</a>
           <p>${escapeHtml(site.brand.description)}<br>${escapeHtml(site.brand.tagline)}</p>
+          <p class="footer-whatsapp"><a class="text-link" href="${escapeHtml(waHref)}" target="_blank" rel="noopener noreferrer">WhatsApp inquiry desk ${external}</a><span class="footer-whatsapp__note">${escapeHtml(waNote)}</span></p>
         </div>
         <div class="footer-columns">${columns}
         </div>
@@ -190,19 +198,18 @@ function footer(emblem = brand.logo.assetPathOnDark) {
     </footer>`;
 }
 
-export function documentPage({ title, description, active = null, content, canonical = null, jsonLd = null, keywords = null, image = null, theme = null, scripts = [], preload = [] }) {
+export function documentPage({ title, description, active = null, content, canonical = null, jsonLd = null, keywords = null, image = null, theme = null, scripts = [], preload = [], robots = null }) {
   const jsonLdTag = jsonLd
     ? `\n  <script type="application/ld+json">${JSON.stringify(jsonLd).replace(/<\//g, '<\\/')}</script>`
     : '';
-  // Anything the browser should start fetching before the stylesheet is
-  // parsed: today that is the hero photograph on the homepage. Empty by
-  // default, and empty renders no tag at all, so other pages are untouched.
   const preloadTags = preload.map(item =>
     `<link rel="preload" as="${escapeHtml(item.as)}" href="${escapeHtml(item.href)}"${item.type ? ` type="${escapeHtml(item.type)}"` : ''}${item.fetchpriority ? ` fetchpriority="${escapeHtml(item.fetchpriority)}"` : ''}>\n  `
   ).join('');
-  // The emblem is inked for the ground it sits on: ivory on the dark canvas,
-  // paper ink on theme-paper pages. The footer is always dark.
+  const robotsValue = robots || (INDEXABLE ? 'index, follow' : 'noindex, follow');
   const headerEmblem = theme === 'theme-paper' ? brand.logo.assetPathOnLight : brand.logo.assetPathOnDark;
+  const ogType = jsonLd && (Array.isArray(jsonLd) ? jsonLd.some(n => n['@type'] === 'Product') : jsonLd['@type'] === 'Product')
+    ? 'product'
+    : 'website';
   return `<!DOCTYPE html>
 <html lang="en">
 <!-- Generated by scripts/generate-product-pages.mjs. Edit the data or shared templates, not this file. -->
@@ -211,12 +218,15 @@ export function documentPage({ title, description, active = null, content, canon
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(title)} — ${escapeHtml(BRAND)}</title>
   <meta name="description" content="${escapeHtml(description)}">
-  ${keywords ? `<meta name="keywords" content="${escapeHtml(keywords)}">\n  ` : ''}${canonical ? `<link rel="canonical" href="${escapeHtml(canonical)}">\n  ` : ''}<meta name="robots" content="${INDEXABLE ? 'index, follow' : 'noindex, follow'}">
-  <meta property="og:type" content="${jsonLd ? 'product' : 'website'}">
+  ${keywords ? `<meta name="keywords" content="${escapeHtml(keywords)}">\n  ` : ''}${canonical ? `<link rel="canonical" href="${escapeHtml(canonical)}">\n  ` : ''}<meta name="robots" content="${escapeHtml(robotsValue)}">
+  <meta property="og:type" content="${ogType}">
   <meta property="og:site_name" content="${escapeHtml(BRAND)}">
   <meta property="og:title" content="${escapeHtml(title)} — ${escapeHtml(BRAND)}">
   <meta property="og:description" content="${escapeHtml(description)}">
-  ${image ? `<meta property="og:image" content="${escapeHtml(image)}">\n  ` : ''}${canonical ? `<meta property="og:url" content="${escapeHtml(canonical)}">\n  ` : ''}<meta name="theme-color" content="#2F332B">${jsonLdTag}
+  ${image ? `<meta property="og:image" content="${escapeHtml(image)}">\n  ` : ''}${canonical ? `<meta property="og:url" content="${escapeHtml(canonical)}">\n  ` : ''}<meta name="twitter:card" content="${image ? 'summary_large_image' : 'summary'}">
+  <meta name="twitter:title" content="${escapeHtml(title)} — ${escapeHtml(BRAND)}">
+  <meta name="twitter:description" content="${escapeHtml(description)}">
+  ${image ? `<meta name="twitter:image" content="${escapeHtml(image)}">\n  ` : ''}<meta name="theme-color" content="#2F332B">${jsonLdTag}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="${escapeHtml(brand.typography.googleFontsHref)}" rel="stylesheet">

@@ -72,7 +72,7 @@
       row.className = 'commerce-item';
 
       var thumb = document.createElement('a');
-      thumb.className = 'commerce-thumb';
+      thumb.className = 'commerce-thumb product-mount';
       thumb.href = productHref(product);
       thumb.tabIndex = -1;
       thumb.setAttribute('aria-hidden', 'true');
@@ -82,6 +82,11 @@
       image.width = 96;
       image.height = 120;
       image.loading = 'lazy';
+      image.addEventListener('error', function () {
+        if (image.getAttribute('src') !== '/assets/products/photography-pending.svg') {
+          image.src = '/assets/products/photography-pending.svg';
+        }
+      });
       thumb.appendChild(image);
 
       var copy = document.createElement('div');

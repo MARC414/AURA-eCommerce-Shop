@@ -1,0 +1,29 @@
+[
+  {
+    "page": "/shop/",
+    "asset": "/assets/botanicals/hub-turmeric-leaf.webp",
+    "corner": "top-right",
+    "rotate": 0,
+    "size": 280,
+    "width": 760,
+    "height": 567
+  },
+  {
+    "page": "/discover/",
+    "asset": "/assets/botanicals/hub-cardamom-sprig.webp",
+    "corner": "top-right",
+    "rotate": 0,
+    "size": 270,
+    "width": 760,
+    "height": 567
+  },
+  {
+    "page": "/journal/",
+    "asset": "/assets/botanicals/hub-seed-head.webp",
+    "corner": "top-right",
+    "rotate": 0,
+    "size": 260,
+    "width": 760,
+    "height": 567
+  }
+]

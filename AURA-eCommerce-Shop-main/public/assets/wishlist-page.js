@@ -72,7 +72,7 @@
       row.className = 'commerce-item';
 
       var thumb = document.createElement('span');
-      thumb.className = 'commerce-thumb';
+      thumb.className = 'commerce-thumb product-mount';
       thumb.setAttribute('aria-hidden', 'true');
       var image = document.createElement('img');
       image.src = (entry && entry.imageUrl) || '/assets/products/photography-pending.svg';
@@ -80,6 +80,11 @@
       image.width = 96;
       image.height = 120;
       image.loading = 'lazy';
+      image.addEventListener('error', function () {
+        if (image.getAttribute('src') !== '/assets/products/photography-pending.svg') {
+          image.src = '/assets/products/photography-pending.svg';
+        }
+      });
       thumb.appendChild(image);
       row.appendChild(thumb);
 

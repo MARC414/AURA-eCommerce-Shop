@@ -309,27 +309,41 @@
       "href": "/about/"
     },
     "title": "Contact OPAR",
-    "description": "How to reach OPAR about a piece, an invoice or the library.",
+    "description": "How to reach OPAR about a piece, an invoice request or the library.",
     "eyebrow": "Contact",
     "heading": "Talk to the house.",
-    "intro": "Questions about a piece, an invoice or a partner offer can be sent by email. OPAR answers from a monitored inbox, normally within two working days.",
+    "intro": "Questions about a piece, an invoice or a partner offer can be sent by email or via a prefilled WhatsApp inquiry. OPAR answers email within two working days.",
     "links": [
       {
         "label": "hello@opar.example",
         "href": "mailto:hello@opar.example"
+      },
+      {
+        "label": "WhatsApp order & inquiry desk",
+        "href": "https://wa.me/447700900412?text=Hello%20OPAR%2C%20I%20would%20like%20to%20enquire%20about%20a%20piece%20or%20invoice."
+      },
+      {
+        "label": "Track a request in this browser",
+        "href": "/order/"
       }
     ],
     "blocks": [
       {
-        "heading": "About an order",
+        "heading": "About an order or request",
         "paragraphs": [
-          "Include the invoice reference from your checkout confirmation. That reference points to the request saved in your browser and makes the reply quicker."
+          "Include the invoice reference from your checkout confirmation. You can look up requests saved on this device directly on the order tracking page."
+        ]
+      },
+      {
+        "heading": "WhatsApp third-party notice",
+        "paragraphs": [
+          "The WhatsApp link uses a construction placeholder number (+44 7700 900412) until the business desk number is published. WhatsApp is a third-party service operated by Meta; opening the link leaves OPAR."
         ]
       },
       {
         "heading": "About a piece",
         "paragraphs": [
-          "Send the product name and the question. Origin, material and care details already known are printed on the product page; anything still being confirmed is answered directly."
+          "Send the product name and your question. Origin, material, specifications and care notes already confirmed are printed on each product page."
         ]
       },
       {
@@ -416,8 +430,12 @@
         "answer": "No. OPAR does not sell medicines and does not publish treatment, prevention or cure claims. Information on this site is not medical advice; supplements can interact with medication, so speak to a qualified practitioner."
       },
       {
-        "question": "How is the price set?",
-        "answer": "Some pieces are priced on request while supplier terms are confirmed. The final price is stated on your invoice before you pay. Nothing is charged at checkout."
+        "question": "How is the price set during construction?",
+        "answer": "During construction, shop listings show construction-sample pricing alongside variants and shipping notes so cart and checkout flows can be tested. Final selling prices are confirmed on your written invoice before payment, and nothing is charged at checkout."
+      },
+      {
+        "question": "How do I look up my invoice request?",
+        "answer": "Visit Track order (/order/) and enter both your invoice reference and the email address used at checkout. Lookups check browser-local construction storage on your current device until a server backend connects."
       }
     ]
   },
@@ -673,27 +691,34 @@
       "href": "/policies/"
     },
     "title": "Payment and invoicing",
-    "description": "OPAR invoices before payment. No card details are collected on this website.",
+    "description": "How OPAR records checkout payment preferences, confirms written invoices before payment, and handles WhatsApp inquiries.",
     "eyebrow": "Policies · Payment",
-    "heading": "Payment, by invoice.",
-    "intro": "OPAR confirms the price, delivery and payment method in writing before anything is paid. No card number is collected on this site.",
+    "heading": "Payment, by confirmed invoice.",
+    "intro": "OPAR confirms the exact price, shipping route and settlement method in writing before anything is paid. No card number, PIN or payment credential is collected on this site.",
     "blocks": [
       {
-        "heading": "How an invoice works",
+        "heading": "How checkout and confirmation work",
         "paragraphs": [
-          "Checkout records an invoice request in your browser. OPAR reviews the pieces, the destination and the current supplier terms, then replies by email with a written invoice. The order exists when that invoice is accepted and paid, not when the form is sent."
+          "Submitting checkout saves an invoice request and your preferred settlement route in your browser. OPAR reviews the pieces, destination and current availability, then replies with confirmation before anything is settled. Every option means we will confirm payment with you after the request."
         ]
       },
       {
-        "heading": "Methods",
+        "heading": "Accepted preference categories",
         "paragraphs": [
-          "Bank transfer and the other methods named on the invoice are the current routes. Card processing is not connected to this site, so no card fields appear at checkout and no card data is stored."
+          "International settlement preferences include an international invoice or secure hosted payment link sent after confirmation, international payment wallet invoice, or international bank transfer.",
+          "Domestic settlement preferences include direct bank transfer or regional mobile wallet settled only upon confirmation. Method availability depends on destination and invoice currency and is never processed live inside checkout."
+        ]
+      },
+      {
+        "heading": "WhatsApp inquiries",
+        "paragraphs": [
+          "Product pages, Contact and checkout confirmations include a WhatsApp inquiry link prefilled with your piece or request reference. A construction placeholder number is configured until the live desk number is published. WhatsApp is a third-party messaging service (Meta); opening that link leaves OPAR."
         ]
       },
       {
         "heading": "Currency and taxes",
         "paragraphs": [
-          "Prices are stated in the currency shown on the invoice, normally GBP. Import duty, local tax and handling charges applied at the destination are shown separately where they apply."
+          "Prices are stated in GBP during construction preview. Import duty, local tax and handling charges applied at the destination are shown separately on the confirmed invoice where they apply."
         ]
       }
     ]
@@ -930,5 +955,26 @@
       }
     ],
     "note": "The mailing service is not connected yet. This form stores the preference locally and explains what will happen when it is."
+  },
+  {
+    "path": "/order/",
+    "section": null,
+    "label": "Track order",
+    "title": "Track order request",
+    "description": "Look up a saved OPAR invoice request using your reference code and matching email address.",
+    "eyebrow": "Client care · Order tracking",
+    "heading": "Check your request.",
+    "intro": "Enter the invoice reference and email address from your checkout confirmation to inspect the saved request on this browser.",
+    "orderTracking": true,
+    "blocks": [
+      {
+        "heading": "How local lookup works",
+        "paragraphs": [
+          "This lookup reads only the requests saved in this browser under aura_order_requests_v1. No tracking server or customer database is connected during construction.",
+          "Both the invoice reference and your matching email address are required so a reference string never exposes customer details on its own."
+        ]
+      }
+    ],
+    "note": "Saved on this browser only. Requests placed on a different browser or device will not appear until a live backend connects."
   }
 ]

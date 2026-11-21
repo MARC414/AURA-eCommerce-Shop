@@ -773,3 +773,37 @@ Gate: 53/53 tests (a new one asserts the one-row contract), `tsc` clean, 41 page
 **Reversible:** yes, but only with a fresh owner instruction and a specimen page first. The reverted implementation is described in this entry and in git history of this planning file; nothing else survives.
 
 **Status:** approved by the owner, recorded, not implemented.
+
+---
+
+## D-046 — Construction-mode storefront completed: paper mounts, sample listings, collapsible E-E-A-T, neutral settlement wording, F1 404 & F2 cadence
+**2026-11-21 — OWNER PLAN APPROVED & IMPLEMENTED (local/unpushed; construction mode, pre-launch).**
+
+**Context.** Following owner review of `planning/AI-STUDIO-BUILD-PROMPT.md`, the owner approved completing the entire construction-stage storefront (`Phases 1–7`), **F1 (`404.html`)**, and **F2** (phase-level memory updates instead of micro-unit pauses), keeping the frozen homepage (`templates/home-page.mjs`) untouched while furnishing a clickable end-to-end e-commerce experience with sample pricing and honest placeholder states prior to live launch.
+
+**Decisions executed.**
+1. **Image system & mounts (Phases 1.1–1.5, completing D-045):**
+   - Product photography across `/shop/`, room hubs, `/discover/`, `/cart/`, `/wishlist/`, `/checkout/`, and PDP galleries/thumbnails renders inside rectilinear `--paper-canvas` `.product-mount` containers (`mix-blend-mode: multiply` for white-ground supplier photos; `data-blend="none"` override where `#F4F2EE` studio grounds already match).
+   - Empty slots (`photography-pending.svg` / `isEmptyMount: true`) display drawn stroke-only room botanical SVG marks (`roomBotanicalMark()`) at 18% accent opacity with corner registration ticks and a single `"Photograph in preparation"` caption.
+   - Six bespoke `#F4F2EE` studio product images (`studio-herbal-botanicals`, `studio-everyday-care`, `studio-showpieces`, `studio-yoga-practice`, `studio-art-craft`, `studio-quiet-living`) generated at `1:1` and converted into `1200w`/`800w` responsive `<picture>` AVIF/WebP/JPG assets (`imageSource: "generated-placeholder"`, `rights: "in-house"`).
+   - Gallery script (`public/assets/product-pages.js`) switches `<picture>` `<source>` elements and toggles `[data-empty-mount]` cleanly without duplicate `"Photograph in preparation"` labels or console `TypeError`s.
+2. **Restrained hub foliage (Phase 2):**
+   - Seven-file hub explosion avoided in favour of three unique corner botanicals declared solely in `data/foliage.json` on `/shop/`, `/discover/`, and `/journal/` (`hub-herbal-corner.webp`, `hub-seed-corner.webp`, `hub-cardamom-corner.webp`), hidden at `<= 860px`. No utility or category room renders decorative foliage, and `.hub-page .collection-heading` reserves right margin clearance so foliage never overlaps headings.
+3. **Construction-mode placeholder catalogue & sample pricing (Phase 3 + F1):**
+   - Added 6 `isPlaceholder: true` representative items across all 6 rooms alongside the 4 unchanged owner previews (10 total SKUs). All placeholders display the `"Construction sample"` banner above `<main>`.
+   - Per owner instruction, dummy construction sample pricing (`samplePricing: true`) and variant prices (e.g. `Aloe Vera Cleansing Bar`: `£8.50` Pack of 1 → `£22.00` Pack of 3) are enabled locally so cart subtotals (`£22.00`), variant switching, and invoice requests can be exercised prior to real supplier pricing/margins. Sample badges mark every provisional rate honestly.
+   - **F1:** Generated `public/404.html` / `dist/404.html` via `render404Page()` using the standard dark chrome with recovery links and `noindex, nofollow`; omitted from `sitemap.xml` and `search-index.json` so Cloudflare Pages stops soft-200ing unknown URLs.
+4. **Rich PDP hierarchy & collapsible E-E-A-T (Phase 5):**
+   - Above-the-fold two-column buy box (gallery left, specs/format/variant selector/quantity/CTA/wishlist/WhatsApp dispatch/jump links right), followed by full story/care guidance (`longDescription`, `careGuide`), structured 4-tile `crossLinks`, shipping/returns/directions accordions, expandable AEO Q&A (`faq` + `FAQPage` JSON-LD), and collapsed-by-default `<details>` compliance & review-audit accordions pulling once from `data/compliance.json` (`Not yet reviewed by a named person` retained wherever unverified).
+5. **Neutral commerce surfaces & browser-local tracking (Phase 6):**
+   - `/checkout/` and `/policies/payment/` offer dual radio **Payment preference** groups (`International options` / `Domestic options`) using strictly descriptive wording (`International invoice / hosted payment link after confirmation`, `International payment wallet invoice after confirmation`, `Domestic bank transfer after confirmation`, `Regional mobile wallet on confirmation`). Premature legal-entity names, card/wallet logos, and card/CVC/PIN/OTP fields remain absent.
+   - WhatsApp inquiry links on PDPs, `/contact/`, `/checkout/` confirmation, and the footer resolve from `data/site.json` (`contact.whatsappNumber`) and carry plain disclosure that WhatsApp is a third-party Meta service.
+   - `/order/` exposes `window.AuraOrderLookup.getOrder(reference, email)` against `aura_order_requests_v1`, enforcing case-insensitive reference + email match (returning `null` on mismatch so guessable references never leak customer details) and stating plainly that records exist only in the current browser until a server backend connects. `AdminDashboard.tsx` and `storeService.ts` read/export `paymentMethod`.
+6. **Memory cadence (F2):** Phase-level updates recorded in `planning/STATUS.md` and `planning/DECISIONS.md` rather than stopping on every micro-unit.
+
+**Verified (2026-11-21).** `npx tsc --noEmit` clean; `npm run test:templates` **63/63 passed**; `npm run check:site` clean (49 routes — 49 generated, 151 files, 48 sitemap entries); headless Chromium verified 119 responsive checks across `320/375/768/861/1024/1440/1920` (0 overflow, 0 broken images, 0 foliage overlaps, 0 console/runtime errors) plus full interactive E2E flow (`Aloe Vera Cleansing Bar` Pack of 3 variant switch `£8.50 → £22.00` → wishlist → `/cart/` → `/checkout/` invoice submission → `/order/?ref=...&email=...` lookup + mismatch guard → HTTP `404` check); `templates/home-page.mjs` untouched.
+
+**Pre-launch gates (owner action required before removing construction notices or accepting real orders):** live margin/cost/shipping pricing; final licensed product photography; lab/INCI/claim sign-off; live entity/merchant payment setup & real WhatsApp Business number; live backend endpoint for cross-device `/order/` tracking and persistence.
+
+**Status:** implemented, built, and browser-verified; local and unpushed in construction mode.
+

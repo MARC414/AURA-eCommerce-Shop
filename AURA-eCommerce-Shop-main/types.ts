@@ -119,6 +119,7 @@ export interface InvoiceRequest {
   /** Null when any piece is priced on request — the invoice sets the amount. */
   subtotal: number | null;
   priceOnRequest: boolean;
+  paymentMethod?: string;
   items: InvoiceRequestItem[];
   customer: {
     name: string;

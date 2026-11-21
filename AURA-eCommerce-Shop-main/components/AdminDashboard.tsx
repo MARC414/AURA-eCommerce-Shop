@@ -295,6 +295,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToShop }) => {
                       <th className="p-4 font-medium">Reference</th>
                       <th className="p-4 font-medium">Date</th>
                       <th className="p-4 font-medium">Customer</th>
+                      <th className="p-4 font-medium">Preferred method</th>
                       <th className="p-4 font-medium">Pieces</th>
                       <th className="p-4 font-medium">Total</th>
                       <th className="p-4 font-medium">Priced?</th>
@@ -313,6 +314,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToShop }) => {
                             {name}
                             <span className="block text-[#43463F]">{request.customer.email}</span>
                           </td>
+                          <td className="p-4 text-xs text-[#43463F]">{request.paymentMethod || 'Not specified'}</td>
                           <td className="p-4 text-xs tabular-nums text-[#2F332B]">{request.items.length}</td>
                           <td className="p-4 text-xs tabular-nums text-[#2F332B]">{total}</td>
                           <td className="p-4">
@@ -378,6 +380,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToShop }) => {
                 ) : null}
                 <p className="text-xs tabular-nums text-[#2F332B] mt-4">
                   {selectedRequest.priceOnRequest || selectedRequest.subtotal === null ? 'Full amount: on invoice' : `Subtotal: ${symbol}${Number(selectedRequest.subtotal).toFixed(2)}`}
+                </p>
+                <p className="text-xs text-[#43463F] mt-1">
+                  Preferred payment method: <strong className="text-[#2F332B]">{selectedRequest.paymentMethod || 'Not specified'}</strong>
                 </p>
               </div>
 

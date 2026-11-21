@@ -2,7 +2,7 @@ import { readFile, mkdir, writeFile, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { MODELS, validateProduct, productPath, renderDropshippingPage, renderAffiliatePage, renderCollection, renderCategoryPage, renderStaticPage, renderHomePage } from '../templates/product-pages.mjs';
+import { MODELS, validateProduct, productPath, renderDropshippingPage, renderAffiliatePage, renderCollection, renderCategoryPage, renderStaticPage, renderHomePage, renderNotFoundPage } from '../templates/product-pages.mjs';
 
 const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 const products = JSON.parse(await readFile(join(projectRoot, 'data/pilot-products.json'), 'utf8'));
@@ -55,11 +55,13 @@ for (const page of pages) {
   allPaths.add(page.path);
 }
 
+const notFoundHtml = renderNotFoundPage();
+
 // Rule: never ship an internal link to a page that does not exist. `/` is now
 // one of the generated pages, so it is resolved like any other instead of being
-// waved through.
+// waved through. Validate the static 404 recovery document as well.
 const broken = new Set();
-for (const page of pages) {
+for (const page of [...pages, { path: '/404.html', html: notFoundHtml }]) {
   for (const match of page.html.matchAll(/href="(\/[^"#]*)"/g)) {
     const href = match[1].split('?')[0];
     if (href.startsWith('/assets/')) continue;
@@ -82,6 +84,9 @@ for (const page of pages) {
   console.log(`Generated ${page.path}`);
 }
 
+await writeFile(join(projectRoot, 'public/404.html'), notFoundHtml, 'utf8');
+console.log('Generated /404.html (excluded from sitemap & search index)');
+
 // Retired prototype surfaces. The production storefront has no preview index,
 // and T4 replaced the `/home-preview/` trial route with the real `/`.
 await rm(join(projectRoot, 'public/templates'), { recursive: true, force: true });
@@ -94,6 +99,7 @@ const sectionLabel = page => {
   if (page.section === 'journal') return 'Journal';
   if (page.section === 'about') return BRAND;
   if (page.checkout) return 'Checkout';
+  if (page.orderTracking) return 'Client care';
   if (page.account) return 'Account';
   return 'Page';
 };
@@ -148,7 +154,10 @@ const catalogue = products.map(product => ({
   tagline: product.tagline,
   price: product.price,
   currency: product.currency || 'GBP',
-  imageUrl: product.images.find(image => !image.isPlaceholder)?.src || product.images[0].src
+  samplePricing: Boolean(product.samplePricing),
+  imageUrl: product.images.find(image => !image.isEmptyMount && !image.isPlaceholder)?.src
+    || product.images.find(image => !image.isEmptyMount)?.src
+    || product.images[0].src
 }));
 await writeFile(join(projectRoot, 'public/assets/catalogue.json'), `${JSON.stringify(catalogue, null, 2)}\n`, 'utf8');
 console.log(`Generated /assets/catalogue.json (${catalogue.length} entries)`);

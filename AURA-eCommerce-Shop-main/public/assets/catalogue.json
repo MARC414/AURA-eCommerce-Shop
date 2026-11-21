@@ -8,8 +8,9 @@
     "purchaseOwner": "aura",
     "category": "Everyday Care",
     "tagline": "A small addition to the everyday.",
-    "price": null,
+    "price": 9.5,
     "currency": "GBP",
+    "samplePricing": true,
     "imageUrl": "/assets/products/aliexpress-turmeric-soap.jpg"
   },
   {
@@ -23,7 +24,8 @@
     "tagline": "A partner find, introduced plainly.",
     "price": null,
     "currency": "GBP",
-    "imageUrl": "/assets/products/cleansing-pads-placeholder.svg"
+    "samplePricing": false,
+    "imageUrl": "/assets/products/photography-pending.svg"
   },
   {
     "id": "aliexpress-1005008143754192",
@@ -34,8 +36,9 @@
     "purchaseOwner": "aura",
     "category": "Everyday Care",
     "tagline": "A plain bar, described plainly.",
-    "price": null,
+    "price": 8.5,
     "currency": "GBP",
+    "samplePricing": true,
     "imageUrl": "/assets/products/photography-pending.svg"
   },
   {
@@ -47,8 +50,93 @@
     "purchaseOwner": "aura",
     "category": "Herbal Botanicals",
     "tagline": "A 60-capsule pack with Ashwagandha root and black pepper.",
-    "price": null,
+    "price": 18,
     "currency": "GBP",
+    "samplePricing": true,
     "imageUrl": "/assets/products/photography-pending.svg"
+  },
+  {
+    "id": "opar-sample-herbal-botanicals",
+    "name": "Whole Botanical Infusion Jar — Sample",
+    "slug": "sample-botanical-infusion-jar",
+    "path": "/shop/sample-botanical-infusion-jar/",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "category": "Herbal Botanicals",
+    "tagline": "Amber apothecary glass with loose botanical capsules.",
+    "price": 24,
+    "currency": "GBP",
+    "samplePricing": true,
+    "imageUrl": "/assets/products/studio-herbal-botanicals.jpg"
+  },
+  {
+    "id": "opar-sample-everyday-care",
+    "name": "Cold-Process Olive Cleansing Bar — Sample",
+    "slug": "sample-cold-process-bar",
+    "path": "/shop/sample-cold-process-bar/",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "category": "Everyday Care",
+    "tagline": "Unwrapped neutral cold-process soap bar for daily sink use.",
+    "price": 11,
+    "currency": "GBP",
+    "samplePricing": true,
+    "imageUrl": "/assets/products/studio-everyday-care.jpg"
+  },
+  {
+    "id": "opar-sample-showpieces",
+    "name": "Hand-Turned Teak Vessel — Sample",
+    "slug": "sample-turned-wood-vessel",
+    "path": "/shop/sample-turned-wood-vessel/",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "category": "Showpieces",
+    "tagline": "Carved hardwood accent bowl for quiet shelf and desk placement.",
+    "price": 48,
+    "currency": "GBP",
+    "samplePricing": true,
+    "imageUrl": "/assets/products/studio-showpieces.jpg"
+  },
+  {
+    "id": "opar-sample-yoga-practice",
+    "name": "Rolled Practice Mat & Cork Block — Sample",
+    "slug": "sample-cork-practice-set",
+    "path": "/shop/sample-cork-practice-set/",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "category": "Yoga & Practice",
+    "tagline": "Dense practice mat paired with a bevelled cork alignment block.",
+    "price": 54,
+    "currency": "GBP",
+    "samplePricing": true,
+    "imageUrl": "/assets/products/studio-yoga-practice.jpg"
+  },
+  {
+    "id": "opar-sample-art-craft",
+    "name": "Wheel-Thrown Stoneware Bowl — Sample",
+    "slug": "sample-ceramic-ritual-bowl",
+    "path": "/shop/sample-ceramic-ritual-bowl/",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "category": "Art & Craft",
+    "tagline": "Quiet unglazed rim ceramic bowl built for tactile daily use.",
+    "price": 36,
+    "currency": "GBP",
+    "samplePricing": true,
+    "imageUrl": "/assets/products/studio-art-craft.jpg"
+  },
+  {
+    "id": "opar-sample-quiet-living",
+    "name": "Washed Flax Linen Runner & Stone — Sample",
+    "slug": "sample-linen-runner-stone",
+    "path": "/shop/sample-linen-runner-stone/",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "category": "Quiet Living",
+    "tagline": "Unbleached woven linen runner anchored by a smooth river stone.",
+    "price": 42,
+    "currency": "GBP",
+    "samplePricing": true,
+    "imageUrl": "/assets/products/studio-quiet-living.jpg"
   }
 ]

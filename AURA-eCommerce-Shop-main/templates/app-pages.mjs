@@ -1,14 +1,23 @@
 /**
- * The applications: content pages, and the cart, checkout, account, search,
- * wishlist and newsletter sections a content page can opt into. The markup is
- * static; the behaviour is in public/assets/*.js.
+ * The applications: content pages, and the cart, checkout, order-tracking,
+ * account, search, wishlist, newsletter, and 404 recovery sections. The markup
+ * is static; the behaviour is in public/assets/*.js.
  */
 
-import { BRAND, escapeHtml, arrow, documentPage } from './chrome.mjs';
+import {
+  BRAND,
+  escapeHtml,
+  arrow,
+  external,
+  documentPage,
+  hubFoliageMarkup,
+  whatsappLink,
+  whatsappDisclosure
+} from './chrome.mjs';
 
-/** Sections that turn a content page into an application page. */
 function checkoutSection() {
   const countries = ['United Kingdom', 'Ireland', 'France', 'Germany', 'Netherlands', 'Belgium', 'Spain', 'Italy', 'Portugal', 'Sweden', 'Denmark', 'Norway', 'Switzerland', 'United States', 'Canada', 'Australia', 'New Zealand', 'India', 'Bangladesh', 'Japan', 'Singapore', 'United Arab Emirates', 'Other'];
+  const waHref = whatsappLink(`Hello ${BRAND}, I have submitted an invoice request and would like to confirm details.`);
   return `
       <section class="checkout-block" aria-labelledby="checkout-heading">
         <div class="checkout-layout">
@@ -32,10 +41,27 @@ function checkoutSection() {
                   <label class="field"><span>Phone (optional)</span><input name="phone" type="tel" autocomplete="tel"></label>
                 </div>
               </fieldset>
+              <fieldset class="payment-preferences">
+                <legend>Payment preference</legend>
+                <p class="small-note">We will confirm payment with you after the request. No card number, PIN, OTP or instant payment is processed on this site.</p>
+                <div class="payment-groups">
+                  <div class="payment-group" role="group" aria-labelledby="pay-group-intl">
+                    <span class="field-label" id="pay-group-intl">International options</span>
+                    <label class="radio-field"><input type="radio" name="paymentMethod" value="International invoice / hosted payment link after confirmation" checked><span>International invoice / hosted payment link sent after confirmation</span></label>
+                    <label class="radio-field"><input type="radio" name="paymentMethod" value="International payment wallet invoice after confirmation"><span>International payment wallet invoice after confirmation</span></label>
+                    <label class="radio-field"><input type="radio" name="paymentMethod" value="International bank transfer after confirmation"><span>International bank transfer (details supplied on written invoice)</span></label>
+                  </div>
+                  <div class="payment-group" role="group" aria-labelledby="pay-group-local">
+                    <span class="field-label" id="pay-group-local">Domestic options</span>
+                    <label class="radio-field"><input type="radio" name="paymentMethod" value="Domestic bank transfer after confirmation"><span>Domestic bank transfer after confirmation</span></label>
+                    <label class="radio-field"><input type="radio" name="paymentMethod" value="Regional mobile wallet on confirmation"><span>Regional mobile wallet on confirmation</span></label>
+                  </div>
+                </div>
+              </fieldset>
               <fieldset>
                 <legend>Notes</legend>
                 <label class="field field-wide"><span>Anything ${BRAND} should know about this request</span><textarea name="notes" rows="4"></textarea></label>
-                <label class="check-field"><input type="checkbox" name="consent" required><span>I understand this is an invoice request, not a payment, and that price and delivery are confirmed in writing first.</span></label>
+                <label class="check-field"><input type="checkbox" name="consent" required><span>I understand this is an invoice request, not a payment, and that price, delivery and settlement are confirmed in writing first.</span></label>
               </fieldset>
               <button class="button button-primary" type="submit" data-checkout-submit>Request invoice ${arrow}</button>
               <p class="action-note">No card details are collected. The request is saved in this browser until a server is connected.</p>
@@ -44,10 +70,14 @@ function checkoutSection() {
               <span class="eyebrow">Request recorded</span>
               <h2>Reference <span data-checkout-reference>—</span></h2>
               <p data-checkout-confirmation-copy>Your request is saved in this browser. ${BRAND} replies with a written invoice before anything is paid.</p>
+              <p class="small-note" data-checkout-confirmation-method></p>
               <div class="content-links">
+                <a class="text-link" href="/order/" data-checkout-track-link>Track this request ${arrow}</a>
+                <a class="text-link" href="${escapeHtml(waHref)}" target="_blank" rel="noopener noreferrer" data-checkout-whatsapp>Send reference via WhatsApp ${external}</a>
                 <a class="text-link" href="/account/">View saved requests ${arrow}</a>
                 <a class="text-link" href="/shop/">Continue browsing ${arrow}</a>
               </div>
+              <p class="small-note">${escapeHtml(whatsappDisclosure())}</p>
             </div>
             <noscript><p class="page-note">Checkout needs JavaScript to read the cart and save the request in this browser. Nothing has been sent anywhere.</p></noscript>
           </div>
@@ -66,6 +96,27 @@ function checkoutSection() {
             </div>
           </aside>
         </div>
+      </section>`;
+}
+
+function orderSection() {
+  return `
+      <section class="content-block order-tracking-block" aria-labelledby="order-lookup-heading">
+        <div class="sample-banner sample-banner--paper" role="note">
+          <span class="eyebrow">Saved on this browser</span>
+          <p>Requests shown here come from this browser only because no live server is connected yet.</p>
+        </div>
+        <h2 id="order-lookup-heading">Look up a request</h2>
+        <form class="order-lookup-form" data-order-form>
+          <div class="field-grid">
+            <label class="field"><span>Invoice reference</span><input name="reference" required placeholder="e.g. OPAR-261121-ABCD" autocomplete="off"></label>
+            <label class="field"><span>Email address used at checkout</span><input name="email" type="email" required placeholder="you@example.com" autocomplete="email"></label>
+          </div>
+          <button class="button button-primary button-inline" type="submit">Look up request ${arrow}</button>
+        </form>
+        <p class="commerce-status" data-order-status role="status" aria-live="polite">Enter your reference and email to check a saved request.</p>
+        <div class="order-lookup-result" data-order-result hidden></div>
+        <noscript><p class="page-note">Order lookup needs JavaScript to read this browser’s storage. Nothing has been sent anywhere.</p></noscript>
       </section>`;
 }
 
@@ -100,7 +151,7 @@ function newsletterSection() {
       </section>`;
 }
 
-/** Plain content pages plus the checkout, account and newsletter applications. */
+/** Plain content pages plus cart, checkout, order-tracking, account, wishlist, search and newsletter apps. */
 export function renderStaticPage(page) {
   if (!/^\/[a-z0-9/-]*\/$/.test(page.path)) throw new Error(`Invalid static page path: ${page.path}`);
   if (!page.title || !page.description || !page.label || !page.heading || !page.intro) {
@@ -117,7 +168,11 @@ export function renderStaticPage(page) {
       </section>`;
   const blocks = (page.blocks || []).map(block).join('');
   const links = page.links
-    ? `<div class="content-links content-links-wide">${page.links.map(link => `<a class="text-link" href="${escapeHtml(link.href)}">${escapeHtml(link.label)} ${arrow}</a>`).join('')}</div>`
+    ? `<div class="content-links content-links-wide">${page.links.map(link => {
+        const isExt = /^https?:\/\//i.test(link.href);
+        const relAttr = isExt ? ' target="_blank" rel="noopener noreferrer"' : '';
+        return `<a class="text-link" href="${escapeHtml(link.href)}"${relAttr}>${escapeHtml(link.label)} ${isExt ? external : arrow}</a>`;
+      }).join('')}</div>`
     : '';
   const faq = page.faq ? `
       <section class="content-block">
@@ -148,7 +203,7 @@ export function renderStaticPage(page) {
           <div class="commerce-total"><span class="eyebrow">Subtotal</span><strong data-cart-subtotal>—</strong></div>
           <p class="commerce-price-note" data-cart-price-note hidden>Some pieces are priced on request, so the full amount is set on your invoice.</p>
           <a class="button button-primary" href="/checkout/">Continue to request invoice ${arrow}</a>
-          <p class="action-note">Nothing is charged on this site. Price, delivery and payment are confirmed in writing first.</p>
+          <p class="action-note">Nothing is charged on this site. Price, delivery and payment preference are confirmed in writing first.</p>
         </div>
         <noscript><p class="page-note">The cart needs JavaScript to read this browser’s storage. Nothing has been sent anywhere.</p></noscript>
       </section>` : '';
@@ -165,6 +220,7 @@ export function renderStaticPage(page) {
         <noscript><p class="page-note">The wishlist needs JavaScript to read this browser’s storage. Nothing has been sent anywhere.</p></noscript>
       </section>` : '';
   const checkout = page.checkout ? checkoutSection() : '';
+  const orderTracking = page.orderTracking ? orderSection() : '';
   const account = page.account ? accountSection() : '';
   const newsletter = page.newsletter ? newsletterSection() : '';
   const pageScripts = [
@@ -172,20 +228,58 @@ export function renderStaticPage(page) {
     ...(page.cart ? ['/assets/cart-page.js'] : []),
     ...(page.wishlist ? ['/assets/wishlist-page.js'] : []),
     ...(page.checkout ? ['/assets/checkout-page.js'] : []),
+    ...(page.orderTracking ? ['/assets/order-page.js'] : []),
     ...(page.account ? ['/assets/account-page.js'] : []),
     ...(page.newsletter ? ['/assets/newsletter-page.js'] : [])
   ];
+  const isUtility = Boolean(page.search || page.cart || page.wishlist || page.checkout || page.account || page.newsletter || page.orderTracking);
+  const usePaperTheme = !['/journal/'].includes(page.path) && (isUtility || page.section === 'about' || page.section === 'perennis' || page.section === 'journal');
+  const foliage = hubFoliageMarkup(page.path);
   return documentPage({
     title: page.title,
     description: page.description,
+    canonical: page.path,
     active: page.section || null,
-    theme: 'theme-paper',
+    theme: usePaperTheme ? 'theme-paper' : null,
     scripts: pageScripts,
-    content: `<div class="page-shell static-page">
+    content: `<div class="page-shell static-page${foliage ? ' hub-page' : ''}">
+      ${foliage}
       <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>${parent}<li aria-current="page">${escapeHtml(page.label)}</li></ol></nav>
-      <div class="collection-heading"><span class="eyebrow">${escapeHtml(page.eyebrow)}</span><h1>${escapeHtml(page.heading)}</h1><p>${escapeHtml(page.intro)}</p></div>
-      ${search}${cart}${wishlist}${checkout}${account}${newsletter}${blocks}${links}${faq}
+      <div class="collection-heading">
+        <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>${escapeHtml(page.eyebrow)}</span>
+        <h1>${escapeHtml(page.heading)}</h1>
+        <p>${escapeHtml(page.intro)}</p>
+      </div>
+      ${search}${cart}${wishlist}${checkout}${orderTracking}${account}${newsletter}${blocks}${links}${faq}
       ${page.note ? `<p class="page-note">${escapeHtml(page.note)}</p>` : ''}
+    </div>`
+  });
+}
+
+/**
+ * F1: Dedicated static 404 recovery document (served as public/404.html & dist/404.html)
+ * so Cloudflare Pages returns HTTP 404 on unknown routes instead of soft-200 homepage copies.
+ */
+export function renderNotFoundPage() {
+  return documentPage({
+    title: 'Page not found (404)',
+    description: 'The requested page could not be found on OPAR. Browse the shop, search the catalogue or return home.',
+    robots: 'noindex, nofollow',
+    theme: 'theme-paper',
+    content: `<div class="page-shell static-page not-found-page">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">404</li></ol></nav>
+      <div class="collection-heading">
+        <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>Error 404</span>
+        <h1>This page was not found.</h1>
+        <p>The link you followed may have moved or never existed. Nothing is lost — browse the shop rooms, search pieces, or track an existing request below.</p>
+      </div>
+      <div class="content-links content-links-wide">
+        <a class="text-link" href="/">Return home ${arrow}</a>
+        <a class="text-link" href="/shop/">Browse all shop pieces ${arrow}</a>
+        <a class="text-link" href="/discover/">View partner offers ${arrow}</a>
+        <a class="text-link" href="/search/">Search OPAR ${arrow}</a>
+        <a class="text-link" href="/order/">Track a request ${arrow}</a>
+      </div>
     </div>`
   });
 }

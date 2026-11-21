@@ -115,6 +115,7 @@ export const storeService = {
     const headers = [
       'Reference',
       'Date',
+      'Preferred Payment',
       'Name',
       'Email',
       'Phone',
@@ -138,10 +139,12 @@ export const storeService = {
       const customer = request.customer || ({} as InvoiceRequest['customer']);
       const items = Array.isArray(request.items) ? request.items : [];
       const subtotal = request.priceOnRequest || request.subtotal === null ? 'on request' : request.subtotal;
+      const paymentPref = quote(request.paymentMethod || 'Not specified');
       if (!items.length) {
         rows.push([
           request.reference,
           new Date(request.createdAt).toLocaleDateString('en-GB'),
+          paymentPref,
           quote(customer.name), customer.email || '', quote(customer.phone),
           quote(customer.address), quote(customer.city), quote(customer.postcode),
           quote(customer.country), quote(customer.notes),
@@ -154,6 +157,7 @@ export const storeService = {
         rows.push([
           request.reference,
           new Date(request.createdAt).toLocaleDateString('en-GB'),
+          paymentPref,
           quote(customer.name), customer.email || '', quote(customer.phone),
           quote(customer.address), quote(customer.city), quote(customer.postcode),
           quote(customer.country), quote(customer.notes),

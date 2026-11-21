@@ -2,7 +2,7 @@
 
 **Created:** 2026-11-20
 **Owner:** Farhan (OPAR). **Executor:** Google AI Studio, working in `MARC414/AURA-eCommerce-Shop`, branch `main`.
-**Status:** ready to execute, one unit at a time.
+**Status:** construction-mode full build complete (Phases 1–7 + F1 `404.html` + F2 phase-level memory in `STATUS.md` / `DECISIONS.md`), verified at 63/63 tests, 49 generated routes, and headless Chromium E2E audit. Frozen homepage (`templates/home-page.mjs`) untouched. Awaiting owner commercial inputs before any live launch.
 
 **Scope:** every page **except the homepage.** The homepage is finished and frozen as of 2026-11-20. It is the reference the rest of the site is built to match — not a work item.
 

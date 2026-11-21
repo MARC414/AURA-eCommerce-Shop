@@ -6,12 +6,20 @@
     "purchaseOwner": "aura",
     "listingStatus": "published",
     "complianceId": "cmp-turmeric-soap",
+    "lastUpdated": "2026-11-21",
     "name": "Turmeric Cleansing Soap",
     "category": "Everyday Care",
     "tagline": "A small addition to the everyday.",
     "cardLine": "Turmeric and kojic-acid bar for daily cleansing.",
     "format": "100 g bar",
+    "dispatchNote": "Construction sample · Dummy pricing for flow testing",
     "description": "A 100 g turmeric and kojic-acid soap bar, selected for daily cleansing. The supplier describes it for shower and facial use. The full ingredient list and the available options are confirmed before an order is invoiced.",
+    "longDescription": [
+      "Formulated as a compact 100 g solid bar pairing ground turmeric rhizome with kojic acid for everyday sink and shower routines. Rather than relying on plastic pump bottles, the solid format rinses clean and travels without leaks.",
+      "Every detail published here follows OPAR's factual listing standard: listed weight, cleansing scope, and supplier source stay separate from marketing overclaims. Cosmetic safety documentation and full ordered INCI ingredient disclosure remain tracked in the verification accordion below prior to live fulfilment.",
+      "During construction preview, a dummy unit price and multi-bar sample option let you test cart totals, variant updates, and invoice checkout end to end."
+    ],
+    "careGuide": "Keep the bar on a slatted wooden or stone soap dish between washes so water drains freely. Rinse thoroughly with cool or lukewarm water and pat dry.",
     "sourceName": "AliExpress",
     "sourceProductId": "1005007532901889",
     "sourceUrl": "https://www.aliexpress.com/item/1005007532901889.html",
@@ -26,38 +34,54 @@
       },
       {
         "src": "/assets/products/photography-pending.svg",
-        "alt": "Placeholder for a packaging photograph; not an actual product image",
-        "caption": "Packaging photograph to follow. This is a placeholder, not a product photograph."
+        "isEmptyMount": true,
+        "isPlaceholder": true,
+        "alt": "Botanical empty mount for secondary turmeric cleansing soap packaging photograph",
+        "caption": "Secondary packaging photograph in preparation."
       }
     ],
-    "price": null,
+    "price": 9.5,
+    "samplePricing": true,
     "currency": "GBP",
-    "variants": [],
+    "variants": [
+      { "label": "Single bar (100 g)", "sku": "OPAR-EC-01A", "price": 9.5 },
+      { "label": "Box of 3 bars (3 × 100 g)", "sku": "OPAR-EC-01B", "price": 25.0 }
+    ],
     "specifications": [
-      {
-        "label": "Listed size",
-        "value": "100 g — supplier-stated"
-      },
-      {
-        "label": "Full ingredients",
-        "value": "Confirmed before invoicing"
-      },
-      {
-        "label": "Available options",
-        "value": "Confirmed before invoicing"
-      },
-      {
-        "label": "Availability",
-        "value": "Confirmed on your invoice"
-      }
+      { "label": "Listed size", "value": "100 g — supplier-stated" },
+      { "label": "Format", "value": "Solid cleansing bar" },
+      { "label": "Sample unit price", "value": "£9.50 (dummy construction rate)" },
+      { "label": "Full ingredients", "value": "Confirmed before invoicing" },
+      { "label": "Available options", "value": "1 bar or box of 3 (construction sample)" },
+      { "label": "Availability", "value": "Confirmed on your invoice" }
     ],
     "deliveryNote": "OPAR confirms the destination, shipping charge and estimated delivery on your invoice. No dispatch date is promised before that confirmation.",
     "returnsNote": "Returns follow OPAR's published returns policy. Sealed personal-care items may be excluded where hygiene rules require it.",
     "usageNote": "Read the pack directions and the full ingredient list before use, and patch-test new skincare. This page makes no treatment or skin-tone claim.",
     "dataNote": "Selected from a public AliExpress listing. Supplier terms and the exact batch are confirmed before an order is invoiced.",
+    "crossLinks": [
+      { "label": "Everyday Care room", "href": "/shop/everyday-care/" },
+      { "label": "Aloe Vera Cleansing Bar", "href": "/shop/aloe-vera-soap/" },
+      { "label": "Plants & practice desk", "href": "/journal/plants-and-practice/" },
+      { "label": "Sourcing & makers", "href": "/about/sourcing/" }
+    ],
+    "faq": [
+      {
+        "question": "Is £9.50 the final live selling price?",
+        "answer": "No. £9.50 is a construction-sample price used to test cart math and checkout invoices while final landed supplier costs and shipping margins are settled."
+      },
+      {
+        "question": "Does OPAR claim this bar treats acne or lightens skin?",
+        "answer": "No. Supplier marketing wording is excluded. This bar is described strictly as a 100 g turmeric and kojic-acid daily cleansing soap."
+      },
+      {
+        "question": "When is the ingredient list confirmed?",
+        "answer": "The complete ordered INCI ingredient list and destination dispatch terms are confirmed in writing on your invoice prior to payment."
+      }
+    ],
     "seo": {
       "title": "Turmeric Cleansing Soap, 100 g",
-      "description": "A 100 g turmeric and kojic-acid cleansing bar from the OPAR shop. Ingredients and options are confirmed before an order is invoiced.",
+      "description": "A 100 g turmeric and kojic-acid daily cleansing soap bar in OPAR's Everyday Care room. Variants, care notes, and invoice terms confirmed prior to order.",
       "keywords": [
         "turmeric soap bar",
         "turmeric cleansing soap",
@@ -74,12 +98,20 @@
     "purchaseOwner": "partner",
     "listingStatus": "published",
     "complianceId": "cmp-cleansing-pads",
+    "lastUpdated": "2026-11-21",
     "name": "Turmeric Cleansing Pads",
     "category": "Everyday Care",
     "tagline": "A partner find, introduced plainly.",
     "cardLine": "Facial turmeric cleansing pads, a partner listing.",
     "format": "Cleansing pads · quantity on CJ",
+    "dispatchNote": "External partner listing · Purchased on CJ",
     "description": "A CJ listing for facial turmeric cleansing pads, introduced here as a partner offer. The exact title, ingredients, quantity and available options are confirmed on the CJ listing before you buy.",
+    "longDescription": [
+      "This partner listing introduces facial turmeric cleansing pads stocked and fulfilled externally through CJ rather than through OPAR's own invoice checkout. By keeping partner offers separate from house stock, OPAR makes clear who holds inventory, sets live pricing, and handles after-sales support.",
+      "Pre-soaked facial pads are listed for quick routine cleansing at home or in travel kits. Because OPAR does not fulfil or repackage this item, current pad counts, INCI declarations, and shipping destinations should always be checked on the linked CJ page before completing any transaction.",
+      "OPAR publishes zero medicinal or clarifying skin claims on partner cards and never captures card or checkout details for external offers."
+    ],
+    "careGuide": "Check the external merchant's lid-sealing and temperature storage guidance on the CJ listing page, and review the full ingredient panel before facial use.",
     "sourceName": "CJ",
     "sourceProductId": "2114448810729783298",
     "sourceUrl": "https://www.cjdropshipping.com/product/facial-soap-turmeric-acid-cleansing-pad-p-2114448810729783298.html",
@@ -88,45 +120,51 @@
     "sourceTitleStatus": "Title taken from the supplied listing URL. Check the current CJ page for the exact product, quantity and options.",
     "images": [
       {
-        "src": "/assets/products/cleansing-pads-placeholder.svg",
-        "alt": "Editorial illustration of a jar and cleansing pads; not the actual CJ product",
-        "caption": "Illustration only. CJ product photographs are not hosted on OPAR."
-      },
-      {
         "src": "/assets/products/photography-pending.svg",
-        "alt": "Placeholder for a supplier product photograph",
-        "caption": "Supplier photography is shown on the CJ listing."
+        "isEmptyMount": true,
+        "isPlaceholder": true,
+        "alt": "Architectural botanical plate for partner turmeric cleansing pads photography in preparation",
+        "caption": "External supplier product photography is shown directly on CJ."
       }
     ],
     "price": null,
     "currency": "GBP",
     "variants": [],
     "specifications": [
-      {
-        "label": "Listing format",
-        "value": "Cleansing pads — from the listing title"
-      },
-      {
-        "label": "Ingredients and quantity",
-        "value": "Shown on the CJ listing"
-      },
-      {
-        "label": "Options and availability",
-        "value": "Confirmed on CJ, not on OPAR"
-      },
-      {
-        "label": "Purchase location",
-        "value": "External CJ website"
-      }
+      { "label": "Listing format", "value": "Cleansing pads — from the listing title" },
+      { "label": "Fulfilment owner", "value": "Partner merchant (external CJ checkout)" },
+      { "label": "Ingredients and quantity", "value": "Shown on the CJ listing" },
+      { "label": "Options and availability", "value": "Confirmed on CJ, not on OPAR" },
+      { "label": "Purchase location", "value": "External CJ website" }
     ],
     "disclosure": "OPAR may earn a commission if you buy through this link. The price, delivery, returns and support are handled by CJ.",
     "deliveryNote": "Any purchase takes place on CJ. Check the destination-specific delivery options and charges there; OPAR does not dispatch this item.",
     "returnsNote": "Check the seller and the return, refund and support terms on CJ before purchasing. This item is not sold through OPAR's checkout.",
     "usageNote": "Read the current merchant description, ingredient list, directions and warnings. OPAR has not independently tested this product.",
     "dataNote": "A partner listing introduced by OPAR. The purchase happens on CJ, and the merchant's terms apply.",
+    "crossLinks": [
+      { "label": "All partner offers", "href": "/discover/" },
+      { "label": "Turmeric Cleansing Soap", "href": "/shop/turmeric-cleansing-soap/" },
+      { "label": "Affiliate disclosure policy", "href": "/policies/affiliate-disclosure/" },
+      { "label": "Sourcing & makers", "href": "/about/sourcing/" }
+    ],
+    "faq": [
+      {
+        "question": "Why is there no Add to Cart button on this page?",
+        "answer": "This listing is a partner offer rather than an OPAR house fulfilment piece. Purchasing, shipping and returns happen exclusively on CJ."
+      },
+      {
+        "question": "Does OPAR receive a commission from this link?",
+        "answer": "OPAR may receive a referral commission at no added cost to you if a qualifying transaction completes through the outbound CJ link."
+      },
+      {
+        "question": "Can I save this partner find to my wishlist?",
+        "answer": "Yes. Saving to the browser wishlist lets you compare partner links alongside shop pieces before visiting the external merchant."
+      }
+    ],
     "seo": {
       "title": "Turmeric Cleansing Pads · Partner offer",
-      "description": "A CJ listing for turmeric cleansing pads, introduced by OPAR. Price, options and delivery are confirmed on CJ.",
+      "description": "A CJ partner listing for facial turmeric cleansing pads introduced on OPAR. Check full ingredient lists, pad quantity, and shipping directly on CJ.",
       "keywords": [
         "turmeric cleansing pads",
         "facial cleansing pads",
@@ -142,12 +180,20 @@
     "purchaseOwner": "aura",
     "listingStatus": "published",
     "complianceId": "cmp-aloe-soap",
+    "lastUpdated": "2026-11-21",
     "name": "Aloe Vera Cleansing Bar",
     "category": "Everyday Care",
     "tagline": "A plain bar, described plainly.",
     "cardLine": "Aloe bar with niacinamide and tea tree oil.",
     "format": "100 g · pack of 1, 3 or 5",
+    "dispatchNote": "Construction sample · Pending margin & label confirmation",
     "description": "A 100 g aloe vera soap bar. The supplier reports niacinamide, tea tree oil, vitamin E, vitamin B5, aloe vera and plant oils. The full ingredient list is confirmed before an order is invoiced.",
+    "longDescription": [
+      "A plain-formulated 100 g solid aloe vera soap bar listing aloe vera extract, niacinamide, tea tree oil, vitamin E, panthenol (vitamin B5), and vegetable oil base. Supplied in single or multi-bar pack options for home bathroom rotation.",
+      "Supplier artwork containing therapeutic or skin-tone promises is intentionally withheld from this page. OPAR keeps only verified pack metrics—net weight, shelf-life window, period after opening, and SKU reference—visible above the fold.",
+      "Construction sample pricing is set across pack sizes of 1, 3, and 5 so variant price switching and cart line calculation can be verified prior to live supplier sourcing."
+    ],
+    "careGuide": "Store away from standing water on a dry soap rest after washing. Observe the supplier-stated 12-month period after opening.",
     "sourceName": "AliExpress",
     "sourceProductId": "1005008143754192",
     "sourceUrl": "https://www.aliexpress.com/item/1005008143754192.html",
@@ -165,69 +211,32 @@
     "images": [
       {
         "src": "/assets/products/photography-pending.svg",
+        "isEmptyMount": true,
+        "isPlaceholder": true,
         "alt": "Placeholder for the aloe vera cleansing bar photograph; not an actual product image",
         "caption": "OPAR's own photograph to follow. The supplier's artwork is withheld because it carries medicinal claim wording that OPAR does not publish.",
-        "isPlaceholder": true,
         "sourceImageUrl": "https://ae-pic-a1.aliexpress-media.com/kf/S5c38ba7565c3471e8e517194dc27842ah.jpg",
         "sourceImageStatus": "Withheld. The supplier file is a marketing composite headed 'ALOE VERA SOAP' with an 'Anti-Acne · Oil Control · Brighten' overlay and the same wording printed on the label. 'Anti-acne' is a medicinal claim, so the pixels are not published. The URL is retained as provenance only."
       }
     ],
-    "price": null,
+    "price": 8.5,
+    "samplePricing": true,
     "currency": "GBP",
     "variants": [
-      {
-        "label": "Pack of 1",
-        "sku": null,
-        "price": null
-      },
-      {
-        "label": "Pack of 3",
-        "sku": null,
-        "price": null
-      },
-      {
-        "label": "Pack of 5",
-        "sku": null,
-        "price": null
-      }
+      { "label": "Pack of 1 (100 g)", "sku": "OPAR-EC-02A", "price": 8.5 },
+      { "label": "Pack of 3 (3 × 100 g)", "sku": "OPAR-EC-02B", "price": 22.0 },
+      { "label": "Pack of 5 (5 × 100 g)", "sku": "OPAR-EC-02C", "price": 34.0 }
     ],
     "specifications": [
-      {
-        "label": "Net weight",
-        "value": "100 g / 3.5 oz — supplier-stated"
-      },
-      {
-        "label": "Format",
-        "value": "Solid soap bar"
-      },
-      {
-        "label": "Options",
-        "value": "Pack of 1, 3 or 5 — prices on invoice"
-      },
-      {
-        "label": "Period after opening",
-        "value": "12 months — supplier-stated"
-      },
-      {
-        "label": "Shelf life",
-        "value": "36 months — supplier-stated"
-      },
-      {
-        "label": "Country of origin",
-        "value": "China — supplier-stated"
-      },
-      {
-        "label": "Full ingredient list (INCI)",
-        "value": "Confirmed before invoicing"
-      },
-      {
-        "label": "Product identifier",
-        "value": "12000043973353662-WK-aloe-vera-soapX1 — supplier-stated"
-      },
-      {
-        "label": "Availability",
-        "value": "Confirmed on your invoice"
-      }
+      { "label": "Net weight", "value": "100 g / 3.5 oz — supplier-stated" },
+      { "label": "Format", "value": "Solid soap bar" },
+      { "label": "Options", "value": "Pack of 1, 3 or 5 — construction sample rates shown" },
+      { "label": "Period after opening", "value": "12 months — supplier-stated" },
+      { "label": "Shelf life", "value": "36 months — supplier-stated" },
+      { "label": "Country of origin", "value": "China — supplier-stated" },
+      { "label": "Full ingredient list (INCI)", "value": "Confirmed before invoicing" },
+      { "label": "Product identifier", "value": "12000043973353662-WK-aloe-vera-soapX1 — supplier-stated" },
+      { "label": "Availability", "value": "Confirmed on your invoice" }
     ],
     "deliveryNote": "The supplier listing showed free standard shipping to the United Kingdom with a 19–24 November window when read on 6 November 2026. OPAR confirms your destination, charge and estimate on the invoice.",
     "returnsNote": "Returns follow OPAR's published returns policy. The supplier advertises 90-day free returns; that is the supplier's term, not OPAR's.",
@@ -238,9 +247,29 @@
       "The listing is sold by the brand's own store at retail price including VAT, which leaves little or no resale margin.",
       "Only 9 units sold and 5 reviews were shown, which is thin evidence of demand and stock reliability."
     ],
+    "crossLinks": [
+      { "label": "Everyday Care room", "href": "/shop/everyday-care/" },
+      { "label": "Turmeric Cleansing Soap", "href": "/shop/turmeric-cleansing-soap/" },
+      { "label": "Sourcing & makers", "href": "/about/sourcing/" },
+      { "label": "Health disclaimer policy", "href": "/policies/health-disclaimer/" }
+    ],
+    "faq": [
+      {
+        "question": "Why does this page show a botanical mount instead of a supplier photo?",
+        "answer": "The supplier's photograph overlays unverified cosmetic-medicinal text on the wrapper. OPAR withholds that image and waits for clean photography."
+      },
+      {
+        "question": "Are Pack of 3 and Pack of 5 prices confirmed for wholesale?",
+        "answer": "No. The figures displayed are dummy construction-sample rates used to test variant switching and checkout receipts before sourcing margins are confirmed."
+      },
+      {
+        "question": "Is a full UK Responsible Person verified for this item?",
+        "answer": "Not yet. The supplier names an EU address only; UK Responsible Person details and ordered INCI confirmation stay tracked under compliance checks."
+      }
+    ],
     "seo": {
       "title": "Aloe Vera Cleansing Bar, 100 g",
-      "description": "A 100 g aloe vera soap bar from the OPAR shop. Full ingredient list and options are confirmed before an order is invoiced.",
+      "description": "A 100 g aloe vera cleansing bar listed in OPAR's Everyday Care collection. Pack variants, factual specifications, and compliance notes.",
       "keywords": [
         "aloe vera soap bar",
         "aloe vera cleansing bar",
@@ -257,12 +286,20 @@
     "purchaseOwner": "aura",
     "listingStatus": "published",
     "complianceId": "cmp-ashwagandha-black-pepper",
+    "lastUpdated": "2026-11-21",
     "name": "Ashwagandha with Black Pepper",
     "category": "Herbal Botanicals",
     "tagline": "A 60-capsule pack with Ashwagandha root and black pepper.",
     "cardLine": "Ashwagandha root with black pepper, in capsules.",
     "format": "60 capsules",
+    "dispatchNote": "Construction sample · US fulfilment preview route",
     "description": "CJ lists this supplement as 60 capsules. The supplied label artwork names Ashwagandha root and black pepper, with pullulan capsules as the inactive ingredient. The exact batch is confirmed before an order is invoiced.",
+    "longDescription": [
+      "Listed as a 60-capsule pack combining Withania somnifera root and Piper nigrum fruit in plant-derived pullulan capsules. A supplied label-artwork PDF states 2 capsules per serving across 30 servings per bottle, alongside 1,300 mg ashwagandha root and 10 mg black pepper fruit per serving.",
+      "OPAR highlights one supplier discrepancy openly in the specification table: CJ's automated category field reads 'Powder' while both the narrative listing and supplied label describe 60 capsules, and the stated 113 g (0.25 lb) figure represents gross bottle weight rather than net herbal weight.",
+      "Because this is an ingestible botanical supplement, medical benefit claims, stress or cognitive outcomes, and unverified organic certificates are strictly excluded. Sample pricing allows checkout testing only while batch laboratory certificates and destination suitability are checked."
+    ],
+    "careGuide": "Keep sealed in a cool, dry cabinet out of direct sunlight. Review pack warnings and consult a qualified practitioner if taking medication, pregnant, or breastfeeding.",
     "sourceName": "CJ",
     "sourceProductId": "1898627038642925570",
     "sourceSku": "CJHP232030301AZ",
@@ -272,15 +309,18 @@
     "images": [
       {
         "src": "/assets/products/photography-pending.svg",
+        "isEmptyMount": true,
+        "isPlaceholder": true,
         "alt": "Placeholder for the Ashwagandha with Black Pepper product photograph",
-        "caption": "Product photograph to follow. This placeholder does not depict the CJ product.",
-        "isPlaceholder": true
+        "caption": "Product photograph to follow. This empty botanical mount does not depict the CJ bottle or label artwork."
       }
     ],
-    "price": null,
+    "price": 18.0,
+    "samplePricing": true,
     "currency": "GBP",
     "variants": [
-      { "label": "60 capsules", "sku": "CJHP232030301AZ", "price": null }
+      { "label": "60 capsules (1 bottle sample)", "sku": "CJHP232030301AZ", "price": 18.0 },
+      { "label": "120 capsules (2-bottle sample)", "sku": "CJHP232030301AZ-2", "price": 33.0 }
     ],
     "specifications": [
       { "label": "Product form", "value": "Capsules, according to the listing description and supplied label. CJ's separate 'Powder' attribute conflicts with this description." },
@@ -307,11 +347,595 @@
       "The supplier description refers to black pepper extract; the label says black pepper fruit. Extract status and standardisation have not been confirmed.",
       "Supplier pricing is not OPAR's selling price and is not stored in this public catalogue. The PDF is retained outside the repository."
     ],
+    "crossLinks": [
+      { "label": "Herbal Botanicals room", "href": "/shop/herbal-botanicals/" },
+      { "label": "Plants & practice journal", "href": "/journal/plants-and-practice/" },
+      { "label": "Health disclaimer", "href": "/policies/health-disclaimer/" },
+      { "label": "Sourcing & makers", "href": "/about/sourcing/" }
+    ],
+    "faq": [
+      {
+        "question": "Is this product loose root powder or capsules?",
+        "answer": "It is 60 pullulan capsules. CJ's listing metadata carries a conflicting 'Powder' tag, which OPAR flags directly in the specification table."
+      },
+      {
+        "question": "Are the ashwagandha and black pepper amounts verified by a lab?",
+        "answer": "Not yet. The 1,300 mg root and 10 mg black pepper figures come from supplied label artwork only; batch laboratory reports remain requested."
+      },
+      {
+        "question": "Why are shipping and certificates listed as pending?",
+        "answer": "The CJ quote currently covers domestic US dispatch only, and no organic or free-from certificates are held yet. All terms are settled before invoicing."
+      }
+    ],
     "seo": {
       "title": "Ashwagandha with Black Pepper, 60 Capsules",
-      "description": "Ashwagandha with Black Pepper, listed as 60 capsules. Label-stated ingredient amounts and pack details from the OPAR shop.",
+      "description": "Ashwagandha with Black Pepper (60 pullulan capsules) in OPAR's Herbal Botanicals room. Label-stated amounts, full specs, and compliance checks.",
       "keywords": ["ashwagandha capsules", "ashwagandha with black pepper", "ashwagandha 60 capsules"],
       "note": "Descriptive terms only, not measured keyword research. No health, organic-certification or free-from claims are used."
+    }
+  },
+  {
+    "id": "opar-sample-herbal-botanicals",
+    "slug": "sample-botanical-infusion-jar",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "listingStatus": "published",
+    "isPlaceholder": true,
+    "isConstructionSample": true,
+    "lastUpdated": "2026-11-21",
+    "name": "Whole Botanical Infusion Jar — Sample",
+    "category": "Herbal Botanicals",
+    "tagline": "Amber apothecary glass with loose botanical capsules.",
+    "cardLine": "Herbal Botanicals sample piece for storefront construction.",
+    "format": "60 capsules · Amber glass jar",
+    "dispatchNote": "Construction sample · Dispatches in 2–4 days (sample rate)",
+    "description": "Construction sample piece representing OPAR's Herbal Botanicals room. Used to test amber-glass jar proportions on paper mounts, variant pricing, cart calculations, and detail page layout before live supplier stock is onboarded.",
+    "longDescription": [
+      "Designed as an honest construction sample for the Herbal Botanicals room, showing how apothecary amber glass and single-herb capsules sit inside OPAR's square paper mount frame without dark rectangular shadows or intrusive studio labels.",
+      "Once the final botanical producer and batch testing documents are verified, this slot swaps in confirmed net weight, harvest origin, and verified testing certificates without altering the template layout, typography, or shopping flow.",
+      "All sample figures shown here—pricing, weights, and variant tiers—are placeholders built specifically so cart subtotals, invoice confirmation emails, and browser-local tracking can be inspected end to end."
+    ],
+    "careGuide": "Keep dark amber apothecary jars sealed tightly away from steam and kitchen humidity. Keep out of reach of children.",
+    "sourceName": "OPAR Construction Sample",
+    "sourceProductId": "OPAR-SAMPLE-HB-01",
+    "sourceSku": "OPAR-HB-SAMPLE",
+    "sourceUrl": "https://example.com/opar-construction-sample/herbal-botanicals",
+    "sourceTitle": "OPAR Construction Sample — Herbal Botanicals Room",
+    "sourceTitleStatus": "Internal construction sample used for layout, cart and checkout verification only.",
+    "images": [
+      {
+        "src": "/assets/products/studio-herbal-botanicals.jpg",
+        "srcAvif": "/assets/products/studio-herbal-botanicals.avif",
+        "srcWebp": "/assets/products/studio-herbal-botanicals.webp",
+        "src800Avif": "/assets/products/studio-herbal-botanicals-800.avif",
+        "src800Webp": "/assets/products/studio-herbal-botanicals-800.webp",
+        "src800Jpg": "/assets/products/studio-herbal-botanicals-800.jpg",
+        "width": 1200,
+        "height": 1200,
+        "imageSource": "generated-placeholder",
+        "rights": "in-house",
+        "alt": "Studio product photograph of an amber glass jar with botanical powder and loose capsules on light paper background",
+        "caption": "Generated construction studio study for Herbal Botanicals (#F4F2EE backdrop, no third-party claim)."
+      },
+      {
+        "src": "/assets/products/photography-pending.svg",
+        "isEmptyMount": true,
+        "isPlaceholder": true,
+        "alt": "Empty botanical mount representing secondary studio view in preparation",
+        "caption": "Secondary angle reserved in preparation for final maker photography."
+      }
+    ],
+    "price": 24.0,
+    "samplePricing": true,
+    "currency": "GBP",
+    "variants": [
+      { "label": "60 capsules (Amber jar)", "sku": "OPAR-HB-01A", "price": 24.0 },
+      { "label": "90 capsules (Refill pouch)", "sku": "OPAR-HB-01B", "price": 34.0 }
+    ],
+    "specifications": [
+      { "label": "Room", "value": "Herbal Botanicals" },
+      { "label": "Format", "value": "60 capsules in amber glass jar (construction sample)" },
+      { "label": "Sample unit price", "value": "£24.00 (placeholder)" },
+      { "label": "Listing type", "value": "Construction sample layout" }
+    ],
+    "deliveryNote": "Sample shipping estimates confirm destination rates on the written invoice before settlement.",
+    "returnsNote": "Sealed items follow OPAR's published returns policy once real inventory launches.",
+    "usageNote": "Construction sample listing only; no clinical, physiological or medical claim is made.",
+    "dataNote": "Generated placeholder piece representing the Herbal Botanicals room during construction.",
+    "crossLinks": [
+      { "label": "Back to Herbal Botanicals", "href": "/shop/herbal-botanicals/" },
+      { "label": "Ashwagandha with Black Pepper", "href": "/shop/ashwagandha-with-black-pepper/" },
+      { "label": "Plants & practice desk", "href": "/journal/plants-and-practice/" },
+      { "label": "All shop pieces", "href": "/shop/" }
+    ],
+    "faq": [
+      {
+        "question": "Can I test adding this sample piece to my cart?",
+        "answer": "Yes. Use the quantity control and Add to cart button to test cart math, shipping preferences and local request lookup."
+      },
+      {
+        "question": "Is this amber jar available for real shipping right now?",
+        "answer": "No. It is a construction sample occupying the Herbal Botanicals room until confirmed supplier batches arrive."
+      },
+      {
+        "question": "How will final herbal items be documented?",
+        "answer": "Final herbs will list verified net weight, country of cultivation, batch lot trace, and safety disclosures without unsupported health claims."
+      }
+    ],
+    "seo": {
+      "title": "Botanical Infusion Jar Sample · Herbal",
+      "description": "Construction sample listing for OPAR Herbal Botanicals showcasing studio mount imagery, sample pricing, variant options, and full specifications.",
+      "keywords": ["herbal botanicals", "amber glass capsules", "botanical sample"]
+    }
+  },
+  {
+    "id": "opar-sample-everyday-care",
+    "slug": "sample-cold-process-bar",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "listingStatus": "published",
+    "isPlaceholder": true,
+    "isConstructionSample": true,
+    "lastUpdated": "2026-11-21",
+    "name": "Cold-Process Olive Cleansing Bar — Sample",
+    "category": "Everyday Care",
+    "tagline": "Unwrapped neutral cold-process soap bar for daily sink use.",
+    "cardLine": "Everyday Care studio sample bar for layout and cart verification.",
+    "format": "110 g bar · Unscented sample",
+    "dispatchNote": "Construction sample · Dispatches in 2–3 days (sample rate)",
+    "description": "Construction sample piece representing OPAR's Everyday Care room. Demonstrates unwrapped matte bar photography inside the square paper mount, dummy multi-bar pack pricing, and full Everyday Care attributes.",
+    "longDescription": [
+      "Shown without outer carton clutter so you can inspect how natural neutral matte textures blend against OPAR's archival #F4F2EE mount without bright border seams or artificial shadows.",
+      "Inside the Everyday Care room, cleansing bars, solid shampoos, and morning utility objects are presented strictly with physical dimensions, period-after-opening periods, and full ingredient transparency.",
+      "Dummy pack variants and pricing here test dynamic price recalculation on the detail page as well as Cart and Checkout line summaries."
+    ],
+    "careGuide": "Rest on a draining ceramic or teak soap rack between washes to extend bar life cleanly.",
+    "sourceName": "OPAR Construction Sample",
+    "sourceProductId": "OPAR-SAMPLE-EC-01",
+    "sourceSku": "OPAR-EC-SAMPLE",
+    "sourceUrl": "https://example.com/opar-construction-sample/everyday-care",
+    "sourceTitle": "OPAR Construction Sample — Everyday Care Room",
+    "sourceTitleStatus": "Internal construction sample used for layout, cart and checkout verification only.",
+    "images": [
+      {
+        "src": "/assets/products/studio-everyday-care.jpg",
+        "srcAvif": "/assets/products/studio-everyday-care.avif",
+        "srcWebp": "/assets/products/studio-everyday-care.webp",
+        "src800Avif": "/assets/products/studio-everyday-care-800.avif",
+        "src800Webp": "/assets/products/studio-everyday-care-800.webp",
+        "src800Jpg": "/assets/products/studio-everyday-care-800.jpg",
+        "width": 1200,
+        "height": 1200,
+        "imageSource": "generated-placeholder",
+        "rights": "in-house",
+        "alt": "Studio product photograph of an unwrapped matte beige cold-process cleansing soap bar on light paper background",
+        "caption": "Generated construction studio study for Everyday Care (#F4F2EE backdrop)."
+      },
+      {
+        "src": "/assets/products/photography-pending.svg",
+        "isEmptyMount": true,
+        "isPlaceholder": true,
+        "alt": "Empty botanical mount representing secondary Everyday Care angle in preparation",
+        "caption": "Secondary packaging photograph in preparation."
+      }
+    ],
+    "price": 11.0,
+    "samplePricing": true,
+    "currency": "GBP",
+    "variants": [
+      { "label": "Single bar (110 g)", "sku": "OPAR-EC-S1", "price": 11.0 },
+      { "label": "Twin pack (2 × 110 g)", "sku": "OPAR-EC-S2", "price": 19.5 }
+    ],
+    "specifications": [
+      { "label": "Room", "value": "Everyday Care" },
+      { "label": "Format", "value": "110 g cold-process bar (construction sample)" },
+      { "label": "Sample unit price", "value": "£11.00 (placeholder)" },
+      { "label": "Listing type", "value": "Construction sample layout" }
+    ],
+    "deliveryNote": "Sample shipping rates and carriers are confirmed on your written invoice.",
+    "returnsNote": "Sealed everyday care goods follow the standard hygiene and returns policy at launch.",
+    "usageNote": "Construction sample listing only; no cosmetic medical or brightening claims apply.",
+    "dataNote": "Generated placeholder piece representing Everyday Care during construction.",
+    "crossLinks": [
+      { "label": "Back to Everyday Care", "href": "/shop/everyday-care/" },
+      { "label": "Turmeric Cleansing Soap", "href": "/shop/turmeric-cleansing-soap/" },
+      { "label": "Shipping policy", "href": "/policies/shipping/" },
+      { "label": "All shop pieces", "href": "/shop/" }
+    ],
+    "faq": [
+      {
+        "question": "Does switching pack variants update the price on this page?",
+        "answer": "Yes. Changing between Single bar and Twin pack updates both the visible sample price and the Add to cart line value."
+      },
+      {
+        "question": "Is this soap available to purchase today?",
+        "answer": "No. This sample occupies the Everyday Care room grid for design and testing while live bar formulations finish safety review."
+      },
+      {
+        "question": "Where are shipping exclusions explained?",
+        "answer": "All hygiene return conditions and invoice quotes are published cleanly under Returns and Shipping."
+      }
+    ],
+    "seo": {
+      "title": "Cold-Process Soap Sample · Everyday Care",
+      "description": "Construction sample listing for OPAR Everyday Care with bespoke studio bar imagery, pack variants, dummy sample rates, and care specifications.",
+      "keywords": ["everyday care", "cold process soap", "cleansing bar sample"]
+    }
+  },
+  {
+    "id": "opar-sample-showpieces",
+    "slug": "sample-turned-wood-vessel",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "listingStatus": "published",
+    "isPlaceholder": true,
+    "isConstructionSample": true,
+    "lastUpdated": "2026-11-21",
+    "name": "Hand-Turned Teak Vessel — Sample",
+    "category": "Showpieces",
+    "tagline": "Carved hardwood accent bowl for quiet shelf and desk placement.",
+    "cardLine": "Showpieces construction sample highlighting sculptural wood grain.",
+    "format": "16 cm carved hardwood vessel",
+    "dispatchNote": "Construction sample · Dispatches in 3–5 days (sample rate)",
+    "description": "Construction sample piece representing OPAR's Showpieces room. Showcases carved natural hardwood grain against the light archival mount alongside sample dimensions and multi-size options.",
+    "longDescription": [
+      "The Showpieces room gathers small-batch ornamental objects—turned wooden vessels, natural beeswax candles, and sculptural accents—chosen for tactile restraint rather than seasonal trend cycles.",
+      "Handmade vessels carry natural grain variation from ring to ring. When artisan partners are confirmed, each piece page records exact wood species, workshop location, finishing oil, and approximate diameter.",
+      "Sample pricing across two vessel diameters gives a realistic mid-ticket anchor to inspect alongside lower-ticket cleansing bars in the shopping bag."
+    ],
+    "careGuide": "Dust gently with a dry linen cloth. Keep away from radiators and dishwasher moisture; condition lightly with food-safe mineral oil if dry.",
+    "sourceName": "OPAR Construction Sample",
+    "sourceProductId": "OPAR-SAMPLE-SP-01",
+    "sourceSku": "OPAR-SP-SAMPLE",
+    "sourceUrl": "https://example.com/opar-construction-sample/showpieces",
+    "sourceTitle": "OPAR Construction Sample — Showpieces Room",
+    "sourceTitleStatus": "Internal construction sample used for layout, cart and checkout verification only.",
+    "images": [
+      {
+        "src": "/assets/products/studio-showpieces.jpg",
+        "srcAvif": "/assets/products/studio-showpieces.avif",
+        "srcWebp": "/assets/products/studio-showpieces.webp",
+        "src800Avif": "/assets/products/studio-showpieces-800.avif",
+        "src800Webp": "/assets/products/studio-showpieces-800.webp",
+        "src800Jpg": "/assets/products/studio-showpieces-800.jpg",
+        "width": 1200,
+        "height": 1200,
+        "imageSource": "generated-placeholder",
+        "rights": "in-house",
+        "alt": "Studio product photograph of a carved wooden showpiece vessel centred on a light paper backdrop",
+        "caption": "Generated construction studio study for Showpieces (#F4F2EE backdrop)."
+      },
+      {
+        "src": "/assets/products/photography-pending.svg",
+        "isEmptyMount": true,
+        "isPlaceholder": true,
+        "alt": "Empty botanical mount representing grain detail view in preparation",
+        "caption": "Secondary grain-detail photograph in preparation."
+      }
+    ],
+    "price": 48.0,
+    "samplePricing": true,
+    "currency": "GBP",
+    "variants": [
+      { "label": "16 cm rim vessel", "sku": "OPAR-SP-S1", "price": 48.0 },
+      { "label": "20 cm deep bowl", "sku": "OPAR-SP-S2", "price": 64.0 }
+    ],
+    "specifications": [
+      { "label": "Room", "value": "Showpieces" },
+      { "label": "Format", "value": "16 cm hand-turned vessel (construction sample)" },
+      { "label": "Sample unit price", "value": "£48.00 (placeholder)" },
+      { "label": "Listing type", "value": "Construction sample layout" }
+    ],
+    "deliveryNote": "Fragile woodwork is boxed separately; destination shipping charges appear on the written invoice.",
+    "returnsNote": "Returns accepted unused in original packing within 14 days once trading launches.",
+    "usageNote": "Dry ornamental room vessel; not intended for hot liquids or prolonged soaking.",
+    "dataNote": "Generated placeholder piece representing the Showpieces room during construction.",
+    "crossLinks": [
+      { "label": "Back to Showpieces", "href": "/shop/showpieces/" },
+      { "label": "Quiet Living room", "href": "/shop/quiet-living/" },
+      { "label": "Worldly & divine journal", "href": "/journal/worldly-and-divine/" },
+      { "label": "Returns policy", "href": "/policies/returns/" }
+    ],
+    "faq": [
+      {
+        "question": "Will live Showpieces be individually numbered or photographed?",
+        "answer": "Natural grain varies on carved wood; one-of-a-kind listings will note batch vs. single-piece status transparently on each product card."
+      },
+      {
+        "question": "Is £48.00 final?",
+        "answer": "No. £48.00 is a construction placeholder rate enabling cart subtotals and invoice flow inspection."
+      },
+      {
+        "question": "How is carved timber packed for export?",
+        "answer": "Carrier options, protective crating, and import declarations are confirmed per destination on your written invoice."
+      }
+    ],
+    "seo": {
+      "title": "Carved Wooden Vessel Sample · Showpieces",
+      "description": "Construction sample listing for OPAR Showpieces room displaying carved wood photography, sample diameter variants, and care guidance.",
+      "keywords": ["wooden showpiece", "turned wooden vessel", "showpieces sample"]
+    }
+  },
+  {
+    "id": "opar-sample-yoga-practice",
+    "slug": "sample-cork-practice-set",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "listingStatus": "published",
+    "isPlaceholder": true,
+    "isConstructionSample": true,
+    "lastUpdated": "2026-11-21",
+    "name": "Rolled Practice Mat & Cork Block — Sample",
+    "category": "Yoga & Practice",
+    "tagline": "Dense practice mat paired with a bevelled cork alignment block.",
+    "cardLine": "Yoga & Practice sample pairing natural cork and dense weave.",
+    "format": "Mat + 1 cork block · sample",
+    "dispatchNote": "Construction sample · Dispatches in 2–4 days (sample rate)",
+    "description": "Construction sample piece representing OPAR's Yoga & Practice room. Used to evaluate tactile mat and cork surface rendering, pair variants, and functional studio specs before maker sourcing finalises.",
+    "longDescription": [
+      "Yoga & Practice focuses on durable movement props—floor mats, solid cork blocks, bolsters, and breath cushions—chosen for tactile grip and quiet colour without bright gym branding.",
+      "Presenting a rolled textile mat alongside a chamfered natural cork block shows how multi-part practice kits read in the gallery, cart thumbnails, and order confirmations.",
+      "Confirmed thickness measurements, rubber/hemp material breakdown, and parcel courier weight calculations will populate once manufacturer specs clear review."
+    ],
+    "careGuide": "Wipe cork with a slightly damp cloth and air-dry completely before stacking. Unroll mat flat periodically out of strong sunlight.",
+    "sourceName": "OPAR Construction Sample",
+    "sourceProductId": "OPAR-SAMPLE-YP-01",
+    "sourceSku": "OPAR-YP-SAMPLE",
+    "sourceUrl": "https://example.com/opar-construction-sample/yoga-practice",
+    "sourceTitle": "OPAR Construction Sample — Yoga & Practice Room",
+    "sourceTitleStatus": "Internal construction sample used for layout, cart and checkout verification only.",
+    "images": [
+      {
+        "src": "/assets/products/studio-yoga-practice.jpg",
+        "srcAvif": "/assets/products/studio-yoga-practice.avif",
+        "srcWebp": "/assets/products/studio-yoga-practice.webp",
+        "src800Avif": "/assets/products/studio-yoga-practice-800.avif",
+        "src800Webp": "/assets/products/studio-yoga-practice-800.webp",
+        "src800Jpg": "/assets/products/studio-yoga-practice-800.jpg",
+        "width": 1200,
+        "height": 1200,
+        "imageSource": "generated-placeholder",
+        "rights": "in-house",
+        "alt": "Studio product photograph of a rolled neutral practice mat beside a cork yoga block on light paper ground",
+        "caption": "Generated construction studio study for Yoga & Practice (#F4F2EE backdrop)."
+      },
+      {
+        "src": "/assets/products/photography-pending.svg",
+        "isEmptyMount": true,
+        "isPlaceholder": true,
+        "alt": "Empty botanical mount representing texture close-up photograph in preparation",
+        "caption": "Surface grain close-up photograph in preparation."
+      }
+    ],
+    "price": 54.0,
+    "samplePricing": true,
+    "currency": "GBP",
+    "variants": [
+      { "label": "Mat + 1 cork block", "sku": "OPAR-YP-S1", "price": 54.0 },
+      { "label": "Mat + pair of cork blocks", "sku": "OPAR-YP-S2", "price": 68.0 }
+    ],
+    "specifications": [
+      { "label": "Room", "value": "Yoga & Practice" },
+      { "label": "Format", "value": "Mat with cork support block (construction sample)" },
+      { "label": "Sample unit price", "value": "£54.00 (placeholder)" },
+      { "label": "Listing type", "value": "Construction sample layout" }
+    ],
+    "deliveryNote": "Bulky mat parcels are quoted accurately per region on your checkout invoice.",
+    "returnsNote": "Unused, unsoiled practice equipment follows the standard 14-day returns framework.",
+    "usageNote": "Practice support tools for comfortable alignment; no therapeutic or physiological claim is made.",
+    "dataNote": "Generated placeholder piece representing Yoga & Practice during construction.",
+    "crossLinks": [
+      { "label": "Back to Yoga & Practice", "href": "/shop/yoga-practice/" },
+      { "label": "Mind & body journal", "href": "/journal/mind-and-body/" },
+      { "label": "Perennis Sacred Sound", "href": "/perennis/music/" },
+      { "label": "All shop pieces", "href": "/shop/" }
+    ],
+    "faq": [
+      {
+        "question": "Can mats and blocks be ordered together as sets?",
+        "answer": "The sample variant selector illustrates how single-block and paired sets work inside one unified SKU flow."
+      },
+      {
+        "question": "Are weight and dimensions final?",
+        "answer": "No. Full thickness, length, and parcel shipping weights are confirmed once the supplier spec sheet clears review."
+      },
+      {
+        "question": "Does OPAR claim this set treats back pain or stress?",
+        "answer": "No. Practice equipment is offered purely for physical floor support and comfort without medical promises."
+      }
+    ],
+    "seo": {
+      "title": "Practice Mat & Cork Block Sample · Yoga",
+      "description": "Construction sample listing for OPAR Yoga & Practice featuring neutral studio photography, block pair options, and practice care details.",
+      "keywords": ["yoga practice mat", "cork yoga block", "yoga practice sample"]
+    }
+  },
+  {
+    "id": "opar-sample-art-craft",
+    "slug": "sample-ceramic-ritual-bowl",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "listingStatus": "published",
+    "isPlaceholder": true,
+    "isConstructionSample": true,
+    "lastUpdated": "2026-11-21",
+    "name": "Wheel-Thrown Stoneware Bowl — Sample",
+    "category": "Art & Craft",
+    "tagline": "Quiet unglazed rim ceramic bowl built for tactile daily use.",
+    "cardLine": "Art & Craft construction sample celebrating handmade ceramics.",
+    "format": "16 cm hand-thrown ceramic",
+    "dispatchNote": "Construction sample · Dispatches in 3–5 days (sample rate)",
+    "description": "Construction sample piece representing OPAR's Art & Craft room. Highlights wheel-thrown ceramic glaze textures inside OPAR's paper mount with dummy glaze variants and artisan provenance structure.",
+    "longDescription": [
+      "The Art & Craft room centres on small-workshop pieces where tool marks, glaze variation, and clay body origin matter just as much as finished utility.",
+      "Once a potter's workshop contract is confirmed, each ceramic listing documents kiln temperature, lead-free glaze confirmation, workshop region, and whether variations between batches are expected.",
+      "This placeholder bowl gives a concrete ceramic anchor for the Art & Craft room page, search results, wishlist testing, and invoice receipts."
+    ],
+    "careGuide": "Wash by hand with warm water and mild soap; avoid thermal shock between freezer and boiling water.",
+    "sourceName": "OPAR Construction Sample",
+    "sourceProductId": "OPAR-SAMPLE-AC-01",
+    "sourceSku": "OPAR-AC-SAMPLE",
+    "sourceUrl": "https://example.com/opar-construction-sample/art-craft",
+    "sourceTitle": "OPAR Construction Sample — Art & Craft Room",
+    "sourceTitleStatus": "Internal construction sample used for layout, cart and checkout verification only.",
+    "images": [
+      {
+        "src": "/assets/products/studio-art-craft.jpg",
+        "srcAvif": "/assets/products/studio-art-craft.avif",
+        "srcWebp": "/assets/products/studio-art-craft.webp",
+        "src800Avif": "/assets/products/studio-art-craft-800.avif",
+        "src800Webp": "/assets/products/studio-art-craft-800.webp",
+        "src800Jpg": "/assets/products/studio-art-craft-800.jpg",
+        "width": 1200,
+        "height": 1200,
+        "imageSource": "generated-placeholder",
+        "rights": "in-house",
+        "alt": "Studio product photograph of a hand-thrown stoneware ceramic bowl on light paper backdrop",
+        "caption": "Generated construction studio study for Art & Craft (#F4F2EE backdrop)."
+      },
+      {
+        "src": "/assets/products/photography-pending.svg",
+        "isEmptyMount": true,
+        "isPlaceholder": true,
+        "alt": "Empty botanical mount representing ceramic foot-ring photograph in preparation",
+        "caption": "Maker's stamp and base photograph in preparation."
+      }
+    ],
+    "price": 36.0,
+    "samplePricing": true,
+    "currency": "GBP",
+    "variants": [
+      { "label": "Matte stone (16 cm)", "sku": "OPAR-AC-S1", "price": 36.0 },
+      { "label": "Ash glaze (18 cm)", "sku": "OPAR-AC-S2", "price": 44.0 }
+    ],
+    "specifications": [
+      { "label": "Room", "value": "Art & Craft" },
+      { "label": "Format", "value": "Wheel-thrown bowl (construction sample)" },
+      { "label": "Sample unit price", "value": "£36.00 (placeholder)" },
+      { "label": "Listing type", "value": "Construction sample layout" }
+    ],
+    "deliveryNote": "Double-boxed ceramic shipping is quoted clearly on your invoice prior to confirmation.",
+    "returnsNote": "Breakages in transit are documented and replaced or refunded under published terms.",
+    "usageNote": "Construction sample listing only; maker origin and food-contact glaze tests follow at onboarding.",
+    "dataNote": "Generated placeholder piece representing Art & Craft during construction.",
+    "crossLinks": [
+      { "label": "Back to Art & Craft", "href": "/shop/art-craft/" },
+      { "label": "Sourcing & makers", "href": "/about/sourcing/" },
+      { "label": "Hand-Turned Teak Vessel", "href": "/shop/sample-turned-wood-vessel/" },
+      { "label": "All shop pieces", "href": "/shop/" }
+    ],
+    "faq": [
+      {
+        "question": "Will live craft listings name the individual potter or cooperative?",
+        "answer": "Yes. Real Art & Craft entries record the workshop name, country/region, and firing technique before publication."
+      },
+      {
+        "question": "Are ceramic glazes verified before food use?",
+        "answer": "Food-contact pieces undergo glaze-safety verification prior to opening live orders."
+      },
+      {
+        "question": "Why show dummy glaze options now?",
+        "answer": "Testing glaze variant labels and pricing changes ensures customer selections flow cleanly through cart, checkout, and admin CSV."
+      }
+    ],
+    "seo": {
+      "title": "Stoneware Ceramic Bowl Sample · Art & Craft",
+      "description": "Construction sample listing for OPAR Art & Craft showcasing wheel-thrown stoneware imagery, glaze variant switching, and maker sourcing layout.",
+      "keywords": ["hand-thrown ceramic", "stoneware bowl", "art craft sample"]
+    }
+  },
+  {
+    "id": "opar-sample-quiet-living",
+    "slug": "sample-linen-runner-stone",
+    "model": "dropshipping",
+    "purchaseOwner": "aura",
+    "listingStatus": "published",
+    "isPlaceholder": true,
+    "isConstructionSample": true,
+    "lastUpdated": "2026-11-21",
+    "name": "Washed Flax Linen Runner & Stone — Sample",
+    "category": "Quiet Living",
+    "tagline": "Unbleached woven linen runner anchored by a smooth river stone.",
+    "cardLine": "Quiet Living sample pairing tactile weave with natural weight.",
+    "format": "140 cm flax linen · sample",
+    "dispatchNote": "Construction sample · Dispatches in 2–4 days (sample rate)",
+    "description": "Construction sample piece representing OPAR's Quiet Living room. Pairs natural unbleached textile texture with smooth stone in the square archival mount and lets visitors test multi-length textile pricing.",
+    "longDescription": [
+      "Quiet Living collects modest room objects—linen table runners, weighted paper stones, and desk calm tools—chosen for low-glare finishes and honest materials.",
+      "Unbleached flax and smooth river stone represent the tactile balance between soft weave and quiet weight across the home. Final GSM weight, loom weave notes, and textile shrinkage care instructions will replace sample details prior to launch.",
+      "Having both standard 140 cm and extended 180 cm variants active helps verify subtotal currency accuracy across multi-item carts."
+    ],
+    "careGuide": "Machine wash gentle cold or lukewarm on natural soap; shake out damp and line dry in shade to preserve natural flax slub.",
+    "sourceName": "OPAR Construction Sample",
+    "sourceProductId": "OPAR-SAMPLE-QL-01",
+    "sourceSku": "OPAR-QL-SAMPLE",
+    "sourceUrl": "https://example.com/opar-construction-sample/quiet-living",
+    "sourceTitle": "OPAR Construction Sample — Quiet Living Room",
+    "sourceTitleStatus": "Internal construction sample used for layout, cart and checkout verification only.",
+    "images": [
+      {
+        "src": "/assets/products/studio-quiet-living.jpg",
+        "srcAvif": "/assets/products/studio-quiet-living.avif",
+        "srcWebp": "/assets/products/studio-quiet-living.webp",
+        "src800Avif": "/assets/products/studio-quiet-living-800.avif",
+        "src800Webp": "/assets/products/studio-quiet-living-800.webp",
+        "src800Jpg": "/assets/products/studio-quiet-living-800.jpg",
+        "width": 1200,
+        "height": 1200,
+        "imageSource": "generated-placeholder",
+        "rights": "in-house",
+        "alt": "Studio product photograph of a folded natural flax linen runner beside a smooth river stone on light paper ground",
+        "caption": "Generated construction studio study for Quiet Living (#F4F2EE backdrop)."
+      },
+      {
+        "src": "/assets/products/photography-pending.svg",
+        "isEmptyMount": true,
+        "isPlaceholder": true,
+        "alt": "Empty botanical mount representing close weave photograph in preparation",
+        "caption": "Weave macro photograph in preparation."
+      }
+    ],
+    "price": 42.0,
+    "samplePricing": true,
+    "currency": "GBP",
+    "variants": [
+      { "label": "140 cm table runner", "sku": "OPAR-QL-S1", "price": 42.0 },
+      { "label": "180 cm dining runner", "sku": "OPAR-QL-S2", "price": 52.0 }
+    ],
+    "specifications": [
+      { "label": "Room", "value": "Quiet Living" },
+      { "label": "Format", "value": "Folded linen runner + stone (construction sample)" },
+      { "label": "Sample unit price", "value": "£42.00 (placeholder)" },
+      { "label": "Listing type", "value": "Construction sample layout" }
+    ],
+    "deliveryNote": "Light folded textiles qualify for standard tracked parcel options confirmed on invoice.",
+    "returnsNote": "Unwashed, unused linens can be returned in original condition within 14 days once live.",
+    "usageNote": "Construction sample listing only; textile weave weight and mill location are confirmed at intake.",
+    "dataNote": "Generated placeholder piece representing Quiet Living during construction.",
+    "crossLinks": [
+      { "label": "Back to Quiet Living", "href": "/shop/quiet-living/" },
+      { "label": "Hand-Turned Teak Vessel", "href": "/shop/sample-turned-wood-vessel/" },
+      { "label": "About OPAR", "href": "/about/" },
+      { "label": "All shop pieces", "href": "/shop/" }
+    ],
+    "faq": [
+      {
+        "question": "Does the linen runner come pre-washed or unbleached?",
+        "answer": "Final wash treatment and flax origin will be clearly declared in specifications once supplier fabric swatches are verified."
+      },
+      {
+        "question": "Are the prices live retail amounts?",
+        "answer": "No. All construction-sample items carry placeholder GBP pricing strictly for storefront flow and subtotal verification."
+      },
+      {
+        "question": "How do I track a test checkout made with this item?",
+        "answer": "Copy the OPAR reference from checkout confirmation and enter it with your email address on /order/."
+      }
+    ],
+    "seo": {
+      "title": "Flax Linen Runner Sample · Quiet Living",
+      "description": "Construction sample listing for OPAR Quiet Living pairing natural flax linen and stone with sample length options and care details.",
+      "keywords": ["linen runner", "quiet living", "flax textile sample"]
     }
   }
 ]

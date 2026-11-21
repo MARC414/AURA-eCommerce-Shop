@@ -4,6 +4,20 @@
  */
 function attachImageFallback(image) {
   const fallback = () => {
+    if (image.dataset.fallbackEmpty === 'true') {
+      const mount = image.closest('[data-main-mount], .product-mount');
+      if (!mount) return;
+      const picture = mount.querySelector('picture');
+      if (picture) picture.hidden = true;
+      image.hidden = true;
+      const emptyMount = mount.querySelector('[data-empty-mount]');
+      if (emptyMount) emptyMount.hidden = false;
+      if (image.hasAttribute('data-main-image')) {
+        const caption = image.closest('[data-gallery]')?.querySelector('p[data-gallery-caption]');
+        if (caption) caption.textContent = 'Photograph in preparation — image unavailable.';
+      }
+      return;
+    }
     const replacement = image.dataset.fallback;
     if (!replacement || image.getAttribute('src') === replacement) return;
     image.src = replacement;
@@ -14,21 +28,47 @@ function attachImageFallback(image) {
     }
   };
   image.addEventListener('error', fallback);
-  if (image.complete && image.naturalWidth === 0) fallback();
+  if (!image.hidden && image.complete && image.naturalWidth === 0) fallback();
 }
 
-document.querySelectorAll('img[data-fallback]').forEach(attachImageFallback);
+document.querySelectorAll('img[data-fallback], img[data-fallback-empty="true"]').forEach(attachImageFallback);
 
 document.querySelectorAll('[data-gallery]').forEach(gallery => {
   const mount = gallery.querySelector('[data-main-mount]') || gallery.querySelector('.main-image');
+  const picture = mount?.querySelector('picture');
   const image = gallery.querySelector('[data-main-image]');
+  const emptyMount = gallery.querySelector('[data-empty-mount]');
   const caption = gallery.querySelector('p[data-gallery-caption]');
   const buttons = gallery.querySelectorAll('[data-gallery-src]');
+  const initialImgSrc = image ? image.getAttribute('src') : '';
+  const initialSources = picture
+    ? [...picture.querySelectorAll('source')].map(source => ({ el: source, srcset: source.getAttribute('srcset') || '' }))
+    : [];
 
   buttons.forEach(button => button.addEventListener('click', () => {
-    image.alt = button.dataset.galleryAlt;
-    image.src = button.dataset.gallerySrc;
-    caption.textContent = button.dataset.galleryCaption;
+    const isEmpty = button.dataset.galleryEmpty === 'true';
+    if (caption) caption.textContent = button.dataset.galleryCaption || '';
+    if (emptyMount) emptyMount.hidden = !isEmpty;
+
+    if (isEmpty) {
+      if (picture) picture.hidden = true;
+      if (image) image.hidden = true;
+    } else {
+      if (picture) {
+        picture.hidden = false;
+        const restoreOriginal = button.dataset.gallerySrc === initialImgSrc;
+        initialSources.forEach(({ el, srcset }) => {
+          if (restoreOriginal && srcset) el.setAttribute('srcset', srcset);
+          else el.removeAttribute('srcset');
+        });
+      }
+      if (image) {
+        image.hidden = false;
+        image.alt = button.dataset.galleryAlt || '';
+        image.src = button.dataset.gallerySrc;
+      }
+    }
+
     if (mount) {
       if (button.dataset.galleryBlend === 'none') mount.setAttribute('data-blend', 'none');
       else mount.removeAttribute('data-blend');
@@ -56,6 +96,14 @@ function cartProduct(button) {
   };
 }
 
+function formatCurrency(amount, currency) {
+  try {
+    return new Intl.NumberFormat('en-GB', { style: 'currency', currency: currency || 'GBP' }).format(amount);
+  } catch {
+    return `${Number(amount).toFixed(2)} ${currency || ''}`.trim();
+  }
+}
+
 document.querySelectorAll('[data-wishlist-toggle]').forEach(button => {
   const productId = button.dataset.wishlistToggle;
   const label = button.querySelector('[data-wishlist-label]');
@@ -73,15 +121,41 @@ document.querySelectorAll('[data-wishlist-toggle]').forEach(button => {
   });
 });
 
-document.querySelectorAll('[data-product-model="dropshipping"]').forEach(product => {
+document.querySelectorAll('.product-layout[data-product-model="dropshipping"]').forEach(product => {
   const quantityOutput = product.querySelector('[data-quantity]');
   const status = product.querySelector('[data-selection-status]');
+  if (!quantityOutput || !status) return;
   const variant = product.querySelector('[data-variant]');
   const cartButton = product.querySelector('[data-add-to-cart]');
+  const priceOut = product.querySelector('[data-price-value]');
   const buttons = product.querySelectorAll('[data-quantity-change]');
+  const basePrice = cartButton ? cartButton.dataset.productPrice : '';
+  const currency = cartButton ? (cartButton.dataset.productCurrency || 'GBP') : 'GBP';
   let quantity = 1;
 
   const chosenVariant = () => (variant && !variant.disabled && variant.value ? variant.value : undefined);
+
+  const syncPrice = () => {
+    const selectedOption = variant && !variant.disabled && variant.selectedIndex >= 0
+      ? variant.options[variant.selectedIndex]
+      : null;
+    const variantPrice = selectedOption?.dataset.variantPrice;
+    const rawPrice = variantPrice !== undefined && variantPrice !== '' ? variantPrice : basePrice;
+    if (cartButton) cartButton.dataset.productPrice = rawPrice;
+    if (!priceOut) return;
+    if (rawPrice !== '' && Number.isFinite(Number(rawPrice))) {
+      priceOut.textContent = '';
+      priceOut.appendChild(document.createTextNode(`${formatCurrency(Number(rawPrice), currency)} `));
+      const code = document.createElement('span');
+      code.className = 'currency';
+      code.textContent = currency;
+      priceOut.appendChild(code);
+      priceOut.classList.remove('price-request');
+    } else {
+      priceOut.textContent = 'Price on request';
+      priceOut.classList.add('price-request');
+    }
+  };
 
   const update = () => {
     quantityOutput.textContent = String(quantity);
@@ -89,6 +163,7 @@ document.querySelectorAll('[data-product-model="dropshipping"]').forEach(product
       const change = Number(button.dataset.quantityChange);
       button.disabled = (change < 0 && quantity === 1) || (change > 0 && quantity === 10);
     });
+    syncPrice();
     const selected = chosenVariant();
     status.textContent = `${quantity} selected${selected ? ` · ${selected}` : ''}.`;
   };
@@ -105,6 +180,7 @@ document.querySelectorAll('[data-product-model="dropshipping"]').forEach(product
       cartButton.textContent = 'Cart unavailable — JavaScript is off';
     } else {
       cartButton.addEventListener('click', () => {
+        syncPrice();
         const snapshot = cartProduct(cartButton);
         window.AuraStore.addToCart(snapshot, quantity, chosenVariant());
         update();

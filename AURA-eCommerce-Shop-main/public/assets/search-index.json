@@ -45,7 +45,7 @@
       "Showpieces",
       "Exceptional miscellany",
       "Showpieces",
-      "coming soon"
+      "pieces"
     ]
   },
   {
@@ -59,7 +59,7 @@
       "Yoga & Practice",
       "Yoga & Sacred Materials",
       "Yoga & Eastern Wisdom",
-      "coming soon"
+      "pieces"
     ]
   },
   {
@@ -71,7 +71,7 @@
       "Art & Craft",
       "Made by hand",
       "Art & Craft",
-      "coming soon"
+      "pieces"
     ]
   },
   {
@@ -84,7 +84,7 @@
       "Objects that lower the volume",
       "Quiet Living",
       "Organic Quiet Tech",
-      "coming soon"
+      "pieces"
     ]
   },
   {
@@ -135,6 +135,78 @@
       "ashwagandha capsules",
       "ashwagandha with black pepper",
       "ashwagandha 60 capsules"
+    ]
+  },
+  {
+    "title": "Whole Botanical Infusion Jar — Sample",
+    "description": "Amber apothecary glass with loose botanical capsules.",
+    "href": "/shop/sample-botanical-infusion-jar/",
+    "type": "OPAR shop",
+    "keywords": [
+      "Herbal Botanicals",
+      "herbal botanicals",
+      "amber glass capsules",
+      "botanical sample"
+    ]
+  },
+  {
+    "title": "Cold-Process Olive Cleansing Bar — Sample",
+    "description": "Unwrapped neutral cold-process soap bar for daily sink use.",
+    "href": "/shop/sample-cold-process-bar/",
+    "type": "OPAR shop",
+    "keywords": [
+      "Everyday Care",
+      "everyday care",
+      "cold process soap",
+      "cleansing bar sample"
+    ]
+  },
+  {
+    "title": "Hand-Turned Teak Vessel — Sample",
+    "description": "Carved hardwood accent bowl for quiet shelf and desk placement.",
+    "href": "/shop/sample-turned-wood-vessel/",
+    "type": "OPAR shop",
+    "keywords": [
+      "Showpieces",
+      "wooden showpiece",
+      "turned wooden vessel",
+      "showpieces sample"
+    ]
+  },
+  {
+    "title": "Rolled Practice Mat & Cork Block — Sample",
+    "description": "Dense practice mat paired with a bevelled cork alignment block.",
+    "href": "/shop/sample-cork-practice-set/",
+    "type": "OPAR shop",
+    "keywords": [
+      "Yoga & Practice",
+      "yoga practice mat",
+      "cork yoga block",
+      "yoga practice sample"
+    ]
+  },
+  {
+    "title": "Wheel-Thrown Stoneware Bowl — Sample",
+    "description": "Quiet unglazed rim ceramic bowl built for tactile daily use.",
+    "href": "/shop/sample-ceramic-ritual-bowl/",
+    "type": "OPAR shop",
+    "keywords": [
+      "Art & Craft",
+      "hand-thrown ceramic",
+      "stoneware bowl",
+      "art craft sample"
+    ]
+  },
+  {
+    "title": "Washed Flax Linen Runner & Stone — Sample",
+    "description": "Unbleached woven linen runner anchored by a smooth river stone.",
+    "href": "/shop/sample-linen-runner-stone/",
+    "type": "OPAR shop",
+    "keywords": [
+      "Quiet Living",
+      "linen runner",
+      "quiet living",
+      "flax textile sample"
     ]
   },
   {
@@ -229,7 +301,7 @@
   },
   {
     "title": "Talk to the house.",
-    "description": "How to reach OPAR about a piece, an invoice or the library.",
+    "description": "How to reach OPAR about a piece, an invoice request or the library.",
     "href": "/contact/",
     "type": "OPAR",
     "keywords": [
@@ -318,8 +390,8 @@
     ]
   },
   {
-    "title": "Payment, by invoice.",
-    "description": "OPAR invoices before payment. No card details are collected on this website.",
+    "title": "Payment, by confirmed invoice.",
+    "description": "How OPAR records checkout payment preferences, confirms written invoices before payment, and handles WhatsApp inquiries.",
     "href": "/policies/payment/",
     "type": "Policy",
     "keywords": [
@@ -405,6 +477,16 @@
     "keywords": [
       "Newsletter",
       "Newsletter"
+    ]
+  },
+  {
+    "title": "Check your request.",
+    "description": "Look up a saved OPAR invoice request using your reference code and matching email address.",
+    "href": "/order/",
+    "type": "Client care",
+    "keywords": [
+      "Client care · Order tracking",
+      "Track order"
     ]
   }
 ]

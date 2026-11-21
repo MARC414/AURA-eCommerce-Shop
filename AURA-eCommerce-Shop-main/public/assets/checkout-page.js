@@ -14,6 +14,9 @@
   var confirmation = document.querySelector('[data-checkout-confirmation]');
   var referenceOut = document.querySelector('[data-checkout-reference]');
   var confirmationCopy = document.querySelector('[data-checkout-confirmation-copy]');
+  var confirmationMethod = document.querySelector('[data-checkout-confirmation-method]');
+  var trackLink = document.querySelector('[data-checkout-track-link]');
+  var whatsappLinkEl = document.querySelector('[data-checkout-whatsapp]');
   if (!form || !list) return;
 
   function setStatus(text) {
@@ -58,7 +61,7 @@
     element.className = 'commerce-item checkout-item';
 
     var thumb = document.createElement('a');
-    thumb.className = 'commerce-thumb';
+    thumb.className = 'commerce-thumb product-mount';
     thumb.href = productHref(product);
     thumb.tabIndex = -1;
     thumb.setAttribute('aria-hidden', 'true');
@@ -68,6 +71,11 @@
     image.width = 96;
     image.height = 120;
     image.loading = 'lazy';
+    image.addEventListener('error', function () {
+      if (image.getAttribute('src') !== '/assets/products/photography-pending.svg') {
+        image.src = '/assets/products/photography-pending.svg';
+      }
+    });
     thumb.appendChild(image);
 
     var copy = document.createElement('div');
@@ -182,6 +190,7 @@
       return String(data.get(key) || '').trim();
     };
     var referenceCode = reference();
+    var paymentMethod = value('paymentMethod') || 'International invoice / hosted payment link after confirmation';
     var order = {
       reference: referenceCode,
       createdAt: new Date().toISOString(),
@@ -189,6 +198,7 @@
       currency: items[0].product.currency || 'GBP',
       subtotal: window.AuraStore.hasPendingPrice() ? null : window.AuraStore.cartSubtotal(),
       priceOnRequest: window.AuraStore.hasPendingPrice(),
+      paymentMethod: paymentMethod,
       items: snapshot(items),
       customer: {
         name: value('name'),
@@ -210,6 +220,17 @@
       confirmationCopy.textContent = 'Your request is saved in this browser. OPAR replies to ' +
         (order.customer.email || 'the address you gave') +
         ' with the price, delivery and payment method before anything is paid.';
+    }
+    if (confirmationMethod) {
+      confirmationMethod.textContent = 'Preferred settlement: ' + paymentMethod + ' — we will confirm payment with you after the request.';
+    }
+    if (trackLink) {
+      trackLink.href = '/order/?ref=' + encodeURIComponent(referenceCode) + '&email=' + encodeURIComponent(order.customer.email);
+    }
+    if (whatsappLinkEl) {
+      var baseWa = whatsappLinkEl.href.split('?')[0];
+      var message = 'Hello OPAR, I submitted invoice request ' + referenceCode + ' (' + paymentMethod + ').';
+      whatsappLinkEl.href = baseWa + '?text=' + encodeURIComponent(message);
     }
     form.hidden = true;
     if (summary) summary.hidden = true;

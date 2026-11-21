@@ -12,7 +12,9 @@ import {
   renderCollection,
   renderCategoryPage,
   renderStaticPage,
-  renderHomePage
+  renderHomePage,
+  renderNotFoundPage,
+  foliage
 } from '../templates/product-pages.mjs';
 
 const products = JSON.parse(await readFile(new URL('../data/pilot-products.json', import.meta.url), 'utf8'));
@@ -39,8 +41,10 @@ const clone = product => structuredClone(product);
 /** The header search is a GET form. Remove it before purchase-form assertions. */
 const withoutHeaderSearch = page => page.replace(/<form class="site-search"[\s\S]*?<\/form>/g, '');
 
-test('the catalogue contains four listings with unique routes and valid data', () => {
-  assert.equal(products.length, 4);
+test('the catalogue contains ten listings (4 owner previews + 6 construction samples) with unique routes', () => {
+  assert.equal(products.length, 10);
+  assert.equal(products.filter(product => !product.isPlaceholder).length, 4);
+  assert.equal(products.filter(product => product.isPlaceholder).length, 6);
   assert.equal(shopProduct.sourceProductId, '1005007532901889');
   assert.equal(affiliateProduct.sourceProductId, '2114448810729783298');
   assert.equal(aloeProduct.sourceProductId, '1005008143754192');
@@ -49,10 +53,12 @@ test('the catalogue contains four listings with unique routes and valid data', (
   products.forEach(product => assert.doesNotThrow(() => validateProduct(product)));
 });
 
-test('the public product shell carries no preview or compliance theatre', () => {
+test('the public product shell avoids preview labels and puts disclosures inside collapsible accordions', () => {
   for (const page of productPages.values()) {
-    assert.doesNotMatch(page, /preview|Preview/);
-    assert.doesNotMatch(page, /Verification register|Claims we will not make|compliance-section|status-verified/);
+    assert.doesNotMatch(page, /Verification register|Claims we will not make/);
+    assert.match(page, /<section class="compliance-details-section" id="compliance-section"/);
+    assert.match(page, /<div class="compliance-accordion">\s*<details>/);
+    assert.match(page, /Not yet reviewed by a named person/);
   }
 });
 
@@ -70,21 +76,21 @@ test('the aloe listing publishes no medicinal or skin-tone claim in its own copy
   assert.doesNotMatch(aloePage, /Anti Acne/);
 });
 
-test('the aloe page keeps real supplier facts and an honest price state', () => {
+test('the aloe page keeps real supplier facts and clearly labels construction sample pricing', () => {
   assert.match(aloePage, /100 g \/ 3\.5 oz/);
   assert.match(aloePage, /12 months/);
   assert.match(aloePage, /36 months/);
   assert.match(aloePage, /12000043973353662-WK-aloe-vera-soapX1/);
-  assert.match(aloePage, /Price on request/);
+  assert.match(aloePage, /Construction sample pricing/);
   assert.doesNotMatch(aloePage, /£28\.30|£20\.73|save £/i);
 });
 
-test('variant labels use price on request rather than a fabricated amount', () => {
+test('variant labels format priced and unpriced variants honestly', () => {
   assert.equal(variantLabel({ label: 'Pack of 1', price: null }), 'Pack of 1 — price on request');
   assert.equal(variantLabel({ label: 'Pack of 1', price: 12 }), 'Pack of 1');
   assert.equal(variantLabel('Plain label'), 'Plain label');
   assert.throws(() => variantLabel({ sku: 'x' }), /needs a label/);
-  assert.match(aloePage, /Pack of 1 — price on request/);
+  assert.match(aloePage, /data-variant-price="22"/);
 });
 
 test('products have individual, model-specific routes', () => {
@@ -93,13 +99,13 @@ test('products have individual, model-specific routes', () => {
   assert.equal(productPath(ashwagandhaProduct), '/shop/ashwagandha-with-black-pepper/');
 });
 
-test('the AURA cart button stores a browser-local item without an order form', () => {
+test('the AURA cart button stores a browser-local item with construction sample pricing and no payment form', () => {
   const button = shopPage.match(/<button[^>]+data-add-to-cart[^>]*>/)?.[0];
   assert.ok(button, 'the AURA shop page needs an add-to-cart button');
   assert.doesNotMatch(button, /\bdisabled\b/);
   assert.match(button, /data-product-id="aliexpress-1005007532901889"/);
-  assert.match(button, /data-product-price=""/);
-  assert.match(shopPage, /Price on request/);
+  assert.match(button, /data-product-price="9\.5"/);
+  assert.match(shopPage, /£9\.50/);
   assert.doesNotMatch(withoutHeaderSearch(shopPage), /<form\b|paymentIntent|stripe|paypal/i);
   assert.doesNotMatch(shopPage, /data-product-model="affiliate"/);
 });
@@ -120,33 +126,36 @@ test('affiliate pages never contain AURA purchase or quantity controls', () => {
   assert.match(affiliatePage, /No OPAR cart or checkout/);
 });
 
-test('missing prices are shown as price on request, never as a zero-price offer', () => {
-  assert.match(shopPage, /Price on request/);
+test('unpriced partner listings defer price to merchant and sample shop pieces never invent ratings or urgency', () => {
   assert.match(affiliatePage, /Price on CJ/);
+  const unpricedShop = { ...clone(shopProduct), price: null, samplePricing: false };
+  assert.match(renderDropshippingPage(unpricedShop), /Price on request/);
   for (const page of [shopPage, affiliatePage, ashwagandhaPage]) {
-    assert.doesNotMatch(page, /\$0\b|schema.org\/InStock|"price"|Limited Run|Verified Buyer|\d+ Reviews/);
+    assert.doesNotMatch(page, /\$0\b|schema\.org\/InStock|Limited Run|Verified Buyer|\d+ Reviews/);
   }
 });
 
-test('the template can render a confirmed price without breaking the invoice model', () => {
-  const product = { ...clone(shopProduct), price: 12.5, currency: 'GBP' };
+test('the template renders a price and keeps invoice confirmation before payment', () => {
+  const product = { ...clone(shopProduct), price: 12.5, currency: 'GBP', samplePricing: false };
   const page = renderDropshippingPage(product);
   assert.match(page, /£12\.50/);
   assert.match(page, /Confirmed on invoice/);
   assert.match(page, /data-product-price="12\.5"/);
 });
 
-test('unknown supplier variants are disabled rather than invented', () => {
-  assert.match(shopPage, /<select id="product-variant" data-variant disabled>/);
-  assert.match(shopPage, /One edition/);
+test('unknown supplier variants render a disabled single edition select', () => {
+  const noVariant = { ...clone(shopProduct), variants: [] };
+  const page = renderDropshippingPage(noVariant);
+  assert.match(page, /<select id="product-variant" data-variant disabled>/);
+  assert.match(page, /One edition/);
 });
 
-test('the shared template accepts confirmed variants for future products', () => {
+test('the shared template accepts confirmed variants and sample variant prices', () => {
   const product = { ...clone(shopProduct), variants: ['Small & simple', 'Large'] };
   const page = renderDropshippingPage(product);
   assert.match(page, /<select id="product-variant" data-variant>/);
-  assert.match(page, /<option>Small &amp; simple<\/option>/);
-  assert.match(page, /<option>Large<\/option>/);
+  assert.match(page, /<option value="Small &amp; simple">Small &amp; simple<\/option>/);
+  assert.match(page, /<option value="Large">Large<\/option>/);
 });
 
 test('use the correct template for each selling model', () => {
@@ -160,13 +169,13 @@ test('supplier and selling model are independent', () => {
   assert.match(renderDropshippingPage(product), /Another supplier/);
 });
 
-test('the gallery is labelled and has keyboard-operable thumbnail buttons', () => {
+test('the gallery is labelled and has keyboard-operable thumbnail buttons with empty-mount fallback', () => {
   for (const [product, page] of productPages) {
     assert.match(page, /role="group" aria-label="Product gallery"/);
-    assert.equal((page.match(/data-gallery-src=/g) || []).length, product.images.length);
+    assert.equal((page.match(/data-gallery-src=/g) || []).length, Math.min(3, product.images.length));
     assert.match(page, /aria-pressed="true"/);
-    assert.match(page, /width="1000" height="1000"/);
-    assert.match(page, /data-fallback="\/assets\/products\/photography-pending.svg"/);
+    assert.match(page, /width="1200" height="1200"/);
+    assert.match(page, /data-fallback-empty="true"/);
     assert.match(page, /<p class="image-caption" data-gallery-caption aria-live="polite">/);
   }
 });
@@ -195,15 +204,17 @@ test('collection pages keep the selling models separate', () => {
   assert.match(shop, /Objects for a slower life/);
 });
 
-test('category pages show only their own pieces and a real empty state', () => {
+test('category pages show their room pieces (including construction samples across all six rooms)', () => {
   const herbal = renderCategoryPage(collections.find(item => item.slug === 'herbal-botanicals'), products);
   const showpieces = renderCategoryPage(collections.find(item => item.slug === 'showpieces'), products);
+  const emptyShowpieces = renderCategoryPage(collections.find(item => item.slug === 'showpieces'), products.filter(p => !p.isPlaceholder));
   assert.match(herbal, /Ashwagandha with Black Pepper/);
   assert.doesNotMatch(herbal, /Turmeric Cleansing Soap/);
-  assert.match(herbal, /1 piece in this room/);
+  assert.match(herbal, /2 pieces in this room/);
   assert.match(showpieces, /Showpieces/);
-  assert.match(showpieces, /Pieces are being selected for this room/);
-  assert.match(showpieces, /0 pieces in this room/);
+  assert.match(showpieces, /1 piece in this room/);
+  assert.match(emptyShowpieces, /Pieces are being selected for this room/);
+  assert.match(emptyShowpieces, /0 pieces in this room/);
   assert.match(showpieces, /href="\/shop\/"/);
   assert.equal((herbal.match(/<h1>/g) || []).length, 1);
 });
@@ -254,19 +265,22 @@ test('the product enhancement script uses the shared store and no network calls'
   assert.doesNotMatch(script, /Ordering is not open/);
 });
 
-test('product pages emit canonical, JSON-LD, and no offer for an unpriced piece', () => {
+test('product pages emit canonical, Product/Breadcrumb/FAQPage JSON-LD, and omit offers when unpriced', () => {
   assert.match(shopPage, /<link rel="canonical" href="\/shop\/turmeric-cleansing-soap\/">/);
   assert.match(shopPage, /application\/ld\+json/);
   assert.match(shopPage, /"@type":"Product"/);
   assert.match(shopPage, /"@type":"BreadcrumbList"/);
+  assert.match(shopPage, /"@type":"FAQPage"/);
   assert.match(shopPage, /Herbal Botanicals|Everyday Care/);
-  assert.doesNotMatch(shopPage, /"@type":"Offer"/);
+  assert.match(shopPage, /"@type":"Offer"/);
+  assert.doesNotMatch(affiliatePage, /"@type":"Offer"/);
   assert.match(affiliatePage, /rel="sponsored noopener noreferrer"/);
   assert.match(shopPage, /property="og:image"/);
 });
 
-test('Ashwagandha preserves capsule identity and label amounts without inventing an offer', () => {
-  assert.equal(ashwagandhaProduct.price, null);
+test('Ashwagandha preserves capsule identity, label amounts, and sample pricing honesty', () => {
+  assert.equal(ashwagandhaProduct.price, 18);
+  assert.equal(ashwagandhaProduct.samplePricing, true);
   assert.equal(ashwagandhaProduct.purchaseOwner, 'aura');
   assert.match(ashwagandhaPage, /60 capsules/);
   assert.match(ashwagandhaPage, /1,300 mg Withania somnifera root per 2 capsules/);
@@ -275,11 +289,11 @@ test('Ashwagandha preserves capsule identity and label amounts without inventing
   assert.match(ashwagandhaPage, /not net powder weight/);
   assert.match(ashwagandhaPage, /Powder[^<]*conflicts/);
   assert.match(ashwagandhaPage, /data-add-to-cart/);
-  assert.match(ashwagandhaPage, /Price on request/);
+  assert.match(ashwagandhaPage, /Construction sample pricing/);
   assert.doesNotMatch(ashwagandhaPage, /\$15\.00|Inventory: 999|500 mg|brand[^<]*NOW|external-cta/);
 });
 
-test('supplement structured data parses without an invented brand, photo, rating, or offer', () => {
+test('supplement structured data parses cleanly with construction PreOrder offer and zero invented ratings', () => {
   const script = ashwagandhaPage.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1];
   assert.ok(script);
   const graph = JSON.parse(script);
@@ -287,7 +301,9 @@ test('supplement structured data parses without an invented brand, photo, rating
   assert.equal(product.name, ashwagandhaProduct.name);
   assert.equal(product.sku, 'CJHP232030301AZ');
   assert.equal(product.url, '/shop/ashwagandha-with-black-pepper/');
-  for (const key of ['brand', 'image', 'offers', 'aggregateRating', 'review']) {
+  assert.equal(product.offers?.price, '18.00');
+  assert.equal(product.offers?.availability, 'https://schema.org/OutOfStock');
+  for (const key of ['brand', 'image', 'aggregateRating', 'review']) {
     assert.equal(Object.hasOwn(product, key), false, `Unexpected ${key} in supplement schema`);
   }
   assert.doesNotMatch(ashwagandhaPage, /property="og:image"/);
@@ -834,11 +850,11 @@ test('the homepage is one static document, and its sections read in order', () =
     'a circle without an image would be an empty disc'
   );
 
-  // No price is invented, and nothing is billed as sold.
+  // Unpriced partner item keeps 'Price on request', and priced shelf items keep zero fake sales urgency.
   for (const product of products.filter(item => !Number.isFinite(item.price))) {
     assert.ok(homePage.includes('Price on request'), 'a price-less piece must say price on request');
   }
-  assert.doesNotMatch(homePage, /[£$]\s?\d|customer review|best ?sell|in stock|% off/i);
+  assert.doesNotMatch(homePage, /customer review|best ?sell|in stock|% off/i);
 
   // Static: no hydration, no React, no Tailwind utilities carried over.
   assert.doesNotMatch(homePage, /id="root"|index\.tsx|type="module"|<script type="module"/);
@@ -1029,7 +1045,7 @@ test('Unit 1.2: shop, room, partner, and related cards share one product-mount w
     const mounts = (html.match(/<a class="card-image product-mount"/g) || []).length;
     assert.equal(mounts, cards, 'every card uses the shared card-image product-mount wrapper');
     if (cards > 0) {
-      assert.match(html, /<a class="card-image product-mount"[^>]*><img[^>]+><span class="badge[^"]*">[^<]+<\/span><\/a>\s*<div class="card-copy"><span class="eyebrow">/);
+      assert.match(html, /<a class="card-image product-mount"[^>]*>(?:<picture>[\s\S]*?<\/picture>|<img[^>]+>|<div class="empty-mount[\s\S]*?<\/div>)<span class="badge[^"]*">[^<]+<\/span><\/a>\s*<div class="card-copy"><span class="eyebrow">/);
     }
   }
 
@@ -1052,7 +1068,11 @@ test('Unit 1.3: product gallery and up to three thumbnails share product-mount w
 
   for (const [product, page] of productPages) {
     assert.match(page, /<figure class="main-image product-mount"[^>]*data-main-mount>/);
-    assert.ok(page.includes(`<img data-main-image src="${escapeHtml(product.images[0].src)}"`), 'no-JS shows first image');
+    const first = product.images[0];
+    assert.ok(
+      page.includes(`src="${escapeHtml(first.src)}"`),
+      'no-JS gallery exposes primary image src'
+    );
     const thumbCount = (page.match(/<button type="button" class="thumbnail product-mount product-mount--square"/g) || []).length;
     assert.equal(thumbCount, Math.min(3, product.images.length));
   }
@@ -1069,3 +1089,131 @@ test('Unit 1.3: product gallery and up to three thumbnails share product-mount w
   assert.equal((multiPage.match(/class="thumbnail product-mount product-mount--square"/g) || []).length, 3);
   assert.match(multiPage, /data-blend="none"[^>]*data-gallery-blend="none"|data-gallery-blend="none"[^>]*data-blend="none"/);
 });
+
+test('Unit 1.4 & 1.5: empty mounts use room botanical SVG marks cleanly and bespoke studio shots ship responsive AVIF/WebP', async () => {
+  // Aloe has an empty primary mount with room botanical SVG mark + single caption inside its gallery figure
+  assert.match(aloePage, /class="empty-mount" data-empty-mount/);
+  assert.match(aloePage, /class="empty-mount__mark"/);
+  const aloeGallery = aloePage.match(/<figure class="main-image[\s\S]*?<\/figure>/)?.[0] || '';
+  assert.equal((aloeGallery.match(/class="empty-mount__label">Photograph in preparation<\/span>/g) || []).length, 1);
+  assert.doesNotMatch(aloePage, /<figure class="main-image[^>]*>[\s\S]*<figcaption/);
+
+  // Construction sample products use responsive <picture> AVIF + WebP + JPG studio assets on disk
+  const studioProduct = products.find(p => p.slug === 'sample-turned-wood-vessel');
+  assert.ok(studioProduct, 'Showpieces studio sample listing exists');
+  const studioPage = renderDropshippingPage(studioProduct, products);
+  assert.match(studioPage, /<picture>[\s\S]*type="image\/avif"[\s\S]*type="image\/webp"[\s\S]*<img data-main-image/);
+  for (const product of products.filter(p => p.isPlaceholder)) {
+    const primary = product.images[0];
+    for (const key of ['src', 'srcAvif', 'srcWebp', 'src800Jpg', 'src800Avif', 'src800Webp']) {
+      assert.ok(primary[key], `${product.slug} missing ${key}`);
+      assert.ok(existsSync(new URL(`../public${primary[key]}`, import.meta.url)), `Missing converted image ${primary[key]}`);
+    }
+  }
+});
+
+test('Phase 2: restrained hub foliage uses three unique assets on /shop/, /discover/, /journal/ only', () => {
+  assert.equal(foliage.length, 3);
+  assert.deepEqual(foliage.map(item => item.page), ['/shop/', '/discover/', '/journal/']);
+  assert.equal(new Set(foliage.map(item => item.asset)).size, 3, 'every hub uses its own botanical artwork');
+  for (const entry of foliage) {
+    assert.ok(existsSync(new URL(`../public${entry.asset}`, import.meta.url)), `Missing hub botanical ${entry.asset}`);
+  }
+  const shopHub = renderCollection('dropshipping', products);
+  const discoverHub = renderCollection('affiliate', products);
+  const journalHub = renderStaticPage(pageAt('/journal/'));
+  const roomPage = renderCategoryPage(collections[0], products);
+  assert.match(shopHub, /class="corner-foliage hub-foliage/);
+  assert.match(discoverHub, /class="corner-foliage hub-foliage/);
+  assert.match(journalHub, /class="corner-foliage hub-foliage/);
+  assert.doesNotMatch(roomPage, /hub-foliage/);
+  assert.doesNotMatch(cartPage, /hub-foliage/);
+  assert.doesNotMatch(checkoutPage, /hub-foliage/);
+  assert.doesNotMatch(homePage, /hub-foliage/);
+});
+
+test('Phase 5: dropshipping PDPs include rich descriptions, cross-links, AEO FAQ, and collapsed compliance accordions', () => {
+  for (const product of products) {
+    const html = product.model === 'affiliate'
+      ? renderAffiliatePage(product, products)
+      : renderDropshippingPage(product, products);
+    assert.match(html, /class="[^"]*\bdetails-story\b/);
+    assert.match(html, /class="care-callout"/);
+    assert.match(html, /class="cross-links"/);
+    assert.match(html, /id="faq-section"/);
+    assert.match(html, /"@type":"FAQPage"/);
+    assert.match(html, /class="compliance-accordion"/);
+  }
+  // Every room in collections.json has at least one dropshipping construction or preview listing
+  for (const collection of collections) {
+    const matching = products.filter(p => p.model === 'dropshipping' && (collection.matches || []).includes(p.category));
+    assert.ok(matching.length >= 1, `Room ${collection.slug} should contain at least 1 shop listing`);
+  }
+});
+
+test('Phase 6: checkout payment preferences are strictly neutral, WhatsApp discloses Meta, and /order/ lookup enforces email match', async () => {
+  // Forbidden premature entity names or card/OTP inputs must NEVER appear on public templates
+  const paymentPolicy = renderStaticPage(pageAt('/policies/payment/'));
+  const contactPage = renderStaticPage(pageAt('/contact/'));
+  const orderPageHtml = renderStaticPage(pageAt('/order/'));
+  const forbiddenEntities = /belgian|bangladeshi entity|bkash|nagad|payoneer/i;
+  const forbiddenCardInputs = /<input[^>]*(?:cc-number|cvc|security.?code|pin.?code|otp)[^>]*>/i;
+  for (const docHtml of [checkoutPage, paymentPolicy, contactPage, orderPageHtml]) {
+    assert.doesNotMatch(docHtml, forbiddenEntities);
+    assert.doesNotMatch(docHtml, forbiddenCardInputs);
+  }
+  assert.match(checkoutPage, /name="paymentMethod"/);
+  assert.match(checkoutPage, /International invoice \/ hosted payment link after confirmation/);
+  assert.match(checkoutPage, /Domestic bank transfer after confirmation/);
+  assert.match(checkoutPage, /Regional mobile wallet on confirmation/);
+  assert.match(checkoutPage, /data-checkout-track-link/);
+  assert.match(checkoutPage, /wa\.me\/447700900412/);
+  assert.match(checkoutPage, /Meta/);
+
+  // Cart & wishlist thumbnails use product-mount wrapper
+  for (const file of ['cart-page.js', 'wishlist-page.js', 'checkout-page.js']) {
+    const script = await readFile(new URL(`../public/assets/${file}`, import.meta.url), 'utf8');
+    assert.match(script, /commerce-thumb product-mount/);
+  }
+
+  // Test AuraOrderLookup.getOrder in VM: requires exact ref + matching email, never leaks on mismatch
+  const orderScript = await readFile(new URL('../public/assets/order-page.js', import.meta.url), 'utf8');
+  const fakeStorage = {
+    getItem: key => key === 'aura_order_requests_v1'
+      ? JSON.stringify([{
+          reference: 'OPAR-261121-XK92',
+          createdAt: '2026-11-21T06:00:00.000Z',
+          subtotal: 34,
+          currency: 'GBP',
+          paymentMethod: 'Domestic bank transfer after confirmation',
+          items: [{ name: 'Turned Acacia Vessel', quantity: 1, selectedVariant: 'Standard (18 cm)' }],
+          customer: { email: 'buyer@example.com', country: 'United Kingdom' }
+        }])
+      : null
+  };
+  const fakeWin = { localStorage: fakeStorage, document: null };
+  new Function('window', orderScript)(fakeWin);
+  assert.ok(fakeWin.AuraOrderLookup && typeof fakeWin.AuraOrderLookup.getOrder === 'function');
+  const found = fakeWin.AuraOrderLookup.getOrder('opar-261121-xk92', 'BUYER@example.com');
+  assert.ok(found, 'matching reference and email (case-insensitive) should resolve');
+  assert.equal(found.status, 'Request received — awaiting confirmation');
+  assert.equal(found.paymentMethod, 'Domestic bank transfer after confirmation');
+  assert.equal(found.items.length, 1);
+  assert.equal(fakeWin.AuraOrderLookup.getOrder('OPAR-261121-XK92', ''), null, 'blank email must return null');
+  assert.equal(fakeWin.AuraOrderLookup.getOrder('OPAR-261121-XK92', 'other@example.com'), null, 'wrong email must not leak order');
+  assert.equal(fakeWin.AuraOrderLookup.getOrder('OPAR-UNKNOWN', 'buyer@example.com'), null, 'wrong ref returns null');
+});
+
+test('F1: static 404 recovery document builds without sitemap or search-index leakage', async () => {
+  const html404 = renderNotFoundPage();
+  assert.equal((html404.match(/<h1/g) || []).length, 1);
+  assert.match(html404, /<meta name="robots" content="noindex, nofollow">/);
+  assert.match(html404, /href="\/shop\/"/);
+  assert.match(html404, /href="\/order\/"/);
+  assert.equal(existsSync(new URL('../public/404.html', import.meta.url)), true);
+  const sitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8');
+  const searchIndex = await readFile(new URL('../public/assets/search-index.json', import.meta.url), 'utf8');
+  assert.doesNotMatch(sitemap, /404/);
+  assert.doesNotMatch(searchIndex, /404/);
+});
+

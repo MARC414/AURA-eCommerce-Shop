@@ -63,6 +63,13 @@
       meta.className = 'order-meta';
       meta.textContent = dateLabel(order.createdAt) + (order.customer && order.customer.email ? ' · ' + order.customer.email : '');
 
+      var paymentLine = null;
+      if (order.paymentMethod) {
+        paymentLine = document.createElement('p');
+        paymentLine.className = 'order-meta';
+        paymentLine.textContent = 'Preferred settlement: ' + order.paymentMethod;
+      }
+
       var items = document.createElement('ul');
       items.className = 'order-lines';
       (order.items || []).forEach(function (line) {
@@ -86,6 +93,7 @@
 
       item.appendChild(head);
       item.appendChild(meta);
+      if (paymentLine) item.appendChild(paymentLine);
       item.appendChild(items);
       item.appendChild(total);
       item.appendChild(remove);

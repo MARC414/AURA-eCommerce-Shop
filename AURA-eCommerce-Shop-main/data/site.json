@@ -13,6 +13,10 @@
   },
   "contact": {
     "email": "hello@opar.example",
+    "whatsappNumber": "+447700900412",
+    "whatsappUrl": "https://wa.me/447700900412",
+    "whatsappPlaceholder": true,
+    "whatsappDisclosure": "Construction placeholder number — WhatsApp is a third-party messaging service (Meta); opening this link leaves OPAR.",
     "responseTime": "within two working days"
   },
   "utility": {
@@ -130,6 +134,7 @@
         "links": [
           { "label": "Contact", "href": "/contact/" },
           { "label": "Help & FAQ", "href": "/help/" },
+          { "label": "Track order", "href": "/order/" },
           { "label": "Shipping", "href": "/policies/shipping/" },
           { "label": "Returns", "href": "/policies/returns/" },
           { "label": "Account", "href": "/account/" },

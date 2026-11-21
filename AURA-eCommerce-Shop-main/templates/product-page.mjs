@@ -1,10 +1,22 @@
 /**
- * The piece: one product page, its actions, its gallery, its JSON-LD, and the
- * cards that list it elsewhere. Prices are only printed when the data carries
- * one; availability is only printed when it is verified.
+ * The piece: one product page, its actions, its rich details & cross-links,
+ * collapsible E-E-A-T compliance accordions, AEO Q&A, JSON-LD, and shared cards.
  */
 
-import { BRAND, collections, escapeHtml, arrow, external, icons, documentPage } from './chrome.mjs';
+import { readFileSync } from 'node:fs';
+import {
+  BRAND,
+  collections,
+  escapeHtml,
+  arrow,
+  external,
+  icons,
+  documentPage,
+  whatsappLink,
+  whatsappDisclosure
+} from './chrome.mjs';
+
+const complianceRegister = JSON.parse(readFileSync(new URL('../data/compliance.json', import.meta.url), 'utf8'));
 
 export const MODELS = {
   dropshipping: {
@@ -12,7 +24,7 @@ export const MODELS = {
     label: 'Shop',
     badge: `${BRAND} shop`,
     heading: `The ${BRAND} shop`,
-    description: 'Objects chosen for use, not display: herbs, everyday care, sound, practice and craft.'
+    description: 'Objects chosen for use, not display: herbs, everyday care, showpieces, practice and craft.'
   },
   affiliate: {
     path: '/discover/',
@@ -36,6 +48,15 @@ function imageUrl(value) {
   return httpsUrl(value);
 }
 
+const FORBIDDEN_CLAIM_PATTERNS = [
+  /\banti[-\s]?acne\b/i,
+  /\bclinically\s+proven\b/i,
+  /\bcures?\b/i,
+  /\btreats?\s+(?:acne|anxiety|depression|disease|illness|insomnia)\b/i,
+  /\bverified\s+buyer\b/i,
+  /\b5[-\s]?star\b/i
+];
+
 export function validateProduct(product) {
   if (!Object.hasOwn(MODELS, product.model)) throw new Error('Unknown product model.');
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(product.slug)) throw new Error('Invalid product slug.');
@@ -56,6 +77,23 @@ export function validateProduct(product) {
   });
   if (product.price !== null && product.price !== undefined && (!Number.isFinite(product.price) || product.price < 0)) {
     throw new Error('A price must be null or a non-negative number.');
+  }
+  if (Object.hasOwn(product, 'rating') || Object.hasOwn(product, 'aggregateRating') || Object.hasOwn(product, 'reviewCount')) {
+    throw new Error(`Product ${product.slug} cannot carry fabricated rating/review fields.`);
+  }
+  const publicText = [
+    product.name,
+    product.tagline,
+    product.cardLine,
+    product.description,
+    ...(product.longDescription || []),
+    product.seo?.title,
+    product.seo?.description
+  ].filter(Boolean).join(' ');
+  for (const pattern of FORBIDDEN_CLAIM_PATTERNS) {
+    if (pattern.test(publicText)) {
+      throw new Error(`Product ${product.slug} contains prohibited claim wording (${pattern}).`);
+    }
   }
   return product;
 }
@@ -82,7 +120,65 @@ export function categoryPath(collection) {
   return `/shop/${collection.slug}/`;
 }
 
-/** JSON-LD Product schema. Offers are only emitted when a real price exists. */
+/**
+ * Unit 1.4: Drawn stroke-only botanical silhouette mark for empty mounts.
+ * Accent stroke at 18% opacity via `.empty-mount__mark` — never crops an image.
+ */
+export function roomBotanicalMark(category = '') {
+  const key = String(category).toLowerCase();
+  if (key.includes('herbal')) {
+    return `<svg class="empty-mount__mark" viewBox="0 0 120 140" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M60 124V46"/><path d="M60 98c-14-4-24-16-24-30 13 3 22 12 24 25Z"/><path d="M60 80c15-5 25-17 24-32-13 4-22 14-24 27Z"/><path d="M60 56c-11-9-15-22-9-34 9 8 13 20 9 34Z"/><path d="M60 48c10-8 16-18 14-29-8 6-13 15-14 29Z"/><circle cx="60" cy="24" r="2.5"/></svg>`;
+  }
+  if (key.includes('everyday') || key.includes('care')) {
+    return `<svg class="empty-mount__mark" viewBox="0 0 120 140" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M60 122C60 84 60 56 60 22"/><path d="M60 96c-20-6-32-24-28-46 18 6 28 24 28 46Z"/><path d="M60 72c18-7 28-23 24-43-17 7-24 22-24 43Z"/></svg>`;
+  }
+  if (key.includes('showpiece')) {
+    return `<svg class="empty-mount__mark" viewBox="0 0 120 140" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M36 92c0 16 11 26 24 26s24-10 24-26"/><ellipse cx="60" cy="70" rx="28" ry="12"/><path d="M32 70c2 22 11 40 28 40s26-18 28-40"/><path d="M60 58V28m-10 14 10-14 10 14"/></svg>`;
+  }
+  if (key.includes('yoga')) {
+    return `<svg class="empty-mount__mark" viewBox="0 0 120 140" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M60 30c9 14 12 28 0 46-12-18-9-32 0-46Z"/><path d="M60 76c-18-6-30-2-36 12 14 6 28 2 36-12Z"/><path d="M60 76c18-6 30-2 36 12-14 6-28 2-36-12Z"/><path d="M28 106h64"/></svg>`;
+  }
+  if (key.includes('art') || key.includes('craft')) {
+    return `<svg class="empty-mount__mark" viewBox="0 0 120 140" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M44 40h32l-4 12c12 10 16 26 12 42-4 14-12 22-24 22s-20-8-24-22c-4-16 0-32 12-42l-4-12Z"/><path d="M40 76h40"/></svg>`;
+  }
+  return `<svg class="empty-mount__mark" viewBox="0 0 120 140" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="60" cy="96" rx="28" ry="14"/><path d="M60 82V28"/><path d="M60 56c12-12 24-12 28-4-10 10-20 10-28 4Z"/><path d="M60 44c-11-11-22-10-26-2 9 8 18 8 26 2Z"/></svg>`;
+}
+
+function emptyMountMarkup(category, { compact = false, hidden = false } = {}) {
+  return `<div class="empty-mount${compact ? ' empty-mount--card' : ''}" data-empty-mount${hidden ? ' hidden' : ''} aria-hidden="true">
+    <span class="empty-mount__corner empty-mount__corner--tl"></span>
+    <span class="empty-mount__corner empty-mount__corner--tr"></span>
+    <span class="empty-mount__corner empty-mount__corner--bl"></span>
+    <span class="empty-mount__corner empty-mount__corner--br"></span>
+    ${roomBotanicalMark(category)}
+    <span class="empty-mount__label">Photograph in preparation</span>
+  </div>`;
+}
+
+function pictureMarkup(image, { width = 1200, height = 1200, alt = '', lazy = false, attrs = '' } = {}) {
+  const loadAttr = lazy ? 'loading="lazy"' : 'fetchpriority="high"';
+  const imgTag = `<img ${attrs ? `${attrs} ` : ''}src="${escapeHtml(image.src)}" alt="${escapeHtml(alt)}" width="${Number(image.width) || width}" height="${Number(image.height) || height}" ${loadAttr} decoding="async" data-fallback-empty="true">`;
+  if (image.srcAvif || image.srcWebp) {
+    const avifSrcset = image.src800Avif && image.srcAvif
+      ? `${escapeHtml(image.src800Avif)} 800w, ${escapeHtml(image.srcAvif)} 1200w`
+      : escapeHtml(image.srcAvif || '');
+    const webpSrcset = image.src800Webp && image.srcWebp
+      ? `${escapeHtml(image.src800Webp)} 800w, ${escapeHtml(image.srcWebp)} 1200w`
+      : escapeHtml(image.srcWebp || '');
+    const sizes = lazy ? '(min-width: 1101px) 360px, (min-width: 761px) 44vw, 90vw' : '(min-width: 861px) 52vw, 92vw';
+    return `<picture>
+      ${avifSrcset ? `<source type="image/avif" srcset="${avifSrcset}" sizes="${sizes}">` : ''}
+      ${webpSrcset ? `<source type="image/webp" srcset="${webpSrcset}" sizes="${sizes}">` : ''}
+      ${imgTag}
+    </picture>`;
+  }
+  return imgTag;
+}
+
+/**
+ * JSON-LD: Product (+ Offer only when numeric price exists, never invented reviews)
+ * + BreadcrumbList + FAQPage (when faq items exist).
+ */
 export function productJsonLd(product, canonicalPath) {
   const schema = {
     '@context': 'https://schema.org',
@@ -93,16 +189,19 @@ export function productJsonLd(product, canonicalPath) {
     url: canonicalPath,
     keywords: product.seo?.keywords?.join(', ') || ''
   };
-  const photograph = product.images.find(image => !image.isPlaceholder && !image.src.endsWith('.svg'));
+  const photograph = product.images.find(image => !image.isEmptyMount && !image.isPlaceholder && !image.src.endsWith('.svg'))
+    || product.images.find(image => !image.isEmptyMount && !image.src.endsWith('.svg'));
   if (photograph) schema.image = photograph.src;
   if (product.supplierBrand) schema.brand = { '@type': 'Brand', name: product.supplierBrand };
   if (product.sourceSku) schema.sku = product.sourceSku;
-  if (product.price !== null && product.price !== undefined) {
+  if (Number.isFinite(product.price)) {
     schema.offers = {
       '@type': 'Offer',
       priceCurrency: product.currency || 'GBP',
-      price: String(product.price),
-      availability: 'https://schema.org/OutOfStock'
+      price: Number(product.price).toFixed(2),
+      availability: product.isPlaceholder
+        ? 'https://schema.org/PreOrder'
+        : 'https://schema.org/OutOfStock'
     };
   }
   const crumbs = [
@@ -119,24 +218,52 @@ export function productJsonLd(product, canonicalPath) {
     '@type': 'BreadcrumbList',
     itemListElement: crumbs
   };
-  return [schema, breadcrumb];
+  const graph = [schema, breadcrumb];
+  if (Array.isArray(product.faq) && product.faq.length) {
+    graph.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: product.faq.map(item => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer
+        }
+      }))
+    });
+  }
+  return graph;
 }
 
 function gallery(product) {
   const first = product.images[0];
   const thumbnails = product.images.slice(0, 3);
   const mainBlendAttr = first.blend === 'none' ? ' data-blend="none"' : '';
+  const isFirstEmpty = Boolean(first.isEmptyMount);
   return `
     <div class="product-gallery" data-gallery>
       <figure class="main-image product-mount"${mainBlendAttr} data-main-mount>
         <span class="image-corner-label">${product.model === 'affiliate' ? 'Partner offer' : `${BRAND} shop`}</span>
-        <img data-main-image src="${escapeHtml(first.src)}" alt="${escapeHtml(first.alt)}" width="1000" height="1000" fetchpriority="high" decoding="async" data-fallback="/assets/products/photography-pending.svg">
+        ${pictureMarkup(first, {
+          width: 1200,
+          height: 1200,
+          alt: isFirstEmpty ? '' : first.alt,
+          attrs: `data-main-image${isFirstEmpty ? ' hidden' : ''}`
+        })}
+        ${emptyMountMarkup(product.category, { hidden: !isFirstEmpty })}
       </figure>
       <div class="gallery-thumbnails" role="group" aria-label="Product gallery">
-        ${thumbnails.map((image, index) => `
-          <button type="button" class="thumbnail product-mount product-mount--square"${image.blend === 'none' ? ' data-blend="none"' : ''} aria-label="Show image ${index + 1}: ${escapeHtml(image.alt)}" aria-pressed="${index === 0}" data-gallery-src="${escapeHtml(image.src)}" data-gallery-alt="${escapeHtml(image.alt)}" data-gallery-caption="${escapeHtml(image.caption)}"${image.blend === 'none' ? ' data-gallery-blend="none"' : ''}>
-            <img src="${escapeHtml(image.src)}" alt="" width="80" height="80" loading="lazy" decoding="async" data-fallback="/assets/products/photography-pending.svg">
-          </button>`).join('')}
+        ${thumbnails.map((image, index) => {
+          const thumbEmpty = Boolean(image.isEmptyMount);
+          const thumbContent = thumbEmpty
+            ? `<span class="thumbnail__empty-mark" aria-hidden="true">${roomBotanicalMark(product.category)}</span>`
+            : `<img src="${escapeHtml(image.src800Jpg || image.src)}" alt="" width="80" height="80" loading="lazy" decoding="async">`;
+          return `
+          <button type="button" class="thumbnail product-mount product-mount--square"${image.blend === 'none' ? ' data-blend="none"' : ''} aria-label="Show image ${index + 1}: ${escapeHtml(image.alt)}" aria-pressed="${index === 0}" data-gallery-src="${escapeHtml(image.src)}" data-gallery-alt="${escapeHtml(image.alt)}" data-gallery-caption="${escapeHtml(image.caption)}"${thumbEmpty ? ' data-gallery-empty="true"' : ''}${image.blend === 'none' ? ' data-gallery-blend="none"' : ''}>
+            ${thumbContent}
+          </button>`;
+        }).join('')}
         <span class="gallery-note">A closer look,<br>without the noise.</span>
       </div>
       <p class="image-caption" data-gallery-caption aria-live="polite">${escapeHtml(first.caption)}</p>
@@ -146,17 +273,17 @@ function gallery(product) {
 export function formatMoney(amount, currency) {
   try {
     return new Intl.NumberFormat('en-GB', { style: 'currency', currency: currency || 'GBP' }).format(amount);
-  } catch (error) {
+  } catch {
     return `${Number(amount).toFixed(2)} ${currency || ''}`.trim();
   }
 }
 
 function priceLabel(product) {
-  if (product.price === null || product.price === undefined) {
-    return '<span class="price-value price-request">Price on request</span>';
+  if (!Number.isFinite(product.price)) {
+    return '<span class="price-value price-request" data-price-value>Price on request</span>';
   }
   const price = formatMoney(product.price, product.currency);
-  return `<span class="price-value">${escapeHtml(price)} <span class="currency">${escapeHtml(product.currency)}</span></span>`;
+  return `<span class="price-value" data-price-value>${escapeHtml(price)} <span class="currency">${escapeHtml(product.currency)}</span></span>`;
 }
 
 function wishlistToggle(product) {
@@ -167,7 +294,9 @@ function wishlistToggle(product) {
 }
 
 function cartAttributes(product) {
-  const image = product.images.find(item => !item.isPlaceholder)?.src || product.images[0].src;
+  const realImage = product.images.find(item => !item.isEmptyMount && !item.isPlaceholder)?.src
+    || product.images.find(item => !item.isEmptyMount)?.src
+    || product.images[0].src;
   return [
     ['data-product-id', product.id],
     ['data-product-name', product.name],
@@ -178,25 +307,49 @@ function cartAttributes(product) {
     ['data-product-category', product.category],
     ['data-product-model', product.model],
     ['data-product-path', productPath(product)],
-    ['data-product-image', image]
+    ['data-product-image', realImage]
   ].map(([name, value]) => `${name}="${escapeHtml(value)}"`).join(' ');
+}
+
+function whatsappInquiryBlock(product) {
+  const waHref = whatsappLink(`Hello ${BRAND}, I would like to ask about ${product.name} (${product.sourceSku || product.slug}).`);
+  return `
+    <div class="whatsapp-inquiry">
+      <a class="text-link" href="${escapeHtml(waHref)}" target="_blank" rel="noopener noreferrer">Enquire via WhatsApp ${external}</a>
+      <p class="small-note">${escapeHtml(whatsappDisclosure())}</p>
+    </div>`;
 }
 
 function dropshippingActions(product) {
   const canPurchase = product.purchaseOwner === 'aura';
   const action = canPurchase
     ? `<button type="button" class="button button-primary" data-add-to-cart ${cartAttributes(product)} aria-describedby="ordering-note">Add to cart ${arrow}</button>
-      <p class="action-note" id="ordering-note">Price, delivery and payment are confirmed on your invoice before anything is paid.</p>`
+      <p class="action-note" id="ordering-note">Price, delivery and payment preference are confirmed on your written invoice before anything is paid.</p>`
     : `<a class="button button-secondary" href="/contact/" aria-describedby="ordering-note">Ask about this piece ${arrow}</a>
       <p class="action-note" id="ordering-note">This piece is not sold through ${BRAND}’s cart. Contact the house for availability.</p>`;
+  const priceNote = product.samplePricing
+    ? 'Construction sample pricing · confirmed on invoice before settlement'
+    : 'Confirmed on invoice · no payment on this page';
   return `
     <section class="purchase-panel" aria-labelledby="purchase-heading">
       <h2 class="eyebrow" id="purchase-heading">${BRAND} shop</h2>
-      <div class="price-row">${priceLabel(product)}<span class="small-note">Confirmed on invoice · no payment on this page</span></div>
+      <div class="price-row">
+        ${priceLabel(product)}
+        <span class="small-note">${escapeHtml(priceNote)}</span>
+        ${product.dispatchNote ? `<span class="dispatch-tag">${escapeHtml(product.dispatchNote)}</span>` : ''}
+      </div>
       <div class="variant-field">
         <label class="field-label" for="product-variant">Options</label>
         <select id="product-variant" data-variant${product.variants.length ? '' : ' disabled'}>
-          ${product.variants.length ? product.variants.map(variant => `<option${typeof variant === 'object' && variant !== null && typeof variant.label === 'string' ? ` value="${escapeHtml(variant.label)}"` : ''}>${escapeHtml(variantLabel(variant))}</option>`).join('') : '<option>One edition</option>'}
+          ${product.variants.length
+            ? product.variants.map(variant => {
+                const isObj = typeof variant === 'object' && variant !== null;
+                const val = isObj && typeof variant.label === 'string' ? variant.label : String(variant);
+                const priceAttr = isObj && Number.isFinite(variant.price) ? ` data-variant-price="${escapeHtml(String(variant.price))}"` : '';
+                const skuAttr = isObj && variant.sku ? ` data-variant-sku="${escapeHtml(variant.sku)}"` : '';
+                return `<option value="${escapeHtml(val)}"${priceAttr}${skuAttr}>${escapeHtml(variantLabel(variant))}</option>`;
+              }).join('')
+            : '<option>One edition</option>'}
         </select>
       </div>
       <div class="quantity-row">
@@ -209,6 +362,7 @@ function dropshippingActions(product) {
       </div>
       ${action}
       <output class="selection-status" data-selection-status aria-live="polite">1 selected.</output>
+      ${whatsappInquiryBlock(product)}
     </section>`;
 }
 
@@ -216,7 +370,11 @@ function affiliateActions(product) {
   return `
     <section class="purchase-panel external-panel" aria-labelledby="offer-heading">
       <h2 class="eyebrow" id="offer-heading">Partner offer</h2>
-      <div class="price-row"><span class="price-value price-request">Price on ${escapeHtml(product.sourceName)}</span><span class="small-note">Options and availability are confirmed there.</span></div>
+      <div class="price-row">
+        <span class="price-value price-request">Price on ${escapeHtml(product.sourceName)}</span>
+        <span class="small-note">Options, currency and live availability are confirmed there.</span>
+        ${product.dispatchNote ? `<span class="dispatch-tag">${escapeHtml(product.dispatchNote)}</span>` : ''}
+      </div>
       <p class="merchant-note">This page introduces the listing. If you continue, you will leave ${BRAND} and view it on ${escapeHtml(product.sourceName)}.</p>
       <a class="button button-primary external-cta" href="${escapeHtml(product.externalUrl)}" target="_blank" rel="sponsored noopener noreferrer" aria-describedby="offer-disclosure">View offer on ${escapeHtml(product.sourceName)} ${external}<span class="sr-only"> (opens in a new tab)</span></a>
       <p class="action-note">Purchase, delivery and returns are handled by ${escapeHtml(product.sourceName)}. No ${BRAND} cart or checkout is used.</p>
@@ -224,38 +382,131 @@ function affiliateActions(product) {
     </section>`;
 }
 
-function details(product) {
+function complianceAccordions(product, complianceRecord) {
+  const items = complianceRecord?.items || [];
+  const verifiedCount = items.filter(item => item.status === 'verified').length;
+  const blocked = complianceRecord?.blockedClaims || [];
+  const summaryText = complianceRecord
+    ? `${verifiedCount} of ${items.length} checks verified · review ledger`
+    : 'Construction sample status & sourcing standards';
+  const lastUpdated = product.lastUpdated || complianceRegister.lastReviewed || '2026-11-21';
+
   return `
-    <section class="details-section" aria-labelledby="details-heading">
-      <div class="section-heading"><span class="eyebrow">The piece</span><h2 id="details-heading">Details worth knowing</h2></div>
+    <section class="compliance-details-section" id="compliance-section" aria-labelledby="compliance-heading">
+      <div class="section-heading">
+        <span class="eyebrow">Provenance &amp; verification</span>
+        <h2 id="compliance-heading">Disclosures &amp; evidence ledger</h2>
+      </div>
+      <div class="compliance-accordion">
+        <details>
+          <summary>${escapeHtml(summaryText)}</summary>
+          <div class="compliance-accordion__body">
+            ${complianceRecord
+              ? `<p class="small-note">${escapeHtml(complianceRecord.publicSummary)}</p>
+                 <ul class="verification-list">
+                   ${items.map(item => `
+                     <li class="verification-item">
+                       <span class="status-pill status-${escapeHtml(item.status)}">${escapeHtml(item.status)}</span>
+                       <span class="verification-copy">
+                         <strong>${escapeHtml(item.label)}</strong>
+                         <span>${escapeHtml(item.note)}</span>
+                       </span>
+                     </li>`).join('')}
+                 </ul>`
+              : `<p class="small-note">This construction sample holds placeholder room attributes while maker intake, batch traceability, and laboratory certificates are assembled. Read <a class="text-link" href="/about/sourcing/">Sourcing &amp; makers</a> for live verification standards.</p>`}
+          </div>
+        </details>
+        <details>
+          <summary>What ${escapeHtml(BRAND)} will not claim &amp; review audit</summary>
+          <div class="compliance-accordion__body">
+            ${blocked.length
+              ? `<div class="claims-panel claims-panel--compact">
+                   <p>Excluded supplier wording and unverified claims:</p>
+                   <ul>${blocked.map(claim => `<li>${escapeHtml(claim)}</li>`).join('')}</ul>
+                 </div>`
+              : `<p class="small-note">${escapeHtml(BRAND)} publishes no unverified treatment, cure, or certification claims on any room piece.</p>`}
+            <p class="small-note"><strong>Reviewed by:</strong> Not yet reviewed by a named person · <strong>Last updated:</strong> <time datetime="${escapeHtml(lastUpdated)}">${escapeHtml(lastUpdated)}</time></p>
+            <div class="content-links">
+              <a class="text-link" href="/about/sourcing/">Read sourcing standards ${arrow}</a>
+              <a class="text-link" href="/policies/health-disclaimer/">Health disclaimer ${arrow}</a>
+              <a class="text-link" href="/contact/">Report a question ${arrow}</a>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>`;
+}
+
+function details(product) {
+  const complianceRecord = complianceRegister.records.find(
+    record => record.id === product.complianceId || record.productId === product.id
+  ) || null;
+  const paragraphs = Array.isArray(product.longDescription) && product.longDescription.length
+    ? product.longDescription
+    : [product.description];
+  const links = Array.isArray(product.crossLinks) ? product.crossLinks : [];
+  const faqItems = Array.isArray(product.faq) ? product.faq : [];
+
+  return `
+    <section class="details-section" id="description-section" aria-labelledby="description-heading">
+      <div class="section-heading">
+        <span class="eyebrow">The piece in detail</span>
+        <h2 id="description-heading">Full description &amp; specifications</h2>
+      </div>
       <div class="details-layout">
-        <div class="details-copy"><h3>About this piece</h3><p>${escapeHtml(product.description)}</p>
-          <a class="text-link" href="${escapeHtml(product.model === 'affiliate' ? product.externalUrl : product.sourceUrl)}" target="_blank" rel="${product.model === 'affiliate' ? 'sponsored ' : ''}noopener noreferrer">View the original ${escapeHtml(product.sourceName)} listing ${external}<span class="sr-only"> (opens in a new tab)</span></a>
+        <div class="details-copy details-story">
+          <h3>About this piece</h3>
+          ${paragraphs.map(text => `<p>${escapeHtml(text)}</p>`).join('\n          ')}
+          ${product.careGuide ? `<div class="care-callout"><span class="eyebrow">Care &amp; handling</span><p>${escapeHtml(product.careGuide)}</p></div>` : ''}
+          ${!product.isPlaceholder
+            ? `<a class="text-link" href="${escapeHtml(product.model === 'affiliate' ? product.externalUrl : product.sourceUrl)}" target="_blank" rel="${product.model === 'affiliate' ? 'sponsored ' : ''}noopener noreferrer">View the original ${escapeHtml(product.sourceName)} listing ${external}<span class="sr-only"> (opens in a new tab)</span></a>`
+            : ''}
           <div class="source-note"><span class="eyebrow">Listing reference</span><p>${escapeHtml(product.sourceTitle)}</p><p class="small-note">${escapeHtml(product.sourceTitleStatus)}</p></div>
         </div>
         <dl class="specifications">${product.specifications.map(specification => `<div><dt>${escapeHtml(specification.label)}</dt><dd>${escapeHtml(specification.value)}</dd></div>`).join('')}</dl>
       </div>
     </section>
+
+    ${links.length ? `
+    <section class="cross-links-section" aria-labelledby="cross-links-heading">
+      <div class="section-heading">
+        <span class="eyebrow">Connect across ${escapeHtml(BRAND)}</span>
+        <h2 id="cross-links-heading">Related rooms, notes &amp; standards</h2>
+      </div>
+      <nav class="cross-links" aria-label="Cross-links for ${escapeHtml(product.name)}">
+        ${links.map(link => `<a class="cross-link-tile" href="${escapeHtml(link.href)}"><span>${escapeHtml(link.label)}</span>${arrow}</a>`).join('')}
+      </nav>
+    </section>` : ''}
+
     <section class="practical-section" aria-labelledby="practical-heading">
       <div class="section-heading"><span class="eyebrow">Before you decide</span><h2 id="practical-heading">Delivery, returns and use</h2></div>
       <div class="practical-grid">
-        <details open><summary>Delivery and fulfilment</summary><p>${escapeHtml(product.deliveryNote)}</p></details>
-        <details><summary>Returns and support</summary><p>${escapeHtml(product.returnsNote)}</p></details>
-        <details><summary>Directions and product information</summary><p>${escapeHtml(product.usageNote)}</p></details>
+        <details open><summary>Delivery and fulfilment</summary><p>${escapeHtml(product.deliveryNote)} <a class="text-link" href="/policies/shipping/">Shipping policy ${arrow}</a></p></details>
+        <details><summary>Returns and support</summary><p>${escapeHtml(product.returnsNote)} <a class="text-link" href="/policies/returns/">Returns policy ${arrow}</a></p></details>
+        <details><summary>Directions and product information</summary><p>${escapeHtml(product.usageNote)} <a class="text-link" href="/policies/payment/">Payment &amp; invoicing ${arrow}</a></p></details>
       </div>
-    </section>`;
+    </section>
+
+    ${faqItems.length ? `
+    <section class="product-faq-section" id="faq-section" aria-labelledby="faq-heading">
+      <div class="section-heading">
+        <span class="eyebrow">Common questions</span>
+        <h2 id="faq-heading">Questions about this piece</h2>
+      </div>
+      <div class="faq-list">
+        ${faqItems.map((item, idx) => `<details${idx === 0 ? ' open' : ''}><summary>${escapeHtml(item.question)}</summary><p>${escapeHtml(item.answer)}</p></details>`).join('')}
+      </div>
+    </section>` : ''}
+
+    ${complianceAccordions(product, complianceRecord)}`;
 }
 
 function cardPrice(product) {
   if (product.model === 'affiliate') return `View with ${escapeHtml(product.sourceName)}`;
-  if (product.price === null || product.price === undefined) return 'Price on request';
-  return formatMoney(product.price, product.currency);
+  if (!Number.isFinite(product.price)) return 'Price on request';
+  return `${formatMoney(product.price, product.currency)}${product.samplePricing ? ' · Sample' : ''}`;
 }
 
-/**
- * Availability may only be shown when the product data itself carries a
- * verified label. Nothing is inferred: an absent field renders nothing.
- */
 function cardAvailability(product) {
   const availability = product.availability;
   if (!availability || availability.verified !== true || !availability.label) return '';
@@ -272,17 +523,29 @@ export function card(product) {
   const badge = `<span class="badge${isAffiliate ? ' badge-partner' : ''}">${MODELS[product.model].badge}</span>`;
   const cta = isAffiliate ? 'View the offer' : 'View the piece';
   const blendAttr = first.blend === 'none' ? ' data-blend="none"' : '';
+  const cardMedia = first.isEmptyMount
+    ? emptyMountMarkup(product.category, { compact: true })
+    : pictureMarkup(first, {
+        width: 800,
+        height: 800,
+        alt: '',
+        lazy: true,
+        attrs: ''
+      });
   return `<article class="product-card" data-model="${product.model}">
-    <a class="card-image product-mount"${blendAttr} href="${productPath(product)}" tabindex="-1" aria-hidden="true"><img src="${escapeHtml(first.src)}" alt="" width="640" height="640" loading="lazy" decoding="async" data-fallback="/assets/products/photography-pending.svg">${badge}</a>
+    <a class="card-image product-mount"${blendAttr} href="${productPath(product)}" tabindex="-1" aria-hidden="true">${cardMedia}${badge}</a>
     <div class="card-copy"><span class="eyebrow">${eyebrow}</span><h3><a href="${productPath(product)}">${escapeHtml(product.name)} ${arrow}</a></h3><p>${escapeHtml(product.tagline)}</p>${cardAvailability(product)}<span class="card-price">${cardPrice(product)}</span><a class="text-link card-cta" href="${productPath(product)}">${cta} ${arrow}<span class="sr-only"> about ${escapeHtml(product.name)}</span></a></div>
   </article>`;
 }
 
 function related(product, products) {
   const sameModel = products.filter(item => item.model === product.model && item.id !== product.id);
+  const sameRoom = sameModel.filter(item => item.category === product.category);
+  const otherRooms = sameModel.filter(item => item.category !== product.category);
+  const ordered = [...sameRoom, ...otherRooms].slice(0, 3);
   const otherModel = product.model === 'affiliate' ? 'dropshipping' : 'affiliate';
-  return `<section class="related-section" aria-labelledby="related-heading"><div class="section-heading"><span class="eyebrow">In the same room</span><h2 id="related-heading">More to explore</h2></div>
-    ${sameModel.length ? `<div class="product-cards">${sameModel.slice(0, 3).map(card).join('')}</div>` : `<div class="empty-collection"><p>More ${product.model === 'affiliate' ? 'partner pieces' : 'shop pieces'} will appear here as the collection grows.</p><a class="text-link" href="${MODELS[otherModel].path}">Explore ${MODELS[otherModel].label.toLowerCase()} ${arrow}</a></div>`}
+  return `<section class="related-section" aria-labelledby="related-heading"><div class="section-heading"><span class="eyebrow">Explore further</span><h2 id="related-heading">More from ${escapeHtml(MODELS[product.model].label)}</h2></div>
+    ${ordered.length ? `<div class="product-cards">${ordered.map(card).join('')}</div>` : `<div class="empty-collection"><p>More ${product.model === 'affiliate' ? 'partner pieces' : 'shop pieces'} will appear here as the collection grows.</p><a class="text-link" href="${MODELS[otherModel].path}">Explore ${MODELS[otherModel].label.toLowerCase()} ${arrow}</a></div>`}
   </section>`;
 }
 
@@ -300,10 +563,18 @@ function productBreadcrumbs(product) {
 function productDocument(product, products, actions) {
   validateProduct(product);
   const model = MODELS[product.model];
+  const collection = product.model === 'dropshipping' ? collectionFor(product) : null;
   const canonical = productPath(product);
   const seoTitle = product.seo?.title || product.name;
   const seoDescription = product.seo?.description || product.description;
-  const photograph = product.images.find(image => !image.isPlaceholder && !image.src.endsWith('.svg'));
+  const photograph = product.images.find(image => !image.isEmptyMount && !image.isPlaceholder && !image.src.endsWith('.svg'))
+    || product.images.find(image => !image.isEmptyMount && !image.src.endsWith('.svg'));
+  const roomKicker = collection && product.model === 'dropshipping'
+    ? `<a class="eyebrow" href="${categoryPath(collection)}">${escapeHtml(product.category)}</a>`
+    : `<span class="eyebrow">${escapeHtml(product.category)}</span>`;
+  const sampleBanner = product.isPlaceholder
+    ? `<div class="sample-banner" role="note"><span class="eyebrow">Construction sample</span><p>Sample layout — dummy pricing and placeholder specifications used to build and verify the shop.</p></div>`
+    : '';
   return documentPage({
     title: seoTitle,
     description: seoDescription,
@@ -316,14 +587,22 @@ function productDocument(product, products, actions) {
     content: `
       <div class="page-shell">
         ${productBreadcrumbs(product)}
+        ${sampleBanner}
         <article class="product-layout" data-product-model="${product.model}">
           ${gallery(product)}
           <div class="product-information">
-            <div class="product-kicker"><span class="eyebrow">${escapeHtml(product.category)}</span><span class="badge">${model.badge}</span></div>
-            <h1>${escapeHtml(product.name)}</h1><p class="tagline">${escapeHtml(product.tagline)}</p>
+            <div class="product-kicker">${roomKicker}<span class="badge${product.model === 'affiliate' ? ' badge-partner' : ''}">${model.badge}</span></div>
+            <h1>${escapeHtml(product.name)}</h1>
+            <p class="tagline">${escapeHtml(product.tagline)}</p>
+            ${product.format ? `<p class="product-format">${escapeHtml(product.format)}</p>` : ''}
             ${wishlistToggle(product)}
             <p class="product-description">${escapeHtml(product.description)}</p>
             ${actions(product)}
+            <nav class="pdp-jumps" aria-label="On this page">
+              <a class="text-link" href="#description-section">Full description &amp; specs ${arrow}</a>
+              ${Array.isArray(product.faq) && product.faq.length ? `<a class="text-link" href="#faq-section">Q&amp;A ${arrow}</a>` : ''}
+              <a class="text-link" href="#compliance-section">Disclosures ${arrow}</a>
+            </nav>
             <div class="sourcing-note"><span class="eyebrow">Selected source · ${escapeHtml(product.sourceName)}</span><p>${escapeHtml(product.dataNote)}</p></div>
           </div>
         </article>
