@@ -124,15 +124,17 @@ export function productJsonLd(product, canonicalPath) {
 
 function gallery(product) {
   const first = product.images[0];
+  const thumbnails = product.images.slice(0, 3);
+  const mainBlendAttr = first.blend === 'none' ? ' data-blend="none"' : '';
   return `
     <div class="product-gallery" data-gallery>
-      <figure class="main-image">
+      <figure class="main-image product-mount"${mainBlendAttr} data-main-mount>
         <span class="image-corner-label">${product.model === 'affiliate' ? 'Partner offer' : `${BRAND} shop`}</span>
         <img data-main-image src="${escapeHtml(first.src)}" alt="${escapeHtml(first.alt)}" width="1000" height="1000" fetchpriority="high" decoding="async" data-fallback="/assets/products/photography-pending.svg">
       </figure>
       <div class="gallery-thumbnails" role="group" aria-label="Product gallery">
-        ${product.images.map((image, index) => `
-          <button type="button" class="thumbnail" aria-label="Show image ${index + 1}: ${escapeHtml(image.alt)}" aria-pressed="${index === 0}" data-gallery-src="${escapeHtml(image.src)}" data-gallery-alt="${escapeHtml(image.alt)}" data-gallery-caption="${escapeHtml(image.caption)}">
+        ${thumbnails.map((image, index) => `
+          <button type="button" class="thumbnail product-mount product-mount--square"${image.blend === 'none' ? ' data-blend="none"' : ''} aria-label="Show image ${index + 1}: ${escapeHtml(image.alt)}" aria-pressed="${index === 0}" data-gallery-src="${escapeHtml(image.src)}" data-gallery-alt="${escapeHtml(image.alt)}" data-gallery-caption="${escapeHtml(image.caption)}"${image.blend === 'none' ? ' data-gallery-blend="none"' : ''}>
             <img src="${escapeHtml(image.src)}" alt="" width="80" height="80" loading="lazy" decoding="async" data-fallback="/assets/products/photography-pending.svg">
           </button>`).join('')}
         <span class="gallery-note">A closer look,<br>without the noise.</span>

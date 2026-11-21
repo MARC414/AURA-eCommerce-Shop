@@ -304,7 +304,8 @@ h3 { font-size: var(--text-h3); }
 .image-corner-label { position: absolute; left: 20px; top: 20px; z-index: 1; background: var(--canvas); padding: 6px 10px; border: 1px solid var(--line); font-size: 9px; text-transform: uppercase; letter-spacing: .12em; }
 .gallery-thumbnails { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
 .thumbnail { padding: 4px; width: 72px; height: auto; transition: border-color var(--dur-fast) var(--ease-out); }
-.thumbnail[aria-pressed="true"], .thumbnail:hover { border-color: var(--ink); }
+.thumbnail:hover { border-color: var(--accent-text); }
+.thumbnail[aria-pressed="true"] { border-width: 2px; border-color: var(--accent-text); }
 .gallery-note { color: var(--accent-text); font-family: var(--serif); font-size: 16px; font-style: italic; line-height: 1.45; padding-left: 10px; }
 .image-caption { font-size: 11px; color: var(--body); margin-top: 14px; line-height: 1.65; max-width: 600px; }
 .product-information { padding-top: 4px; min-width: 0; }

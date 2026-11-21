@@ -20,6 +20,7 @@ function attachImageFallback(image) {
 document.querySelectorAll('img[data-fallback]').forEach(attachImageFallback);
 
 document.querySelectorAll('[data-gallery]').forEach(gallery => {
+  const mount = gallery.querySelector('[data-main-mount]') || gallery.querySelector('.main-image');
   const image = gallery.querySelector('[data-main-image]');
   const caption = gallery.querySelector('p[data-gallery-caption]');
   const buttons = gallery.querySelectorAll('[data-gallery-src]');
@@ -28,6 +29,10 @@ document.querySelectorAll('[data-gallery]').forEach(gallery => {
     image.alt = button.dataset.galleryAlt;
     image.src = button.dataset.gallerySrc;
     caption.textContent = button.dataset.galleryCaption;
+    if (mount) {
+      if (button.dataset.galleryBlend === 'none') mount.setAttribute('data-blend', 'none');
+      else mount.removeAttribute('data-blend');
+    }
     buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
   }));
 });

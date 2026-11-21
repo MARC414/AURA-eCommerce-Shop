@@ -1042,3 +1042,30 @@ test('Unit 1.2: shop, room, partner, and related cards share one product-mount w
   const customShop = renderCollection('dropshipping', [darkCardProduct]);
   assert.match(customShop, /<a class="card-image product-mount" data-blend="none"/);
 });
+
+test('Unit 1.3: product gallery and up to three thumbnails share product-mount with visible selected state', async () => {
+  const css = await readFile(new URL('../public/assets/product-pages.css', import.meta.url), 'utf8');
+  const script = await readFile(new URL('../public/assets/product-pages.js', import.meta.url), 'utf8');
+
+  assert.match(css, /\.thumbnail\[aria-pressed="true"\]\s*\{\s*border-width:\s*2px;\s*border-color:\s*var\(--accent-text\);/);
+  assert.match(script, /galleryBlend/);
+
+  for (const [product, page] of productPages) {
+    assert.match(page, /<figure class="main-image product-mount"[^>]*data-main-mount>/);
+    assert.ok(page.includes(`<img data-main-image src="${escapeHtml(product.images[0].src)}"`), 'no-JS shows first image');
+    const thumbCount = (page.match(/<button type="button" class="thumbnail product-mount product-mount--square"/g) || []).length;
+    assert.equal(thumbCount, Math.min(3, product.images.length));
+  }
+
+  // Never renders more than three thumbnails even when a listing supplies more images.
+  const manyImages = clone(shopProduct);
+  manyImages.images = Array.from({ length: 5 }, (_, index) => ({
+    ...shopProduct.images[0],
+    alt: `View ${index + 1}`,
+    caption: `Caption ${index + 1}`,
+    blend: index === 1 ? 'none' : undefined
+  }));
+  const multiPage = renderDropshippingPage(manyImages);
+  assert.equal((multiPage.match(/class="thumbnail product-mount product-mount--square"/g) || []).length, 3);
+  assert.match(multiPage, /data-blend="none"[^>]*data-gallery-blend="none"|data-gallery-blend="none"[^>]*data-blend="none"/);
+});
