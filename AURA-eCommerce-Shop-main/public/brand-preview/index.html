@@ -12,6 +12,14 @@
   <title>OPAR brand system — internal reference</title>
   <meta name="description" content="Internal, noindex reference for the OPAR brand system: palette, roles, type, components and image rules.">
   <meta name="theme-color" content="#2F332B">
+  <link rel="icon" href="/assets/OPAR-brand-assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/OPAR-brand-assets/favicon-16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/OPAR-brand-assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/OPAR-brand-assets/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="/assets/OPAR-brand-assets/favicon-128.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/OPAR-brand-assets/favicon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/OPAR-brand-assets/favicon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/OPAR-brand-assets/favicon-180.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap">
@@ -156,6 +164,69 @@
     .pillar-title { font-family: var(--serif); font-size: 1.55rem; line-height: 1.15; color: var(--ink); margin: 0 0 12px; }
     .pillar-desc { font-size: 13px; line-height: 1.75; color: var(--body); margin: 0 0 24px; flex-grow: 1; }
     .ecosystem-pillar .button { width: 100%; justify-content: center; }
+
+    /* Brand Assets Showcase (#brand-assets-showcase) */
+    .showcase-subhead { margin: 34px 0 12px; font-family: var(--serif); font-size: 1.45rem; font-weight: 500; color: var(--ink); }
+    .dual-header-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+    .preview-chrome-card { border: 1px solid var(--line); background: var(--surface); display: grid; }
+    .preview-chrome-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 74px; padding: 0 22px; border-bottom: 1px solid var(--line); }
+    .preview-chrome-bar--moss { background: var(--opar-ground); color: var(--opar-text); border-bottom-color: var(--opar-ground-line); }
+    .preview-chrome-bar--paper { background: var(--paper-canvas); color: var(--paper-ink); border-bottom-color: var(--paper-line); }
+    .preview-chrome-brand { display: inline-flex; align-items: center; gap: 12px; font-family: var(--serif); font-size: 26px; font-weight: 600; letter-spacing: .03em; }
+    .preview-chrome-brand img { width: 34px; height: 34px; object-fit: contain; }
+    .preview-chrome-nav { display: flex; flex-wrap: wrap; gap: 16px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; }
+    .preview-chrome-bar--moss .preview-chrome-nav span { border-bottom: 1px solid transparent; padding: 6px 0; color: var(--opar-mist); }
+    .preview-chrome-bar--moss .preview-chrome-nav span.is-hover { border-bottom-color: var(--opar-gold); color: var(--opar-text); }
+    .preview-chrome-bar--paper .preview-chrome-nav span { border-bottom: 1px solid transparent; padding: 6px 0; color: var(--paper-body); }
+    .preview-chrome-bar--paper .preview-chrome-nav span.is-hover { border-bottom-color: var(--opar-accent); color: var(--paper-ink); }
+    .preview-chrome-meta { padding: 14px 20px; font-size: 12px; line-height: 1.75; color: var(--body); }
+
+    .orbit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .orbit-specimen { position: relative; overflow: hidden; min-height: 250px; padding: 26px 24px; border: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; gap: 16px; }
+    .orbit-specimen--plain { background: var(--paper-canvas); color: var(--paper-ink); border-color: var(--paper-line); }
+    .orbit-specimen--subtle {
+      background-color: var(--paper-canvas);
+      background-image: linear-gradient(120deg, rgba(244, 242, 238, .66) 0%, rgba(244, 242, 238, .34) 100%), url("/assets/OPAR-brand-assets/opar-section-bg-wide-paper-2400x1400.png");
+      background-size: cover; background-position: 62% 50%;
+      color: var(--paper-ink); border-color: var(--paper-line);
+    }
+    .orbit-specimen--strong {
+      background-color: var(--paper-canvas);
+      background-image: linear-gradient(90deg, rgba(244, 242, 238, .70) 0%, rgba(244, 242, 238, .08) 100%), url("/assets/OPAR-brand-assets/opar-section-bg-wide-paper-2400x1400.png");
+      background-size: cover; background-position: 68% 50%;
+      color: var(--paper-ink); border-color: var(--paper-line);
+    }
+    .orbit-specimen--moss {
+      background-color: var(--opar-ground);
+      background-image: linear-gradient(90deg, rgba(47, 51, 43, .72) 0%, rgba(47, 51, 43, .14) 100%), url("/assets/OPAR-brand-assets/opar-section-bg-wide-ground-2400x1400.png");
+      background-size: cover; background-position: 62% 50%;
+      color: var(--opar-text); border-color: var(--opar-ground-line);
+    }
+    .orbit-specimen .eyebrow { margin-bottom: 6px; display: block; }
+    .orbit-specimen--plain .eyebrow, .orbit-specimen--subtle .eyebrow, .orbit-specimen--strong .eyebrow { color: var(--opar-accent); }
+    .orbit-specimen--moss .eyebrow { color: var(--opar-cta); }
+    .orbit-specimen h4 { font-family: var(--serif); font-size: 1.45rem; line-height: 1.18; margin: 0 0 8px; }
+    .orbit-specimen p { font-size: 13px; line-height: 1.7; margin: 0; }
+    .orbit-specimen--plain p, .orbit-specimen--subtle p, .orbit-specimen--strong p { color: var(--paper-body); }
+    .orbit-specimen--moss p { color: var(--opar-mist); }
+    .orbit-specimen__tag { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; opacity: .88; }
+
+    .medallion-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .medallion-panel { display: grid; justify-items: center; gap: 16px; padding: 36px 24px; border: 1px solid var(--line); text-align: center; }
+    .medallion-panel--paper { background: var(--paper-canvas); color: var(--paper-ink); border-color: var(--paper-line); }
+    .medallion-panel--moss { background: var(--opar-ground); color: var(--opar-text); border-color: var(--opar-ground-line); }
+    .medallion-panel img { width: 220px; height: auto; border-radius: 50%; box-shadow: var(--shadow-quiet); }
+    .medallion-panel h4 { font-family: var(--serif); font-size: 1.35rem; margin: 0; }
+    .medallion-panel p { font-size: 12px; line-height: 1.7; max-width: 38ch; margin: 0; }
+    .medallion-panel--paper p { color: var(--paper-body); }
+    .medallion-panel--moss p { color: var(--opar-mist); }
+
+    .favicon-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 12px; }
+    .favicon-tile { border: 1px solid var(--line); background: var(--surface); padding: 18px 12px; display: grid; justify-items: center; align-content: center; gap: 10px; text-align: center; }
+    .favicon-tile__box { width: 72px; height: 72px; display: grid; place-items: center; background: var(--opar-well); border: 1px solid var(--line); }
+    .favicon-tile__box img { max-width: 56px; max-height: 56px; width: auto; height: auto; }
+    .favicon-tile__size { font-size: 11px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+    .favicon-tile__role { font-size: 10px; color: var(--body); }
   </style>
 </head>
 <body>
@@ -164,7 +235,7 @@
   <header class="site-header">
     <div class="header-row">
       <a class="wordmark" href="/" aria-label="OPAR home">
-        <img class="wordmark-emblem" src="/assets/brand/opar-seed-orbit-on-dark.png" alt="" width="32" height="32"><span class="wordmark-text">OPAR</span><span class="wordmark-note">A World of Conscious Living</span>
+        <img class="wordmark-emblem" src="/assets/OPAR-brand-assets/opar-mark-main.svg" alt="" width="40" height="40"><span class="wordmark-text">OPAR</span><span class="wordmark-note">A World of Conscious Living</span>
       </a>
       <nav class="primary-nav" aria-label="Reference navigation">
         <a href="/shop/">Shop</a>
@@ -871,13 +942,144 @@
       <p style="margin-top: 16px; color: var(--body); font-size: 11px;">Button text uses 10-11px Manrope uppercase at 600 weight. Hover is restricted to transform and background-color only, and is suppressed under <code>prefers-reduced-motion: reduce</code> via the existing media query.</p>
     </section>
 
+    <section class="guide-band" id="brand-assets-showcase" style="border-bottom:0">
+      <span class="eyebrow">OPAR Brand Assets · Dual-Layout Preview</span>
+      <h2>Dual-surface navigation, orbit textures, seals, and favicons</h2>
+      <p class="guide-lede">
+        Side-by-side comparison of the upgraded OPAR seed-and-orbit emblems across Moss Dark (home, Perennis books/music, Journal) and Warm Paper (Shop, rooms, Discover, PDPs, utility &amp; about pages), plus orbit watermark strength options and the complete favicon set.
+      </p>
+
+      <h3 class="showcase-subhead">1. Navigation chrome: Moss Dark vs. Warm Paper</h3>
+      <div class="dual-header-grid">
+        <div class="preview-chrome-card">
+          <div class="preview-chrome-bar preview-chrome-bar--moss">
+            <span class="preview-chrome-brand"><img src="/assets/OPAR-brand-assets/opar-mark-main.svg" alt="OPAR light seed and orbit emblem on Moss dark" width="34" height="34"><span>OPAR</span></span>
+            <div class="preview-chrome-nav" aria-hidden="true">
+              <span>Perennis</span>
+              <span class="is-hover">Journal</span>
+              <span>About</span>
+            </div>
+          </div>
+          <div class="preview-chrome-meta">
+            <strong>Moss Dark ground (<code>#2F332B</code>):</strong> uses <code>opar-mark-main.svg</code>, ivory/mist inks, antique gold hover/selection accents, and keeps homepage hero/editorial plates undisturbed.
+          </div>
+        </div>
+        <div class="preview-chrome-card">
+          <div class="preview-chrome-bar preview-chrome-bar--paper">
+            <span class="preview-chrome-brand"><img src="/assets/OPAR-brand-assets/opar-mark-ground.png" alt="OPAR deep forest green seed and orbit emblem on Warm Paper" width="34" height="34"><span>OPAR</span></span>
+            <div class="preview-chrome-nav" aria-hidden="true">
+              <span class="is-hover">Shop</span>
+              <span>Discover</span>
+              <span>About</span>
+            </div>
+          </div>
+          <div class="preview-chrome-meta">
+            <strong>Warm Paper ground (<code>#F4F2EE</code>):</strong> uses green <code>opar-mark-ground.png</code>, moss-ink navigation (<code>#2F332B</code>), and leaf-accent (<code>#55632A</code>) underlines across all commerce, product, policy, and reading pages.
+          </div>
+        </div>
+      </div>
+
+      <h3 class="showcase-subhead">2. Wide orbit watermark prominence comparator (2400×1400)</h3>
+      <div class="orbit-grid">
+        <article class="orbit-specimen orbit-specimen--plain">
+          <div>
+            <span class="eyebrow">Baseline · 0%</span>
+            <h4>Plain Warm Paper</h4>
+            <p>Solid unbleached <code>#F4F2EE</code> surface with zero background texture, used inside dense forms and product specification tables.</p>
+          </div>
+          <span class="orbit-specimen__tag">Baseline paper role</span>
+        </article>
+        <article class="orbit-specimen orbit-specimen--subtle">
+          <div>
+            <span class="eyebrow">Whisper · ~5% veil</span>
+            <h4>Subtle Orbit Texture</h4>
+            <p>Layered directional veil softly reveals the orbital geometry toward the right margin without competing with long-form reading copy.</p>
+          </div>
+          <span class="orbit-specimen__tag">opar-section-bg-wide-paper · veiled</span>
+        </article>
+        <article class="orbit-specimen orbit-specimen--strong">
+          <div>
+            <span class="eyebrow">Active · ~10% presence</span>
+            <h4>Production Paper Orbit</h4>
+            <p>Used on homepage <code>#house-paper</code>: faint left scrim protects body copy at &gt;8.5:1 while the full orbit sweep anchors the right-side medallion.</p>
+          </div>
+          <span class="orbit-specimen__tag">opar-section-bg-wide-paper · live</span>
+        </article>
+        <article class="orbit-specimen orbit-specimen--moss">
+          <div>
+            <span class="eyebrow">Sanctuary · Dark ground</span>
+            <h4>Moss Orbit Ground</h4>
+            <p>Paired <code>2400×1400</code> dark moss orbital ground for Perennis books, sacred sound, and high-focus editorial passages.</p>
+          </div>
+          <span class="orbit-specimen__tag">opar-section-bg-wide-ground</span>
+        </article>
+      </div>
+
+      <h3 class="showcase-subhead">3. Double-ring house medallions (1200×1200)</h3>
+      <div class="medallion-grid">
+        <figure class="medallion-panel medallion-panel--paper">
+          <img src="/assets/OPAR-brand-assets/opar-medallion-paper-1200.png" alt="OPAR green seed and double-ring medallion on Warm Paper" width="1200" height="1200" loading="lazy" decoding="async">
+          <figcaption>
+            <h4>Paper House Seal</h4>
+            <p>Active in the homepage <code>#house-paper</code> signature band between Rooms and the Materia Medica.</p>
+          </figcaption>
+        </figure>
+        <figure class="medallion-panel medallion-panel--moss">
+          <img src="/assets/OPAR-brand-assets/opar-medallion-ground-1200.png" alt="OPAR ivory seed and double-ring medallion on Moss Dark" width="1200" height="1200" loading="lazy" decoding="async">
+          <figcaption>
+            <h4>Moss House Seal</h4>
+            <p>Matching ivory double-ring seal for dark subterranean earth, Perennis editions, and letter closures.</p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <h3 class="showcase-subhead">4. Browser chrome &amp; touch favicon scale suite</h3>
+      <div class="favicon-strip">
+        <div class="favicon-tile">
+          <div class="favicon-tile__box"><img src="/assets/OPAR-brand-assets/favicon-16.png" alt="16px OPAR favicon" width="16" height="16" loading="lazy"></div>
+          <span class="favicon-tile__size">16 × 16</span>
+          <span class="favicon-tile__role">Classic tab</span>
+        </div>
+        <div class="favicon-tile">
+          <div class="favicon-tile__box"><img src="/assets/OPAR-brand-assets/favicon-32.png" alt="32px OPAR favicon" width="32" height="32" loading="lazy"></div>
+          <span class="favicon-tile__size">32 × 32</span>
+          <span class="favicon-tile__role">Retina tab</span>
+        </div>
+        <div class="favicon-tile">
+          <div class="favicon-tile__box"><img src="/assets/OPAR-brand-assets/favicon-48.png" alt="48px OPAR favicon" width="48" height="48" loading="lazy"></div>
+          <span class="favicon-tile__size">48 × 48</span>
+          <span class="favicon-tile__role">Desktop pin</span>
+        </div>
+        <div class="favicon-tile">
+          <div class="favicon-tile__box"><img src="/assets/OPAR-brand-assets/favicon-128.png" alt="128px OPAR favicon" width="128" height="128" loading="lazy"></div>
+          <span class="favicon-tile__size">128 × 128</span>
+          <span class="favicon-tile__role">App tile</span>
+        </div>
+        <div class="favicon-tile">
+          <div class="favicon-tile__box"><img src="/assets/OPAR-brand-assets/favicon-180.png" alt="180px OPAR Apple touch icon" width="180" height="180" loading="lazy"></div>
+          <span class="favicon-tile__size">180 × 180</span>
+          <span class="favicon-tile__role">Apple touch</span>
+        </div>
+        <div class="favicon-tile">
+          <div class="favicon-tile__box"><img src="/assets/OPAR-brand-assets/favicon-192.png" alt="192px OPAR manifest icon" width="192" height="192" loading="lazy"></div>
+          <span class="favicon-tile__size">192 × 192</span>
+          <span class="favicon-tile__role">Android</span>
+        </div>
+        <div class="favicon-tile">
+          <div class="favicon-tile__box"><img src="/assets/OPAR-brand-assets/favicon-512.png" alt="512px OPAR splash icon" width="512" height="512" loading="lazy"></div>
+          <span class="favicon-tile__size">512 × 512</span>
+          <span class="favicon-tile__role">High-DPI</span>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
     <div class="footer-top">
       <div class="footer-brand">
         <a class="wordmark" href="/">
-          <img class="wordmark-emblem" src="/assets/brand/opar-seed-orbit-on-dark.png" alt="" width="28" height="28">OPAR
+          <img class="wordmark-emblem" src="/assets/OPAR-brand-assets/opar-mark-main.svg" alt="" width="28" height="28">OPAR
         </a>
         <p>Internal brand reference. Not part of the shop, not indexed, and not linked from the storefront.</p>
       </div>

@@ -208,6 +208,32 @@ function rooms() {
 }
 
 /**
+ * Restrained dual-surface signature band: introduces OPAR's green-on-warm-paper
+ * commerce identity cleanly between the Room directory and Botanical Monograph
+ * using the self-contained 2400x1400 Paper orbit texture and double-ring seal.
+ */
+function houseSignature() {
+  return `
+    <section id="house-paper" class="home-section home-paper-signature" aria-labelledby="house-paper-heading">
+      <div class="home-shell home-paper-signature__grid">
+        <div class="home-paper-signature__copy">
+          <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>Two surfaces · One house</span>
+          <h2 id="house-paper-heading">Objects on warm paper, reading in the moss.</h2>
+          <p class="home-paper-signature__lede">Every piece listed for the shop and every partner find is set on unbleached paper with plain specifications, transparent pricing states, and provenance checks—while Perennis books, sacred sound, and the Journal stay within ${escapeHtml(BRAND)}’s quiet dark moss sanctuary.</p>
+          <div class="home-paper-signature__actions">
+            <a class="button button-primary button-inline" href="/shop/">Browse the shop ${arrow}</a>
+            <a class="button button-secondary button-inline" href="/perennis/">Explore Perennis</a>
+          </div>
+        </div>
+        <figure class="home-paper-signature__seal">
+          <img src="/assets/OPAR-brand-assets/opar-medallion-paper-1200.png" alt="OPAR seed and orbit double-ring house seal on warm paper" width="1200" height="1200" loading="lazy" decoding="async">
+          <figcaption>OPAR House Seal · Green on Warm Paper</figcaption>
+        </figure>
+      </div>
+    </section>`;
+}
+
+/**
  * The letter. One quiet band after the Journal and before the footer: the form
  * is the same contract as /newsletter/ (`/assets/newsletter-page.js`), and while
  * no mailing service is connected both the note here and the script's own
@@ -440,6 +466,6 @@ export function renderHomePage(products = []) {
     image: HERO_IMAGE,
     preload: [{ as: 'image', href: HERO_IMAGE_AVIF, type: 'image/avif', fetchpriority: 'high' }],
     scripts: ['/assets/newsletter-page.js'],
-    content: `${hero()}${featured(products)}${rooms()}${monograph()}${newsletter()}`
+    content: `${hero()}${featured(products)}${rooms()}${houseSignature()}${monograph()}${newsletter()}`
   });
 }

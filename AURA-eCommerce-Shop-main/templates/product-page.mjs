@@ -582,6 +582,7 @@ function productDocument(product, products, actions) {
     description: seoDescription,
     active: 'shop',
     canonical,
+    theme: 'theme-paper',
     jsonLd: productJsonLd(product, canonical),
     keywords: product.seo?.keywords?.join(', ') || null,
     image: photograph?.src || null,

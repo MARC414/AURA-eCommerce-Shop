@@ -167,6 +167,7 @@ export function renderCollection(modelName, products) {
       description: model.description,
       canonical: route,
       active: 'shop',
+      theme: 'theme-paper',
       scripts: ['/assets/shop-page.js'],
       content: `<div class="shop-hub-page">
       ${shopHero(list)}
@@ -197,6 +198,7 @@ export function renderCollection(modelName, products) {
     description: model.description,
     canonical: route,
     active: 'shop',
+    theme: 'theme-paper',
     content: `<div class="page-shell collection-page">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">${model.label}</li></ol></nav>
       <div class="collection-heading">
@@ -221,6 +223,7 @@ export function renderCategoryPage(collection, products) {
     description: collection.description,
     canonical: route,
     active: 'shop',
+    theme: 'theme-paper',
     content: `<div class="page-shell collection-page room-page">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/shop/">Shop</a></li><li aria-current="page">${escapeHtml(collection.label)}</li></ol></nav>
       <div class="collection-heading">

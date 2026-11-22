@@ -1252,3 +1252,91 @@ test('F1: static 404 recovery document builds without sitemap or search-index le
   assert.doesNotMatch(searchIndex, /404/);
 });
 
+test('OPAR dual-layout theme routing, upgraded emblems, favicon suite, #house-paper, and brand showcase', async () => {
+  const brandJson = JSON.parse(await readFile(new URL('../data/brand.json', import.meta.url), 'utf8'));
+  const shopHub = renderCollection('dropshipping', products);
+  const discoverHub = renderCollection('affiliate', products);
+  const roomPage = renderCategoryPage(collections[0], products);
+  const aboutPage = renderStaticPage(pageAt('/about/'));
+  const privacyPage = renderStaticPage(pageAt('/policies/privacy/'));
+  const perennisPage = renderStaticPage(pageAt('/perennis/'));
+  const booksPage = renderStaticPage(pageAt('/perennis/books/'));
+  const musicPage = renderStaticPage(pageAt('/perennis/music/'));
+  const journalPage = renderStaticPage(pageAt('/journal/'));
+  const journalPlants = renderStaticPage(pageAt('/journal/plants-and-practice/'));
+  const html404 = renderNotFoundPage();
+
+  // Warm Paper commerce, PDP, room, utility, about, policy, and 404 routes
+  const paperPages = [
+    shopHub,
+    discoverHub,
+    roomPage,
+    shopPage,
+    affiliatePage,
+    ashwagandhaPage,
+    cartPage,
+    checkoutPage,
+    accountPage,
+    newsletterPage,
+    aboutPage,
+    privacyPage,
+    html404
+  ];
+  for (const docHtml of paperPages) {
+    assert.match(docHtml, /<body class="theme-paper">/, 'commerce/about/policy routes render on Warm Paper');
+    assert.match(docHtml, /<meta name="theme-color" content="#F4F2EE">/, 'Warm Paper emits paper theme-color');
+    assert.match(docHtml, /<header class="site-header">[\s\S]*src="\/assets\/OPAR-brand-assets\/opar-mark-ground\.png"/, 'Warm Paper header uses green ground emblem');
+    assert.match(docHtml, /<footer class="site-footer">[\s\S]*src="\/assets\/OPAR-brand-assets\/opar-mark-main\.svg"/, 'footer everywhere retains light SVG emblem');
+  }
+
+  // Moss Dark homepage, Perennis (books & music), and Journal routes
+  const mossPages = [homePage, perennisPage, booksPage, musicPage, journalPage, journalPlants];
+  for (const docHtml of mossPages) {
+    assert.doesNotMatch(docHtml, /<body[^>]*class="theme-paper"/, 'Moss editorial/sanctuary routes stay dark');
+    assert.match(docHtml, /<meta name="theme-color" content="#2F332B">/, 'Moss routes emit dark moss theme-color');
+    assert.match(docHtml, /<header class="site-header">[\s\S]*src="\/assets\/OPAR-brand-assets\/opar-mark-main\.svg"/, 'Moss header uses light SVG emblem');
+    assert.match(docHtml, /<footer class="site-footer">[\s\S]*src="\/assets\/OPAR-brand-assets\/opar-mark-main\.svg"/, 'footer retains light SVG emblem');
+  }
+
+  // Full favicon suite emitted and backed by real files
+  const faviconHrefPatterns = [
+    brandJson.logo.favicons.ico,
+    brandJson.logo.favicons.png16,
+    brandJson.logo.favicons.png32,
+    brandJson.logo.favicons.png48,
+    brandJson.logo.favicons.png128,
+    brandJson.logo.favicons.png192,
+    brandJson.logo.favicons.png512,
+    brandJson.logo.favicons.appleTouch180
+  ];
+  for (const iconHref of faviconHrefPatterns) {
+    assert.ok(existsSync(new URL(`../public${iconHref}`, import.meta.url)), `Favicon missing on disk: ${iconHref}`);
+    assert.ok(homePage.includes(`href="${iconHref}"`), `Homepage missing favicon link: ${iconHref}`);
+    assert.ok(shopHub.includes(`href="${iconHref}"`), `Shop page missing favicon link: ${iconHref}`);
+  }
+  assert.equal(existsSync(new URL(`../public${brandJson.logo.assetPathOnDark}`, import.meta.url)), true);
+  assert.equal(existsSync(new URL(`../public${brandJson.logo.assetPathOnLight}`, import.meta.url)), true);
+
+  // Additive homepage #house-paper signature band sits between #rooms and #botanicals
+  const roomsPos = homePage.indexOf('id="rooms"');
+  const signaturePos = homePage.indexOf('id="house-paper"');
+  const botanicalsPos = homePage.indexOf('id="botanicals"');
+  assert.ok(signaturePos > roomsPos && signaturePos < botanicalsPos, '#house-paper sits cleanly between #rooms and #botanicals');
+  assert.match(homePage, /src="\/assets\/OPAR-brand-assets\/opar-medallion-paper-1200\.png"/);
+  assert.equal(existsSync(new URL('../public/assets/OPAR-brand-assets/opar-medallion-paper-1200.png', import.meta.url)), true);
+  assert.doesNotMatch(homePage, /<section id="house-paper"[\s\S]*<(?:div|figure|a) class="[^"]*\bcard-image\b/);
+
+  // CSS Shop hero Warm Paper token isolation & wide Paper orbit texture
+  const css = await readFile(new URL('../public/assets/product-pages.css', import.meta.url), 'utf8');
+  assert.match(css, /body\.theme-paper \.shop-hero\s*\{[^}]*--ink:\s*var\(--opar-text\);/);
+  assert.match(css, /body\.theme-paper \.filter-sort-select\s*\{\s*color-scheme:\s*light;\s*\}/);
+  assert.match(css, /url\("\/assets\/OPAR-brand-assets\/opar-section-bg-wide-paper-2400x1400\.png"\)/);
+
+  // Brand preview showcase verification
+  const previewHtml = await readFile(new URL('../public/brand-preview/index.html', import.meta.url), 'utf8');
+  assert.match(previewHtml, /id="brand-assets-showcase"/);
+  assert.match(previewHtml, /opar-mark-ground\.png/);
+  assert.match(previewHtml, /opar-medallion-ground-1200\.png/);
+  assert.match(previewHtml, /opar-section-bg-wide-ground-2400x1400\.png/);
+});
+

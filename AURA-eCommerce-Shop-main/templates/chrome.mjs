@@ -207,6 +207,8 @@ export function documentPage({ title, description, active = null, content, canon
   ).join('');
   const robotsValue = robots || (INDEXABLE ? 'index, follow' : 'noindex, follow');
   const headerEmblem = theme === 'theme-paper' ? brand.logo.assetPathOnLight : brand.logo.assetPathOnDark;
+  const themeColor = theme === 'theme-paper' ? '#F4F2EE' : '#2F332B';
+  const favicons = brand.logo.favicons || {};
   const ogType = jsonLd && (Array.isArray(jsonLd) ? jsonLd.some(n => n['@type'] === 'Product') : jsonLd['@type'] === 'Product')
     ? 'product'
     : 'website';
@@ -226,12 +228,18 @@ export function documentPage({ title, description, active = null, content, canon
   ${image ? `<meta property="og:image" content="${escapeHtml(image)}">\n  ` : ''}${canonical ? `<meta property="og:url" content="${escapeHtml(canonical)}">\n  ` : ''}<meta name="twitter:card" content="${image ? 'summary_large_image' : 'summary'}">
   <meta name="twitter:title" content="${escapeHtml(title)} — ${escapeHtml(BRAND)}">
   <meta name="twitter:description" content="${escapeHtml(description)}">
-  ${image ? `<meta name="twitter:image" content="${escapeHtml(image)}">\n  ` : ''}<meta name="theme-color" content="#2F332B">${jsonLdTag}
+  ${image ? `<meta name="twitter:image" content="${escapeHtml(image)}">\n  ` : ''}<meta name="theme-color" content="${themeColor}">${jsonLdTag}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="${escapeHtml(brand.typography.googleFontsHref)}" rel="stylesheet">
-  <link rel="icon" type="image/png" sizes="128x128" href="${escapeHtml(brand.logo.tilePath)}">
-  <link rel="apple-touch-icon" href="${escapeHtml(brand.logo.tilePath)}">
+  <link rel="icon" href="${escapeHtml(favicons.ico || '/assets/OPAR-brand-assets/favicon.ico')}" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="${escapeHtml(favicons.png16 || '/assets/OPAR-brand-assets/favicon-16.png')}">
+  <link rel="icon" type="image/png" sizes="32x32" href="${escapeHtml(favicons.png32 || '/assets/OPAR-brand-assets/favicon-32.png')}">
+  <link rel="icon" type="image/png" sizes="48x48" href="${escapeHtml(favicons.png48 || '/assets/OPAR-brand-assets/favicon-48.png')}">
+  <link rel="icon" type="image/png" sizes="128x128" href="${escapeHtml(favicons.png128 || brand.logo.tilePath)}">
+  <link rel="icon" type="image/png" sizes="192x192" href="${escapeHtml(favicons.png192 || '/assets/OPAR-brand-assets/favicon-192.png')}">
+  <link rel="icon" type="image/png" sizes="512x512" href="${escapeHtml(favicons.png512 || '/assets/OPAR-brand-assets/favicon-512.png')}">
+  <link rel="apple-touch-icon" sizes="180x180" href="${escapeHtml(favicons.appleTouch180 || '/assets/OPAR-brand-assets/favicon-180.png')}">
   ${preloadTags}<link rel="stylesheet" href="/assets/product-pages.css">
   ${['/assets/cart.js', '/assets/site.js', ...scripts].map(src => `<script src="${escapeHtml(src)}" defer></script>`).join('\n  ')}
 </head>
