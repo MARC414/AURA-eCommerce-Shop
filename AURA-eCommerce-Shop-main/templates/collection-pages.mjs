@@ -172,6 +172,7 @@ export function renderCollection(modelName, products, documentOptions = {}) {
       description: model.description,
       canonical: route,
       active: 'shop',
+      theme: 'theme-paper',
       scripts: ['/assets/shop-page.js'],
       ...shellOptions,
       content: `<div class="shop-hub-page">
@@ -203,6 +204,7 @@ export function renderCollection(modelName, products, documentOptions = {}) {
     description: model.description,
     canonical: route,
     active: 'shop',
+    theme: 'theme-paper',
     ...shellOptions,
     content: `<div class="page-shell collection-page">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">${model.label}</li></ol></nav>
@@ -230,6 +232,7 @@ export function renderCategoryPage(collection, products, documentOptions = {}) {
     description: collection.description,
     canonical: route,
     active: 'shop',
+    theme: 'theme-paper',
     ...shellOptions,
     content: `${referenceLayout ? renderReferenceHero({ surface: 'paper', eyebrow: collection.eyebrow, heading: collection.heading, intro: collection.intro, action: { href: '#category-reference-results', label: 'Explore this room' } }) : ''}<div class="page-shell collection-page room-page"${referenceLayout ? ' id="category-reference-results"' : ''}>
       ${referenceLayout ? '' : `<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/shop/">Shop</a></li><li aria-current="page">${escapeHtml(collection.label)}</li></ol></nav>

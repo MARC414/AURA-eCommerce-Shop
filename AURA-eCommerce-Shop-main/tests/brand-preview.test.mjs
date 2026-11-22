@@ -26,7 +26,7 @@ const options = { theme: 'theme-paper', identity, stylesheets: ['/assets/brand-p
 const referenceOptions = { ...options, bodyClass: 'brand-preview-document opar-reference-document', stylesheets: [...options.stylesheets, '/assets/opar-template-preview.css'] };
 const defaultFixture = JSON.parse(readFileSync(new URL('./fixtures/reference-defaults.json', import.meta.url), 'utf8'));
 
-test('default customer output and shared CSS cannot change during reference-only revisions', () => {
+test('reconciled default customer output and frozen shared CSS cannot change through preview variants', () => {
   const docs = [
     ['/', renderHomePage(products)],
     ...products.map(p => [productPath(p), p.model === 'affiliate' ? renderAffiliatePage(p, products) : renderDropshippingPage(p, products)]),
@@ -161,14 +161,14 @@ test('preview options reach real collection, product and static-page shells with
   }
   assert.doesNotMatch(renderCollection('dropshipping', products), /brand-preview-document/);
   assert.doesNotMatch(renderDropshippingPage(product, products), /brand-preview-document/);
-  assert.match(renderStaticPage(perennis), /<body class="theme-paper">/);
+  assert.match(renderStaticPage(perennis), /<body>/, 'retain remote Moss default for Perennis');
 });
 
-test('Paper preview browser tint follows the explicit identity without changing live Paper metadata', () => {
+test('Paper preview browser tint matches the reconciled non-homepage Paper metadata', () => {
   const html = documentPage({ title: 'Paper sample', description: 'Review', content: '<h1>Sample</h1>', ...options });
   assert.ok(html.includes('<meta name="theme-color" content="#F4F2EE">'), 'Paper preview still advertises the dark browser tint');
   const ordinary = documentPage({ title: 'Ordinary', description: 'Default', content: '<h1>Ordinary</h1>', theme: 'theme-paper' });
-  assert.ok(ordinary.includes('<meta name="theme-color" content="#2F332B">'), 'live metadata must not change during a preview-only task');
+  assert.ok(ordinary.includes('<meta name="theme-color" content="#F4F2EE">'), 'retain the remote Paper metadata while freezing homepage separately');
 });
 
 test('the preview hero overline uses the dark island text role rather than CTA olive', () => {

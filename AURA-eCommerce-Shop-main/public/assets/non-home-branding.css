@@ -1,0 +1,32 @@
+/* Retain 22a4a0f's non-homepage refinements without changing the frozen homepage.
+   Loaded only by non-home documents, before opt-in preview styles. */
+.nav-search[open] > summary { color: var(--accent-text); }
+.breadcrumbs li + li::before { color: var(--accent-text); }
+.disclosure { border-left-color: var(--accent-text); }
+.rp-note { border-left-color: var(--accent-text); }
+.card-copy h3 a:hover { color: var(--accent-text); }
+.text-link:hover { color: var(--accent-text); }
+.nav-group-label { color: var(--accent-text); }
+.home-overline { color: var(--accent-text); }
+.home-rule { background: var(--accent-text); }
+.button-quiet:hover:not(:disabled) { color: var(--accent-text); }
+.filter-option input { accent-color: var(--accent-text); }
+.shop-sidebar__rooms a:hover { color: var(--accent-text); }
+.care-callout { border-left-color: var(--accent-text); }
+.cross-link-tile:hover { color: var(--accent-text); }
+body.theme-paper .badge::before { background: var(--opar-accent); }
+body.theme-paper .badge-partner::before { background: var(--opar-text); }
+body.theme-paper .primary-nav > a:hover,
+body.theme-paper .nav-group > summary:hover { border-color: var(--opar-accent); }
+body.theme-paper .text-link:hover { color: var(--opar-ground); }
+body.theme-paper .button-quiet:hover:not(:disabled) { color: var(--opar-ground); }
+body.theme-paper .shop-hero {
+  --ink: var(--opar-text);
+  --body: var(--opar-mist);
+  --accent-text: var(--opar-cta);
+  background-color: var(--opar-well);
+  color: var(--opar-text);
+}
+body.theme-paper .shop-hero a:hover { color: var(--opar-cta); }
+body.theme-paper .shop-hero :focus-visible { outline-color: var(--focus-ring-light); }
+body.theme-paper .filter-sort-select { color-scheme: light; }

@@ -6,11 +6,22 @@
   "description": "Objects and knowledge for a slower, more sensory life.",
   "logo": {
     "altText": "OPAR seed and orbit emblem",
-    "approvedAssetPath": "/assets/brand/opar-seed-orbit.svg",
-    "assetPathOnDark": "/assets/brand/opar-seed-orbit-on-dark.png",
-    "assetPathOnLight": "/assets/brand/opar-seed-orbit-on-light.png",
-    "tilePath": "/assets/brand/opar-mark-tile-128.png",
-    "note": "One-colour emblem, no background plate. The supplied JPG painted the mark on a solid #003926 square that is not in the palette, so the plate was removed by alpha un-matte (scripts/derive-brand-marks.ps1) and the mark is inked per ground: Main Text #F4F2EE on the ground and footer, and the ground #2F332B on theme-paper pages. Mark geometry is untouched. The tile is only for the browser/app icon, where a container colour is correct. When the final SVG is supplied, drop it in at approvedAssetPath and replace the two PNG paths."
+    "approvedAssetPath": "/assets/OPAR-brand-assets/opar-mark-main.svg",
+    "assetPathOnDark": "/assets/OPAR-brand-assets/opar-mark-main.svg",
+    "assetPathOnLight": "/assets/OPAR-brand-assets/opar-mark-ground.png",
+    "tilePath": "/assets/OPAR-brand-assets/favicon-128.png",
+    "favicons": {
+      "ico": "/assets/OPAR-brand-assets/favicon.ico",
+      "png16": "/assets/OPAR-brand-assets/favicon-16.png",
+      "png32": "/assets/OPAR-brand-assets/favicon-32.png",
+      "png48": "/assets/OPAR-brand-assets/favicon-48.png",
+      "png64": "/assets/OPAR-brand-assets/favicon-64.png",
+      "png128": "/assets/OPAR-brand-assets/favicon-128.png",
+      "appleTouch180": "/assets/OPAR-brand-assets/favicon-180.png",
+      "png192": "/assets/OPAR-brand-assets/favicon-192.png",
+      "png512": "/assets/OPAR-brand-assets/favicon-512.png"
+    },
+    "note": "One-colour transparent emblem per surface: inline-data SVG (opar-mark-main.svg) in ivory #F4F2EE on Moss Dark headers and the subterranean footer, and deep moss #2F332B (opar-mark-ground.png) on Warm Paper headers. Multi-size browser favicons and Apple touch icon live in /assets/OPAR-brand-assets/."
   },
   "colors": {
     "ground": "#2F332B",

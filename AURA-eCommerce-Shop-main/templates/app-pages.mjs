@@ -235,7 +235,7 @@ export function renderStaticPage(page, documentOptions = {}) {
     ...(page.newsletter ? ['/assets/newsletter-page.js'] : [])
   ];
   const isUtility = Boolean(page.search || page.cart || page.wishlist || page.checkout || page.account || page.newsletter || page.orderTracking);
-  const usePaperTheme = !['/journal/'].includes(page.path) && (isUtility || page.section === 'about' || page.section === 'perennis' || page.section === 'journal');
+  const usePaperTheme = isUtility || page.section === 'about';
   return documentPage({
     title: page.title,
     description: page.description,

@@ -198,6 +198,14 @@ function footer(emblem = brand.logo.assetPathOnDark) {
     </footer>`;
 }
 
+// D-053: the homepage's 550d6a0 identity stays frozen while remote branding is
+// retained on other pages. Do not substitute the global logo/favicons here.
+const frozenHomepageLogo = {
+  assetPathOnDark: '/assets/brand/opar-seed-orbit-on-dark.png',
+  assetPathOnLight: '/assets/brand/opar-seed-orbit-on-light.png',
+  tilePath: '/assets/brand/opar-mark-tile-128.png'
+};
+
 export function documentPage({ title, description, active = null, content, canonical = null, jsonLd = null, keywords = null, image = null, theme = null, scripts = [], preload = [], robots = null, identity = null, stylesheets = [], bodyClass = '', previewLabel = '' }) {
   const jsonLdTag = jsonLd
     ? `\n  <script type="application/ld+json">${JSON.stringify(jsonLd).replace(/<\//g, '<\\/')}</script>`
@@ -206,18 +214,21 @@ export function documentPage({ title, description, active = null, content, canon
     `<link rel="preload" as="${escapeHtml(item.as)}" href="${escapeHtml(item.href)}"${item.type ? ` type="${escapeHtml(item.type)}"` : ''}${item.fetchpriority ? ` fetchpriority="${escapeHtml(item.fetchpriority)}"` : ''}>\n  `
   ).join('');
   const robotsValue = robots || (INDEXABLE ? 'index, follow' : 'noindex, follow');
-  // Explicit specimen callers can supply identity/style settings; live defaults stay unchanged.
-  const logo = identity ? { ...brand.logo, ...identity } : brand.logo;
+  const frozenHome = theme === 'theme-home';
+  const logo = frozenHome ? frozenHomepageLogo : identity ? { ...brand.logo, ...identity } : brand.logo;
   const headerEmblem = theme === 'theme-paper' ? logo.assetPathOnLight : logo.assetPathOnDark;
   const bodyClasses = [theme, bodyClass].filter(Boolean).join(' ');
-  const additionalStyles = stylesheets.map(src => `\n  <link rel="stylesheet" href="${escapeHtml(src)}">`).join('');
-  const iconTags = identity?.icons
+  const additionalStyles = [...(frozenHome ? [] : ['/assets/non-home-branding.css']), ...stylesheets].map(src => `\n  <link rel="stylesheet" href="${escapeHtml(src)}">`).join('');
+  const favicons = brand.logo.favicons || {};
+  const iconTags = frozenHome
+    ? `<link rel="icon" type="image/png" sizes="128x128" href="${escapeHtml(logo.tilePath)}">\n  <link rel="apple-touch-icon" href="${escapeHtml(logo.tilePath)}">`
+    : identity?.icons
     ? identity.icons.map(icon => `<link rel="${escapeHtml(icon.rel)}"${icon.type ? ` type="${escapeHtml(icon.type)}"` : ''}${icon.sizes ? ` sizes="${escapeHtml(icon.sizes)}"` : ''} href="${escapeHtml(icon.href)}">`).join('\n  ')
-    : `<link rel="icon" type="image/png" sizes="128x128" href="${escapeHtml(brand.logo.tilePath)}">\n  <link rel="apple-touch-icon" href="${escapeHtml(brand.logo.tilePath)}">`;
+    : `<link rel="icon" href="${escapeHtml(favicons.ico || '/assets/OPAR-brand-assets/favicon.ico')}" sizes="any">\n  ${[['16x16', 'png16'], ['32x32', 'png32'], ['48x48', 'png48'], ['128x128', 'png128'], ['192x192', 'png192'], ['512x512', 'png512']].map(([sizes, key]) => `<link rel="icon" type="image/png" sizes="${sizes}" href="${escapeHtml(favicons[key] || (key === 'png128' ? brand.logo.tilePath : `/assets/OPAR-brand-assets/favicon-${sizes.split('x')[0]}.png`))}">`).join('\n  ')}\n  <link rel="apple-touch-icon" sizes="180x180" href="${escapeHtml(favicons.appleTouch180 || '/assets/OPAR-brand-assets/favicon-180.png')}">`;
   const previewNotice = previewLabel
     ? `\n  <aside class="brand-preview-notice" role="note"><span>${escapeHtml(previewLabel)}</span><a href="/brand-preview/#dual-surface-review">Back to comparisons</a></aside>`
     : '';
-  const themeColor = identity && theme === 'theme-paper' ? brand.colors.mainText : '#2F332B';
+  const themeColor = theme === 'theme-paper' ? '#F4F2EE' : '#2F332B';
   const ogType = jsonLd && (Array.isArray(jsonLd) ? jsonLd.some(n => n['@type'] === 'Product') : jsonLd['@type'] === 'Product')
     ? 'product'
     : 'website';
