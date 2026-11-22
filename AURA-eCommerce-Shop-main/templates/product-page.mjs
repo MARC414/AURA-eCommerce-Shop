@@ -513,7 +513,7 @@ function cardAvailability(product) {
   return `<span class="card-availability">${escapeHtml(availability.label)}</span>`;
 }
 
-export function card(product) {
+export function card(product, index = 0) {
   const first = product.images[0];
   const collection = collectionFor(product);
   const isAffiliate = product.model === 'affiliate';
@@ -532,7 +532,9 @@ export function card(product) {
         lazy: true,
         attrs: ''
       });
-  return `<article class="product-card" data-model="${product.model}">
+  const roomSlug = collection ? collection.slug : '';
+  const priceAttr = Number.isFinite(product.price) ? String(product.price) : '';
+  return `<article class="product-card" data-model="${product.model}" data-room="${escapeHtml(roomSlug)}" data-price="${escapeHtml(priceAttr)}" data-sample="${product.isPlaceholder ? 'true' : 'false'}" data-name="${escapeHtml(product.name)}" data-index="${index}">
     <a class="card-image product-mount"${blendAttr} href="${productPath(product)}" tabindex="-1" aria-hidden="true">${cardMedia}${badge}</a>
     <div class="card-copy"><span class="eyebrow">${eyebrow}</span><h3><a href="${productPath(product)}">${escapeHtml(product.name)} ${arrow}</a></h3><p>${escapeHtml(product.tagline)}</p>${cardAvailability(product)}<span class="card-price">${cardPrice(product)}</span><a class="text-link card-cta" href="${productPath(product)}">${cta} ${arrow}<span class="sr-only"> about ${escapeHtml(product.name)}</span></a></div>
   </article>`;

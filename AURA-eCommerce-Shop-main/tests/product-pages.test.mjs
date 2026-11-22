@@ -1112,24 +1112,59 @@ test('Unit 1.4 & 1.5: empty mounts use room botanical SVG marks cleanly and besp
   }
 });
 
-test('Phase 2: restrained hub foliage uses three unique assets on /shop/, /discover/, /journal/ only', () => {
-  assert.equal(foliage.length, 3);
-  assert.deepEqual(foliage.map(item => item.page), ['/shop/', '/discover/', '/journal/']);
-  assert.equal(new Set(foliage.map(item => item.asset)).size, 3, 'every hub uses its own botanical artwork');
-  for (const entry of foliage) {
-    assert.ok(existsSync(new URL(`../public${entry.asset}`, import.meta.url)), `Missing hub botanical ${entry.asset}`);
+test('Shop & hubs: zero corner cutouts on hubs, calm Shop studio hero and editorial left filter sidebar', async () => {
+  assert.equal(foliage.length, 0, 'hub foliage registry stays empty after owner cutout removal');
+  for (const removed of ['hub-turmeric-leaf.webp', 'hub-cardamom-sprig.webp', 'hub-seed-head.webp']) {
+    assert.equal(existsSync(new URL(`../public/assets/botanicals/${removed}`, import.meta.url)), false, `${removed} should stay removed`);
   }
+  for (const kept of ['corner-neem.webp', 'corner-moringa.webp', 'corner-honey-hive.webp']) {
+    assert.equal(existsSync(new URL(`../public/assets/botanicals/${kept}`, import.meta.url)), true, `homepage ${kept} must remain`);
+  }
+
   const shopHub = renderCollection('dropshipping', products);
   const discoverHub = renderCollection('affiliate', products);
   const journalHub = renderStaticPage(pageAt('/journal/'));
   const roomPage = renderCategoryPage(collections[0], products);
-  assert.match(shopHub, /class="corner-foliage hub-foliage/);
-  assert.match(discoverHub, /class="corner-foliage hub-foliage/);
-  assert.match(journalHub, /class="corner-foliage hub-foliage/);
-  assert.doesNotMatch(roomPage, /hub-foliage/);
-  assert.doesNotMatch(cartPage, /hub-foliage/);
-  assert.doesNotMatch(checkoutPage, /hub-foliage/);
-  assert.doesNotMatch(homePage, /hub-foliage/);
+
+  for (const docHtml of [shopHub, discoverHub, journalHub, roomPage, cartPage, checkoutPage]) {
+    assert.doesNotMatch(docHtml, /(?<![-\w])(?:hub-foliage|hub-page)(?![-\w])/);
+  }
+  assert.match(homePage, /corner-foliage--neem-head/, 'frozen homepage botanicals remain untouched');
+
+  // Shop hero & responsive assets on disk
+  assert.equal((shopHub.match(/<h1/g) || []).length, 1, '/shop/ exposes exactly one h1 inside the studio hero');
+  assert.match(shopHub, /<section class="shop-hero"/);
+  assert.match(shopHub, /srcset="\/assets\/brand\/hero-shop\.avif"/);
+  assert.match(shopHub, /srcset="\/assets\/brand\/hero-shop\.webp"/);
+  assert.match(shopHub, /src="\/assets\/brand\/hero-shop\.jpg"/);
+  for (const ext of ['avif', 'webp', 'jpg']) {
+    assert.equal(existsSync(new URL(`../public/assets/brand/hero-shop.${ext}`, import.meta.url)), true, `Missing hero-shop.${ext}`);
+  }
+
+  // Editorial left sidebar filter & sort controls + card data attributes + script wiring
+  assert.match(shopHub, /<aside class="shop-sidebar"/);
+  assert.match(shopHub, /data-shop-form/);
+  assert.match(shopHub, /name="room"/);
+  assert.match(shopHub, /name="status"/);
+  assert.match(shopHub, /name="tier"/);
+  assert.match(shopHub, /name="sort"/);
+  assert.match(shopHub, /data-shop-grid/);
+  assert.match(shopHub, /data-shop-empty/);
+  assert.match(shopHub, /src="\/assets\/shop-page\.js" defer/);
+  const shopDropCount = products.filter(p => p.model === 'dropshipping').length;
+  assert.equal((shopHub.match(/<article class="product-card"/g) || []).length, shopDropCount);
+  assert.match(shopHub, /data-room="herbal-botanicals"/);
+  assert.match(shopHub, /data-sample="(?:true|false)"/);
+
+  // Desktop & tablet PDP gallery caps keep the photograph comfortable next to the buy box,
+  // and the full-width ~540px Shop hero aligns inner copy to --width-shell above the sidebar
+  const css = await readFile(new URL('../public/assets/product-pages.css', import.meta.url), 'utf8');
+  assert.match(css, /\.product-layout\s*\{[^}]*minmax\(0,\s*520px\)\s+minmax\(0,\s*1fr\)/);
+  assert.match(css, /\.product-gallery\s*\{[^}]*max-width:\s*520px;/);
+  assert.match(css, /\.shop-hero\s*\{[^}]*width:\s*100%;[^}]*min-height:\s*clamp\(380px,\s*40vw,\s*540px\);/);
+  assert.match(css, /\.shop-hero__inner\s*\{[^}]*max-width:\s*var\(--width-shell\);/);
+  assert.doesNotMatch(css, /var\(--max\)/);
+  assert.ok(shopHub.indexOf('class="shop-hero"') < shopHub.indexOf('class="shop-workspace"'));
 });
 
 test('Phase 5: dropshipping PDPs include rich descriptions, cross-links, AEO FAQ, and collapsed compliance accordions', () => {

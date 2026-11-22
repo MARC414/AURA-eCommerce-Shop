@@ -10,7 +10,6 @@ import {
   arrow,
   external,
   documentPage,
-  hubFoliageMarkup,
   whatsappLink,
   whatsappDisclosure
 } from './chrome.mjs';
@@ -234,7 +233,6 @@ export function renderStaticPage(page) {
   ];
   const isUtility = Boolean(page.search || page.cart || page.wishlist || page.checkout || page.account || page.newsletter || page.orderTracking);
   const usePaperTheme = !['/journal/'].includes(page.path) && (isUtility || page.section === 'about' || page.section === 'perennis' || page.section === 'journal');
-  const foliage = hubFoliageMarkup(page.path);
   return documentPage({
     title: page.title,
     description: page.description,
@@ -242,8 +240,7 @@ export function renderStaticPage(page) {
     active: page.section || null,
     theme: usePaperTheme ? 'theme-paper' : null,
     scripts: pageScripts,
-    content: `<div class="page-shell static-page${foliage ? ' hub-page' : ''}">
-      ${foliage}
+    content: `<div class="page-shell static-page">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>${parent}<li aria-current="page">${escapeHtml(page.label)}</li></ol></nav>
       <div class="collection-heading">
         <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>${escapeHtml(page.eyebrow)}</span>

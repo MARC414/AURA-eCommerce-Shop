@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="/assets/product-pages.css">
   <script src="/assets/cart.js" defer></script>
   <script src="/assets/site.js" defer></script>
+  <script src="/assets/shop-page.js" defer></script>
 </head>
 <body>
 
@@ -97,45 +98,147 @@
         </div>
       </div>
     </header>
-  <main id="main-content" tabindex="-1"><div class="page-shell collection-page hub-page">
-      <img class="corner-foliage hub-foliage hub-foliage--top-right" src="/assets/botanicals/hub-turmeric-leaf.webp" alt="" aria-hidden="true" width="760" height="567" loading="lazy" decoding="async">
-      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">Shop</li></ol></nav>
-      <div class="collection-heading">
-        <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>OPAR shop</span>
-        <h1>Objects for a slower life.</h1>
-        <p>Objects chosen for use, not display: herbs, everyday care, showpieces, practice and craft.</p>
+  <main id="main-content" tabindex="-1"><div class="shop-hub-page">
+      <section class="shop-hero" aria-labelledby="shop-hero-heading">
+      <div class="shop-hero__media" aria-hidden="true">
+        <picture>
+          <source type="image/avif" srcset="/assets/brand/hero-shop.avif" sizes="100vw">
+          <source type="image/webp" srcset="/assets/brand/hero-shop.webp" sizes="100vw">
+          <img src="/assets/brand/hero-shop.jpg" alt="" width="1600" height="900" fetchpriority="high" decoding="async">
+        </picture>
+        <div class="shop-hero__grade"></div>
+        <div class="grain"></div>
+        <div class="shop-hero__scrim"></div>
       </div>
-      <nav class="category-strip" aria-label="Shop categories">
-    <a class="category-tile" href="/shop/herbal-botanicals/">
-      <span class="eyebrow">Plants, roots and resins</span>
-      <strong>Herbal Botanicals</strong>
-      <span class="category-count">2 pieces</span>
-    </a><a class="category-tile" href="/shop/everyday-care/">
-      <span class="eyebrow">Soap, skin and small rituals</span>
-      <strong>Everyday Care</strong>
-      <span class="category-count">3 pieces</span>
-    </a><a class="category-tile" href="/shop/showpieces/">
-      <span class="eyebrow">Exceptional miscellany</span>
-      <strong>Showpieces</strong>
-      <span class="category-count">1 piece</span>
-    </a><a class="category-tile" href="/shop/yoga-practice/">
-      <span class="eyebrow">Ground, breath, repetition</span>
-      <strong>Yoga &amp; Practice</strong>
-      <span class="category-count">1 piece</span>
-    </a><a class="category-tile" href="/shop/art-craft/">
-      <span class="eyebrow">Made by hand</span>
-      <strong>Art &amp; Craft</strong>
-      <span class="category-count">1 piece</span>
-    </a><a class="category-tile" href="/shop/quiet-living/">
-      <span class="eyebrow">Objects that lower the volume</span>
-      <strong>Quiet Living</strong>
-      <span class="category-count">1 piece</span>
-    </a>
-  </nav>
-      <div class="product-cards"><article class="product-card" data-model="dropshipping">
+      <div class="shop-hero__inner">
+        <nav class="breadcrumbs breadcrumbs--hero" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">Shop</li></ol></nav>
+        <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>OPAR collection</span>
+        <h1 id="shop-hero-heading" class="shop-hero__title">Objects for a slower life.</h1>
+        <p class="shop-hero__lede">Herbs, everyday cleansing bars, studio miscellany, practice goods and craft — chosen one by one, described plainly without theatre.</p>
+        <p class="shop-hero__meta">9 curated pieces · 6 rooms · 3 preview · 6 construction samples</p>
+      </div>
+    </section>
+      <div class="page-shell collection-page shop-collection-shell">
+        <div class="shop-workspace">
+          <aside class="shop-sidebar" aria-label="Filter and sort collection">
+      <details class="shop-filter-disclosure" data-shop-disclosure open>
+        <summary class="shop-filter-summary">
+          <span>Filter &amp; sort</span>
+          <span class="shop-filter-summary__state" data-shop-active-summary>All rooms · Curated order</span>
+        </summary>
+        <form class="shop-filter-form" data-shop-form>
+          <div class="shop-filter-head">
+            <span class="eyebrow">Refine archive</span>
+            <button type="button" class="text-link shop-reset-btn" data-shop-reset hidden>Clear all</button>
+          </div>
+
+          <fieldset class="filter-group">
+            <legend>Room</legend>
+            <label class="filter-option">
+              <input type="radio" name="room" value="all" data-label="All rooms" checked>
+              <span class="filter-option__label">All rooms</span>
+              <span class="filter-option__count">9</span>
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="room" value="herbal-botanicals" data-label="Herbal Botanicals">
+              <span class="filter-option__label">Herbal Botanicals</span>
+              <span class="filter-option__count">2</span>
+            </label><label class="filter-option">
+              <input type="radio" name="room" value="everyday-care" data-label="Everyday Care">
+              <span class="filter-option__label">Everyday Care</span>
+              <span class="filter-option__count">3</span>
+            </label><label class="filter-option">
+              <input type="radio" name="room" value="showpieces" data-label="Showpieces">
+              <span class="filter-option__label">Showpieces</span>
+              <span class="filter-option__count">1</span>
+            </label><label class="filter-option">
+              <input type="radio" name="room" value="yoga-practice" data-label="Yoga &amp; Practice">
+              <span class="filter-option__label">Yoga &amp; Practice</span>
+              <span class="filter-option__count">1</span>
+            </label><label class="filter-option">
+              <input type="radio" name="room" value="art-craft" data-label="Art &amp; Craft">
+              <span class="filter-option__label">Art &amp; Craft</span>
+              <span class="filter-option__count">1</span>
+            </label><label class="filter-option">
+              <input type="radio" name="room" value="quiet-living" data-label="Quiet Living">
+              <span class="filter-option__label">Quiet Living</span>
+              <span class="filter-option__count">1</span>
+            </label>
+          </fieldset>
+
+          <fieldset class="filter-group">
+            <legend>Listing state</legend>
+            <label class="filter-option">
+              <input type="radio" name="status" value="all" data-label="All states" checked>
+              <span class="filter-option__label">All states</span>
+              <span class="filter-option__count">9</span>
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="status" value="preview" data-label="Owner preview">
+              <span class="filter-option__label">Owner preview</span>
+              <span class="filter-option__count">3</span>
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="status" value="sample" data-label="Construction sample">
+              <span class="filter-option__label">Construction sample</span>
+              <span class="filter-option__count">6</span>
+            </label>
+          </fieldset>
+
+          <fieldset class="filter-group">
+            <legend>Price guide</legend>
+            <label class="filter-option">
+              <input type="radio" name="tier" value="all" data-label="Any price" checked>
+              <span class="filter-option__label">Any price</span>
+              <span class="filter-option__count">9</span>
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="tier" value="under-20" data-label="Under £20">
+              <span class="filter-option__label">Under £20</span>
+              <span class="filter-option__count">4</span>
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="tier" value="20-45" data-label="£20 – £45">
+              <span class="filter-option__label">£20 – £45</span>
+              <span class="filter-option__count">3</span>
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="tier" value="45-plus" data-label="Over £45">
+              <span class="filter-option__label">Over £45</span>
+              <span class="filter-option__count">2</span>
+            </label>
+
+          </fieldset>
+
+          <div class="filter-group filter-group--sort">
+            <label class="filter-sort-label" for="shop-sort-select">Sort order</label>
+            <select id="shop-sort-select" class="filter-sort-select" name="sort">
+              <option value="curated">Curated order</option>
+              <option value="price-asc">Price: low to high</option>
+              <option value="price-desc">Price: high to low</option>
+              <option value="name-asc">Title: A to Z</option>
+            </select>
+          </div>
+
+          <nav class="shop-sidebar__rooms" aria-label="Dedicated room pages">
+            <span class="eyebrow">Room pages</span>
+            <ul>
+              <li><a href="/shop/herbal-botanicals/">Herbal Botanicals</a></li><li><a href="/shop/everyday-care/">Everyday Care</a></li><li><a href="/shop/showpieces/">Showpieces</a></li><li><a href="/shop/yoga-practice/">Yoga &amp; Practice</a></li><li><a href="/shop/art-craft/">Art &amp; Craft</a></li><li><a href="/shop/quiet-living/">Quiet Living</a></li>
+              <li><a href="/discover/">Partner offers <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></li>
+            </ul>
+          </nav>
+        </form>
+      </details>
+    </aside>
+          <div class="shop-results">
+            <div class="shop-toolbar">
+              <p class="shop-toolbar__count" data-shop-count aria-live="polite">Showing 9 of 9 pieces</p>
+              <button type="button" class="text-link shop-toolbar__reset" data-shop-reset hidden>Reset filters</button>
+            </div>
+            <div class="product-cards" data-shop-grid><article class="product-card" data-model="dropshipping" data-room="everyday-care" data-price="9.5" data-sample="false" data-name="Turmeric Cleansing Soap" data-index="0">
     <a class="card-image product-mount" href="/shop/turmeric-cleansing-soap/" tabindex="-1" aria-hidden="true"><img src="/assets/products/aliexpress-turmeric-soap.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" data-fallback-empty="true"><span class="badge">OPAR shop</span></a>
     <div class="card-copy"><span class="eyebrow"><a href="/shop/everyday-care/">Everyday Care</a></span><h3><a href="/shop/turmeric-cleansing-soap/">Turmeric Cleansing Soap <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></h3><p>A small addition to the everyday.</p><span class="card-price">£9.50 · Sample</span><a class="text-link card-cta" href="/shop/turmeric-cleansing-soap/">View the piece <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg><span class="sr-only"> about Turmeric Cleansing Soap</span></a></div>
-  </article><article class="product-card" data-model="dropshipping">
+  </article><article class="product-card" data-model="dropshipping" data-room="everyday-care" data-price="8.5" data-sample="false" data-name="Aloe Vera Cleansing Bar" data-index="1">
     <a class="card-image product-mount" href="/shop/aloe-vera-soap/" tabindex="-1" aria-hidden="true"><div class="empty-mount empty-mount--card" data-empty-mount aria-hidden="true">
     <span class="empty-mount__corner empty-mount__corner--tl"></span>
     <span class="empty-mount__corner empty-mount__corner--tr"></span>
@@ -145,7 +248,7 @@
     <span class="empty-mount__label">Photograph in preparation</span>
   </div><span class="badge">OPAR shop</span></a>
     <div class="card-copy"><span class="eyebrow"><a href="/shop/everyday-care/">Everyday Care</a></span><h3><a href="/shop/aloe-vera-soap/">Aloe Vera Cleansing Bar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></h3><p>A plain bar, described plainly.</p><span class="card-price">£8.50 · Sample</span><a class="text-link card-cta" href="/shop/aloe-vera-soap/">View the piece <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg><span class="sr-only"> about Aloe Vera Cleansing Bar</span></a></div>
-  </article><article class="product-card" data-model="dropshipping">
+  </article><article class="product-card" data-model="dropshipping" data-room="herbal-botanicals" data-price="18" data-sample="false" data-name="Ashwagandha with Black Pepper" data-index="2">
     <a class="card-image product-mount" href="/shop/ashwagandha-with-black-pepper/" tabindex="-1" aria-hidden="true"><div class="empty-mount empty-mount--card" data-empty-mount aria-hidden="true">
     <span class="empty-mount__corner empty-mount__corner--tl"></span>
     <span class="empty-mount__corner empty-mount__corner--tr"></span>
@@ -155,42 +258,42 @@
     <span class="empty-mount__label">Photograph in preparation</span>
   </div><span class="badge">OPAR shop</span></a>
     <div class="card-copy"><span class="eyebrow"><a href="/shop/herbal-botanicals/">Herbal Botanicals</a></span><h3><a href="/shop/ashwagandha-with-black-pepper/">Ashwagandha with Black Pepper <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></h3><p>A 60-capsule pack with Ashwagandha root and black pepper.</p><span class="card-price">£18.00 · Sample</span><a class="text-link card-cta" href="/shop/ashwagandha-with-black-pepper/">View the piece <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg><span class="sr-only"> about Ashwagandha with Black Pepper</span></a></div>
-  </article><article class="product-card" data-model="dropshipping">
+  </article><article class="product-card" data-model="dropshipping" data-room="herbal-botanicals" data-price="24" data-sample="true" data-name="Whole Botanical Infusion Jar — Sample" data-index="3">
     <a class="card-image product-mount" href="/shop/sample-botanical-infusion-jar/" tabindex="-1" aria-hidden="true"><picture>
       <source type="image/avif" srcset="/assets/products/studio-herbal-botanicals-800.avif 800w, /assets/products/studio-herbal-botanicals.avif 1200w" sizes="(min-width: 1101px) 360px, (min-width: 761px) 44vw, 90vw">
       <source type="image/webp" srcset="/assets/products/studio-herbal-botanicals-800.webp 800w, /assets/products/studio-herbal-botanicals.webp 1200w" sizes="(min-width: 1101px) 360px, (min-width: 761px) 44vw, 90vw">
       <img src="/assets/products/studio-herbal-botanicals.jpg" alt="" width="1200" height="1200" loading="lazy" decoding="async" data-fallback-empty="true">
     </picture><span class="badge">OPAR shop</span></a>
     <div class="card-copy"><span class="eyebrow"><a href="/shop/herbal-botanicals/">Herbal Botanicals</a></span><h3><a href="/shop/sample-botanical-infusion-jar/">Whole Botanical Infusion Jar — Sample <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></h3><p>Amber apothecary glass with loose botanical capsules.</p><span class="card-price">£24.00 · Sample</span><a class="text-link card-cta" href="/shop/sample-botanical-infusion-jar/">View the piece <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg><span class="sr-only"> about Whole Botanical Infusion Jar — Sample</span></a></div>
-  </article><article class="product-card" data-model="dropshipping">
+  </article><article class="product-card" data-model="dropshipping" data-room="everyday-care" data-price="11" data-sample="true" data-name="Cold-Process Olive Cleansing Bar — Sample" data-index="4">
     <a class="card-image product-mount" href="/shop/sample-cold-process-bar/" tabindex="-1" aria-hidden="true"><picture>
       <source type="image/avif" srcset="/assets/products/studio-everyday-care-800.avif 800w, /assets/products/studio-everyday-care.avif 1200w" sizes="(min-width: 1101px) 360px, (min-width: 761px) 44vw, 90vw">
       <source type="image/webp" srcset="/assets/products/studio-everyday-care-800.webp 800w, /assets/products/studio-everyday-care.webp 1200w" sizes="(min-width: 1101px) 360px, (min-width: 761px) 44vw, 90vw">
       <img src="/assets/products/studio-everyday-care.jpg" alt="" width="1200" height="1200" loading="lazy" decoding="async" data-fallback-empty="true">
     </picture><span class="badge">OPAR shop</span></a>
     <div class="card-copy"><span class="eyebrow"><a href="/shop/everyday-care/">Everyday Care</a></span><h3><a href="/shop/sample-cold-process-bar/">Cold-Process Olive Cleansing Bar — Sample <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></h3><p>Unwrapped neutral cold-process soap bar for daily sink use.</p><span class="card-price">£11.00 · Sample</span><a class="text-link card-cta" href="/shop/sample-cold-process-bar/">View the piece <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg><span class="sr-only"> about Cold-Process Olive Cleansing Bar — Sample</span></a></div>
-  </article><article class="product-card" data-model="dropshipping">
+  </article><article class="product-card" data-model="dropshipping" data-room="showpieces" data-price="48" data-sample="true" data-name="Hand-Turned Teak Vessel — Sample" data-index="5">
     <a class="card-image product-mount" href="/shop/sample-turned-wood-vessel/" tabindex="-1" aria-hidden="true"><picture>
       <source type="image/avif" srcset="/assets/products/studio-showpieces-800.avif 800w, /assets/products/studio-showpieces.avif 1200w" sizes="(min-width: 1101px) 360px, (min-width: 761px) 44vw, 90vw">
       <source type="image/webp" srcset="/assets/products/studio-showpieces-800.webp 800w, /assets/products/studio-showpieces.webp 1200w" sizes="(min-width: 1101px) 360px, (min-width: 761px) 44vw, 90vw">
       <img src="/assets/products/studio-showpieces.jpg" alt="" width="1200" height="1200" loading="lazy" decoding="async" data-fallback-empty="true">
     </picture><span class="badge">OPAR shop</span></a>
     <div class="card-copy"><span class="eyebrow"><a href="/shop/showpieces/">Showpieces</a></span><h3><a href="/shop/sample-turned-wood-vessel/">Hand-Turned Teak Vessel — Sample <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></h3><p>Carved hardwood accent bowl for quiet shelf and desk placement.</p><span class="card-price">£48.00 · Sample</span><a class="text-link card-cta" href="/shop/sample-turned-wood-vessel/">View the piece <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg><span class="sr-only"> about Hand-Turned Teak Vessel — Sample</span></a></div>
-  </article><article class="product-card" data-model="dropshipping">
+  </article><article class="product-card" data-model="dropshipping" data-room="yoga-practice" data-price="54" data-sample="true" data-name="Rolled Practice Mat &amp; Cork Block — Sample" data-index="6">
     <a class="card-image product-mount" href="/shop/sample-cork-practice-set/" tabindex="-1" aria-hidden="true"><picture>
       <source type="image/avif" srcset="/assets/products/studio-yoga-practice-800.avif 800w, /assets/products/studio-yoga-practice.avif 1200w" sizes="(min-width: 1101px) 360px, (min-width: 761px) 44vw, 90vw">
       <source type="image/webp" srcset="/assets/products/studio-yoga-practice-800.webp 800w, /assets/products/studio-yoga-practice.webp 1200w" sizes="(min-width: 1101px) 360px, (min-width: 761px) 44vw, 90vw">
       <img src="/assets/products/studio-yoga-practice.jpg" alt="" width="1200" height="1200" loading="lazy" decoding="async" data-fallback-empty="true">
     </picture><span class="badge">OPAR shop</span></a>
     <div class="card-copy"><span class="eyebrow"><a href="/shop/yoga-practice/">Yoga &amp; Practice</a></span><h3><a href="/shop/sample-cork-practice-set/">Rolled Practice Mat &amp; Cork Block — Sample <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></h3><p>Dense practice mat paired with a bevelled cork alignment block.</p><span class="card-price">£54.00 · Sample</span><a class="text-link card-cta" href="/shop/sample-cork-practice-set/">View the piece <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg><span class="sr-only"> about Rolled Practice Mat &amp; Cork Block — Sample</span></a></div>
-  </article><article class="product-card" data-model="dropshipping">
+  </article><article class="product-card" data-model="dropshipping" data-room="art-craft" data-price="36" data-sample="true" data-name="Wheel-Thrown Stoneware Bowl — Sample" data-index="7">
     <a class="card-image product-mount" href="/shop/sample-ceramic-ritual-bowl/" tabindex="-1" aria-hidden="true"><picture>
       <source type="image/avif" srcset="/assets/products/studio-art-craft-800.avif 800w, /assets/products/studio-art-craft.avif 1200w" sizes="(min-width: 1101px) 360px, (min-width: 761px) 44vw, 90vw">
       <source type="image/webp" srcset="/assets/products/studio-art-craft-800.webp 800w, /assets/products/studio-art-craft.webp 1200w" sizes="(min-width: 1101px) 360px, (min-width: 761px) 44vw, 90vw">
       <img src="/assets/products/studio-art-craft.jpg" alt="" width="1200" height="1200" loading="lazy" decoding="async" data-fallback-empty="true">
     </picture><span class="badge">OPAR shop</span></a>
     <div class="card-copy"><span class="eyebrow"><a href="/shop/art-craft/">Art &amp; Craft</a></span><h3><a href="/shop/sample-ceramic-ritual-bowl/">Wheel-Thrown Stoneware Bowl — Sample <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></h3><p>Quiet unglazed rim ceramic bowl built for tactile daily use.</p><span class="card-price">£36.00 · Sample</span><a class="text-link card-cta" href="/shop/sample-ceramic-ritual-bowl/">View the piece <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg><span class="sr-only"> about Wheel-Thrown Stoneware Bowl — Sample</span></a></div>
-  </article><article class="product-card" data-model="dropshipping">
+  </article><article class="product-card" data-model="dropshipping" data-room="quiet-living" data-price="42" data-sample="true" data-name="Washed Flax Linen Runner &amp; Stone — Sample" data-index="8">
     <a class="card-image product-mount" href="/shop/sample-linen-runner-stone/" tabindex="-1" aria-hidden="true"><picture>
       <source type="image/avif" srcset="/assets/products/studio-quiet-living-800.avif 800w, /assets/products/studio-quiet-living.avif 1200w" sizes="(min-width: 1101px) 360px, (min-width: 761px) 44vw, 90vw">
       <source type="image/webp" srcset="/assets/products/studio-quiet-living-800.webp 800w, /assets/products/studio-quiet-living.webp 1200w" sizes="(min-width: 1101px) 360px, (min-width: 761px) 44vw, 90vw">
@@ -198,6 +301,15 @@
     </picture><span class="badge">OPAR shop</span></a>
     <div class="card-copy"><span class="eyebrow"><a href="/shop/quiet-living/">Quiet Living</a></span><h3><a href="/shop/sample-linen-runner-stone/">Washed Flax Linen Runner &amp; Stone — Sample <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></h3><p>Unbleached woven linen runner anchored by a smooth river stone.</p><span class="card-price">£42.00 · Sample</span><a class="text-link card-cta" href="/shop/sample-linen-runner-stone/">View the piece <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg><span class="sr-only"> about Washed Flax Linen Runner &amp; Stone — Sample</span></a></div>
   </article></div>
+            <div class="shop-empty" data-shop-empty hidden>
+              <span class="eyebrow">No match in current selection</span>
+              <h2>No pieces match those filters.</h2>
+              <p>Try widening the room or price bracket, or reset to read the full collection.</p>
+              <button type="button" class="button button-secondary button-small" data-shop-reset>Clear all filters</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div></main>
 
     <footer class="site-footer">
