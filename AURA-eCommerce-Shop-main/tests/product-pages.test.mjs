@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, readdir } from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
+import './brand-preview.test.mjs';
 import {
   escapeHtml,
   validateProduct,
@@ -1110,6 +1111,13 @@ test('Unit 1.4 & 1.5: empty mounts use room botanical SVG marks cleanly and besp
       assert.ok(existsSync(new URL(`../public${primary[key]}`, import.meta.url)), `Missing converted image ${primary[key]}`);
     }
   }
+});
+
+test('Shop hidden states override author display without changing other card grids', async () => {
+  const css = await readFile(new URL('../public/assets/product-pages.css', import.meta.url), 'utf8');
+  const hiddenRule = css.match(/\[data-shop-grid\] \.product-card\[hidden\],\s*\[data-shop-grid\]\[hidden\]\s*\{([^}]+)\}/);
+  assert.ok(hiddenRule, 'Shop cards and empty grid need an explicit scoped hidden rule');
+  assert.match(hiddenRule[1], /display:\s*none\s*;/);
 });
 
 test('Shop & hubs: zero corner cutouts on hubs, calm Shop studio hero and editorial left filter sidebar', async () => {

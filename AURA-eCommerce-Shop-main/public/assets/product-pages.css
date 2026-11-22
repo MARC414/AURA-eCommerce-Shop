@@ -1622,6 +1622,11 @@ body:not(.theme-paper) .text-link:hover { color: var(--opar-gold); }
   gap: 28px;
   align-items: start;
 }
+/* Author flex/grid display must not make filtered or empty Shop results visible. */
+[data-shop-grid] .product-card[hidden],
+[data-shop-grid][hidden] {
+  display: none;
+}
 .shop-sidebar {
   min-width: 0;
 }

@@ -819,3 +819,43 @@ Gate: 53/53 tests (a new one asserts the one-row contract), `tsc` clean, 41 page
 4. **Desktop & tablet PDP gallery sizing cap (`public/assets/product-pages.css`):** Constrained `.product-layout` to `minmax(0, 520px) minmax(0, 1fr)` (`400px` at `<= 1100px`, `440px` centered stack at `<= 760px`) with `.product-gallery` sticky above `861px` so `4:5` primary mounts stay within `520×650px` on desktop instead of stretching to ~1,060px tall.
 
 **Verified (2026-11-22).** `npx tsc --noEmit` clean; `npm run test:templates` **63/63 passed**; `npm run check:site` clean (49 routes — 49 generated, 152 files, 48 sitemap entries); headless Chromium verified full-bleed `~540px` hero cleanly below header, exact `0px` horizontal alignment offset between `.shop-hero__title` and `.shop-sidebar` across `1920/1440/1024/375`, 0 horizontal overflow, 0 broken images, and 0 console/runtime errors.
+
+---
+
+## D-048 — Homepage strictly frozen; reconciled local scope correction
+**Owner correction dated 2026-11-21; reconciled 2026-11-22.** This was previously numbered D-047 locally; the remote D-047 implementation history above is preserved separately.
+
+The owner explicitly prohibited homepage additions. Treat `/` as entirely frozen: no sidebar, new hero, feature, decoration, removal or redesign, including indirect effects from shared CSS, scripts or header/footer changes. The proposed editorial sidebar and studio-table hero belong only to `/shop/`. Smaller PDP galleries and removal of only the new Shop/Discover/Journal cutouts were proposed at that time; homepage botanicals stay untouched. Further non-homepage ideas are suggestions, not authorized work.
+
+**Same-day hero-asset update (2026-11-21):** the owner chose an image placeholder in the Shop hero, with the actual photograph supplied/generated later. Keep its H1 and short description; generation was not a blocker for that proposed layout. The homepage restriction remained absolute. This recorded the asset choice, not approval of additional features. The newer remote implementation now includes a Shop studio photograph (D-047); the current task preserves that implementation rather than recreating its hero.
+
+## D-049 — Repair Shop visibility and prepare review-only dual-surface specimens
+**2026-11-22 — OWNER: “Go with Recommended next step”; current-folder execution selected.**
+
+Authorized scope: reconcile planning history without losing the homepage freeze; fast-forward to `550d6a0`; fix the confirmed Shop `hidden`/`display` defect with regression coverage; correct the dual-surface plan to exclude all homepage changes; prepare production-faithful Paper/Moss samples, vector web derivatives, watermark comparisons and icon/medallion specimens on `/brand-preview/`. The original brand pack stays unchanged. Non-homepage route-theme rollout still requires visual approval. No deployment, package installation, agents, checkout changes or live branding rollout are authorized by this step.
+
+The pre-sync planning additions were backed up outside the repository before reconciliation. The earlier review records remain at `planning/STOREFRONT-REVIEW-2026-11-21.md` and `planning/BRAND-DUAL-LAYOUT-REVIEW-2026-11-22.md`.
+
+## D-050 — Supplied UI mockups are the visual reference; pause token-only adaptation
+**2026-11-23 — OWNER CORRECTION during D-049 execution.**
+
+The owner wants the `OPAR-ui-mockup-templates` samples applied to matching pages/sections, especially their colours and background treatment, with senior UI/UX judgement. Current six specimens reuse existing layouts and are not faithful template implementations. Preserve the verified Shop filter fix and all original assets; pause further implementation/rollout while revising the mapping. The five source HTML files and PNG previews were inspected; both local copies have matching content after line-ending normalization. Template 04 uses a mixed Paper/Moss detail layout and template 05 is a dark newsletter composition, which need alignment with the earlier all-Paper commerce proposal. The homepage freeze (D-048) is not reversed. Source mapping and measured differences: `planning/OPAR-MOCKUP-FIDELITY-REVIEW-2026-11-23.md`.
+
+## D-051 — Template-led preview mapping approved
+**2026-11-23 — OWNER: “Approve”, replying to the five-template mapping and explicit mixed-PDP/button approval question.**
+
+Approved: dark hero for Perennis/Journal, Paper hero for Shop/suitable collection openers, framed Paper cards for Shop/category/Discover, mixed Paper/Moss PDP opening, source newsletter composition on `/newsletter/`, and rectangular reference buttons on non-homepage previews. This replaces the earlier blanket all-Paper commerce interpretation. Use the supplied orbit/background assets; no AI photography is needed. Keep real data/controls, smaller PDP gallery limits and original assets. Homepage including Letter is still entirely frozen.
+
+Approval is for revising and comparing previews before visual sign-off, not live route-theme changes, commit, push or deployment. Work inline in the current folder; no agents or installation. Detailed implementation plan: `planning/OPAR-TEMPLATE-FIDELITY-PLAN-2026-11-23.md`, saved for confirmation before reference-layout code begins.
+
+**Execution checkpoint:** owner confirmed the detailed plan; eight opt-in reference-layout previews and five source comparison pairs implemented. Renderer suite 82/82; desktop hero/card/PDP measurements and 24 responsive cases checked. Default customer output, shared CSS, homepage and original assets are guarded unchanged. Screenshot comparison and full composed-background contrast remain pending; this is not pixel-perfect approval. Existing pending-price/invoice cart behavior is preserved, not replaced by the plan's mistaken disabled-cart assumption. Preview newsletter hidden-state repair is scoped to reference documents only. All work remains local/uncommitted; no live rollout.
+
+## D-052 — Push preview work to main; remote homepage conflict requires a decision
+**2026-11-23 — OWNER: “push the preview work to main”.**
+
+Authorised: commit and push the preview checkpoint to `main`, not applying reference variants to customer routes or deploying. Preflight fetch found remote `22a4a0f` ahead of local `550d6a0`; it changes live branding/shared styles and adds a Paper house-signature band to the frozen homepage. Preserve both histories; no force-push, silent revert, merge or overwrite. Stop for owner choice on that remote homepage addition before reconciliation. Public GitHub checks reported no Actions workflows and no deployment records; this does not verify external hosting integrations.
+
+## D-053 — Preserve the frozen homepage through a history-preserving reconciliation
+**2026-11-23 — OWNER: preserve the previously frozen homepage, reconcile preview work, explicitly restore it in a new commit without rewriting history.**
+
+Authorised: preserve both the preview checkpoint and remote `22a4a0f` history, restore the `550d6a0` homepage and its effective shared styling/identity, reconcile non-homepage remote work with opt-in previews, verify and push normally to `main`. No force-push, deployment, package installation, agents or reference-layout rollout. Do not discard unrelated local files. Verification must cover the reconciled tree, not only the earlier 82-test checkpoint.

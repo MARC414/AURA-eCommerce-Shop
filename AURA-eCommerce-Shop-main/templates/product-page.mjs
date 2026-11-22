@@ -562,8 +562,10 @@ function productBreadcrumbs(product) {
   </ol></nav>`;
 }
 
-function productDocument(product, products, actions) {
+function productDocument(product, products, actions, documentOptions = {}) {
   validateProduct(product);
+  const { referenceLayout = null, ...shellOptions } = documentOptions;
+  if (referenceLayout && referenceLayout !== 'featured-product') throw new Error(`Unsupported reference layout for ${product.slug}`);
   const model = MODELS[product.model];
   const collection = product.model === 'dropshipping' ? collectionFor(product) : null;
   const canonical = productPath(product);
@@ -586,13 +588,14 @@ function productDocument(product, products, actions) {
     keywords: product.seo?.keywords?.join(', ') || null,
     image: photograph?.src || null,
     scripts: ['/assets/product-pages.js'],
+    ...shellOptions,
     content: `
-      <div class="page-shell">
+      <div class="page-shell${referenceLayout ? ' reference-product-shell' : ''}">
         ${productBreadcrumbs(product)}
         ${sampleBanner}
-        <article class="product-layout" data-product-model="${product.model}">
-          ${gallery(product)}
-          <div class="product-information">
+        <article class="product-layout${referenceLayout ? ' reference-product' : ''}" data-product-model="${product.model}">
+          ${referenceLayout ? `<div class="reference-product__visual">${gallery(product)}<img class="reference-product__mark" src="/assets/brand/web/opar-mark-green.svg" alt="" aria-hidden="true" width="130" height="130"></div>` : gallery(product)}
+          <div class="product-information${referenceLayout ? ' reference-product__details' : ''}">
             <div class="product-kicker">${roomKicker}<span class="badge${product.model === 'affiliate' ? ' badge-partner' : ''}">${model.badge}</span></div>
             <h1>${escapeHtml(product.name)}</h1>
             <p class="tagline">${escapeHtml(product.tagline)}</p>
@@ -608,18 +611,18 @@ function productDocument(product, products, actions) {
             <div class="sourcing-note"><span class="eyebrow">Selected source · ${escapeHtml(product.sourceName)}</span><p>${escapeHtml(product.dataNote)}</p></div>
           </div>
         </article>
-        ${details(product)}
-        ${related(product, products)}
+        ${referenceLayout ? '<div class="page-shell reference-product__following">' : ''}${details(product)}
+        ${related(product, products)}${referenceLayout ? '</div>' : ''}
       </div>`
   });
 }
 
-export function renderDropshippingPage(product, products = []) {
+export function renderDropshippingPage(product, products = [], documentOptions = {}) {
   if (product.model !== 'dropshipping') throw new Error('Use the dropshipping template for shop products.');
-  return productDocument(product, products, dropshippingActions);
+  return productDocument(product, products, dropshippingActions, documentOptions);
 }
 
-export function renderAffiliatePage(product, products = []) {
+export function renderAffiliatePage(product, products = [], documentOptions = {}) {
   if (product.model !== 'affiliate') throw new Error('Use the affiliate template for external offers.');
-  return productDocument(product, products, affiliateActions);
+  return productDocument(product, products, affiliateActions, documentOptions);
 }

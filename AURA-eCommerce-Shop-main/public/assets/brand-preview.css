@@ -1,0 +1,108 @@
+/* Review-only styles. Loaded by explicit specimen documents and the reference page only. */
+.brand-preview-notice {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  padding: 14px var(--gutter);
+  border-block: 1px solid var(--line);
+  color: var(--body);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.brand-preview-notice a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 4px; min-height: 24px; }
+
+/* Dark islands have their own tokens even on a Paper document. */
+.brand-preview-document .shop-hero,
+.brand-preview-document .site-footer {
+  --canvas: var(--opar-ground);
+  --ink: var(--opar-text);
+  --body: var(--opar-mist);
+  --accent-text: var(--opar-mist);
+  --line: color-mix(in srgb, var(--opar-text) 18%, transparent);
+  --focus-ring-paper: var(--opar-button);
+  color: var(--ink);
+}
+.brand-preview-document .shop-hero__title { color: var(--ink); }
+.brand-preview-document .shop-hero .home-overline { color: var(--body); }
+.brand-preview-document .site-footer .text-link:hover { color: var(--opar-gold); }
+.brand-preview-document.theme-paper {
+  --review-control-border: color-mix(in srgb, var(--paper-ink) 55%, var(--paper-canvas));
+}
+.brand-preview-document.theme-paper :is(input:not([type="radio"]):not([type="checkbox"]), select, textarea) {
+  color-scheme: light;
+  border-color: var(--review-control-border);
+}
+.brand-preview-document.theme-paper :is(input[type="radio"], input[type="checkbox"]) {
+  color-scheme: light;
+  accent-color: var(--opar-accent);
+}
+.brand-preview-document.theme-paper .shop-empty {
+  background: var(--surface);
+  border-color: var(--review-control-border);
+}
+.brand-preview-document.theme-paper .image-corner-label {
+  color: var(--ink);
+  background: var(--canvas);
+}
+
+.brand-review-area { scroll-margin-top: 90px; }
+.brand-review-caution { max-width: 78ch; color: var(--body); font-size: 12px; line-height: 1.8; margin: 12px 0 30px; }
+.brand-review-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.brand-review-sample { min-width: 0; }
+.brand-review-sample h3 { font-size: 27px; }
+.brand-review-sample > p { margin: 8px 0 16px; font-size: 12px; }
+.brand-review-sample iframe { display: block; width: 100%; height: 620px; border: 1px solid var(--line); background: var(--canvas); }
+.brand-review-links { display: flex; gap: 12px 28px; flex-wrap: wrap; margin-top: 24px; font-size: 12px; }
+.brand-review-links a { min-height: 32px; display: inline-flex; align-items: center; }
+.brand-review-heading { margin: 48px 0 24px; max-width: 72ch; }
+.brand-review-heading h3 { font-size: 30px; margin-top: 8px; }
+.brand-review-heading p { color: var(--body); font-size: 13px; line-height: 1.8; margin-top: 12px; }
+.brand-review-paper {
+  --canvas: var(--paper-canvas);
+  --ink: var(--paper-ink);
+  --body: var(--paper-body);
+  --accent-text: var(--opar-accent);
+}
+.brand-review-moss {
+  --canvas: var(--opar-ground);
+  --ink: var(--opar-text);
+  --body: var(--opar-mist);
+  --accent-text: var(--opar-mist);
+}
+.brand-review-watermarks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; border: 1px solid var(--line); }
+.brand-review-watermark { position: relative; isolation: isolate; overflow: hidden; margin: 0; min-height: 255px; padding: 30px; background: var(--canvas); color: var(--ink); }
+.brand-review-watermark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--ink);
+  mask: url('/assets/brand/web/opar-orbit-mask.svg') center / cover no-repeat;
+  opacity: var(--review-orbit-opacity);
+  pointer-events: none;
+}
+.brand-review-watermark .eyebrow { color: var(--accent-text); font-size: 9px; }
+.brand-review-watermark h3 { font-size: 32px; margin: 24px 0 12px; }
+.brand-review-watermark p { color: var(--body); font-size: 13px; line-height: 1.8; max-width: 30ch; }
+.brand-review-medallions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; border: 1px solid var(--line); }
+.brand-review-medallions figure { margin: 0; padding: 32px; text-align: center; background: var(--canvas); color: var(--body); font-size: 12px; }
+.brand-review-medallions img { display: block; width: 240px; max-width: 100%; height: auto; margin: 0 auto 20px; }
+.brand-review-icons { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; border: 1px solid var(--line); }
+.brand-review-icons figure { margin: 0; padding: 20px; background: var(--surface); color: var(--body); text-align: center; font-size: 11px; }
+.brand-review-icons figure > div { display: grid; place-items: center; min-height: 205px; }
+.brand-review-icons img { max-width: 100%; height: auto; }
+.brand-review-icons figcaption { margin-top: 14px; }
+
+@media (max-width: 1000px) {
+  .brand-review-pair { grid-template-columns: minmax(0, 1fr); }
+  .brand-review-watermarks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .brand-review-watermarks, .brand-review-medallions { grid-template-columns: minmax(0, 1fr); }
+  .brand-review-icons { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .brand-review-icons figure { padding: 14px; }
+  .brand-review-icons figure > div { min-height: 155px; }
+  .brand-review-sample iframe { height: 520px; }
+}

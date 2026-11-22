@@ -1,0 +1,168 @@
+/* Explicit reference documents only. Original templates and customer CSS are untouched. */
+.opar-reference-document {
+  --reference-well: #E2E1DC;
+  --reference-border: #CDCCC7;
+  --reference-gutter: 88px;
+}
+/* Native hidden state must win over the existing author flex/grid declarations. */
+.opar-reference-document [hidden] { display: none !important; }
+.opar-reference-document .site-header { padding-inline: 56px; }
+.opar-reference-document .header-row { min-height: 88px; gap: 20px; }
+.opar-reference-document .wordmark-lockup { display: block; width: 220px; height: auto; }
+.opar-reference-document .wordmark { gap: 0; min-width: 0; }
+.opar-reference-document .button {
+  border-radius: 0;
+  padding: 15px 20px;
+  min-height: 44px;
+  font-size: 11px;
+  letter-spacing: .15em;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.opar-reference-document .button:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+.opar-reference-document .reference-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  min-height: 812px;
+  background: var(--canvas);
+  color: var(--ink);
+}
+.opar-reference-document .reference-hero--paper {
+  --canvas: var(--opar-text);
+  --ink: var(--opar-ground);
+  --body: #43463F;
+  --accent-text: var(--opar-accent);
+  --line: var(--reference-border);
+}
+.opar-reference-document .reference-hero--moss {
+  --canvas: var(--opar-ground);
+  --ink: var(--opar-text);
+  --body: var(--opar-mist);
+  --accent-text: var(--opar-mist);
+  --line: #4F524A;
+}
+.opar-reference-document .reference-hero__background,
+.opar-reference-document .reference-hero__scrim {
+  position: absolute; inset: 0; z-index: -2; pointer-events: none;
+}
+.opar-reference-document .reference-hero__background { background-position: center; background-size: cover; opacity: .78; }
+.opar-reference-document .reference-hero--paper .reference-hero__background { background-image: url('/assets/OPAR-ui-mockup-templates/assets/section-bg-paper.png'); }
+.opar-reference-document .reference-hero--moss .reference-hero__background { background-image: url('/assets/OPAR-ui-mockup-templates/assets/section-bg-ground.png'); }
+.opar-reference-document .reference-hero__scrim { z-index: -1; background: linear-gradient(90deg, rgba(47,51,43,.98) 0%, rgba(47,51,43,.82) 45%, rgba(47,51,43,.16) 100%); }
+.opar-reference-document .reference-hero__mark { position: absolute; right: -80px; top: 40px; width: 720px; height: auto; opacity: .14; z-index: -1; pointer-events: none; }
+.opar-reference-document .reference-hero--paper .reference-hero__mark { right: -90px; top: 60px; opacity: .10; }
+.opar-reference-document .reference-hero__copy { width: min(100%, 620px + 88px); padding: 170px 0 100px; margin-left: var(--reference-gutter); }
+.opar-reference-document .reference-hero--paper .reference-hero__copy { width: min(590px, calc(100% - 176px)); }
+.opar-reference-document .reference-hero--moss .reference-hero__copy { width: min(620px, calc(100% - 176px)); }
+.opar-reference-document .reference-hero__copy h1 { font-size: 84px; line-height: .9; font-weight: 400; margin: 20px 0 24px; letter-spacing: normal; overflow-wrap: break-word; }
+.opar-reference-document .reference-hero__intro { font-size: 18px; line-height: 1.55; color: var(--body); max-width: 520px; margin: 0 0 30px; }
+.opar-reference-document .reference-action { width: auto; color: var(--ink); border-color: var(--accent-text); background: transparent; }
+.opar-reference-document .reference-action:hover { background: var(--ink); color: var(--canvas); }
+.opar-reference-document .reference-hero__meta { font-size: 11px; color: var(--body); margin-top: 24px; line-height: 1.8; }
+.opar-reference-document #shop-reference-results { scroll-margin-top: 24px; }
+.opar-reference-document .reference-card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.opar-reference-document .product-card { background: var(--opar-text); color: var(--opar-ground); border: 1px solid var(--reference-border); }
+.opar-reference-document .product-card .card-image { background: var(--reference-well); border: 0; border-bottom: 1px solid var(--reference-border); }
+.opar-reference-document .product-card .card-copy { padding: 18px 18px 20px; }
+.opar-reference-document .product-card h3 { font-size: 27px; font-weight: 400; margin: 7px 0; line-height: 1.12; }
+.opar-reference-document .product-card .eyebrow { color: var(--opar-accent); }
+.opar-reference-document .product-card .card-cta { display: inline-flex; align-items: center; min-height: 44px; }
+.opar-reference-document .reference-room-links { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 30px; }
+.opar-reference-document .reference-room-links a { padding: 12px 16px; border: 1px solid var(--opar-accent); color: var(--opar-accent); font-size: 11px; min-height: 44px; }
+.opar-reference-document .reference-room-links a:hover,
+.opar-reference-document .reference-room-links a[aria-current="page"] { background: var(--opar-accent); color: var(--opar-text); }
+.opar-reference-document .reference-product-shell { max-width: none; padding: 0; }
+.opar-reference-document .reference-product-shell > .breadcrumbs,
+.opar-reference-document .reference-product-shell > .sample-banner { margin: 24px var(--reference-gutter); }
+.opar-reference-document .reference-product { grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: 0; align-items: stretch; }
+.opar-reference-document .reference-product__visual { position: relative; isolation: isolate; padding: 80px 48px 220px; background: var(--opar-text); min-width: 0; }
+.opar-reference-document .reference-product__visual::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: url('/assets/OPAR-ui-mockup-templates/assets/section-bg-paper.png') center / cover; opacity: .18; mix-blend-mode: multiply; }
+.opar-reference-document .reference-product__visual .product-gallery { margin-inline: auto; }
+.opar-reference-document .reference-product__mark { position: absolute; left: 45px; bottom: 45px; width: 130px; height: auto; opacity: .85; pointer-events: none; }
+.opar-reference-document .reference-product__details {
+  --canvas: var(--opar-ground);
+  --ink: var(--opar-text);
+  --body: var(--opar-mist);
+  --accent-text: var(--opar-mist);
+  --surface: #3F433B;
+  --line: #66695F;
+  background: var(--canvas); color: var(--ink); padding: 100px 88px; min-width: 0;
+}
+.opar-reference-document .reference-product__details h1 { font-size: 72px; font-weight: 400; line-height: .9; letter-spacing: normal; margin: 20px 0; overflow-wrap: break-word; }
+.opar-reference-document .reference-product__details .product-description { color: var(--body); font-size: 18px; line-height: 1.55; max-width: 420px; }
+.opar-reference-document .reference-product__details .tagline,
+.opar-reference-document .reference-product__details .dispatch-tag { color: var(--body); }
+.opar-reference-document .reference-product__details .button-primary { background: var(--opar-button); color: var(--opar-ground); border-color: var(--opar-button); }
+.opar-reference-document .reference-product__details :is(input,select,textarea) { color-scheme: dark; color: var(--ink); background: var(--canvas); border-color: var(--body); }
+.opar-reference-document .reference-product__details .button-secondary { color: var(--ink); border-color: var(--body); }
+.opar-reference-document .reference-product__following { padding-top: 64px; }
+.opar-reference-document .reference-newsletter {
+  --canvas: var(--opar-ground); --ink: var(--opar-text); --body: var(--opar-mist); --accent-text: var(--opar-mist);
+  position: relative; isolation: isolate; overflow: clip; min-height: 812px;
+  background: url('/assets/OPAR-ui-mockup-templates/assets/section-bg-button.png') center / cover;
+  color: var(--ink);
+}
+.opar-reference-document .reference-newsletter__shade { position: absolute; inset: 0; z-index: -2; background: rgba(47,51,43,.76); pointer-events: none; }
+.opar-reference-document .reference-newsletter__mark { position: absolute; z-index: -1; width: 800px; height: auto; right: -140px; top: -80px; opacity: .16; pointer-events: none; }
+.opar-reference-document .reference-newsletter__copy { margin-left: 110px; width: min(620px, calc(100% - 220px)); padding: 180px 0 85px; }
+.opar-reference-document .reference-newsletter h1 { font-size: 76px; line-height: .88; font-weight: 400; margin: 20px 0; letter-spacing: normal; }
+.opar-reference-document .reference-newsletter__intro { font-size: 18px; line-height: 1.55; color: var(--body); max-width: 530px; }
+.opar-reference-document .reference-newsletter .newsletter-block { border: 0; padding: 0; margin: 36px 0 0; max-width: none; }
+.opar-reference-document .reference-newsletter .newsletter-block > h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.opar-reference-document .reference-newsletter .newsletter-form { gap: 8px; align-items: end; }
+.opar-reference-document .reference-newsletter .newsletter-form .field { flex: 0 1 330px; min-width: 0; }
+.opar-reference-document .reference-newsletter .newsletter-form input { color-scheme: dark; color: var(--ink); background: transparent; border: 1px solid var(--body); padding: 17px; font-size: 14px; }
+.opar-reference-document .reference-newsletter .newsletter-form .button { width: auto; flex: 0 0 auto; background: transparent; color: var(--ink); border-color: var(--body); min-height: 56px; }
+.opar-reference-document .reference-newsletter .newsletter-form .button:hover { background: var(--ink); color: var(--canvas); }
+.opar-reference-document .reference-newsletter__note { font-size: 12px; color: var(--body); line-height: 1.7; margin-top: 32px; max-width: 530px; }
+.opar-reference-document .reference-newsletter .newsletter-remove { color: var(--body); min-height: 44px; }
+.brand-review-reference-comparison { margin: 36px 0; }
+.brand-review-reference-comparison h3 { font-size: 28px; margin-bottom: 18px; }
+.brand-review-reference-comparison .brand-review-reference-comparison__pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.brand-review-reference-comparison figure { min-width: 0; margin: 0; }
+.brand-review-reference-comparison figcaption { font-size: 12px; line-height: 1.8; margin-bottom: 12px; color: var(--body); }
+.brand-review-reference-comparison img { display: block; width: 100%; height: auto; }
+.brand-review-reference-comparison iframe { display: block; width: 100%; height: 640px; border: 1px solid var(--line); }
+@media (max-width: 1100px) {
+  .opar-reference-document { --reference-gutter: 48px; }
+  .opar-reference-document .site-header { padding-inline: 32px; }
+  .opar-reference-document .wordmark-lockup { width: 180px; }
+  .opar-reference-document .reference-hero { min-height: 640px; }
+  .opar-reference-document .reference-hero__copy { padding-top: 120px; }
+  .opar-reference-document .reference-hero__copy h1 { font-size: 68px; }
+  .opar-reference-document .reference-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .opar-reference-document .reference-product__visual { padding-inline: 32px; }
+  .opar-reference-document .reference-product__details { padding: 64px 32px; }
+  .opar-reference-document .reference-product__details h1 { font-size: 56px; }
+  .opar-reference-document .reference-newsletter__copy { margin-left: 48px; width: min(620px, calc(100% - 96px)); padding-top: 120px; }
+}
+@media (max-width: 860px) {
+  .opar-reference-document .reference-product { grid-template-columns: minmax(0, 1fr); }
+  .opar-reference-document .reference-product__visual .product-gallery { position: static; }
+}
+@media (max-width: 760px) {
+  .brand-review-reference-comparison .brand-review-reference-comparison__pair { grid-template-columns: minmax(0, 1fr); }
+  .opar-reference-document { --reference-gutter: 24px; }
+  .opar-reference-document .site-header { padding-inline: 20px; }
+  .opar-reference-document .header-row { min-height: 72px; gap: 12px; }
+  .opar-reference-document .wordmark-lockup { width: 135px; }
+  .opar-reference-document .reference-hero { min-height: 520px; }
+  .opar-reference-document .reference-hero__copy,
+  .opar-reference-document .reference-hero--paper .reference-hero__copy,
+  .opar-reference-document .reference-hero--moss .reference-hero__copy { width: calc(100% - 48px); padding: 80px 0; }
+  .opar-reference-document .reference-hero__copy h1 { font-size: clamp(44px, 10vw, 60px); line-height: 1; }
+  .opar-reference-document .reference-hero__intro { font-size: 16px; }
+  .opar-reference-document .reference-hero__mark { width: 560px; right: -300px; }
+  .opar-reference-document .reference-card-grid { grid-template-columns: minmax(0, 1fr); }
+  .opar-reference-document .reference-product__visual { padding: 40px 24px 160px; }
+  .opar-reference-document .reference-product__mark { width: 90px; left: 24px; bottom: 32px; }
+  .opar-reference-document .reference-product__details { padding: 48px 24px; }
+  .opar-reference-document .reference-product__details h1 { font-size: 48px; line-height: 1; }
+  .opar-reference-document .reference-newsletter { min-height: 520px; }
+  .opar-reference-document .reference-newsletter__copy { margin-left: 24px; width: calc(100% - 48px); padding: 80px 0; }
+  .opar-reference-document .reference-newsletter h1 { font-size: clamp(44px, 10vw, 60px); line-height: 1; }
+  .opar-reference-document .reference-newsletter .newsletter-form { flex-direction: column; align-items: stretch; }
+  .opar-reference-document .reference-newsletter .newsletter-form .field { flex-basis: auto; width: 100%; }
+  .opar-reference-document .reference-newsletter__mark { width: 600px; right: -330px; top: -40px; }
+}

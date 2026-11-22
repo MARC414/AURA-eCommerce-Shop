@@ -103,7 +103,7 @@ function navGroups(children) {
   return [...groups.entries()];
 }
 
-function header(active = null, emblem = brand.logo.assetPathOnDark) {
+function header(active = null, emblem = brand.logo.assetPathOnDark, lockup = null) {
   const utility = site.utility || {};
   const searchPublished = isPublished(utility.search);
   const search = searchPublished ? `
@@ -151,7 +151,7 @@ function header(active = null, emblem = brand.logo.assetPathOnDark) {
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
       <div class="header-row">
-        <a class="wordmark" href="${escapeHtml(site.brand.homeHref)}" aria-label="${escapeHtml(site.brand.name)} home"><img class="wordmark-emblem" src="${escapeHtml(emblem)}" alt="${escapeHtml(brand.logo.altText)}" width="40" height="40"><span class="wordmark-text">${escapeHtml(site.brand.wordmark)}</span>${site.brand.note ? `<span class="wordmark-note">${escapeHtml(site.brand.note)}</span>` : ''}</a>
+        <a class="wordmark" href="${escapeHtml(site.brand.homeHref)}" aria-label="${escapeHtml(site.brand.name)} home">${lockup ? `<img class="wordmark-lockup" src="${escapeHtml(lockup)}" alt="" width="145" height="34">` : `<img class="wordmark-emblem" src="${escapeHtml(emblem)}" alt="${escapeHtml(brand.logo.altText)}" width="40" height="40"><span class="wordmark-text">${escapeHtml(site.brand.wordmark)}</span>${site.brand.note ? `<span class="wordmark-note">${escapeHtml(site.brand.note)}</span>` : ''}`}</a>
         <details class="nav-toggle">
           <summary aria-label="Menu">${icons.menu}</summary>
         </details>
@@ -198,7 +198,7 @@ function footer(emblem = brand.logo.assetPathOnDark) {
     </footer>`;
 }
 
-export function documentPage({ title, description, active = null, content, canonical = null, jsonLd = null, keywords = null, image = null, theme = null, scripts = [], preload = [], robots = null }) {
+export function documentPage({ title, description, active = null, content, canonical = null, jsonLd = null, keywords = null, image = null, theme = null, scripts = [], preload = [], robots = null, identity = null, stylesheets = [], bodyClass = '', previewLabel = '' }) {
   const jsonLdTag = jsonLd
     ? `\n  <script type="application/ld+json">${JSON.stringify(jsonLd).replace(/<\//g, '<\\/')}</script>`
     : '';
@@ -206,7 +206,18 @@ export function documentPage({ title, description, active = null, content, canon
     `<link rel="preload" as="${escapeHtml(item.as)}" href="${escapeHtml(item.href)}"${item.type ? ` type="${escapeHtml(item.type)}"` : ''}${item.fetchpriority ? ` fetchpriority="${escapeHtml(item.fetchpriority)}"` : ''}>\n  `
   ).join('');
   const robotsValue = robots || (INDEXABLE ? 'index, follow' : 'noindex, follow');
-  const headerEmblem = theme === 'theme-paper' ? brand.logo.assetPathOnLight : brand.logo.assetPathOnDark;
+  // Explicit specimen callers can supply identity/style settings; live defaults stay unchanged.
+  const logo = identity ? { ...brand.logo, ...identity } : brand.logo;
+  const headerEmblem = theme === 'theme-paper' ? logo.assetPathOnLight : logo.assetPathOnDark;
+  const bodyClasses = [theme, bodyClass].filter(Boolean).join(' ');
+  const additionalStyles = stylesheets.map(src => `\n  <link rel="stylesheet" href="${escapeHtml(src)}">`).join('');
+  const iconTags = identity?.icons
+    ? identity.icons.map(icon => `<link rel="${escapeHtml(icon.rel)}"${icon.type ? ` type="${escapeHtml(icon.type)}"` : ''}${icon.sizes ? ` sizes="${escapeHtml(icon.sizes)}"` : ''} href="${escapeHtml(icon.href)}">`).join('\n  ')
+    : `<link rel="icon" type="image/png" sizes="128x128" href="${escapeHtml(brand.logo.tilePath)}">\n  <link rel="apple-touch-icon" href="${escapeHtml(brand.logo.tilePath)}">`;
+  const previewNotice = previewLabel
+    ? `\n  <aside class="brand-preview-notice" role="note"><span>${escapeHtml(previewLabel)}</span><a href="/brand-preview/#dual-surface-review">Back to comparisons</a></aside>`
+    : '';
+  const themeColor = identity && theme === 'theme-paper' ? brand.colors.mainText : '#2F332B';
   const ogType = jsonLd && (Array.isArray(jsonLd) ? jsonLd.some(n => n['@type'] === 'Product') : jsonLd['@type'] === 'Product')
     ? 'product'
     : 'website';
@@ -226,19 +237,18 @@ export function documentPage({ title, description, active = null, content, canon
   ${image ? `<meta property="og:image" content="${escapeHtml(image)}">\n  ` : ''}${canonical ? `<meta property="og:url" content="${escapeHtml(canonical)}">\n  ` : ''}<meta name="twitter:card" content="${image ? 'summary_large_image' : 'summary'}">
   <meta name="twitter:title" content="${escapeHtml(title)} — ${escapeHtml(BRAND)}">
   <meta name="twitter:description" content="${escapeHtml(description)}">
-  ${image ? `<meta name="twitter:image" content="${escapeHtml(image)}">\n  ` : ''}<meta name="theme-color" content="#2F332B">${jsonLdTag}
+  ${image ? `<meta name="twitter:image" content="${escapeHtml(image)}">\n  ` : ''}<meta name="theme-color" content="${escapeHtml(themeColor)}">${jsonLdTag}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="${escapeHtml(brand.typography.googleFontsHref)}" rel="stylesheet">
-  <link rel="icon" type="image/png" sizes="128x128" href="${escapeHtml(brand.logo.tilePath)}">
-  <link rel="apple-touch-icon" href="${escapeHtml(brand.logo.tilePath)}">
-  ${preloadTags}<link rel="stylesheet" href="/assets/product-pages.css">
+  ${iconTags}
+  ${preloadTags}<link rel="stylesheet" href="/assets/product-pages.css">${additionalStyles}
   ${['/assets/cart.js', '/assets/site.js', ...scripts].map(src => `<script src="${escapeHtml(src)}" defer></script>`).join('\n  ')}
 </head>
-<body${theme ? ` class="${theme}"` : ''}>
-  ${header(active, headerEmblem)}
+<body${bodyClasses ? ` class="${escapeHtml(bodyClasses)}"` : ''}>
+  ${header(active, headerEmblem, theme === 'theme-paper' ? identity?.headerLockupOnLight : identity?.headerLockupOnDark)}${previewNotice}
   <main id="main-content" tabindex="-1">${content}</main>
-  ${footer(brand.logo.assetPathOnDark)}
+  ${footer(logo.assetPathOnDark)}
 </body>
 </html>
 `.replace(/[\t ]+$/gm, '');

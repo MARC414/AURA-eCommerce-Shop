@@ -8,6 +8,7 @@
 
 import { BRAND, collections, escapeHtml, arrow, documentPage } from './chrome.mjs';
 import { MODELS, card, categoryPath } from './product-page.mjs';
+import { renderReferenceHero } from './reference-layouts.mjs';
 
 const SHOP_HERO = {
   avif: '/assets/brand/hero-shop.avif',
@@ -21,6 +22,8 @@ const SHOP_HERO = {
 const categoryCount = (collection, products) => products.filter(product =>
   product.model === 'dropshipping' && (collection.matches || []).includes(product.category)
 ).length;
+
+const referenceRooms = selected => `<nav class="reference-room-links" aria-label="Browse rooms"><a href="/shop/">All pieces</a>${collections.map(c => `<a href="${categoryPath(c)}"${c.slug === selected ? ' aria-current="page"' : ''}>${escapeHtml(c.label)}</a>`).join('')}</nav>`;
 
 function shopHero(list) {
   const sampleCount = list.filter(item => item.isPlaceholder).length;
@@ -154,12 +157,14 @@ function shopSidebar(products, list) {
     </aside>`;
 }
 
-export function renderCollection(modelName, products) {
+export function renderCollection(modelName, products, documentOptions = {}) {
   if (!Object.hasOwn(MODELS, modelName)) throw new Error('Unknown collection.');
   const model = MODELS[modelName];
   const list = products.filter(product => product.model === modelName);
   const isShop = modelName === 'dropshipping';
   const route = model.path;
+  const { referenceLayout = null, ...shellOptions } = documentOptions;
+  if (referenceLayout && referenceLayout !== (isShop ? 'paper-hero' : 'paper-grid')) throw new Error(`Unsupported reference layout for ${route}`);
 
   if (isShop) {
     return documentPage({
@@ -168,9 +173,10 @@ export function renderCollection(modelName, products) {
       canonical: route,
       active: 'shop',
       scripts: ['/assets/shop-page.js'],
+      ...shellOptions,
       content: `<div class="shop-hub-page">
-      ${shopHero(list)}
-      <div class="page-shell collection-page shop-collection-shell">
+      ${referenceLayout ? renderReferenceHero({ surface: 'paper', eyebrow: `${BRAND} collection`, heading: 'Objects for a slower life.', intro: 'Herbs, everyday cleansing bars, studio miscellany, practice goods and craft — chosen one by one, described plainly without theatre.', action: { href: '#shop-reference-results', label: 'Explore the collection' }, meta: `${list.length} curated pieces · ${collections.length} rooms · ${list.filter(p => !p.isPlaceholder).length} preview · ${list.filter(p => p.isPlaceholder).length} construction samples` }) : shopHero(list)}
+      <div class="page-shell collection-page shop-collection-shell"${referenceLayout ? ' id="shop-reference-results"' : ''}>
         <div class="shop-workspace">
           ${shopSidebar(products, list)}
           <div class="shop-results">
@@ -178,7 +184,7 @@ export function renderCollection(modelName, products) {
               <p class="shop-toolbar__count" data-shop-count aria-live="polite">Showing ${list.length} of ${list.length} ${list.length === 1 ? 'piece' : 'pieces'}</p>
               <button type="button" class="text-link shop-toolbar__reset" data-shop-reset hidden>Reset filters</button>
             </div>
-            <div class="product-cards" data-shop-grid>${list.map((product, index) => card(product, index)).join('') || '<p>Pieces will be added as the collection develops.</p>'}</div>
+            <div class="product-cards${referenceLayout ? ' reference-card-grid' : ''}" data-shop-grid>${list.map((product, index) => card(product, index)).join('') || '<p>Pieces will be added as the collection develops.</p>'}</div>
             <div class="shop-empty" data-shop-empty hidden>
               <span class="eyebrow">No match in current selection</span>
               <h2>No pieces match those filters.</h2>
@@ -197,6 +203,7 @@ export function renderCollection(modelName, products) {
     description: model.description,
     canonical: route,
     active: 'shop',
+    ...shellOptions,
     content: `<div class="page-shell collection-page">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">${model.label}</li></ol></nav>
       <div class="collection-heading">
@@ -205,14 +212,16 @@ export function renderCollection(modelName, products) {
         <p>${model.description}</p>
       </div>
       <div class="hub-explainer"><span class="badge badge-partner">${model.badge}</span><p>You browse here; the purchase, delivery and returns take place on the linked merchant’s website.</p></div>
-      <div class="product-cards">${list.map((product, index) => card(product, index)).join('') || '<p>Pieces will be added as the collection develops.</p>'}</div>
+      ${referenceLayout ? referenceRooms(null) : ''}<div class="product-cards${referenceLayout ? ' reference-card-grid' : ''}">${list.map((product, index) => card(product, index)).join('') || '<p>Pieces will be added as the collection develops.</p>'}</div>
     </div>`
   });
 }
 
-export function renderCategoryPage(collection, products) {
+export function renderCategoryPage(collection, products, documentOptions = {}) {
   if (!collection || !collection.slug) throw new Error('A category needs a slug.');
   const route = categoryPath(collection);
+  const { referenceLayout = null, ...shellOptions } = documentOptions;
+  if (referenceLayout && referenceLayout !== 'paper-hero') throw new Error(`Unsupported reference layout for ${route}`);
   const list = products.filter(product =>
     product.model === 'dropshipping' && (collection.matches || []).includes(product.category)
   );
@@ -221,15 +230,16 @@ export function renderCategoryPage(collection, products) {
     description: collection.description,
     canonical: route,
     active: 'shop',
-    content: `<div class="page-shell collection-page room-page">
-      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/shop/">Shop</a></li><li aria-current="page">${escapeHtml(collection.label)}</li></ol></nav>
+    ...shellOptions,
+    content: `${referenceLayout ? renderReferenceHero({ surface: 'paper', eyebrow: collection.eyebrow, heading: collection.heading, intro: collection.intro, action: { href: '#category-reference-results', label: 'Explore this room' } }) : ''}<div class="page-shell collection-page room-page"${referenceLayout ? ' id="category-reference-results"' : ''}>
+      ${referenceLayout ? '' : `<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/shop/">Shop</a></li><li aria-current="page">${escapeHtml(collection.label)}</li></ol></nav>
       <div class="collection-heading">
         <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>${escapeHtml(collection.eyebrow)}</span>
         <h1>${escapeHtml(collection.heading)}</h1>
         <p>${escapeHtml(collection.intro)}</p>
-      </div>
+      </div>`}
       <div class="category-toolbar"><span class="small-note">${list.length} ${list.length === 1 ? 'piece' : 'pieces'} in this room</span><a class="text-link" href="/shop/">All pieces ${arrow}</a></div>
-      <div class="product-cards">${list.map((product, index) => card(product, index)).join('') || `<div class="empty-collection"><p>Pieces are being selected for this room.</p><a class="text-link" href="/shop/">Browse everything in the shop ${arrow}</a></div>`}</div>
+      ${referenceLayout ? referenceRooms(collection.slug) : ''}<div class="product-cards${referenceLayout ? ' reference-card-grid' : ''}">${list.map((product, index) => card(product, index)).join('') || `<div class="empty-collection"><p>Pieces are being selected for this room.</p><a class="text-link" href="/shop/">Browse everything in the shop ${arrow}</a></div>`}</div>
     </div>`
   });
 }

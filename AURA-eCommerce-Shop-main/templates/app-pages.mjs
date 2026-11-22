@@ -13,6 +13,7 @@ import {
   whatsappLink,
   whatsappDisclosure
 } from './chrome.mjs';
+import { renderReferenceHero, renderReferenceNewsletter } from './reference-layouts.mjs';
 
 function checkoutSection() {
   const countries = ['United Kingdom', 'Ireland', 'France', 'Germany', 'Netherlands', 'Belgium', 'Spain', 'Italy', 'Portugal', 'Sweden', 'Denmark', 'Norway', 'Switzerland', 'United States', 'Canada', 'Australia', 'New Zealand', 'India', 'Bangladesh', 'Japan', 'Singapore', 'United Arab Emirates', 'Other'];
@@ -151,7 +152,9 @@ function newsletterSection() {
 }
 
 /** Plain content pages plus cart, checkout, order-tracking, account, wishlist, search and newsletter apps. */
-export function renderStaticPage(page) {
+export function renderStaticPage(page, documentOptions = {}) {
+  const { referenceLayout = null, ...shellOptions } = documentOptions;
+  if (referenceLayout && !((referenceLayout === 'dark-hero' && ['perennis', 'journal'].includes(page.section)) || (referenceLayout === 'newsletter' && page.path === '/newsletter/' && page.newsletter))) throw new Error(`Unsupported reference layout for ${page.path}`);
   if (!/^\/[a-z0-9/-]*\/$/.test(page.path)) throw new Error(`Invalid static page path: ${page.path}`);
   if (!page.title || !page.description || !page.label || !page.heading || !page.intro) {
     throw new Error(`Static page ${page.path} needs a title, description, label, heading, and intro.`);
@@ -240,14 +243,15 @@ export function renderStaticPage(page) {
     active: page.section || null,
     theme: usePaperTheme ? 'theme-paper' : null,
     scripts: pageScripts,
-    content: `<div class="page-shell static-page">
-      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>${parent}<li aria-current="page">${escapeHtml(page.label)}</li></ol></nav>
+    ...shellOptions,
+    content: `${referenceLayout === 'newsletter' ? renderReferenceNewsletter({ page, form: newsletter }) : referenceLayout ? renderReferenceHero({ surface: 'moss', eyebrow: page.eyebrow, heading: page.heading, intro: page.intro, action: page.links?.find(link => link.href.startsWith('/')) || null }) : ''}<div class="page-shell static-page">
+      ${referenceLayout ? '' : `<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>${parent}<li aria-current="page">${escapeHtml(page.label)}</li></ol></nav>
       <div class="collection-heading">
         <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>${escapeHtml(page.eyebrow)}</span>
         <h1>${escapeHtml(page.heading)}</h1>
         <p>${escapeHtml(page.intro)}</p>
-      </div>
-      ${search}${cart}${wishlist}${checkout}${orderTracking}${account}${newsletter}${blocks}${links}${faq}
+      </div>`}
+      ${search}${cart}${wishlist}${checkout}${orderTracking}${account}${referenceLayout === 'newsletter' ? '' : newsletter}${blocks}${links}${faq}
       ${page.note ? `<p class="page-note">${escapeHtml(page.note)}</p>` : ''}
     </div>`
   });
