@@ -1,0 +1,803 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   OPAR V2 — "The Double-Sided Herbarium & Apothecary"
+   Loaded exclusively on noindex /v2/* preview routes alongside product-pages.css
+   and non-home-branding.css. Does not alter production routes or freeze CSS.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Living Threshold Header & Sub-Bar ────────────────────────────────── */
+body.v2-doc .header-status {
+  display: none;
+}
+
+.v2-threshold {
+  position: relative;
+  z-index: 20;
+  border-bottom: 1px solid var(--line);
+  padding: 0 max(var(--gutter), calc((100vw - 1484px) / 2));
+  background: var(--canvas);
+  color: var(--body);
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.v2-threshold__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 32px;
+  padding: 6px 0;
+  flex-wrap: wrap;
+}
+
+.v2-threshold__place {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.v2-threshold__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-text);
+  flex-shrink: 0;
+}
+
+.v2-threshold__meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  color: var(--body);
+  font-variant-numeric: tabular-nums;
+}
+
+.v2-threshold__exit {
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-weight: 600;
+}
+
+.v2-threshold__exit:hover {
+  color: var(--ink);
+}
+
+/* ── 2. Cross-the-Threshold Split Footer ─────────────────────────────────── */
+.v2-split-band {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 40px);
+  padding-bottom: 32px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--footer-line);
+}
+
+.v2-split-wing {
+  padding: 20px 24px;
+  border: 1px solid var(--footer-line);
+  background: rgba(47, 51, 43, .45);
+}
+
+.v2-split-wing--paper {
+  background: rgba(244, 242, 238, .05);
+  border-color: rgba(208, 211, 196, .28);
+}
+
+.v2-split-wing .eyebrow {
+  color: var(--opar-cta);
+}
+
+.v2-split-wing h3 {
+  margin-top: 8px;
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--opar-text);
+}
+
+.v2-split-wing p {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--opar-mist);
+  max-width: 44ch;
+}
+
+.v2-split-wing__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 22px;
+  margin-top: 14px;
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.v2-split-wing__links a {
+  color: var(--opar-text);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.v2-split-wing__links a:hover {
+  color: var(--opar-cta);
+}
+
+/* ── 3. V2 Homepage Hero Index & Pressed Specimen Plates ─────────────────── */
+.v2-hero-index {
+  position: absolute;
+  right: max(var(--gutter), calc((100vw - 1484px) / 2));
+  bottom: clamp(64px, 8vw, 112px);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end;
+  padding-left: 20px;
+  border-right: 1px solid rgba(197, 173, 112, .35);
+  padding-right: 16px;
+}
+
+.v2-hero-index a {
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--opar-mist);
+  transition: color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+
+.v2-hero-index a:hover {
+  color: var(--opar-gold);
+  transform: translateX(-3px);
+}
+
+.v2-empty-mount {
+  padding: 0 !important;
+}
+
+.v2-specimen-plate {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: clamp(18px, 2.4vw, 28px);
+  background: var(--opar-text);
+  color: var(--opar-ground);
+  border: 1px solid rgba(47, 51, 43, .14);
+  background-image: url('/assets/OPAR-ui-mockup-templates/assets/section-bg-paper.png');
+  background-size: cover;
+  overflow: hidden;
+}
+
+.v2-specimen-plate__orbit {
+  position: absolute;
+  right: -32px;
+  bottom: -32px;
+  width: 180px;
+  height: 180px;
+  opacity: .075;
+  pointer-events: none;
+}
+
+.v2-specimen-plate__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 9px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--opar-accent);
+  border-bottom: 1px solid var(--opar-paper-line);
+  padding-bottom: 10px;
+}
+
+.v2-specimen-plate__body {
+  position: relative;
+  z-index: 1;
+  margin: auto 0;
+  padding: 16px 0;
+}
+
+.v2-specimen-plate__latin {
+  display: block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(20px, 2.1vw, 27px);
+  line-height: 1.15;
+  color: var(--opar-ground);
+}
+
+.v2-specimen-plate__sub {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--opar-paper-body);
+}
+
+.v2-specimen-plate__foot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--opar-paper-line);
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--opar-paper-body);
+}
+
+/* ── 4. Subtle Orbital Rotation on Imageless Paper Openers ─────────────── */
+/* Scroll-linked subtle orbital rotation */
+body.v2-doc .paper-opener__mark {
+  transform: rotate(var(--v2-orbit-deg, 0deg));
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* ── 5. V2 Botanical Folio PDP (Static Top Pair + Fixed Monograph Band) ───── */
+.v2-folio-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+  gap: clamp(32px, 4.5vw, 68px);
+  align-items: start;
+  margin-top: 12px;
+}
+
+body.v2-doc .v2-folio-layout .product-gallery {
+  position: static;
+  top: auto;
+  max-width: none;
+  width: 100%;
+}
+
+.v2-folio-sheet {
+  position: static;
+  min-width: 0;
+  padding-top: 4px;
+}
+
+.v2-folio-sheet h1 {
+  font-size: clamp(2.1rem, 3vw, 3.1rem);
+  margin-top: 10px;
+}
+
+/* Unified Folio Reference + Verification Summary inside purchase folio */
+.v2-folio-ref {
+  margin: 20px 0 0;
+  padding: 16px 18px;
+  background: var(--opar-text);
+  border: 1px solid var(--opar-paper-line);
+  display: grid;
+  gap: 14px;
+}
+
+.v2-folio-ref__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--opar-paper-line);
+}
+
+.v2-folio-ref__tally {
+  font-size: 11px;
+  color: var(--opar-paper-body);
+  font-variant-numeric: tabular-nums;
+}
+
+.v2-folio-ref__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 20px;
+  margin: 0;
+}
+
+.v2-folio-ref__grid dt {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--opar-accent);
+  margin-bottom: 2px;
+}
+
+.v2-folio-ref__grid dd {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--opar-ground);
+  font-variant-numeric: tabular-nums;
+  word-break: break-word;
+}
+
+.v2-verify-meter {
+  padding-top: 12px;
+  border-top: 1px solid var(--opar-paper-line);
+  display: grid;
+  gap: 8px;
+}
+
+.v2-verify-meter__title {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--opar-accent);
+}
+
+.v2-verify-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--opar-ground);
+  padding-top: 6px;
+  border-top: 1px solid var(--opar-paper-line);
+}
+
+.v2-verify-row:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.v2-folio-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 20px;
+  margin-top: 14px;
+}
+
+.v2-copy-folio {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+/* Fixed full-width Material Provenance Monograph below the top gallery/buy-box pair */
+.v2-monograph-band {
+  margin-top: clamp(36px, 4.5vw, 56px);
+  padding: clamp(24px, 3vw, 38px);
+  background: var(--opar-paper-raised);
+  border: 1px solid var(--opar-paper-line);
+  display: grid;
+  gap: 24px;
+}
+
+.v2-monograph-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--opar-paper-line);
+}
+
+.v2-monograph-head h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  font-weight: 400;
+  color: var(--opar-ground);
+}
+
+.v2-monograph-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+}
+
+.v2-monograph-quote {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.45rem, 2.1vw, 1.95rem);
+  line-height: 1.28;
+  color: var(--opar-ground);
+  margin: 0;
+}
+
+.v2-habitat-plate {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+  padding: 14px;
+  background: var(--opar-text);
+  border: 1px solid var(--opar-paper-line);
+}
+
+.v2-habitat-plate img {
+  width: 140px;
+  height: 96px;
+  object-fit: cover;
+  border: 1px solid var(--opar-paper-line);
+}
+
+.v2-habitat-plate strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--opar-ground);
+}
+
+.v2-habitat-plate p {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--opar-paper-body);
+}
+
+.v2-monograph-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: clamp(22px, 3.2vw, 44px);
+  align-items: start;
+}
+
+.v2-monograph-prose {
+  display: grid;
+  gap: 14px;
+}
+
+.v2-monograph-prose p {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--opar-ground);
+}
+
+.v2-monograph-aside {
+  display: grid;
+  gap: 18px;
+}
+
+.v2-censor-stamp {
+  padding: 16px 18px;
+  border: 1px dashed var(--opar-accent);
+  background: var(--opar-text);
+}
+
+.v2-censor-stamp__seal {
+  display: inline-block;
+  padding: 3px 9px;
+  border: 1px solid var(--opar-ground);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--opar-ground);
+  margin-bottom: 10px;
+}
+
+.v2-censor-stamp p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--opar-paper-body);
+}
+
+/* Known & Documented specification ledger */
+.v2-claims-ledger {
+  margin-top: 44px;
+  padding-top: 36px;
+  border-top: 1px solid var(--opar-paper-line);
+}
+
+.v2-ledger-col {
+  border: 1px solid var(--opar-paper-line);
+  background: var(--opar-text);
+  padding: 22px 24px;
+}
+
+.v2-ledger-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.v2-ledger-list--specs {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 36px;
+}
+
+.v2-ledger-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--opar-paper-line);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.v2-ledger-list:not(.v2-ledger-list--specs) li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* ── 6. Perennis & Journal Sacred Fine-Press Environment (Moss) ──────────── */
+.v2-chapter-opener {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(32px, 4.5vw, 56px) clamp(24px, 4vw, 48px);
+  margin: 20px 0 44px;
+  border: 1px solid var(--line);
+  background-color: var(--opar-well);
+}
+
+.v2-chapter-opener::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/assets/OPAR-ui-mockup-templates/assets/section-bg-ground.png') center / cover no-repeat;
+  opacity: .55;
+  pointer-events: none;
+}
+
+.v2-chapter-opener > * {
+  position: relative;
+  z-index: 1;
+}
+
+.v2-finepress {
+  max-width: 58ch;
+  margin: 0 auto;
+}
+
+.v2-finepress-section {
+  position: relative;
+  padding: 36px 0;
+  border-top: 1px solid var(--line);
+}
+
+.v2-roman-numeral {
+  display: inline-block;
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: .24em;
+  color: var(--opar-gold);
+  border-bottom: 1px solid rgba(197, 173, 112, .45);
+  padding-bottom: 4px;
+  margin-bottom: 14px;
+}
+
+.v2-finepress-section h2 {
+  margin-bottom: 18px;
+}
+
+.v2-finepress-section p {
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--opar-mist);
+  margin-bottom: 16px;
+}
+
+.v2-dropcap::first-letter {
+  float: left;
+  font-family: var(--serif);
+  font-size: 4.1rem;
+  line-height: .82;
+  padding: 6px 12px 0 0;
+  color: var(--opar-gold);
+  font-weight: 500;
+}
+
+.v2-colophon {
+  margin-top: 44px;
+  padding: 28px 30px;
+  border: 1px solid rgba(197, 173, 112, .32);
+  background: var(--opar-well);
+}
+
+.v2-colophon h2 {
+  font-size: 24px;
+  margin-top: 8px;
+  margin-bottom: 14px;
+}
+
+.v2-colophon-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 24px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--opar-mist);
+}
+
+.v2-colophon-grid dt {
+  font-size: 9px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--opar-gold);
+  margin-bottom: 4px;
+}
+
+.v2-colophon-grid dd {
+  margin: 0;
+}
+
+/* Consent-First Acoustic Listening Plate (Perennis Music) */
+.v2-listening-plate {
+  max-width: 720px;
+  margin: 24px auto 48px;
+  padding: clamp(28px, 4vw, 48px);
+  border: 1px solid rgba(197, 173, 112, .3);
+  background: var(--opar-well);
+  text-align: center;
+}
+
+.v2-listening-seal {
+  width: clamp(140px, 24vw, 190px);
+  height: auto;
+  margin: 0 auto 24px;
+  opacity: .92;
+}
+
+.v2-listening-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.85rem, 3vw, 2.5rem);
+  color: var(--opar-text);
+}
+
+.v2-listening-credit {
+  margin-top: 8px;
+  font-size: 12px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--opar-gold);
+}
+
+.v2-listening-veil {
+  margin-top: 24px;
+  padding: 20px 24px;
+  border: 1px dashed var(--line);
+  background: rgba(47, 51, 43, .65);
+}
+
+.v2-listening-veil p {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--opar-mist);
+  margin-bottom: 16px;
+}
+
+.v2-listening-deck {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid var(--opar-cta);
+  background: rgba(154, 166, 108, .08);
+  text-align: left;
+}
+
+.v2-listening-deck[hidden] {
+  display: none;
+}
+
+.v2-listening-deck__copy {
+  margin-top: 8px;
+}
+
+/* ── 7. Atelier Proforma Sheet (/v2/checkout/) ───────────────────────────── */
+.v2-proforma {
+  margin-top: 24px;
+  padding: clamp(24px, 3vw, 36px);
+  border: 1px solid var(--opar-ground);
+  background: var(--opar-text);
+  color: var(--opar-ground);
+}
+
+.v2-proforma__copy {
+  margin-top: 14px;
+}
+
+.v2-proforma__links {
+  margin-top: 18px;
+}
+
+.v2-proforma__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--opar-paper-line);
+}
+
+.v2-proforma__seal {
+  width: 64px;
+  height: 64px;
+  mix-blend-mode: multiply;
+}
+
+.v2-proforma__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 13px;
+}
+
+.v2-proforma__table th,
+.v2-proforma__table td {
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--opar-paper-line);
+  text-align: left;
+}
+
+.v2-proforma__table th {
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--opar-accent);
+}
+
+.v2-proforma__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+/* ── Responsive Adjustments ──────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .v2-folio-layout,
+  .v2-monograph-top,
+  .v2-monograph-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .v2-hero-index {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .v2-split-band,
+  .v2-ledger-list--specs,
+  .v2-colophon-grid,
+  .v2-habitat-plate,
+  .v2-folio-ref__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media print {
+  .site-header,
+  .v2-threshold,
+  .breadcrumbs,
+  .collection-heading,
+  .paper-opener,
+  .checkout-form,
+  .checkout-summary,
+  .site-footer,
+  .v2-proforma__actions,
+  .content-links {
+    display: none !important;
+  }
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .v2-proforma {
+    border: 1px solid #000000;
+  }
+}

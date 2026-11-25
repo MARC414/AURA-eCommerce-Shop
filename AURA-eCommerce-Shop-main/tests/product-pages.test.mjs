@@ -1379,4 +1379,75 @@ test('Live Warm Paper commercial architecture: pure Paper PDPs, Paper orbit imag
   assert.match(nonHomeCss, /body\.theme-paper \.paper-opener::before[\s\S]*section-bg-paper\.png/);
 });
 
+test('Isolated V2 Herbarium & Apothecary preview renders all key experiences under /v2/ with zero live-site interference', async () => {
+  const { renderV2Home, renderV2Collection, renderV2Product, renderV2Static } = await import('../templates/v2-site.mjs');
+
+  const v2Home = renderV2Home(products);
+  const v2Shop = renderV2Collection('dropshipping', products);
+  const v2Pdp = renderV2Product(aloeProduct, products);
+  const v2Books = renderV2Static(pageAt('/perennis/books/'));
+  const v2Music = renderV2Static(pageAt('/perennis/music/'));
+  const v2Checkout = renderV2Static(pageAt('/checkout/'));
+
+  for (const doc of [v2Home, v2Shop, v2Pdp, v2Books, v2Music, v2Checkout]) {
+    assert.match(doc, /<meta name="robots" content="noindex, nofollow">/);
+    assert.match(doc, /class="[^"]*v2-doc/);
+    assert.match(doc, /class="v2-threshold"/);
+    assert.match(doc, /class="v2-split-band"/);
+    assert.match(doc, /href="\/assets\/v2-editorial\.css"/);
+    assert.match(doc, /src="\/assets\/v2-editorial\.js"/);
+  }
+
+  // Homepage V2: pressed specimen plates, studio room medallions, right hero index
+  assert.match(v2Home, /class="v2-hero-index"/);
+  assert.match(v2Home, /class="v2-specimen-plate"/);
+  assert.match(v2Home, /class="room-index__figure"/);
+
+  // Shop V2: Clean card grid without Plates/Ledger switcher or MutationObserver loop
+  assert.doesNotMatch(v2Shop, /data-v2-view-toggle|data-v2-ledger/);
+  const v2Js = await readFile(new URL('../public/assets/v2-editorial.js', import.meta.url), 'utf8');
+  assert.doesNotMatch(v2Js, /gridObserver|syncLedgerWithGrid/);
+  assert.match(v2Js, /data-v2-folio-sku/);
+
+  // Folio PDP V2: Static top pair, fixed Monograph band below, unified Folio Reference, Known & Documented
+  const v2AshwagandhaPdp = renderV2Product(products.find(p => p.slug === 'ashwagandha-with-black-pepper'), products);
+  const v2TurmericPdp = renderV2Product(products.find(p => p.slug === 'turmeric-cleansing-soap'), products);
+  const v2PadsPdp = renderV2Product(products.find(p => p.slug === 'turmeric-cleansing-pads'), products);
+  const v2Css = await readFile(new URL('../public/assets/v2-editorial.css', import.meta.url), 'utf8');
+  assert.match(v2Css, /body\.v2-doc \.v2-folio-layout \.product-gallery\s*\{[^}]*position:\s*static;/);
+
+  assert.match(v2Pdp, /v2-folio-layout/);
+  assert.match(v2Pdp, /<\/article>\s*<section class="v2-monograph-band"/, 'Monograph band sits fixed below top gallery/buy-box pair');
+  assert.doesNotMatch(v2Pdp, /v2-habitat-plate|botanical-archipelago\.jpg/, 'Non-matching product omits generic herb habitat plate');
+  assert.match(v2Pdp, /class="v2-folio-ref"/);
+  assert.match(v2Pdp, /data-v2-folio-sku[^>]*>OPAR-EC-02A</);
+  assert.match(v2Pdp, /data-variant-sku="OPAR-EC-02B"/);
+  assert.match(v2Pdp, /0 of 9 checks verified/);
+  assert.match(v2Pdp, /data-v2-folio-rate[^>]*>£8\.50 GBP</);
+  assert.match(v2Pdp, /data-v2-copy-folio/);
+  assert.match(v2Pdp, /Known &amp; Documented/);
+  assert.doesNotMatch(v2Pdp, /Excluded \/ Withheld|class="v2-struck"/);
+
+  assert.match(v2AshwagandhaPdp, /v2-habitat-plate[\s\S]*ashwagandha-env-forest\.jpg/);
+  assert.match(v2AshwagandhaPdp, /0 of 10 checks verified/);
+  assert.match(v2TurmericPdp, /v2-habitat-plate[\s\S]*turmeric-plantation-env\.jpg/);
+  assert.match(v2PadsPdp, /Price on CJ[\s\S]*data-v2-copy-folio/);
+
+  // Perennis V2: Fine-Press colophon + Consent-first Acoustic Plate
+  assert.match(v2Books, /v2-dropcap/);
+  assert.match(v2Books, /v2-colophon/);
+  assert.match(v2Music, /v2-listening-plate/);
+  assert.match(v2Music, /data-v2-consent-load/);
+
+  // Checkout V2: Atelier Proforma Inquiry Sheet
+  assert.match(v2Checkout, /data-v2-proforma/);
+  assert.match(v2Checkout, /data-v2-print-proforma/);
+  assert.match(v2Checkout, /data-v2-copy-ref/);
+
+  // Verify V2 stays excluded from customer sitemap and search index
+  const sitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8');
+  const searchIndex = await readFile(new URL('../public/assets/search-index.json', import.meta.url), 'utf8');
+  assert.doesNotMatch(sitemap + searchIndex, /\/v2\//);
+});
+
 
