@@ -30,3 +30,263 @@ body.theme-paper .shop-hero {
 body.theme-paper .shop-hero a:hover { color: var(--opar-cta); }
 body.theme-paper .shop-hero :focus-visible { outline-color: var(--focus-ring-light); }
 body.theme-paper .filter-sort-select { color-scheme: light; }
+
+/* ── Warm Paper commercial architecture (live commerce & utility pages) ──────
+   Scoped strictly to body.theme-paper so / (frozen) and Moss editorial pages
+   retain their dark canopy grounds and capsule pill buttons intact. */
+body.theme-paper .button,
+body.theme-paper .external-cta,
+body.theme-paper .badge,
+body.theme-paper .image-corner-label,
+body.theme-paper .status-pill {
+  border-radius: 0;
+}
+body.theme-paper .button {
+  padding: 15px 22px;
+  min-height: 48px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .15em;
+  line-height: 1.5;
+}
+body.theme-paper .button-small {
+  min-height: 44px;
+  padding: 12px 18px;
+}
+body.theme-paper .button-primary {
+  background: var(--opar-cta);
+  color: var(--opar-ground);
+  border-color: var(--opar-accent);
+}
+body.theme-paper .button-primary:hover:not(:disabled) {
+  background: var(--opar-mist);
+  border-color: var(--opar-ground);
+  color: var(--opar-ground);
+}
+body.theme-paper .button-secondary {
+  background: transparent;
+  color: var(--opar-accent);
+  border-color: var(--opar-accent);
+}
+body.theme-paper .button-secondary:hover:not(:disabled) {
+  background: var(--opar-accent);
+  border-color: var(--opar-accent);
+  color: var(--opar-text);
+}
+body.theme-paper .external-cta {
+  background: transparent;
+  color: var(--opar-accent);
+  border-color: var(--opar-accent);
+}
+body.theme-paper .external-cta:hover:not(:disabled) {
+  background: var(--opar-accent);
+  border-color: var(--opar-accent);
+  color: var(--opar-text);
+}
+
+/* Framed zero-radius product cards on #F4F2EE with #E2E1DC recessed wells */
+body.theme-paper .product-card {
+  background: var(--opar-text);
+  color: var(--opar-ground);
+  border: 1px solid var(--opar-paper-line);
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+body.theme-paper .product-card:hover {
+  border-color: var(--opar-accent);
+}
+body.theme-paper .product-card .card-image {
+  background: var(--opar-paper-raised);
+  border: 0;
+  border-bottom: 1px solid var(--opar-paper-line);
+}
+body.theme-paper .product-card .card-copy {
+  padding: 18px 18px 20px;
+}
+body.theme-paper .product-card .card-copy h3 {
+  font-family: var(--serif);
+  font-size: clamp(22px, 2vw, 27px);
+  font-weight: 400;
+  line-height: 1.14;
+  margin-top: 7px;
+}
+body.theme-paper .product-card .card-copy > p {
+  color: var(--opar-paper-body);
+  font-size: 14px;
+  line-height: 1.65;
+}
+body.theme-paper .product-card .card-price {
+  color: var(--opar-ground);
+}
+body.theme-paper .card-image > .badge {
+  top: 14px;
+  left: 14px;
+  background: var(--opar-text);
+  border-color: var(--opar-paper-line);
+  color: var(--opar-ground);
+}
+body.theme-paper .card-image > .badge.badge-partner {
+  background: var(--opar-accent);
+  border-color: var(--opar-accent);
+  color: var(--opar-text);
+}
+
+/* Pure Warm Paper PDP gallery, buy-box, and editorial disclosures */
+body.theme-paper .main-image,
+body.theme-paper .thumbnail,
+body.theme-paper .commerce-thumb {
+  background: var(--opar-paper-raised);
+  border: 1px solid var(--opar-paper-line);
+}
+body.theme-paper .thumbnail[aria-pressed="true"] {
+  border-width: 2px;
+  border-color: var(--opar-accent);
+}
+body.theme-paper .image-corner-label {
+  background: var(--opar-text);
+  color: var(--opar-ground);
+  border-color: var(--opar-paper-line);
+}
+body.theme-paper .purchase-panel {
+  background: var(--opar-paper-raised);
+  border: 1px solid var(--opar-paper-line);
+  padding: clamp(22px, 3vw, 30px);
+  margin-top: 28px;
+}
+body.theme-paper .variant-field select,
+body.theme-paper .quantity-control,
+body.theme-paper .search-form input,
+body.theme-paper .field :is(input, select, textarea) {
+  background: var(--opar-text);
+  border-color: var(--opar-paper-line);
+  color: var(--opar-ground);
+  border-radius: 0;
+}
+body.theme-paper .care-callout,
+body.theme-paper .disclosure,
+body.theme-paper .rp-note {
+  background: var(--opar-paper-raised);
+  border: 1px solid var(--opar-paper-line);
+  padding: 16px 20px;
+}
+body.theme-paper .source-note {
+  border-left: 0;
+  border-top: 1px solid var(--opar-paper-line);
+  padding: 16px 0 0;
+}
+body.theme-paper .practical-grid details,
+body.theme-paper .claims-panel,
+body.theme-paper .payment-group,
+body.theme-paper .shop-empty {
+  background: var(--opar-paper-raised);
+  border-color: var(--opar-paper-line);
+}
+
+/* Imageless Paper Openers: subtle Paper texture + right-anchored green orbit mark */
+body.theme-paper .paper-opener {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  margin: clamp(20px, 3vw, 32px) 0 clamp(28px, 4vw, 44px);
+  padding: clamp(24px, 3.8vw, 48px) clamp(20px, 4vw, 48px);
+  background-color: var(--opar-text);
+  border: 1px solid var(--opar-paper-line);
+}
+body.theme-paper .paper-opener::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url('/assets/OPAR-ui-mockup-templates/assets/section-bg-paper.png') center / cover no-repeat;
+  opacity: .45;
+}
+body.theme-paper .paper-opener__mark {
+  position: absolute;
+  right: clamp(-110px, -4vw, -40px);
+  top: clamp(-70px, -4vw, -28px);
+  width: clamp(260px, 32vw, 460px);
+  height: auto;
+  opacity: .075;
+  pointer-events: none;
+  z-index: 0;
+}
+body.theme-paper .paper-opener > :not(.paper-opener__mark) {
+  position: relative;
+  z-index: 1;
+}
+body.theme-paper .paper-opener .breadcrumbs {
+  padding: 0 0 18px;
+}
+body.theme-paper .paper-opener .collection-heading {
+  margin: 0;
+}
+
+/* Empty product mounts: layered orbital mark behind botanical room stroke */
+body.theme-paper .empty-mount {
+  background: var(--opar-paper-raised);
+}
+body.theme-paper .empty-mount::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: url('/assets/OPAR-ui-mockup-templates/assets/section-bg-paper.png') center / cover no-repeat;
+  opacity: .24;
+  mix-blend-mode: multiply;
+}
+.empty-mount__orbit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(128px, 56%, 220px);
+  height: auto;
+  opacity: .075;
+  pointer-events: none;
+  z-index: 0;
+}
+.empty-mount__mark,
+.empty-mount__label {
+  position: relative;
+  z-index: 1;
+}
+
+/* Decorative Warm Paper medallion pause between major catalogue sections */
+.paper-pause {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 28px);
+  margin: clamp(44px, 5.5vw, 68px) 0 0;
+}
+.paper-pause::before,
+.paper-pause::after {
+  content: '';
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--opar-paper-line);
+}
+.paper-pause img {
+  display: block;
+  width: clamp(56px, 6vw, 72px);
+  height: auto;
+  flex-shrink: 0;
+  mix-blend-mode: multiply;
+  opacity: .84;
+}
+
+@media (max-width: 760px) {
+  body.theme-paper .paper-opener {
+    margin: 16px 0 28px;
+    padding: 22px 18px;
+  }
+  body.theme-paper .paper-opener__mark {
+    width: 240px;
+    right: -80px;
+    top: -48px;
+    opacity: .06;
+  }
+  body.theme-paper .purchase-panel {
+    padding: 20px 18px;
+  }
+}
+

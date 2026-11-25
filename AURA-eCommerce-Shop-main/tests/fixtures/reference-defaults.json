@@ -1,8 +1,8 @@
 {
   "routes": 49,
-  "baseline": "22a4a0f non-homepage updates plus D-053 frozen-home restoration",
-  "previousDefaultOutputs": "a3cd5831791251a3e57f95b90f5a3e879154400167296654a428f3b2c109902e",
-  "defaultOutputs": "9da103adf3fe76bd914dc2f60e4e5d6980e446eeb8079bd5bd0e002418ed0ac5",
+  "baseline": "Live Warm Paper commercial architecture with rectangular buttons + frozen Moss homepage",
+  "previousDefaultOutputs": "9da103adf3fe76bd914dc2f60e4e5d6980e446eeb8079bd5bd0e002418ed0ac5",
+  "defaultOutputs": "f47d21c0c4465c2ccdbd4efdd51ee18833c742687f610f6b285cebe283616c2f",
   "sharedCSS": "2ae46487e19406427a2d612caab7cff0714977272fe5a20a3c165ac0a2d6139c",
   "mockupFiles": 20,
   "mockupAssets": "381e3e6c6a9e68003d437d2d900d6582a658fadfffc5cf0c14cb641adf734c2f"

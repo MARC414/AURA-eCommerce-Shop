@@ -1343,3 +1343,40 @@ test('remote non-homepage themes, emblems, favicons and showcase survive the fro
   assert.match(previewHtml, /opar-section-bg-wide-ground-2400x1400\.png/);
 });
 
+test('Live Warm Paper commercial architecture: pure Paper PDPs, Paper orbit imageless openers, empty-mount orbits, medallion pauses, and rectangular buttons', async () => {
+  const shopHub = renderCollection('dropshipping', products);
+  const discoverHub = renderCollection('affiliate', products);
+  const roomPage = renderCategoryPage(collections[0], products);
+  const mossJournal = renderStaticPage(pageAt('/journal/'));
+
+  // Shop retains studio photo hero; imageless commercial hubs use Paper orbit openers
+  assert.match(shopHub, /<section class="shop-hero"/);
+  assert.doesNotMatch(shopHub, /class="paper-opener"/);
+  assert.match(shopHub, /class="paper-pause"/);
+
+  for (const imagelessHtml of [discoverHub, roomPage, cartPage, checkoutPage, accountPage]) {
+    assert.match(imagelessHtml, /class="paper-opener"/);
+    assert.match(imagelessHtml, /class="paper-opener__mark" src="\/assets\/brand\/web\/opar-mark-green\.svg"/);
+  }
+  assert.doesNotMatch(mossJournal, /class="paper-opener"/, 'Moss editorial pages keep dark canopy headings');
+
+  // Empty product mounts carry orbital SVG mark behind botanical stroke
+  assert.match(aloePage, /class="empty-mount__orbit" src="\/assets\/brand\/web\/opar-mark-green\.svg"/);
+
+  // Live PDPs stay pure Warm Paper (no Moss split buy-box) and feature medallion pause before details
+  for (const pageHtml of [shopPage, affiliatePage, aloePage, ashwagandhaPage]) {
+    assert.match(pageHtml, /<body class="theme-paper">/);
+    assert.doesNotMatch(pageHtml, /reference-product__details/);
+    assert.match(pageHtml, /class="paper-pause"[^>]*><img src="\/assets\/OPAR-brand-assets\/opar-medallion-paper-1200\.png"/);
+  }
+
+  // Non-home stylesheet defines rectangular buttons, framed cards, and Warm Paper PDP surfaces scoped to theme-paper
+  const nonHomeCss = await readFile(new URL('../public/assets/non-home-branding.css', import.meta.url), 'utf8');
+  assert.match(nonHomeCss, /body\.theme-paper \.button[\s\S]*border-radius:\s*0;/);
+  assert.match(nonHomeCss, /body\.theme-paper \.product-card\s*\{[^}]*border:\s*1px solid var\(--opar-paper-line\);/);
+  assert.match(nonHomeCss, /body\.theme-paper \.product-card \.card-image\s*\{[^}]*background:\s*var\(--opar-paper-raised\);/);
+  assert.match(nonHomeCss, /body\.theme-paper \.purchase-panel\s*\{[^}]*background:\s*var\(--opar-paper-raised\);/);
+  assert.match(nonHomeCss, /body\.theme-paper \.paper-opener::before[\s\S]*section-bg-paper\.png/);
+});
+
+

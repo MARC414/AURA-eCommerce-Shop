@@ -194,6 +194,7 @@ export function renderCollection(modelName, products, documentOptions = {}) {
             </div>
           </div>
         </div>
+        ${referenceLayout ? '' : '<div class="paper-pause" aria-hidden="true"><img src="/assets/OPAR-brand-assets/opar-medallion-paper-1200.png" alt="" width="72" height="72" loading="lazy" decoding="async"></div>'}
       </div>
     </div>`
     });
@@ -207,14 +208,18 @@ export function renderCollection(modelName, products, documentOptions = {}) {
     theme: 'theme-paper',
     ...shellOptions,
     content: `<div class="page-shell collection-page">
-      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">${model.label}</li></ol></nav>
-      <div class="collection-heading">
-        <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>A different way to discover</span>
-        <h1>${model.heading}</h1>
-        <p>${model.description}</p>
-      </div>
+      <header class="${referenceLayout ? 'collection-opener' : 'paper-opener'}">
+        ${referenceLayout ? '' : '<img class="paper-opener__mark" src="/assets/brand/web/opar-mark-green.svg" alt="" aria-hidden="true" width="460" height="460" loading="lazy" decoding="async">'}
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">${model.label}</li></ol></nav>
+        <div class="collection-heading">
+          <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>A different way to discover</span>
+          <h1>${model.heading}</h1>
+          <p>${model.description}</p>
+        </div>
+      </header>
       <div class="hub-explainer"><span class="badge badge-partner">${model.badge}</span><p>You browse here; the purchase, delivery and returns take place on the linked merchant’s website.</p></div>
       ${referenceLayout ? referenceRooms(null) : ''}<div class="product-cards${referenceLayout ? ' reference-card-grid' : ''}">${list.map((product, index) => card(product, index)).join('') || '<p>Pieces will be added as the collection develops.</p>'}</div>
+      ${referenceLayout ? '' : '<div class="paper-pause" aria-hidden="true"><img src="/assets/OPAR-brand-assets/opar-medallion-paper-1200.png" alt="" width="72" height="72" loading="lazy" decoding="async"></div>'}
     </div>`
   });
 }
@@ -235,14 +240,18 @@ export function renderCategoryPage(collection, products, documentOptions = {}) {
     theme: 'theme-paper',
     ...shellOptions,
     content: `${referenceLayout ? renderReferenceHero({ surface: 'paper', eyebrow: collection.eyebrow, heading: collection.heading, intro: collection.intro, action: { href: '#category-reference-results', label: 'Explore this room' } }) : ''}<div class="page-shell collection-page room-page"${referenceLayout ? ' id="category-reference-results"' : ''}>
-      ${referenceLayout ? '' : `<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/shop/">Shop</a></li><li aria-current="page">${escapeHtml(collection.label)}</li></ol></nav>
-      <div class="collection-heading">
-        <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>${escapeHtml(collection.eyebrow)}</span>
-        <h1>${escapeHtml(collection.heading)}</h1>
-        <p>${escapeHtml(collection.intro)}</p>
-      </div>`}
+      ${referenceLayout ? '' : `<header class="paper-opener">
+        <img class="paper-opener__mark" src="/assets/brand/web/opar-mark-green.svg" alt="" aria-hidden="true" width="460" height="460" loading="lazy" decoding="async">
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/shop/">Shop</a></li><li aria-current="page">${escapeHtml(collection.label)}</li></ol></nav>
+        <div class="collection-heading">
+          <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>${escapeHtml(collection.eyebrow)}</span>
+          <h1>${escapeHtml(collection.heading)}</h1>
+          <p>${escapeHtml(collection.intro)}</p>
+        </div>
+      </header>`}
       <div class="category-toolbar"><span class="small-note">${list.length} ${list.length === 1 ? 'piece' : 'pieces'} in this room</span><a class="text-link" href="/shop/">All pieces ${arrow}</a></div>
       ${referenceLayout ? referenceRooms(collection.slug) : ''}<div class="product-cards${referenceLayout ? ' reference-card-grid' : ''}">${list.map((product, index) => card(product, index)).join('') || `<div class="empty-collection"><p>Pieces are being selected for this room.</p><a class="text-link" href="/shop/">Browse everything in the shop ${arrow}</a></div>`}</div>
+      ${referenceLayout ? '' : '<div class="paper-pause" aria-hidden="true"><img src="/assets/OPAR-brand-assets/opar-medallion-paper-1200.png" alt="" width="72" height="72" loading="lazy" decoding="async"></div>'}
     </div>`
   });
 }

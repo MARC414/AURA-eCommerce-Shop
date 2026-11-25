@@ -150,6 +150,7 @@ function emptyMountMarkup(category, { compact = false, hidden = false } = {}) {
     <span class="empty-mount__corner empty-mount__corner--tr"></span>
     <span class="empty-mount__corner empty-mount__corner--bl"></span>
     <span class="empty-mount__corner empty-mount__corner--br"></span>
+    <img class="empty-mount__orbit" src="/assets/brand/web/opar-mark-green.svg" alt="" width="220" height="220" loading="lazy" decoding="async">
     ${roomBotanicalMark(category)}
     <span class="empty-mount__label">Photograph in preparation</span>
   </div>`;
@@ -612,7 +613,7 @@ function productDocument(product, products, actions, documentOptions = {}) {
             <div class="sourcing-note"><span class="eyebrow">Selected source · ${escapeHtml(product.sourceName)}</span><p>${escapeHtml(product.dataNote)}</p></div>
           </div>
         </article>
-        ${referenceLayout ? '<div class="page-shell reference-product__following">' : ''}${details(product)}
+        ${referenceLayout ? '<div class="page-shell reference-product__following">' : '<div class="paper-pause" aria-hidden="true"><img src="/assets/OPAR-brand-assets/opar-medallion-paper-1200.png" alt="" width="72" height="72" loading="lazy" decoding="async"></div>'}${details(product)}
         ${related(product, products)}${referenceLayout ? '</div>' : ''}
       </div>`
   });

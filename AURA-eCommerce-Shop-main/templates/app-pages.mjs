@@ -245,7 +245,15 @@ export function renderStaticPage(page, documentOptions = {}) {
     scripts: pageScripts,
     ...shellOptions,
     content: `${referenceLayout === 'newsletter' ? renderReferenceNewsletter({ page, form: newsletter }) : referenceLayout ? renderReferenceHero({ surface: 'moss', eyebrow: page.eyebrow, heading: page.heading, intro: page.intro, action: page.links?.find(link => link.href.startsWith('/')) || null }) : ''}<div class="page-shell static-page">
-      ${referenceLayout ? '' : `<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>${parent}<li aria-current="page">${escapeHtml(page.label)}</li></ol></nav>
+      ${referenceLayout ? '' : usePaperTheme ? `<header class="paper-opener">
+        <img class="paper-opener__mark" src="/assets/brand/web/opar-mark-green.svg" alt="" aria-hidden="true" width="460" height="460" loading="lazy" decoding="async">
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>${parent}<li aria-current="page">${escapeHtml(page.label)}</li></ol></nav>
+        <div class="collection-heading">
+          <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>${escapeHtml(page.eyebrow)}</span>
+          <h1>${escapeHtml(page.heading)}</h1>
+          <p>${escapeHtml(page.intro)}</p>
+        </div>
+      </header>` : `<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>${parent}<li aria-current="page">${escapeHtml(page.label)}</li></ol></nav>
       <div class="collection-heading">
         <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>${escapeHtml(page.eyebrow)}</span>
         <h1>${escapeHtml(page.heading)}</h1>
