@@ -1,49 +1,18 @@
 /**
- * The homepage: three sections and nothing else.
- *
- * Ported from components/Hero.tsx, components/FeaturedProducts.tsx and
- * components/CategoryDiscovery.tsx in T3. The copy is the copy those
- * components carried; it is not rewritten here. What changes is the delivery:
- * this is a static document, so the hero photograph is preloaded, nothing is
- * hydrated, and the page renders completely with JavaScript off.
- *
- * Three rules the markup keeps:
- *   1. Every room comes from data/collections.json, so the index cannot list a
- *      room whose page does not exist.
- *   2. Every piece comes from data/pilot-products.json, and the price row reads
- *      "Price on request" unless the data carries a real number.
- *   3. The count in the featured standfirst is computed from the data, so it
- *      cannot go stale the way the footer room list did.
+ * OPAR Homepage (/) — Moss Nocturne threshold, pressed specimen front shelf,
+ * 6 studio room medallions, full 3-plate botanical atlas, Perennis & Journal
+ * archipelago, and local letter subscription.
  */
 
 import { BRAND, collections, escapeHtml, documentPage, arrow, site, pages } from './chrome.mjs';
-import { collectionFor, categoryPath, formatMoney } from './product-page.mjs';
+import { collectionFor, formatMoney, specimenPlateMarkup } from './product-page.mjs';
 
 const HERO_IMAGE = '/assets/brand/hero-opar.jpg';
-// T8: the modern sources are 16:9 crops of the JPG (1920x1080), which is all
-// the full-bleed hero ever displays (object-fit: cover, object-position 50% 45%).
-// The AVIF is preloaded with a type attribute, so browsers without AVIF skip
-// that fetch and take the WebP or the JPG instead - nobody downloads two.
 const HERO_IMAGE_AVIF = '/assets/brand/hero-opar.avif';
 const HERO_IMAGE_WEBP = '/assets/brand/hero-opar.webp';
 
-const HERO_LEDE = `Objects and knowledge for a slower, more sensory life — herbs, everyday care, sound, practice and craft, described honestly. Ordering opens after the first pieces are verified.`;
+const HERO_LEDE = 'Objects and knowledge for a slower, more sensory life — herbs, everyday care, sound, practice and craft, described honestly.';
 
-/**
- * Product photography is not ready. The one supplied image is a hand holding a
- * plastic-wrapped bar against a light background: a supplier snapshot, not a
- * photograph of the piece. It breaks the owner's food-only image rule and it
- * would be the weakest picture on the page, directly under the hero. So every
- * mount is reserved until real photography exists. Set this to true and the
- * supplied images appear in the same mounts with no other change.
- */
-const SHOW_SUPPLIED_IMAGERY = false;
-
-/**
- * The Materia Medica ground: natural flowering apiary and vine garden paired
- * with the top-right beehive cutout, delivered in AVIF/WebP/JPG behind a
- * calibrated moss scrim.
- */
 const MONOGRAPH_GROUND = {
   src: '/assets/botanicals/monograph-apiary-garden.jpg',
   avif: '/assets/botanicals/monograph-apiary-garden.avif',
@@ -52,12 +21,15 @@ const MONOGRAPH_GROUND = {
   height: 768
 };
 
-/**
- * The three pieces on the front shelf, in the order they are shown. Resolved
- * against the data, so a retired slug can never leave a dead card; if any slug
- * is missing the row falls back to the first three pieces rather than showing a
- * short row.
- */
+const ROOM_IMAGES = {
+  'herbal-botanicals': { src: '/assets/products/studio-herbal-botanicals-800.jpg', alt: 'Amber botanical apothecary vessel' },
+  'everyday-care': { src: '/assets/products/studio-everyday-care-800.jpg', alt: 'Cold-process matte cleansing bar' },
+  'showpieces': { src: '/assets/products/studio-showpieces-800.jpg', alt: 'Hand-turned hardwood vessel' },
+  'yoga-practice': { src: '/assets/products/studio-yoga-practice-800.jpg', alt: 'Rolled woven mat and cork block' },
+  'art-craft': { src: '/assets/products/studio-art-craft-800.jpg', alt: 'Ceramic studio craft vase' },
+  'quiet-living': { src: '/assets/products/studio-quiet-living-800.jpg', alt: 'Linen cloth and stoneware dish' }
+};
+
 const SHELF_SLUGS = ['turmeric-cleansing-soap', 'ashwagandha-with-black-pepper', 'turmeric-cleansing-pads'];
 
 function shelfPieces(products) {
@@ -88,51 +60,31 @@ function hero() {
           <a class="button button-secondary button-inline" href="/about/">About ${escapeHtml(BRAND)}</a>
         </div>
       </div>
+      <nav class="v2-hero-index" aria-label="Homepage chapters">
+        <a href="#featured">01 · Objects</a>
+        <a href="#rooms">02 · Rooms</a>
+        <a href="#botanicals">03 · Materia Medica</a>
+      </nav>
       <div class="home-hero__hairline" aria-hidden="true"></div>
     </section>`;
 }
 
-/**
- * A piece sits on a mount, not in a tile.
- *
- * The mount is the light role, because supplier photographs are shot on light
- * backgrounds and belong on paper rather than on the ground. A piece with no
- * photograph is not given a placeholder graphic: the mount is left empty with
- * its specimen index and four ticks, the way a herbarium sheet waits for its
- * specimen. A real photograph drops into the same box and changes nothing else.
- */
 function featureCard(product, index) {
   const affiliate = product.model === 'affiliate';
   const path = `/${affiliate ? 'discover' : 'shop'}/${product.slug}/`;
-  const image = product.images[0];
   const priced = Number.isFinite(product.price);
   const collection = collectionFor(product);
   const category = escapeHtml(product.category);
-  const hasPhoto = SHOW_SUPPLIED_IMAGERY && !/\.svg$/i.test(image.src);
-  const indexLabel = `${escapeHtml(BRAND)} &middot; ${String(index + 1).padStart(2, '0')}`;
-  // The card carries what the piece is, not what state the shop is in. The
-  // status line moved to the piece page; `cardLine` and `format` are the
-  // supplier-confirmed facts, and an absent one simply renders nothing.
   const cardLine = product.cardLine || product.tagline || '';
   const format = product.format || '';
-
-  const mount = hasPhoto
-    ? `<img class="feature-card__photo" src="${escapeHtml(image.src)}" alt="" width="1000" height="1000" loading="lazy" decoding="async">`
-    : `<span class="feature-card__corner feature-card__corner--tl" aria-hidden="true"></span>
-            <span class="feature-card__corner feature-card__corner--tr" aria-hidden="true"></span>
-            <span class="feature-card__corner feature-card__corner--bl" aria-hidden="true"></span>
-            <span class="feature-card__corner feature-card__corner--br" aria-hidden="true"></span>
-            <span class="feature-card__pending" aria-hidden="true">Photograph in preparation</span>`;
 
   return `
         <article class="feature-card">
           <a class="feature-card__mount" href="${escapeHtml(path)}" aria-hidden="true" tabindex="-1">
-            <span class="feature-card__index" aria-hidden="true">${indexLabel}</span>
-            ${mount}
-            ${hasPhoto ? '<span class="feature-card__credit">Supplier photo</span>' : ''}
+            ${specimenPlateMarkup(product, index)}
           </a>
           <div class="feature-card__copy">
-            <span class="eyebrow">${collection ? `<a href="${categoryPath(collection)}">${category}</a>` : category}</span>
+            <span class="eyebrow">${collection ? `<a href="/shop/${escapeHtml(collection.slug)}/">${category}</a>` : category}</span>
             <h3><a href="${escapeHtml(path)}">${escapeHtml(product.name)}</a></h3>
             ${cardLine ? `<p class="feature-card__line">${escapeHtml(cardLine)}</p>` : ''}
             <div class="feature-card__foot">
@@ -140,7 +92,7 @@ function featureCard(product, index) {
                 ${format ? `<span class="feature-card__format">${escapeHtml(format)}</span>` : ''}
                 <span class="feature-card__price">${priced ? escapeHtml(formatMoney(product.price, product.currency)) : 'Price on request'}</span>
               </span>
-              <a class="text-link" href="${escapeHtml(path)}">View piece ${arrow}<span class="sr-only"> about ${escapeHtml(product.name)}</span></a>
+              <a class="text-link" href="${escapeHtml(path)}">View folio ${arrow}<span class="sr-only"> about ${escapeHtml(product.name)}</span></a>
             </div>
           </div>
         </article>`;
@@ -148,22 +100,22 @@ function featureCard(product, index) {
 
 function featured(products) {
   const pieces = shelfPieces(products);
-  const note = `${pieces.length} pieces on the front shelf, from ${products.length} listed. Prices are confirmed on the invoice, and nothing is charged on this site.`;
+  const note = `${pieces.length} pressed-specimen mounts from ${products.length} listed pieces. Confirmed pricing settles on written invoice.`;
   return `
     <section id="featured" class="home-section home-featured" aria-labelledby="featured-heading">
       <div class="home-shell">
         <div class="home-section__head">
           <div class="home-section__intro">
-            <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>Featured pieces</span>
-            <h2 id="featured-heading">A first look at the shelf.</h2>
+            <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>Featured specimens</span>
+            <h2 id="featured-heading">Pressed shelf index.</h2>
           </div>
           <p class="home-section__note">${escapeHtml(note)}</p>
         </div>
         <div class="feature-grid">${pieces.map(featureCard).join('')}
         </div>
         <div class="home-featured__foot">
-          <p>Every piece page states what the supplier has confirmed, what is still unchecked, and what ${escapeHtml(BRAND)} will not claim.</p>
-          <a class="button button-primary button-inline" href="/shop/">View all pieces ${arrow}</a>
+          <p>Every folio states verified label provenance side-by-side with claims ${escapeHtml(BRAND)} strips out.</p>
+          <a class="button button-primary button-inline" href="/shop/">Enter the shop ${arrow}</a>
         </div>
       </div>
     </section>`;
@@ -171,20 +123,18 @@ function featured(products) {
 
 function rooms() {
   const items = collections.map((room, index) => {
-    // The circle is data-driven: a room without a matching photograph keeps the
-    // text-only row rather than showing an empty disc. Once `image` is set in
-    // collections.json, the same markup fills in and nothing else changes.
-    const figure = room.image
-      ? `
-              <span class="room-index__figure"><img src="${escapeHtml(room.image)}" alt="${escapeHtml(room.imageAlt || '')}" loading="lazy" decoding="async"></span>`
+    const img = ROOM_IMAGES[room.slug];
+    const figure = img
+      ? `<span class="room-index__figure"><img src="${escapeHtml(img.src)}" alt="${escapeHtml(img.alt)}" width="120" height="120" loading="lazy" decoding="async"></span>`
       : '';
     return `
           <li>
             <a class="room-index__item" href="/shop/${escapeHtml(room.slug)}/">
               <span class="room-index__top">
                 <span class="room-index__number" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>
-                <span class="room-index__arrow" aria-hidden="true">→</span>
-              </span>${figure}
+                <span class="room-index__arrow" aria-hidden="true">&rarr;</span>
+              </span>
+              ${figure}
               <h3>${escapeHtml(room.heading)}</h3>
               <p>${escapeHtml(room.intro)}</p>
             </a>
@@ -198,7 +148,7 @@ function rooms() {
             <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>The shop</span>
             <h2 id="rooms-heading">Start with a room.</h2>
           </div>
-          <p class="home-section__note">The shop is arranged as rooms rather than one long list. Each room has its own page showing what is listed there now.</p>
+          <p class="home-section__note">Each room pairs a studio medallion with its curated Warm Paper archive.</p>
         </div>
         <ul class="room-index">${items}
         </ul>
@@ -207,12 +157,6 @@ function rooms() {
     </section>`;
 }
 
-/**
- * The letter. One quiet band after the Journal and before the footer: the form
- * is the same contract as /newsletter/ (`/assets/newsletter-page.js`), and while
- * no mailing service is connected both the note here and the script's own
- * status say the address stays in this browser.
- */
 function newsletter() {
   return `
     <section id="letter" class="home-section home-letter" aria-labelledby="letter-heading">
@@ -239,24 +183,17 @@ function newsletter() {
     </section>`;
 }
 
-/**
- * The journal index at the foot of the archipelago. The columns are the
- * journal's own nav children, and every line is the column page's meta
- * description read from data/pages.json, so the homepage cannot describe a
- * column differently from the page it links to. The frame is fixed here; the
- * writing will be filed under it.
- */
 function journalIndex() {
-  const journal = site.nav.find((item) => item.id === 'journal');
-  const pageByPath = new Map(pages.map((page) => [page.path, page]));
+  const journal = site.nav.find(item => item.id === 'journal');
+  const pageByPath = new Map(pages.map(page => [page.path, page]));
   const root = pageByPath.get(journal.href);
   const columns = (journal.children || [])
-    .filter((child) => child.href !== journal.href)
+    .filter(child => child.href !== journal.href)
     .map((child, index) => {
       const page = pageByPath.get(child.href);
       return `
             <li>
-              <a class="journal-index__column" href="${child.href}">
+              <a class="journal-index__column" href="${escapeHtml(child.href)}">
                 <span class="journal-index__number" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>
                 <span class="journal-index__name">${escapeHtml(child.label)}${arrow}</span>
                 <span class="journal-index__line">${escapeHtml(page.description)}</span>
@@ -273,35 +210,25 @@ function journalIndex() {
                 <h3 id="journal-heading">${escapeHtml(root.heading)}</h3>
                 <p>${escapeHtml(root.description)}</p>
               </div>
-              <a class="journal-plate__all" href="${journal.href}">All writing${arrow}</a>
+              <a class="journal-plate__all" href="${escapeHtml(journal.href)}">All writing${arrow}</a>
             </div>
             <ul class="journal-index">${columns}
             </ul>
           </section>`;
 }
 
-/**
- * The botanical monograph: three plates and a closing cluster.
- *
- * Every plate is its own ground. The habitat photograph is the section, edge to
- * edge, exactly as the hero is built; the words ride on one directional scrim.
- * No card, no radius, no border, no shadow (D-036).
- *
- * The plates sit directly in <main>, not inside a shell, so 100% is already the
- * viewport and no scrollbar arithmetic is involved.
- */
 function monograph() {
-  const ground = MONOGRAPH_GROUND
-    ? `<picture class="spread-picture monograph-head__picture">
+  const ground = `
+        <picture class="spread-picture monograph-head__picture">
           <source type="image/avif" srcset="${escapeHtml(MONOGRAPH_GROUND.avif)}">
           <source type="image/webp" srcset="${escapeHtml(MONOGRAPH_GROUND.webp)}">
           <img class="monograph-head__photo" src="${escapeHtml(MONOGRAPH_GROUND.src)}" alt="" aria-hidden="true" width="${MONOGRAPH_GROUND.width}" height="${MONOGRAPH_GROUND.height}" loading="lazy" decoding="async">
         </picture>
-        <div class="monograph-head__scrim" aria-hidden="true"></div>`
-    : '';
+        <div class="monograph-head__scrim" aria-hidden="true"></div>`;
+
   return `
-    <section id="botanicals" class="botanical-monograph${ground ? ' botanical-monograph--grounded' : ''}" aria-labelledby="monograph-heading">
-      <div class="monograph-head${ground ? ' monograph-head--photo' : ''}">
+    <section id="botanicals" class="botanical-monograph botanical-monograph--grounded" aria-labelledby="monograph-heading">
+      <div class="monograph-head monograph-head--photo">
         ${ground}
         <img class="corner-foliage corner-foliage--beehive-tr" src="/assets/botanicals/corner-honey-hive.webp" alt="" aria-hidden="true" width="1200" height="896" loading="lazy" decoding="async">
         <div class="botanical-monograph__header">
@@ -372,7 +299,7 @@ function monograph() {
             that regulate physical cortisol balance and sustain endurance without artificial stimulation.
           </div>
           <div class="editorial-spread__actions">
-            <a class="button button-primary button-small button-inline" href="/shop/ashwagandha-with-black-pepper/">Explore Ashwagandha Piece &rarr;</a>
+            <a class="button button-primary button-small button-inline" href="/shop/ashwagandha-with-black-pepper/">Open Botanical Folio &rarr;</a>
           </div>
         </div>
         <div class="spread-figure">
@@ -402,7 +329,7 @@ function monograph() {
             enhances natural skin moisture barrier and defends against oxidative environmental fatigue.
           </div>
           <div class="editorial-spread__actions">
-            <a class="button button-secondary button-small button-inline" href="/shop/turmeric-cleansing-soap/">View Cleansing Soap &rarr;</a>
+            <a class="button button-secondary button-small button-inline" href="/shop/turmeric-cleansing-soap/">Open Botanical Folio &rarr;</a>
           </div>
         </div>
         <div class="spread-figure">
@@ -414,17 +341,17 @@ function monograph() {
         <picture class="spread-picture">
           <source type="image/avif" srcset="/assets/botanicals/botanical-archipelago.avif">
           <source type="image/webp" srcset="/assets/botanicals/botanical-archipelago.webp">
-          <img class="spread-bg" src="/assets/botanicals/botanical-archipelago.jpg" alt="Natural arrangement of black seeds, ashwagandha roots, fresh turmeric, moringa leaves and raw honeycomb" width="1376" height="768" loading="lazy" decoding="async">
+          <img class="spread-bg" src="/assets/botanicals/botanical-archipelago.jpg" alt="Natural arrangement of whole roots, black seeds, turmeric, and honeycomb" width="1376" height="768" loading="lazy" decoding="async">
         </picture>
         <div class="archipelago-scrim" aria-hidden="true"></div>
         <div class="archipelago-visual">
           <div class="archipelago-overlay">
             <div class="archipelago-overlay__copy">
-              <span class="home-overline"><span class="home-rule home-rule--gold" aria-hidden="true"></span>The sustenance cluster</span>
-              <h3>The balanced natural ecology</h3>
-              <p>When whole seeds, grounding roots, bitter leaves and raw honeycomb unite, they form a self-sustaining dietary foundation&mdash;a timeless matrix of nourishment requiring no synthetic additives.</p>
+              <span class="home-overline"><span class="home-rule home-rule--gold" aria-hidden="true"></span>The Night Library</span>
+              <h3>Fine-Press Books, Music &amp; Journal</h3>
+              <p>Step from the Warm Paper dispensary back into Moss Nocturne for sacred sound and fine-press reading rooms.</p>
             </div>
-            <a class="button button-primary button-small button-inline" href="/shop/herbal-botanicals/">Enter Botanical Apothecary &rarr;</a>
+            <a class="button button-primary button-small button-inline" href="/perennis/">Enter Perennis Sanctuary &rarr;</a>
           </div>
           ${journalIndex()}
         </div>
@@ -436,7 +363,8 @@ export function renderHomePage(products = []) {
   return documentPage({
     title: 'A world of conscious living',
     description: HERO_LEDE,
-    theme: 'theme-home',
+    canonical: '/',
+    theme: null,
     image: HERO_IMAGE,
     preload: [{ as: 'image', href: HERO_IMAGE_AVIF, type: 'image/avif', fetchpriority: 'high' }],
     scripts: ['/assets/newsletter-page.js'],

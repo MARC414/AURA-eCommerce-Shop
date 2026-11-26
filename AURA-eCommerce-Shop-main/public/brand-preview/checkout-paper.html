@@ -161,12 +161,27 @@
               <button class="button button-primary" type="submit" data-checkout-submit>Request invoice <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
               <p class="action-note">No card details are collected. The request is saved in this browser until a server is connected.</p>
             </form>
-            <div class="checkout-confirmation" data-checkout-confirmation hidden tabindex="-1">
-              <span class="eyebrow">Request recorded</span>
-              <h2>Reference <span data-checkout-reference>—</span></h2>
-              <p data-checkout-confirmation-copy>Your request is saved in this browser. OPAR replies with a written invoice before anything is paid.</p>
+            <div class="checkout-confirmation v2-proforma" data-checkout-confirmation data-v2-proforma hidden tabindex="-1">
+              <div class="v2-proforma__head">
+                <div>
+                  <span class="eyebrow">Atelier Proforma Inquiry Sheet</span>
+                  <h2>Reference <span data-checkout-reference data-v2-proforma-ref>—</span></h2>
+                  <p class="small-note" data-v2-proforma-recipient></p>
+                </div>
+                <img class="v2-proforma__seal" src="/assets/OPAR-brand-assets/opar-medallion-paper-1200.png" alt="OPAR archival seal" width="64" height="64" loading="lazy" decoding="async">
+              </div>
+              <p class="v2-proforma__copy" data-checkout-confirmation-copy>Your request is saved in this browser. OPAR replies with a written invoice before anything is paid.</p>
               <p class="small-note" data-checkout-confirmation-method></p>
-              <div class="content-links">
+              <table class="v2-proforma__table" aria-label="Proforma summary">
+                <thead><tr><th>Item</th><th>Qty</th><th>Rate</th></tr></thead>
+                <tbody data-v2-proforma-lines></tbody>
+                <tfoot><tr><th colspan="2">Recorded Subtotal</th><th data-v2-proforma-total>—</th></tr></tfoot>
+              </table>
+              <div class="v2-proforma__actions">
+                <button type="button" class="button button-primary button-small" data-v2-print-proforma>Print / Save PDF Inquiry</button>
+                <button type="button" class="button button-secondary button-small" data-v2-copy-ref>Copy reference</button>
+              </div>
+              <div class="content-links v2-proforma__links">
                 <a class="text-link" href="/order/" data-checkout-track-link>Track this request <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
                 <a class="text-link" href="https://wa.me/447700900412?text=Hello%20OPAR%2C%20I%20have%20submitted%20an%20invoice%20request%20and%20would%20like%20to%20confirm%20details." target="_blank" rel="noopener noreferrer" data-checkout-whatsapp>Send reference via WhatsApp <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 5h5v5m0-5L9 15M10 5H5v14h14v-5"/></svg></a>
                 <a class="text-link" href="/account/">View saved requests <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>

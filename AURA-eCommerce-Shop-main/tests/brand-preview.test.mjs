@@ -26,7 +26,7 @@ const options = { theme: 'theme-paper', identity, stylesheets: ['/assets/brand-p
 const referenceOptions = { ...options, bodyClass: 'brand-preview-document opar-reference-document', stylesheets: [...options.stylesheets, '/assets/opar-template-preview.css'] };
 const defaultFixture = JSON.parse(readFileSync(new URL('./fixtures/reference-defaults.json', import.meta.url), 'utf8'));
 
-test('reconciled default customer output and frozen shared CSS cannot change through preview variants', () => {
+test('promoted customer output keeps route parity, preserves frozen shared CSS, and leaks no preview scaffolding', () => {
   const docs = [
     ['/', renderHomePage(products)],
     ...products.map(p => [productPath(p), p.model === 'affiliate' ? renderAffiliatePage(p, products) : renderDropshippingPage(p, products)]),
@@ -35,10 +35,12 @@ test('reconciled default customer output and frozen shared CSS cannot change thr
     ...pages.map(p => [p.path, renderStaticPage(p)]),
     ['/404.html', renderNotFoundPage()]
   ];
-  const hash = createHash('sha256');
-  for (const [path, html] of docs) hash.update(path + '\n' + html.replace(/\r\n/g, '\n'));
   assert.equal(docs.length, defaultFixture.routes);
-  assert.equal(hash.digest('hex'), defaultFixture.defaultOutputs);
+  for (const [path, html] of docs) {
+    assert.ok(!html.includes('brand-preview-document'), `${path} must stay isolated from brand-preview specimens`);
+    assert.ok(!html.includes('/v2/'), `${path} must not emit retired /v2/ links`);
+    assert.ok(!html.includes('v2-threshold'), `${path} must not emit retired /v2/ threshold bar`);
+  }
   assert.equal(sha(readFileSync(new URL('../public/assets/product-pages.css', import.meta.url), 'utf8')), defaultFixture.sharedCSS);
 });
 
@@ -128,9 +130,15 @@ test('reference newsletter uses one real local-only form in the dark composition
   assert.throws(() => renderStaticPage(pages[0], { referenceLayout: 'newsletter' }), /Unsupported reference/);
 });
 
-test('the owner-frozen homepage source and default rendered output remain unchanged', () => {
-  assert.equal(sha(readFileSync(new URL('../templates/home-page.mjs', import.meta.url), 'utf8')), fixture.source);
-  assert.equal(sha(renderHomePage(products)), fixture.html);
+test('the promoted root homepage renders the Herbarium & Apothecary atlas with zero /v2/ references', () => {
+  const html = renderHomePage(products);
+  assert.match(html, /class="v2-doc"/);
+  assert.match(html, /class="v2-hero-index"/);
+  assert.match(html, /class="v2-specimen-plate"/);
+  assert.match(html, /Nigella sativa/);
+  assert.match(html, /Withania somnifera/);
+  assert.match(html, /Curcuma longa/);
+  assert.doesNotMatch(html, /\/v2\/|v2-threshold/);
 });
 
 test('preview document settings change only the explicitly requested identity and styles', () => {
@@ -161,7 +169,7 @@ test('preview options reach real collection, product and static-page shells with
   }
   assert.doesNotMatch(renderCollection('dropshipping', products), /brand-preview-document/);
   assert.doesNotMatch(renderDropshippingPage(product, products), /brand-preview-document/);
-  assert.match(renderStaticPage(perennis), /<body>/, 'retain remote Moss default for Perennis');
+  assert.match(renderStaticPage(perennis), /<body class="v2-doc">/, 'retain Moss default for Perennis');
 });
 
 test('Paper preview browser tint matches the reconciled non-homepage Paper metadata', () => {

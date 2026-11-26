@@ -1,73 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   OPAR V2 — "The Double-Sided Herbarium & Apothecary"
-   Loaded exclusively on noindex /v2/* preview routes alongside product-pages.css
-   and non-home-branding.css. Does not alter production routes or freeze CSS.
+   OPAR — "The Double-Sided Herbarium & Apothecary"
+   Loaded alongside product-pages.css and non-home-branding.css.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ── 1. Living Threshold Header & Sub-Bar ────────────────────────────────── */
-body.v2-doc .header-status {
-  display: none;
-}
-
-.v2-threshold {
-  position: relative;
-  z-index: 20;
-  border-bottom: 1px solid var(--line);
-  padding: 0 max(var(--gutter), calc((100vw - 1484px) / 2));
-  background: var(--canvas);
-  color: var(--body);
-  font-size: 10px;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-}
-
-.v2-threshold__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  min-height: 32px;
-  padding: 6px 0;
-  flex-wrap: wrap;
-}
-
-.v2-threshold__place {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.v2-threshold__dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent-text);
-  flex-shrink: 0;
-}
-
-.v2-threshold__meta {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  flex-wrap: wrap;
-  color: var(--body);
-  font-variant-numeric: tabular-nums;
-}
-
-.v2-threshold__exit {
-  color: var(--accent-text);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  font-weight: 600;
-}
-
-.v2-threshold__exit:hover {
-  color: var(--ink);
-}
-
-/* ── 2. Cross-the-Threshold Split Footer ─────────────────────────────────── */
+/* ── 1. Cross-the-Threshold Split Footer ─────────────────────────────────── */
 .v2-split-band {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -535,6 +471,68 @@ body.v2-doc .v2-folio-layout .product-gallery {
   padding-bottom: 0;
 }
 
+/* Inline Bag Bridge after Add-to-Bag */
+.v2-bag-bridge {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--opar-text);
+  border: 1px solid var(--opar-accent);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+.v2-bag-bridge[hidden] {
+  display: none;
+}
+
+.v2-bag-bridge__note {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--opar-accent);
+}
+
+.v2-bag-bridge__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  font-size: 12px;
+}
+
+/* Shop Pre-Launch Construction Sample Notice & Card State */
+.v2-sample-notice {
+  margin-bottom: 20px;
+  padding: 14px 18px;
+  background: var(--opar-paper-raised);
+  border: 1px solid var(--opar-paper-line);
+  border-left: 3px solid var(--opar-accent);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--opar-ground);
+}
+
+.v2-card-state {
+  display: block;
+  margin-top: 6px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--opar-accent);
+}
+
+/* Verification file & FAQ accordions aligned below Known & Documented */
+.v2-audit-section {
+  margin-top: 44px;
+  padding-top: 36px;
+  border-top: 1px solid var(--opar-paper-line);
+}
+
 /* ── 6. Perennis & Journal Sacred Fine-Press Environment (Moss) ──────────── */
 .v2-chapter-opener {
   position: relative;
@@ -698,7 +696,7 @@ body.v2-doc .v2-folio-layout .product-gallery {
   margin-top: 8px;
 }
 
-/* ── 7. Atelier Proforma Sheet (/v2/checkout/) ───────────────────────────── */
+/* ── 7. Atelier Proforma Sheet (/checkout/) ───────────────────────────── */
 .v2-proforma {
   margin-top: 24px;
   padding: clamp(24px, 3vw, 36px);
@@ -782,7 +780,6 @@ body.v2-doc .v2-folio-layout .product-gallery {
 
 @media print {
   .site-header,
-  .v2-threshold,
   .breadcrumbs,
   .collection-heading,
   .paper-opener,

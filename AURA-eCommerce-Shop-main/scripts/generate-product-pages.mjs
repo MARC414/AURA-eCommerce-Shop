@@ -4,7 +4,6 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { MODELS, validateProduct, productPath, renderDropshippingPage, renderAffiliatePage, renderCollection, renderCategoryPage, renderStaticPage, renderHomePage, renderNotFoundPage } from '../templates/product-pages.mjs';
 import { generateBrandPreview } from './generate-brand-preview.mjs';
-import { generateV2Preview } from './generate-v2-preview.mjs';
 
 const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 const products = JSON.parse(await readFile(join(projectRoot, 'data/pilot-products.json'), 'utf8'));
@@ -94,6 +93,7 @@ console.log('Generated /404.html (excluded from sitemap & search index)');
 await rm(join(projectRoot, 'public/templates'), { recursive: true, force: true });
 await rm(join(projectRoot, 'public/preview'), { recursive: true, force: true });
 await rm(join(projectRoot, 'public/home-preview'), { recursive: true, force: true });
+await rm(join(projectRoot, 'public/v2'), { recursive: true, force: true });
 
 const sectionLabel = page => {
   if (page.path.startsWith('/policies/')) return 'Policy';
@@ -190,8 +190,5 @@ console.log('Generated /sitemap.xml');
 // Review documents use explicit specimen options; never add them to customer discovery.
 const brandPreview = await generateBrandPreview(projectRoot);
 console.log(`Generated ${brandPreview.documents.length} noindex brand specimens (excluded from sitemap & search)`);
-
-const v2Preview = await generateV2Preview(projectRoot);
-console.log(`Generated ${v2Preview.routes.length} isolated V2 preview routes under /v2/ (noindex, excluded from sitemap & search)`);
 
 console.log(`Generated ${pages.length} pages. Browser-local cart, requests and newsletter; no payment calls.`);

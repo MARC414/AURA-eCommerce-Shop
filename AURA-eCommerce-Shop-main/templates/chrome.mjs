@@ -168,8 +168,8 @@ function header(active = null, emblem = brand.logo.assetPathOnDark, lockup = nul
     </header>`;
 }
 
-/** Footer: real URLs only plus disclosed WhatsApp placeholder link. */
-function footer(emblem = brand.logo.assetPathOnDark) {
+/** Footer: Cross-the-Threshold split sanctuary/dispensary band + site contract columns + WhatsApp inquiry desk. */
+function footer(emblem = brand.logo.assetPathOnDark, includeSplitBand = true) {
   const columns = site.footer.columns.map(column => {
     const id = `footer-${column.heading.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
     return `
@@ -180,8 +180,33 @@ function footer(emblem = brand.logo.assetPathOnDark) {
   }).join('');
   const waHref = whatsappLink();
   const waNote = whatsappDisclosure();
+  const splitBand = includeSplitBand ? `
+      <div class="v2-split-band" aria-label="Cross the threshold">
+        <section class="v2-split-wing" aria-labelledby="v2-wing-moss">
+          <span class="eyebrow">Night Canopy · Free Sanctuary</span>
+          <h3 id="v2-wing-moss">The Night Library</h3>
+          <p>Free books, sacred sound recordings, and plant monographs set in Moss Nocturne—kept apart from commerce.</p>
+          <div class="v2-split-wing__links">
+            <a href="/perennis/">Perennis Library</a>
+            <a href="/perennis/books/">Books</a>
+            <a href="/perennis/music/">Listening Room</a>
+            <a href="/journal/">Journal</a>
+          </div>
+        </section>
+        <section class="v2-split-wing v2-split-wing--paper" aria-labelledby="v2-wing-paper">
+          <span class="eyebrow">Warm Paper · Specimen Table</span>
+          <h3 id="v2-wing-paper">Dispensary &amp; Objects</h3>
+          <p>Objects chosen one by one on cotton-rag Warm Paper, with invoice-first inquiry and visible sourcing records.</p>
+          <div class="v2-split-wing__links">
+            <a href="/shop/">Shop Archive</a>
+            <a href="/discover/">Partner Offers</a>
+            <a href="/cart/">Bag</a>
+            <a href="/checkout/">Request Invoice</a>
+          </div>
+        </section>
+      </div>` : '';
   return `
-    <footer class="site-footer">
+    <footer class="${includeSplitBand ? 'site-footer v2-split-footer' : 'site-footer'}">${splitBand}
       <div class="footer-top">
         <div class="footer-brand">
           <a class="wordmark" href="${escapeHtml(site.brand.homeHref)}" aria-label="${escapeHtml(site.brand.name)} home"><img class="wordmark-emblem" src="${escapeHtml(emblem)}" alt="${escapeHtml(brand.logo.altText)}" width="28" height="28">${escapeHtml(site.brand.wordmark)}</a>
@@ -198,14 +223,6 @@ function footer(emblem = brand.logo.assetPathOnDark) {
     </footer>`;
 }
 
-// D-053: the homepage's 550d6a0 identity stays frozen while remote branding is
-// retained on other pages. Do not substitute the global logo/favicons here.
-const frozenHomepageLogo = {
-  assetPathOnDark: '/assets/brand/opar-seed-orbit-on-dark.png',
-  assetPathOnLight: '/assets/brand/opar-seed-orbit-on-light.png',
-  tilePath: '/assets/brand/opar-mark-tile-128.png'
-};
-
 export function documentPage({ title, description, active = null, content, canonical = null, jsonLd = null, keywords = null, image = null, theme = null, scripts = [], preload = [], robots = null, identity = null, stylesheets = [], bodyClass = '', previewLabel = '' }) {
   const jsonLdTag = jsonLd
     ? `\n  <script type="application/ld+json">${JSON.stringify(jsonLd).replace(/<\//g, '<\\/')}</script>`
@@ -214,15 +231,19 @@ export function documentPage({ title, description, active = null, content, canon
     `<link rel="preload" as="${escapeHtml(item.as)}" href="${escapeHtml(item.href)}"${item.type ? ` type="${escapeHtml(item.type)}"` : ''}${item.fetchpriority ? ` fetchpriority="${escapeHtml(item.fetchpriority)}"` : ''}>\n  `
   ).join('');
   const robotsValue = robots || (INDEXABLE ? 'index, follow' : 'noindex, follow');
-  const frozenHome = theme === 'theme-home';
-  const logo = frozenHome ? frozenHomepageLogo : identity ? { ...brand.logo, ...identity } : brand.logo;
+  const isSpecimen = Boolean(previewLabel || identity);
+  const logo = identity
+    ? { ...brand.logo, ...identity }
+    : { ...brand.logo, assetPathOnLight: '/assets/brand/web/opar-mark-green.svg' };
   const headerEmblem = theme === 'theme-paper' ? logo.assetPathOnLight : logo.assetPathOnDark;
-  const bodyClasses = [theme, bodyClass].filter(Boolean).join(' ');
-  const additionalStyles = [...(frozenHome ? [] : ['/assets/non-home-branding.css']), ...stylesheets].map(src => `\n  <link rel="stylesheet" href="${escapeHtml(src)}">`).join('');
+  const bodyClasses = [theme, isSpecimen ? '' : 'v2-doc', bodyClass].filter(Boolean).join(' ');
+  const additionalStyles = [
+    '/assets/non-home-branding.css',
+    ...(isSpecimen ? [] : ['/assets/v2-editorial.css']),
+    ...stylesheets
+  ].map(src => `\n  <link rel="stylesheet" href="${escapeHtml(src)}">`).join('');
   const favicons = brand.logo.favicons || {};
-  const iconTags = frozenHome
-    ? `<link rel="icon" type="image/png" sizes="128x128" href="${escapeHtml(logo.tilePath)}">\n  <link rel="apple-touch-icon" href="${escapeHtml(logo.tilePath)}">`
-    : identity?.icons
+  const iconTags = identity?.icons
     ? identity.icons.map(icon => `<link rel="${escapeHtml(icon.rel)}"${icon.type ? ` type="${escapeHtml(icon.type)}"` : ''}${icon.sizes ? ` sizes="${escapeHtml(icon.sizes)}"` : ''} href="${escapeHtml(icon.href)}">`).join('\n  ')
     : `<link rel="icon" href="${escapeHtml(favicons.ico || '/assets/OPAR-brand-assets/favicon.ico')}" sizes="any">\n  ${[['16x16', 'png16'], ['32x32', 'png32'], ['48x48', 'png48'], ['128x128', 'png128'], ['192x192', 'png192'], ['512x512', 'png512']].map(([sizes, key]) => `<link rel="icon" type="image/png" sizes="${sizes}" href="${escapeHtml(favicons[key] || (key === 'png128' ? brand.logo.tilePath : `/assets/OPAR-brand-assets/favicon-${sizes.split('x')[0]}.png`))}">`).join('\n  ')}\n  <link rel="apple-touch-icon" sizes="180x180" href="${escapeHtml(favicons.appleTouch180 || '/assets/OPAR-brand-assets/favicon-180.png')}">`;
   const previewNotice = previewLabel
@@ -232,6 +253,9 @@ export function documentPage({ title, description, active = null, content, canon
   const ogType = jsonLd && (Array.isArray(jsonLd) ? jsonLd.some(n => n['@type'] === 'Product') : jsonLd['@type'] === 'Product')
     ? 'product'
     : 'website';
+  const allScripts = isSpecimen
+    ? ['/assets/cart.js', '/assets/site.js', ...scripts]
+    : ['/assets/cart.js', '/assets/site.js', ...scripts, '/assets/v2-editorial.js'];
   return `<!DOCTYPE html>
 <html lang="en">
 <!-- Generated by scripts/generate-product-pages.mjs. Edit the data or shared templates, not this file. -->
@@ -254,12 +278,12 @@ export function documentPage({ title, description, active = null, content, canon
   <link href="${escapeHtml(brand.typography.googleFontsHref)}" rel="stylesheet">
   ${iconTags}
   ${preloadTags}<link rel="stylesheet" href="/assets/product-pages.css">${additionalStyles}
-  ${['/assets/cart.js', '/assets/site.js', ...scripts].map(src => `<script src="${escapeHtml(src)}" defer></script>`).join('\n  ')}
+  ${allScripts.map(src => `<script src="${escapeHtml(src)}" defer></script>`).join('\n  ')}
 </head>
 <body${bodyClasses ? ` class="${escapeHtml(bodyClasses)}"` : ''}>
   ${header(active, headerEmblem, theme === 'theme-paper' ? identity?.headerLockupOnLight : identity?.headerLockupOnDark)}${previewNotice}
   <main id="main-content" tabindex="-1">${content}</main>
-  ${footer(logo.assetPathOnDark)}
+  ${footer(logo.assetPathOnDark, !isSpecimen)}
 </body>
 </html>
 `.replace(/[\t ]+$/gm, '');

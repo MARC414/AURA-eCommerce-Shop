@@ -1,50 +1,11 @@
 /**
- * V2 Progressive Enhancements (loaded strictly on noindex /v2/* preview routes).
+ * OPAR Progressive Editorial Enhancements (loaded on primary generated pages).
  * Zero external requests, zero telemetry, safe under prefers-reduced-motion.
  */
 (function () {
   'use strict';
 
-  /* 1. Keep dynamically rendered cart / wishlist / search / order links inside /v2/ */
-  function scopeV2Links(root) {
-    if (!root || !root.querySelectorAll) return;
-    var anchors = root.querySelectorAll('a[href^="/"]');
-    anchors.forEach(function (anchor) {
-      if (anchor.hasAttribute('data-v2-external-live')) return;
-      var href = anchor.getAttribute('href') || '';
-      if (!href || href.indexOf('/assets/') === 0 || href.indexOf('/v2/') === 0) return;
-      if (href === '/') anchor.setAttribute('href', '/v2/');
-      else anchor.setAttribute('href', '/v2' + href);
-    });
-  }
-
-  ['[data-cart-items]', '[data-wishlist-items]', '[data-search-results]', '[data-account-orders]', '[data-order-result]', '[data-checkout-items]', '[data-checkout-confirmation]']
-    .forEach(function (selector) {
-      var target = document.querySelector(selector);
-      if (!target) return;
-      scopeV2Links(target);
-      var observer = new MutationObserver(function () {
-        scopeV2Links(target);
-      });
-      observer.observe(target, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
-    });
-
-  /* 2. Living Threshold Sub-Bar bag summary */
-  function refreshThresholdBag() {
-    var bagOut = document.querySelector('[data-v2-bag-summary]');
-    if (!bagOut || !window.AuraStore) return;
-    var count = window.AuraStore.cartCount();
-    bagOut.textContent = count === 0
-      ? '0 pieces in bag'
-      : count + (count === 1 ? ' piece in bag' : ' pieces in bag');
-  }
-  refreshThresholdBag();
-  window.addEventListener('aura_cart_updated', refreshThresholdBag);
-  window.addEventListener('storage', function (event) {
-    if (!event.key || event.key === 'aura_cart_v1') refreshThresholdBag();
-  });
-
-  /* 3. PDP Folio Reference live SKU & rate sync + Copy folio link */
+  /* 1. PDP Folio Reference live SKU & rate sync + Copy folio link */
   var variantSelect = document.querySelector('[data-variant]');
   var skuEl = document.querySelector('[data-v2-folio-sku]');
   var rateEl = document.querySelector('[data-v2-folio-rate]');

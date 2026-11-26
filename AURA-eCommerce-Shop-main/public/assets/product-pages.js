@@ -185,6 +185,8 @@ document.querySelectorAll('.product-layout[data-product-model="dropshipping"]').
         window.AuraStore.addToCart(snapshot, quantity, chosenVariant());
         update();
         status.textContent = `Added ${quantity} × ${snapshot.name} to the cart.`;
+        const bagBridge = product.querySelector('[data-v2-bag-bridge]');
+        if (bagBridge) bagBridge.hidden = false;
         cartButton.classList.add('is-confirmed');
         window.setTimeout(() => cartButton.classList.remove('is-confirmed'), 1200);
       });

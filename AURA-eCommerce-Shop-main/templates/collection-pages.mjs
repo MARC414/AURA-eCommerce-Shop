@@ -167,6 +167,8 @@ export function renderCollection(modelName, products, documentOptions = {}) {
   if (referenceLayout && referenceLayout !== (isShop ? 'paper-hero' : 'paper-grid')) throw new Error(`Unsupported reference layout for ${route}`);
 
   if (isShop) {
+    const sampleCount = list.filter(item => item.isPlaceholder).length;
+    const previewCount = list.length - sampleCount;
     return documentPage({
       title: 'Shop',
       description: model.description,
@@ -176,11 +178,15 @@ export function renderCollection(modelName, products, documentOptions = {}) {
       scripts: ['/assets/shop-page.js'],
       ...shellOptions,
       content: `<div class="shop-hub-page">
-      ${referenceLayout ? renderReferenceHero({ surface: 'paper', eyebrow: `${BRAND} collection`, heading: 'Objects for a slower life.', intro: 'Herbs, everyday cleansing bars, studio miscellany, practice goods and craft — chosen one by one, described plainly without theatre.', action: { href: '#shop-reference-results', label: 'Explore the collection' }, meta: `${list.length} curated pieces · ${collections.length} rooms · ${list.filter(p => !p.isPlaceholder).length} preview · ${list.filter(p => p.isPlaceholder).length} construction samples` }) : shopHero(list)}
+      ${referenceLayout ? renderReferenceHero({ surface: 'paper', eyebrow: `${BRAND} collection`, heading: 'Objects for a slower life.', intro: 'Herbs, everyday cleansing bars, studio miscellany, practice goods and craft — chosen one by one, described plainly without theatre.', action: { href: '#shop-reference-results', label: 'Explore the collection' }, meta: `${list.length} curated pieces · ${collections.length} rooms · ${previewCount} preview · ${sampleCount} construction samples` }) : shopHero(list)}
       <div class="page-shell collection-page shop-collection-shell"${referenceLayout ? ' id="shop-reference-results"' : ''}>
         <div class="shop-workspace">
           ${shopSidebar(products, list)}
           <div class="shop-results">
+            <div class="sample-banner sample-banner--paper v2-sample-notice" role="note">
+              <span class="eyebrow">Pre-launch showcase</span>
+              <p>Showing ${previewCount} owner-selected previews and ${sampleCount} labelled construction samples. Sample items carry studio fixture photography and dummy pricing to demonstrate room layout and written-invoice checkout before live orders open.</p>
+            </div>
             <div class="shop-toolbar">
               <p class="shop-toolbar__count" data-shop-count aria-live="polite">Showing ${list.length} of ${list.length} ${list.length === 1 ? 'piece' : 'pieces'}</p>
               <button type="button" class="text-link shop-toolbar__reset" data-shop-reset hidden>Reset filters</button>

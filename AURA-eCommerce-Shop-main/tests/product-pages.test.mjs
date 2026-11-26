@@ -57,7 +57,7 @@ test('the catalogue contains ten listings (4 owner previews + 6 construction sam
 test('the public product shell avoids preview labels and puts disclosures inside collapsible accordions', () => {
   for (const page of productPages.values()) {
     assert.doesNotMatch(page, /Verification register|Claims we will not make/);
-    assert.match(page, /<section class="compliance-details-section" id="compliance-section"/);
+    assert.match(page, /<section class="compliance-details-section\b[^"]*" id="compliance-section"/);
     assert.match(page, /<div class="compliance-accordion">\s*<details>/);
     assert.match(page, /Not yet reviewed by a named person/);
   }
@@ -122,7 +122,8 @@ test('the affiliate action preserves the exact referral token and opens external
 });
 
 test('affiliate pages never contain AURA purchase or quantity controls', () => {
-  assert.doesNotMatch(withoutHeaderSearch(affiliatePage), /data-quantity-change|data-variant|button-closed|<form\b|\/checkout/);
+  const main = affiliatePage.slice(affiliatePage.indexOf('<main'), affiliatePage.indexOf('</main>'));
+  assert.doesNotMatch(main, /data-quantity-change|data-variant|button-closed|<form\b|\/checkout/);
   assert.match(affiliatePage, /Partner offer/);
   assert.match(affiliatePage, /No OPAR cart or checkout/);
 });
@@ -467,7 +468,7 @@ test('one header and one footer come from the site contract', () => {
     assert.doesNotMatch(page, /shop\/sacred-sound\//);
     assert.match(page, /Sacred Sound/);
     assert.equal((page.match(/<header class="site-header">/g) || []).length, 1);
-    assert.equal((page.match(/<footer class="site-footer">/g) || []).length, 1);
+    assert.equal((page.match(/<footer class="site-footer\b/g) || []).length, 1);
   }
 });
 
@@ -503,13 +504,13 @@ test('both selling models can save an item to the wishlist without buying it', (
   }
 });
 
-test('the shared store loads before the chrome, then the page island', () => {
+test('the shared store loads before the chrome, then the page island and editorial enhancements', () => {
   const scripts = page => [...page.matchAll(/<script src="([^"]+)" defer><\/script>/g)].map(match => match[1]);
-  assert.deepEqual(scripts(shopPage), ['/assets/cart.js', '/assets/site.js', '/assets/product-pages.js']);
-  assert.deepEqual(scripts(cartPage), ['/assets/cart.js', '/assets/site.js', '/assets/cart-page.js']);
-  assert.deepEqual(scripts(checkoutPage), ['/assets/cart.js', '/assets/site.js', '/assets/checkout-page.js']);
-  assert.deepEqual(scripts(accountPage), ['/assets/cart.js', '/assets/site.js', '/assets/account-page.js']);
-  assert.deepEqual(scripts(newsletterPage), ['/assets/cart.js', '/assets/site.js', '/assets/newsletter-page.js']);
+  assert.deepEqual(scripts(shopPage), ['/assets/cart.js', '/assets/site.js', '/assets/product-pages.js', '/assets/v2-editorial.js']);
+  assert.deepEqual(scripts(cartPage), ['/assets/cart.js', '/assets/site.js', '/assets/cart-page.js', '/assets/v2-editorial.js']);
+  assert.deepEqual(scripts(checkoutPage), ['/assets/cart.js', '/assets/site.js', '/assets/checkout-page.js', '/assets/v2-editorial.js']);
+  assert.deepEqual(scripts(accountPage), ['/assets/cart.js', '/assets/site.js', '/assets/account-page.js', '/assets/v2-editorial.js']);
+  assert.deepEqual(scripts(newsletterPage), ['/assets/cart.js', '/assets/site.js', '/assets/newsletter-page.js', '/assets/v2-editorial.js']);
 });
 
 test('the cart shell links to checkout and keeps no payment form', () => {
@@ -821,10 +822,10 @@ test('the homepage is one static document, and its sections read in order', () =
     assert.ok(listedPaths.has(href), `${href} is not a listed piece`);
   }
 
-  // The standfirst counts the shelf and the catalogue, so neither can drift.
+  // The standfirst counts the pressed-specimen mounts and the catalogue, so neither can drift.
   const shelf = (homePage.match(/class="feature-card"/g) || []).length;
   assert.ok(homePage.includes(
-    `${shelf} pieces on the front shelf, from ${products.length} listed.`
+    `${shelf} pressed-specimen mounts from ${products.length} listed pieces.`
   ), 'the standfirst must agree with the shelf and the catalogue');
 
   // Each card states the piece: one factual line, one format, then the price.
@@ -843,12 +844,11 @@ test('the homepage is one static document, and its sections read in order', () =
     if (product.format) assert.ok(homePage.includes(escapeHtml(product.format)), `${product.slug} is missing its format`);
   }
 
-  // A room circle renders only when collections.json carries an image, so the
-  // text-only row is the current truth until the six photographs arrive.
+  // All 6 studio room medallions render cleanly in collections order.
   assert.equal(
     (homePage.match(/class="room-index__figure"/g) || []).length,
-    collections.filter(room => room.image).length,
-    'a circle without an image would be an empty disc'
+    collections.length,
+    'every room renders a studio medallion'
   );
 
   // Unpriced partner item keeps 'Price on request', and priced shelf items keep zero fake sales urgency.
@@ -1091,12 +1091,12 @@ test('Unit 1.3: product gallery and up to three thumbnails share product-mount w
   assert.match(multiPage, /data-blend="none"[^>]*data-gallery-blend="none"|data-gallery-blend="none"[^>]*data-blend="none"/);
 });
 
-test('Unit 1.4 & 1.5: empty mounts use room botanical SVG marks cleanly and bespoke studio shots ship responsive AVIF/WebP', async () => {
-  // Aloe has an empty primary mount with room botanical SVG mark + single caption inside its gallery figure
-  assert.match(aloePage, /class="empty-mount" data-empty-mount/);
-  assert.match(aloePage, /class="empty-mount__mark"/);
+test('Unit 1.4 & 1.5: empty mounts render pressed botanical specimens and bespoke studio shots ship responsive AVIF/WebP', async () => {
+  // Aloe has an empty primary mount with pressed specimen plate + screen-reader caption inside its gallery figure
+  assert.match(aloePage, /class="empty-mount v2-empty-mount" data-empty-mount/);
+  assert.match(aloePage, /class="v2-specimen-plate"/);
   const aloeGallery = aloePage.match(/<figure class="main-image[\s\S]*?<\/figure>/)?.[0] || '';
-  assert.equal((aloeGallery.match(/class="empty-mount__label">Photograph in preparation<\/span>/g) || []).length, 1);
+  assert.equal((aloeGallery.match(/<span class="sr-only">Photograph in preparation<\/span>/g) || []).length, 1);
   assert.doesNotMatch(aloePage, /<figure class="main-image[^>]*>[\s\S]*<figcaption/);
 
   // Construction sample products use responsive <picture> AVIF + WebP + JPG studio assets on disk
@@ -1291,19 +1291,19 @@ test('remote non-homepage themes, emblems, favicons and showcase survive the fro
     html404
   ];
   for (const docHtml of paperPages) {
-    assert.match(docHtml, /<body class="theme-paper">/, 'commerce/about/policy routes render on Warm Paper');
+    assert.match(docHtml, /<body class="theme-paper v2-doc">/, 'commerce/about/policy routes render on Warm Paper');
     assert.match(docHtml, /<meta name="theme-color" content="#F4F2EE">/, 'Warm Paper emits paper theme-color');
-    assert.match(docHtml, /<header class="site-header">[\s\S]*src="\/assets\/OPAR-brand-assets\/opar-mark-ground\.png"/, 'Warm Paper header uses green ground emblem');
-    assert.match(docHtml, /<footer class="site-footer">[\s\S]*src="\/assets\/OPAR-brand-assets\/opar-mark-main\.svg"/, 'footer everywhere retains light SVG emblem');
+    assert.match(docHtml, /<header class="site-header">[\s\S]*src="\/assets\/brand\/web\/opar-mark-green\.svg"/, 'Warm Paper header uses green vector emblem');
+    assert.match(docHtml, /<footer class="site-footer\b[\s\S]*src="\/assets\/OPAR-brand-assets\/opar-mark-main\.svg"/, 'footer everywhere retains light SVG emblem');
   }
 
-  // Remote Moss editorial routes retain upgraded branding; homepage is separately frozen.
+  // Moss editorial routes retain upgraded branding and split-threshold footer.
   const mossPages = [perennisPage, booksPage, musicPage, journalPage, journalPlants];
   for (const docHtml of mossPages) {
     assert.doesNotMatch(docHtml, /<body[^>]*class="theme-paper"/, 'Moss editorial/sanctuary routes stay dark');
     assert.match(docHtml, /<meta name="theme-color" content="#2F332B">/, 'Moss routes emit dark moss theme-color');
     assert.match(docHtml, /<header class="site-header">[\s\S]*src="\/assets\/OPAR-brand-assets\/opar-mark-main\.svg"/, 'Moss header uses light SVG emblem');
-    assert.match(docHtml, /<footer class="site-footer">[\s\S]*src="\/assets\/OPAR-brand-assets\/opar-mark-main\.svg"/, 'footer retains light SVG emblem');
+    assert.match(docHtml, /<footer class="site-footer\b[\s\S]*src="\/assets\/OPAR-brand-assets\/opar-mark-main\.svg"/, 'footer retains light SVG emblem');
   }
 
   // Full favicon suite emitted and backed by real files
@@ -1324,10 +1324,10 @@ test('remote non-homepage themes, emblems, favicons and showcase survive the fro
   assert.equal(existsSync(new URL(`../public${brandJson.logo.assetPathOnDark}`, import.meta.url)), true);
   assert.equal(existsSync(new URL(`../public${brandJson.logo.assetPathOnLight}`, import.meta.url)), true);
 
-  // Owner correction: source/HTML hashes are also checked by brand-preview.test.mjs.
-  assert.doesNotMatch(homePage, /id="house-paper"|non-home-branding\.css|opar-template-preview\.css/);
-  assert.match(homePage, /src="\/assets\/brand\/opar-seed-orbit-on-dark\.png"/);
-  assert.match(homePage, /href="\/assets\/brand\/opar-mark-tile-128\.png"/);
+  // Promoted root homepage carries unified stylesheet & vector emblem
+  assert.match(homePage, /href="\/assets\/non-home-branding\.css"/);
+  assert.match(homePage, /href="\/assets\/v2-editorial\.css"/);
+  assert.match(homePage, /src="\/assets\/OPAR-brand-assets\/opar-mark-main\.svg"/);
 
   // Non-homepage refinements are isolated from the frozen shared stylesheet.
   const css = await readFile(new URL('../public/assets/non-home-branding.css', import.meta.url), 'utf8');
@@ -1343,7 +1343,7 @@ test('remote non-homepage themes, emblems, favicons and showcase survive the fro
   assert.match(previewHtml, /opar-section-bg-wide-ground-2400x1400\.png/);
 });
 
-test('Live Warm Paper commercial architecture: pure Paper PDPs, Paper orbit imageless openers, empty-mount orbits, medallion pauses, and rectangular buttons', async () => {
+test('Live Warm Paper commercial architecture: pure Paper PDPs, Paper orbit imageless openers, specimen orbits, medallion pauses, and rectangular buttons', async () => {
   const shopHub = renderCollection('dropshipping', products);
   const discoverHub = renderCollection('affiliate', products);
   const roomPage = renderCategoryPage(collections[0], products);
@@ -1360,12 +1360,12 @@ test('Live Warm Paper commercial architecture: pure Paper PDPs, Paper orbit imag
   }
   assert.doesNotMatch(mossJournal, /class="paper-opener"/, 'Moss editorial pages keep dark canopy headings');
 
-  // Empty product mounts carry orbital SVG mark behind botanical stroke
-  assert.match(aloePage, /class="empty-mount__orbit" src="\/assets\/brand\/web\/opar-mark-green\.svg"/);
+  // Empty product mounts carry orbital SVG mark behind pressed specimen plate
+  assert.match(aloePage, /class="v2-specimen-plate__orbit" src="\/assets\/brand\/web\/opar-mark-green\.svg"/);
 
   // Live PDPs stay pure Warm Paper (no Moss split buy-box) and feature medallion pause before details
   for (const pageHtml of [shopPage, affiliatePage, aloePage, ashwagandhaPage]) {
-    assert.match(pageHtml, /<body class="theme-paper">/);
+    assert.match(pageHtml, /<body class="theme-paper v2-doc">/);
     assert.doesNotMatch(pageHtml, /reference-product__details/);
     assert.match(pageHtml, /class="paper-pause"[^>]*><img src="\/assets\/OPAR-brand-assets\/opar-medallion-paper-1200\.png"/);
   }
@@ -1379,72 +1379,80 @@ test('Live Warm Paper commercial architecture: pure Paper PDPs, Paper orbit imag
   assert.match(nonHomeCss, /body\.theme-paper \.paper-opener::before[\s\S]*section-bg-paper\.png/);
 });
 
-test('Isolated V2 Herbarium & Apothecary preview renders all key experiences under /v2/ with zero live-site interference', async () => {
-  const { renderV2Home, renderV2Collection, renderV2Product, renderV2Static } = await import('../templates/v2-site.mjs');
+test('Promoted Herbarium & Apothecary site serves root URLs with Trust & Clarity Set, explicit sample labels, and zero /v2/ leftovers', async () => {
+  const shopHub = renderCollection('dropshipping', products);
+  const booksPage = renderStaticPage(pageAt('/perennis/books/'));
+  const musicPage = renderStaticPage(pageAt('/perennis/music/'));
+  const studioSample = products.find(p => p.slug === 'sample-turned-wood-vessel');
+  const studioSamplePdp = renderDropshippingPage(studioSample, products);
 
-  const v2Home = renderV2Home(products);
-  const v2Shop = renderV2Collection('dropshipping', products);
-  const v2Pdp = renderV2Product(aloeProduct, products);
-  const v2Books = renderV2Static(pageAt('/perennis/books/'));
-  const v2Music = renderV2Static(pageAt('/perennis/music/'));
-  const v2Checkout = renderV2Static(pageAt('/checkout/'));
-
-  for (const doc of [v2Home, v2Shop, v2Pdp, v2Books, v2Music, v2Checkout]) {
-    assert.match(doc, /<meta name="robots" content="noindex, nofollow">/);
+  for (const doc of [homePage, shopHub, aloePage, ashwagandhaPage, affiliatePage, studioSamplePdp, booksPage, musicPage, checkoutPage]) {
+    assert.match(doc, /<meta name="robots" content="noindex, follow">/);
     assert.match(doc, /class="[^"]*v2-doc/);
-    assert.match(doc, /class="v2-threshold"/);
     assert.match(doc, /class="v2-split-band"/);
     assert.match(doc, /href="\/assets\/v2-editorial\.css"/);
     assert.match(doc, /src="\/assets\/v2-editorial\.js"/);
+    assert.doesNotMatch(doc, /class="v2-threshold"|\/v2\//);
   }
 
-  // Homepage V2: pressed specimen plates, studio room medallions, right hero index
-  assert.match(v2Home, /class="v2-hero-index"/);
-  assert.match(v2Home, /class="v2-specimen-plate"/);
-  assert.match(v2Home, /class="room-index__figure"/);
+  // Homepage: 3 botanical spreads, hero index, specimen shelf, 6 studio room medallions
+  assert.match(homePage, /class="v2-hero-index"/);
+  assert.match(homePage, /class="v2-specimen-plate"/);
+  assert.equal((homePage.match(/<article class="editorial-spread\b/g) || []).length, 3);
+  assert.match(homePage, /Nigella sativa[\s\S]*Withania somnifera[\s\S]*Curcuma longa/);
+  assert.match(homePage, /class="room-index__figure"/);
 
-  // Shop V2: Clean card grid without Plates/Ledger switcher or MutationObserver loop
-  assert.doesNotMatch(v2Shop, /data-v2-view-toggle|data-v2-ledger/);
+  // Shop: pre-launch construction sample showcase banner & sample card sublabels without Plates/Ledger switcher
+  assert.match(shopHub, /class="[^"]*\bv2-sample-notice\b/);
+  assert.match(shopHub, /3 owner-selected previews and 6 labelled construction samples/);
+  assert.match(shopHub, /class="v2-card-state">Construction sample<\/span>/);
+  assert.doesNotMatch(shopHub, /data-v2-view-toggle|data-v2-ledger/);
+
   const v2Js = await readFile(new URL('../public/assets/v2-editorial.js', import.meta.url), 'utf8');
-  assert.doesNotMatch(v2Js, /gridObserver|syncLedgerWithGrid/);
+  const productJs = await readFile(new URL('../public/assets/product-pages.js', import.meta.url), 'utf8');
+  assert.doesNotMatch(v2Js, /scopeV2Links|refreshThresholdBag|gridObserver|syncLedgerWithGrid|\/v2\//);
   assert.match(v2Js, /data-v2-folio-sku/);
+  assert.match(productJs, /data-v2-bag-bridge/);
 
-  // Folio PDP V2: Static top pair, fixed Monograph band below, unified Folio Reference, Known & Documented
-  const v2AshwagandhaPdp = renderV2Product(products.find(p => p.slug === 'ashwagandha-with-black-pepper'), products);
-  const v2TurmericPdp = renderV2Product(products.find(p => p.slug === 'turmeric-cleansing-soap'), products);
-  const v2PadsPdp = renderV2Product(products.find(p => p.slug === 'turmeric-cleansing-pads'), products);
-  const v2Css = await readFile(new URL('../public/assets/v2-editorial.css', import.meta.url), 'utf8');
-  assert.match(v2Css, /body\.v2-doc \.v2-folio-layout \.product-gallery\s*\{[^}]*position:\s*static;/);
+  // Folio PDP: Static top pair, Monograph band, Known & Documented, Bag Bridge, Full Verification File + FAQs
+  const pdpCss = await readFile(new URL('../public/assets/v2-editorial.css', import.meta.url), 'utf8');
+  assert.match(pdpCss, /body\.v2-doc \.v2-folio-layout \.product-gallery\s*\{[^}]*position:\s*static;/);
+  assert.doesNotMatch(pdpCss, /\.v2-threshold/);
 
-  assert.match(v2Pdp, /v2-folio-layout/);
-  assert.match(v2Pdp, /<\/article>\s*<section class="v2-monograph-band"/, 'Monograph band sits fixed below top gallery/buy-box pair');
-  assert.doesNotMatch(v2Pdp, /v2-habitat-plate|botanical-archipelago\.jpg/, 'Non-matching product omits generic herb habitat plate');
-  assert.match(v2Pdp, /class="v2-folio-ref"/);
-  assert.match(v2Pdp, /data-v2-folio-sku[^>]*>OPAR-EC-02A</);
-  assert.match(v2Pdp, /data-variant-sku="OPAR-EC-02B"/);
-  assert.match(v2Pdp, /0 of 9 checks verified/);
-  assert.match(v2Pdp, /data-v2-folio-rate[^>]*>£8\.50 GBP</);
-  assert.match(v2Pdp, /data-v2-copy-folio/);
-  assert.match(v2Pdp, /Known &amp; Documented/);
-  assert.doesNotMatch(v2Pdp, /Excluded \/ Withheld|class="v2-struck"/);
+  assert.match(aloePage, /v2-folio-layout/);
+  assert.match(aloePage, /<\/article>\s*<section class="v2-monograph-band"/, 'Monograph band sits fixed below top gallery/buy-box pair');
+  assert.doesNotMatch(aloePage, /v2-habitat-plate|botanical-archipelago\.jpg/, 'Non-matching product omits generic herb habitat plate');
+  assert.match(aloePage, /class="v2-folio-ref"/);
+  assert.match(aloePage, /data-v2-folio-sku[^>]*>OPAR-EC-02A</);
+  assert.match(aloePage, /data-variant-sku="OPAR-EC-02B"/);
+  assert.match(aloePage, /0 of 9 checks verified/);
+  assert.match(aloePage, /data-v2-folio-rate[^>]*>£8\.50 GBP</);
+  assert.match(aloePage, /data-v2-copy-folio/);
+  assert.match(aloePage, /data-v2-bag-bridge/);
+  assert.match(aloePage, /Full verification file \(0 of 9 checks verified\)/);
+  assert.match(aloePage, /Known &amp; Documented/);
+  assert.doesNotMatch(aloePage, /Excluded \/ Withheld|class="v2-struck"/);
 
-  assert.match(v2AshwagandhaPdp, /v2-habitat-plate[\s\S]*ashwagandha-env-forest\.jpg/);
-  assert.match(v2AshwagandhaPdp, /0 of 10 checks verified/);
-  assert.match(v2TurmericPdp, /v2-habitat-plate[\s\S]*turmeric-plantation-env\.jpg/);
-  assert.match(v2PadsPdp, /Price on CJ[\s\S]*data-v2-copy-folio/);
+  assert.match(ashwagandhaPage, /v2-habitat-plate[\s\S]*ashwagandha-env-forest\.jpg/);
+  assert.match(ashwagandhaPage, /0 of 10 checks verified/);
+  assert.match(shopPage, /v2-habitat-plate[\s\S]*turmeric-plantation-env\.jpg/);
+  assert.match(affiliatePage, /Price on CJ[\s\S]*data-v2-copy-folio/);
+  assert.doesNotMatch(affiliatePage, /data-v2-bag-bridge/);
+  assert.match(studioSamplePdp, /class="sample-banner"/);
 
-  // Perennis V2: Fine-Press colophon + Consent-first Acoustic Plate
-  assert.match(v2Books, /v2-dropcap/);
-  assert.match(v2Books, /v2-colophon/);
-  assert.match(v2Music, /v2-listening-plate/);
-  assert.match(v2Music, /data-v2-consent-load/);
+  // Perennis: Fine-Press colophon + Consent-first Acoustic Plate
+  assert.match(booksPage, /v2-dropcap/);
+  assert.match(booksPage, /v2-colophon/);
+  assert.match(musicPage, /v2-listening-plate/);
+  assert.match(musicPage, /data-v2-consent-load/);
 
-  // Checkout V2: Atelier Proforma Inquiry Sheet
-  assert.match(v2Checkout, /data-v2-proforma/);
-  assert.match(v2Checkout, /data-v2-print-proforma/);
-  assert.match(v2Checkout, /data-v2-copy-ref/);
+  // Checkout: Atelier Proforma Inquiry Sheet
+  assert.match(checkoutPage, /data-v2-proforma/);
+  assert.match(checkoutPage, /data-v2-print-proforma/);
+  assert.match(checkoutPage, /data-v2-copy-ref/);
 
-  // Verify V2 stays excluded from customer sitemap and search index
+  // Retired /v2/ directory and links do not exist in generated site
+  assert.equal(existsSync(new URL('../public/v2', import.meta.url)), false);
   const sitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8');
   const searchIndex = await readFile(new URL('../public/assets/search-index.json', import.meta.url), 'utf8');
   assert.doesNotMatch(sitemap + searchIndex, /\/v2\//);

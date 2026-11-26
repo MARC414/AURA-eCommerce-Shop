@@ -30,10 +30,12 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/OPAR-brand-assets/favicon-180.png">
   <link rel="stylesheet" href="/assets/product-pages.css">
   <link rel="stylesheet" href="/assets/non-home-branding.css">
+  <link rel="stylesheet" href="/assets/v2-editorial.css">
   <script src="/assets/cart.js" defer></script>
   <script src="/assets/site.js" defer></script>
+  <script src="/assets/v2-editorial.js" defer></script>
 </head>
-<body>
+<body class="v2-doc">
 
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
@@ -104,28 +106,74 @@
         </div>
       </div>
     </header>
-  <main id="main-content" tabindex="-1"><div class="page-shell static-page">
-      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/perennis/">Perennis</a></li><li aria-current="page">Music</li></ol></nav>
-      <div class="collection-heading">
-        <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>Perennis · Music</span>
-        <h1>Listening, with credit.</h1>
-        <p>Sacred sound is part of Perennis now, not a shop category. Music here is listened to where it lives: players are embedded from official channels and artists pages, so the recording, the performer and the rights stay with the people who made them.</p>
+  <main id="main-content" tabindex="-1"><div class="page-shell">
+      <header class="v2-chapter-opener">
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/perennis/">Perennis</a></li><li aria-current="page">Music</li></ol></nav>
+        <div class="collection-heading">
+          <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>Perennis · Music</span>
+          <h1>Listening, with credit.</h1>
+          <p>Sacred sound is part of Perennis now, not a shop category. Music here is listened to where it lives: players are embedded from official channels and artists pages, so the recording, the performer and the rights stay with the people who made them.</p>
+        </div>
+      </header>
+
+    <section class="v2-listening-plate" aria-labelledby="v2-listening-title">
+      <img class="v2-listening-seal" src="/assets/OPAR-brand-assets/opar-medallion-ground-1200.png" alt="OPAR double-ring listening seal" width="190" height="190" loading="lazy" decoding="async">
+      <span class="eyebrow">Dark Linen Acoustic Chamber · Consent-First Plate</span>
+      <h2 id="v2-listening-title" class="v2-listening-title">Raga Yaman — Evening Alap Study</h2>
+      <p class="v2-listening-credit">Attribution held at source &middot; Artist Channel Embed Slot</p>
+      <div class="v2-listening-veil" data-v2-listening-veil>
+        <p>External audio players stay dormant until you explicitly open them, so third-party embeds never track page visits uninvited.</p>
+        <button type="button" class="button button-primary button-small" data-v2-consent-load>Load external recording slot <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
       </div>
+      <div class="v2-listening-deck" data-v2-listening-deck hidden tabindex="-1">
+        <span class="eyebrow">Consent recorded for this session</span>
+        <p class="v2-listening-deck__copy">When approved recordings are published in <code>perennis/music</code>, clicking above mounts the artist’s official embed here with full attribution.</p>
+      </div>
+    </section>
+      <div class="v2-finepress">
 
-      <section class="content-block">
-        <h2>Not yet published</h2>
-        <p>No recordings are listed yet. Each entry will name the performer, the composition, the recording date and the rights basis before it appears.</p>
+    <section class="v2-finepress-section">
+      <span class="v2-roman-numeral" aria-hidden="true">I</span>
+      <h2>Not yet published</h2>
+      <p class="v2-dropcap">No recordings are listed yet. Each entry will name the performer, the composition, the recording date and the rights basis before it appears.</p>
 
-      </section>
-      <section class="content-block">
-        <h2>Why embeds, not uploads</h2>
-        <p>A composition may be old while every recording of it is still protected. Embedding the original avoids copying a performance we do not own, and it keeps the artist&#39;s own channel as the place the work is found.</p>
+    </section>
+    <section class="v2-finepress-section">
+      <span class="v2-roman-numeral" aria-hidden="true">II</span>
+      <h2>Why embeds, not uploads</h2>
+      <p class="v2-dropcap">A composition may be old while every recording of it is still protected. Embedding the original avoids copying a performance we do not own, and it keeps the artist&#39;s own channel as the place the work is found.</p>
 
-      </section>
-      <p class="page-note">Players will load only when you ask them to, so the page stays fast and no third-party script runs uninvited.</p>
+    </section>
+
+        <p class="page-note">Players will load only when you ask them to, so the page stays fast and no third-party script runs uninvited.</p>
+      </div>
     </div></main>
 
-    <footer class="site-footer">
+    <footer class="site-footer v2-split-footer">
+      <div class="v2-split-band" aria-label="Cross the threshold">
+        <section class="v2-split-wing" aria-labelledby="v2-wing-moss">
+          <span class="eyebrow">Night Canopy · Free Sanctuary</span>
+          <h3 id="v2-wing-moss">The Night Library</h3>
+          <p>Free books, sacred sound recordings, and plant monographs set in Moss Nocturne—kept apart from commerce.</p>
+          <div class="v2-split-wing__links">
+            <a href="/perennis/">Perennis Library</a>
+            <a href="/perennis/books/">Books</a>
+            <a href="/perennis/music/">Listening Room</a>
+            <a href="/journal/">Journal</a>
+          </div>
+        </section>
+        <section class="v2-split-wing v2-split-wing--paper" aria-labelledby="v2-wing-paper">
+          <span class="eyebrow">Warm Paper · Specimen Table</span>
+          <h3 id="v2-wing-paper">Dispensary &amp; Objects</h3>
+          <p>Objects chosen one by one on cotton-rag Warm Paper, with invoice-first inquiry and visible sourcing records.</p>
+          <div class="v2-split-wing__links">
+            <a href="/shop/">Shop Archive</a>
+            <a href="/discover/">Partner Offers</a>
+            <a href="/cart/">Bag</a>
+            <a href="/checkout/">Request Invoice</a>
+          </div>
+        </section>
+      </div>
       <div class="footer-top">
         <div class="footer-brand">
           <a class="wordmark" href="/" aria-label="OPAR home"><img class="wordmark-emblem" src="/assets/OPAR-brand-assets/opar-mark-main.svg" alt="OPAR seed and orbit emblem" width="28" height="28">OPAR</a>

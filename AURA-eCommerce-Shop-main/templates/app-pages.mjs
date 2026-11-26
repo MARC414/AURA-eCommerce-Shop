@@ -66,12 +66,27 @@ function checkoutSection() {
               <button class="button button-primary" type="submit" data-checkout-submit>Request invoice ${arrow}</button>
               <p class="action-note">No card details are collected. The request is saved in this browser until a server is connected.</p>
             </form>
-            <div class="checkout-confirmation" data-checkout-confirmation hidden tabindex="-1">
-              <span class="eyebrow">Request recorded</span>
-              <h2>Reference <span data-checkout-reference>—</span></h2>
-              <p data-checkout-confirmation-copy>Your request is saved in this browser. ${BRAND} replies with a written invoice before anything is paid.</p>
+            <div class="checkout-confirmation v2-proforma" data-checkout-confirmation data-v2-proforma hidden tabindex="-1">
+              <div class="v2-proforma__head">
+                <div>
+                  <span class="eyebrow">Atelier Proforma Inquiry Sheet</span>
+                  <h2>Reference <span data-checkout-reference data-v2-proforma-ref>—</span></h2>
+                  <p class="small-note" data-v2-proforma-recipient></p>
+                </div>
+                <img class="v2-proforma__seal" src="/assets/OPAR-brand-assets/opar-medallion-paper-1200.png" alt="OPAR archival seal" width="64" height="64" loading="lazy" decoding="async">
+              </div>
+              <p class="v2-proforma__copy" data-checkout-confirmation-copy>Your request is saved in this browser. ${BRAND} replies with a written invoice before anything is paid.</p>
               <p class="small-note" data-checkout-confirmation-method></p>
-              <div class="content-links">
+              <table class="v2-proforma__table" aria-label="Proforma summary">
+                <thead><tr><th>Item</th><th>Qty</th><th>Rate</th></tr></thead>
+                <tbody data-v2-proforma-lines></tbody>
+                <tfoot><tr><th colspan="2">Recorded Subtotal</th><th data-v2-proforma-total>—</th></tr></tfoot>
+              </table>
+              <div class="v2-proforma__actions">
+                <button type="button" class="button button-primary button-small" data-v2-print-proforma>Print / Save PDF Inquiry</button>
+                <button type="button" class="button button-secondary button-small" data-v2-copy-ref>Copy reference</button>
+              </div>
+              <div class="content-links v2-proforma__links">
                 <a class="text-link" href="/order/" data-checkout-track-link>Track this request ${arrow}</a>
                 <a class="text-link" href="${escapeHtml(waHref)}" target="_blank" rel="noopener noreferrer" data-checkout-whatsapp>Send reference via WhatsApp ${external}</a>
                 <a class="text-link" href="/account/">View saved requests ${arrow}</a>
@@ -151,6 +166,77 @@ function newsletterSection() {
       </section>`;
 }
 
+function renderSacredMossPage(page, shellOptions) {
+  const roman = ['I', 'II', 'III', 'IV', 'V'];
+  const isMusic = page.path === '/perennis/music/';
+  const isBooks = page.path === '/perennis/books/';
+  const parent = page.parent
+    ? `<li><a href="${escapeHtml(page.parent.href)}">${escapeHtml(page.parent.label)}</a></li>`
+    : '';
+
+  const blocksHtml = (page.blocks || []).map((section, idx) => `
+    <section class="v2-finepress-section">
+      <span class="v2-roman-numeral" aria-hidden="true">${roman[idx] || String(idx + 1)}</span>
+      ${section.heading ? `<h2>${escapeHtml(section.heading)}</h2>` : ''}
+      ${(section.paragraphs || []).map((p, pIdx) => `<p${pIdx === 0 ? ' class="v2-dropcap"' : ''}>${escapeHtml(p)}</p>`).join('')}
+      ${section.links ? `<div class="content-links">${section.links.map(l => `<a class="text-link" href="${escapeHtml(l.href)}">${escapeHtml(l.label)} ${arrow}</a>`).join('')}</div>` : ''}
+    </section>`).join('');
+
+  const musicPlate = isMusic ? `
+    <section class="v2-listening-plate" aria-labelledby="v2-listening-title">
+      <img class="v2-listening-seal" src="/assets/OPAR-brand-assets/opar-medallion-ground-1200.png" alt="OPAR double-ring listening seal" width="190" height="190" loading="lazy" decoding="async">
+      <span class="eyebrow">Dark Linen Acoustic Chamber · Consent-First Plate</span>
+      <h2 id="v2-listening-title" class="v2-listening-title">Raga Yaman — Evening Alap Study</h2>
+      <p class="v2-listening-credit">Attribution held at source &middot; Artist Channel Embed Slot</p>
+      <div class="v2-listening-veil" data-v2-listening-veil>
+        <p>External audio players stay dormant until you explicitly open them, so third-party embeds never track page visits uninvited.</p>
+        <button type="button" class="button button-primary button-small" data-v2-consent-load>Load external recording slot ${arrow}</button>
+      </div>
+      <div class="v2-listening-deck" data-v2-listening-deck hidden tabindex="-1">
+        <span class="eyebrow">Consent recorded for this session</span>
+        <p class="v2-listening-deck__copy">When approved recordings are published in <code>perennis/music</code>, clicking above mounts the artist’s official embed here with full attribution.</p>
+      </div>
+    </section>` : '';
+
+  const colophon = isBooks ? `
+    <aside class="v2-colophon" aria-labelledby="v2-colophon-heading">
+      <span class="eyebrow">Fine-Press Colophon · Edition Proof</span>
+      <h2 id="v2-colophon-heading">How every Perennis volume is set</h2>
+      <p>Each edition carries verified public-domain or written permission documentation before any reading text or download appears.</p>
+      <dl class="v2-colophon-grid">
+        <div><dt>Typography</dt><dd>Cormorant Garamond · 58ch measure</dd></div>
+        <div><dt>Primary Format</dt><dd>Public HTML reader first; EPUB / PDF gated cleanly</dd></div>
+        <div><dt>Rights Register</dt><dd>Exact edition basis checked per volume</dd></div>
+        <div><dt>Reader Access</dt><dd>Public reading pages; no account required</dd></div>
+      </dl>
+    </aside>` : '';
+
+  return documentPage({
+    title: page.title,
+    description: page.description,
+    canonical: page.path,
+    active: page.section || null,
+    theme: null,
+    ...shellOptions,
+    content: `<div class="page-shell">
+      <header class="v2-chapter-opener">
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>${parent}<li aria-current="page">${escapeHtml(page.label)}</li></ol></nav>
+        <div class="collection-heading">
+          <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>${escapeHtml(page.eyebrow)}</span>
+          <h1>${escapeHtml(page.heading)}</h1>
+          <p>${escapeHtml(page.intro)}</p>
+        </div>
+      </header>
+      ${musicPlate}
+      <div class="v2-finepress">
+        ${blocksHtml}
+        ${colophon}
+        ${page.note ? `<p class="page-note">${escapeHtml(page.note)}</p>` : ''}
+      </div>
+    </div>`
+  });
+}
+
 /** Plain content pages plus cart, checkout, order-tracking, account, wishlist, search and newsletter apps. */
 export function renderStaticPage(page, documentOptions = {}) {
   const { referenceLayout = null, ...shellOptions } = documentOptions;
@@ -158,6 +244,9 @@ export function renderStaticPage(page, documentOptions = {}) {
   if (!/^\/[a-z0-9/-]*\/$/.test(page.path)) throw new Error(`Invalid static page path: ${page.path}`);
   if (!page.title || !page.description || !page.label || !page.heading || !page.intro) {
     throw new Error(`Static page ${page.path} needs a title, description, label, heading, and intro.`);
+  }
+  if (!referenceLayout && (page.section === 'perennis' || page.section === 'journal')) {
+    return renderSacredMossPage(page, shellOptions);
   }
   const parent = page.parent
     ? `<li><a href="${escapeHtml(page.parent.href)}">${escapeHtml(page.parent.label)}</a></li>`
@@ -204,7 +293,7 @@ export function renderStaticPage(page, documentOptions = {}) {
         <div class="commerce-summary" data-cart-summary hidden>
           <div class="commerce-total"><span class="eyebrow">Subtotal</span><strong data-cart-subtotal>—</strong></div>
           <p class="commerce-price-note" data-cart-price-note hidden>Some pieces are priced on request, so the full amount is set on your invoice.</p>
-          <a class="button button-primary" href="/checkout/">Continue to request invoice ${arrow}</a>
+          <a class="button button-primary" href="/checkout/">Continue to Proforma Inquiry ${arrow}</a>
           <p class="action-note">Nothing is charged on this site. Price, delivery and payment preference are confirmed in writing first.</p>
         </div>
         <noscript><p class="page-note">The cart needs JavaScript to read this browser’s storage. Nothing has been sent anywhere.</p></noscript>
@@ -235,17 +324,18 @@ export function renderStaticPage(page, documentOptions = {}) {
     ...(page.newsletter ? ['/assets/newsletter-page.js'] : [])
   ];
   const isUtility = Boolean(page.search || page.cart || page.wishlist || page.checkout || page.account || page.newsletter || page.orderTracking);
-  const usePaperTheme = isUtility || page.section === 'about';
+  const usePaperTheme = isUtility || page.section === 'about' || page.section === 'policies' || page.path.startsWith('/policies/') || page.path === '/imprint/' || page.path === '/contact/' || page.path === '/help/';
+  const resolvedTheme = Object.hasOwn(shellOptions, 'theme') ? shellOptions.theme : (usePaperTheme ? 'theme-paper' : null);
   return documentPage({
     title: page.title,
     description: page.description,
     canonical: page.path,
     active: page.section || null,
-    theme: usePaperTheme ? 'theme-paper' : null,
+    theme: resolvedTheme,
     scripts: pageScripts,
     ...shellOptions,
     content: `${referenceLayout === 'newsletter' ? renderReferenceNewsletter({ page, form: newsletter }) : referenceLayout ? renderReferenceHero({ surface: 'moss', eyebrow: page.eyebrow, heading: page.heading, intro: page.intro, action: page.links?.find(link => link.href.startsWith('/')) || null }) : ''}<div class="page-shell static-page">
-      ${referenceLayout ? '' : usePaperTheme ? `<header class="paper-opener">
+      ${referenceLayout ? '' : resolvedTheme === 'theme-paper' ? `<header class="paper-opener">
         <img class="paper-opener__mark" src="/assets/brand/web/opar-mark-green.svg" alt="" aria-hidden="true" width="460" height="460" loading="lazy" decoding="async">
         <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>${parent}<li aria-current="page">${escapeHtml(page.label)}</li></ol></nav>
         <div class="collection-heading">
@@ -266,8 +356,7 @@ export function renderStaticPage(page, documentOptions = {}) {
 }
 
 /**
- * F1: Dedicated static 404 recovery document (served as public/404.html & dist/404.html)
- * so Cloudflare Pages returns HTTP 404 on unknown routes instead of soft-200 homepage copies.
+ * F1: Dedicated static 404 recovery document (served as public/404.html & dist/404.html).
  */
 export function renderNotFoundPage() {
   return documentPage({
@@ -276,17 +365,20 @@ export function renderNotFoundPage() {
     robots: 'noindex, nofollow',
     theme: 'theme-paper',
     content: `<div class="page-shell static-page not-found-page">
-      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">404</li></ol></nav>
-      <div class="collection-heading">
-        <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>Error 404</span>
-        <h1>This page was not found.</h1>
-        <p>The link you followed may have moved or never existed. Nothing is lost — browse the shop rooms, search pieces, or track an existing request below.</p>
-      </div>
+      <header class="paper-opener">
+        <img class="paper-opener__mark" src="/assets/brand/web/opar-mark-green.svg" alt="" aria-hidden="true" width="460" height="460" loading="lazy" decoding="async">
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">404</li></ol></nav>
+        <div class="collection-heading">
+          <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>Error 404</span>
+          <h1>This page was not found.</h1>
+          <p>The link you followed may have moved or never existed. Nothing is lost — browse the shop rooms, search pieces, or track an existing request below.</p>
+        </div>
+      </header>
       <div class="content-links content-links-wide">
         <a class="text-link" href="/">Return home ${arrow}</a>
         <a class="text-link" href="/shop/">Browse all shop pieces ${arrow}</a>
         <a class="text-link" href="/discover/">View partner offers ${arrow}</a>
-        <a class="text-link" href="/search/">Search OPAR ${arrow}</a>
+        <a class="text-link" href="/search/">Search ${escapeHtml(BRAND)} ${arrow}</a>
         <a class="text-link" href="/order/">Track a request ${arrow}</a>
       </div>
     </div>`
