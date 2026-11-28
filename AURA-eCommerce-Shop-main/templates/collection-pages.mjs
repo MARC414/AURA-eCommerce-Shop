@@ -6,9 +6,37 @@
  * and cutout-free.
  */
 
-import { BRAND, collections, escapeHtml, arrow, documentPage } from './chrome.mjs';
+import { BRAND, collections, escapeHtml, arrow, documentPage, medallionPictureMarkup } from './chrome.mjs';
 import { MODELS, card, categoryPath } from './product-page.mjs';
 import { renderReferenceHero } from './reference-layouts.mjs';
+
+const ROOM_STUDIO_MEDIA = {
+  'herbal-botanicals': 'Amber botanical apothecary vessel',
+  'everyday-care': 'Cold-process matte cleansing bar',
+  'showpieces': 'Hand-turned hardwood vessel',
+  'yoga-practice': 'Rolled woven mat and cork block',
+  'art-craft': 'Ceramic studio craft vase',
+  'quiet-living': 'Linen cloth and stoneware dish'
+};
+
+function shopRoomPayloadJson() {
+  const payload = Object.fromEntries(collections.map(c => [
+    c.slug,
+    {
+      slug: c.slug,
+      label: c.label,
+      eyebrow: c.eyebrow,
+      heading: c.heading,
+      intro: c.intro,
+      href: categoryPath(c),
+      avif: `/assets/products/studio-${c.slug}-800.avif`,
+      webp: `/assets/products/studio-${c.slug}-800.webp`,
+      jpg: `/assets/products/studio-${c.slug}-800.jpg`,
+      alt: ROOM_STUDIO_MEDIA[c.slug] || `${c.heading} studio plate`
+    }
+  ]));
+  return JSON.stringify(payload).replace(/<\/script/gi, '<\\/script');
+}
 
 const SHOP_HERO = {
   avif: '/assets/brand/hero-shop.avif',
@@ -176,6 +204,10 @@ export function renderCollection(modelName, products, documentOptions = {}) {
       active: 'shop',
       theme: 'theme-paper',
       scripts: ['/assets/shop-page.js'],
+      seo: {
+        type: 'collection',
+        context: `Browse ${list.length} pieces across ${collections.length} rooms (${previewCount} previews, ${sampleCount} samples) with transparent sourcing.`
+      },
       ...shellOptions,
       content: `<div class="shop-hub-page">
       ${referenceLayout ? renderReferenceHero({ surface: 'paper', eyebrow: `${BRAND} collection`, heading: 'Objects for a slower life.', intro: 'Herbs, everyday cleansing bars, studio miscellany, practice goods and craft — chosen one by one, described plainly without theatre.', action: { href: '#shop-reference-results', label: 'Explore the collection' }, meta: `${list.length} curated pieces · ${collections.length} rooms · ${previewCount} preview · ${sampleCount} construction samples` }) : shopHero(list)}
@@ -185,8 +217,24 @@ export function renderCollection(modelName, products, documentOptions = {}) {
           <div class="shop-results">
             <div class="sample-banner sample-banner--paper v2-sample-notice" role="note">
               <span class="eyebrow">Pre-launch showcase</span>
-              <p>Showing ${previewCount} owner-selected previews and ${sampleCount} labelled construction samples. Sample items carry studio fixture photography and dummy pricing to demonstrate room layout and written-invoice checkout before live orders open.</p>
+              <p>Showing ${previewCount} owner-selected previews and ${sampleCount} labelled construction samples. Sample items carry studio fixture photography and dummy pricing to demonstrate room layout and written-invoice checkout before live orders open. <a class="text-link" href="/help/#compliance-faq">Read Compliance &amp; FAQ ${arrow}</a></p>
             </div>
+            <section class="v2-room-strip" data-shop-room-strip hidden aria-live="polite" aria-label="Selected room introduction">
+              <div class="v2-room-strip__media">
+                <picture>
+                  <source type="image/avif" srcset="/assets/products/studio-herbal-botanicals-800.avif" data-room-avif>
+                  <source type="image/webp" srcset="/assets/products/studio-herbal-botanicals-800.webp" data-room-webp>
+                  <img src="/assets/products/studio-herbal-botanicals-800.jpg" alt="" width="80" height="80" loading="lazy" decoding="async" data-room-img>
+                </picture>
+              </div>
+              <div class="v2-room-strip__body">
+                <span class="eyebrow" data-room-eyebrow>Room</span>
+                <h2 data-room-heading>All rooms</h2>
+                <p data-room-intro></p>
+              </div>
+              <a class="text-link v2-room-strip__action" href="/shop/" data-room-link>Open room ${arrow}</a>
+            </section>
+            <script type="application/json" data-shop-rooms-data>${shopRoomPayloadJson()}</script>
             <div class="shop-toolbar">
               <p class="shop-toolbar__count" data-shop-count aria-live="polite">Showing ${list.length} of ${list.length} ${list.length === 1 ? 'piece' : 'pieces'}</p>
               <button type="button" class="text-link shop-toolbar__reset" data-shop-reset hidden>Reset filters</button>
@@ -200,7 +248,7 @@ export function renderCollection(modelName, products, documentOptions = {}) {
             </div>
           </div>
         </div>
-        ${referenceLayout ? '' : '<div class="paper-pause" aria-hidden="true"><img src="/assets/OPAR-brand-assets/opar-medallion-paper-1200.png" alt="" width="72" height="72" loading="lazy" decoding="async"></div>'}
+        ${referenceLayout ? '' : `<div class="paper-pause" aria-hidden="true">${medallionPictureMarkup('paper', { width: 72, height: 72 })}</div>`}
       </div>
     </div>`
     });
@@ -212,6 +260,10 @@ export function renderCollection(modelName, products, documentOptions = {}) {
     canonical: route,
     active: 'shop',
     theme: 'theme-paper',
+    seo: {
+      type: 'collection',
+      context: `Browse ${list.length} partner-fulfilled pieces introduced by ${BRAND} with transparent external merchant terms.`
+    },
     ...shellOptions,
     content: `<div class="page-shell collection-page">
       <header class="${referenceLayout ? 'collection-opener' : 'paper-opener'}">
@@ -225,7 +277,7 @@ export function renderCollection(modelName, products, documentOptions = {}) {
       </header>
       <div class="hub-explainer"><span class="badge badge-partner">${model.badge}</span><p>You browse here; the purchase, delivery and returns take place on the linked merchant’s website.</p></div>
       ${referenceLayout ? referenceRooms(null) : ''}<div class="product-cards${referenceLayout ? ' reference-card-grid' : ''}">${list.map((product, index) => card(product, index)).join('') || '<p>Pieces will be added as the collection develops.</p>'}</div>
-      ${referenceLayout ? '' : '<div class="paper-pause" aria-hidden="true"><img src="/assets/OPAR-brand-assets/opar-medallion-paper-1200.png" alt="" width="72" height="72" loading="lazy" decoding="async"></div>'}
+      ${referenceLayout ? '' : `<div class="paper-pause" aria-hidden="true">${medallionPictureMarkup('paper', { width: 72, height: 72 })}</div>`}
     </div>`
   });
 }
@@ -244,6 +296,10 @@ export function renderCategoryPage(collection, products, documentOptions = {}) {
     canonical: route,
     active: 'shop',
     theme: 'theme-paper',
+    seo: {
+      type: 'category',
+      context: `Explore ${list.length} ${list.length === 1 ? 'piece' : 'pieces'} in ${collection.label} with transparent sourcing and ${BRAND} invoice inquiry.`
+    },
     ...shellOptions,
     content: `${referenceLayout ? renderReferenceHero({ surface: 'paper', eyebrow: collection.eyebrow, heading: collection.heading, intro: collection.intro, action: { href: '#category-reference-results', label: 'Explore this room' } }) : ''}<div class="page-shell collection-page room-page"${referenceLayout ? ' id="category-reference-results"' : ''}>
       ${referenceLayout ? '' : `<header class="paper-opener">
@@ -257,7 +313,7 @@ export function renderCategoryPage(collection, products, documentOptions = {}) {
       </header>`}
       <div class="category-toolbar"><span class="small-note">${list.length} ${list.length === 1 ? 'piece' : 'pieces'} in this room</span><a class="text-link" href="/shop/">All pieces ${arrow}</a></div>
       ${referenceLayout ? referenceRooms(collection.slug) : ''}<div class="product-cards${referenceLayout ? ' reference-card-grid' : ''}">${list.map((product, index) => card(product, index)).join('') || `<div class="empty-collection"><p>Pieces are being selected for this room.</p><a class="text-link" href="/shop/">Browse everything in the shop ${arrow}</a></div>`}</div>
-      ${referenceLayout ? '' : '<div class="paper-pause" aria-hidden="true"><img src="/assets/OPAR-brand-assets/opar-medallion-paper-1200.png" alt="" width="72" height="72" loading="lazy" decoding="async"></div>'}
+      ${referenceLayout ? '' : `<div class="paper-pause" aria-hidden="true">${medallionPictureMarkup('paper', { width: 72, height: 72 })}</div>`}
     </div>`
   });
 }

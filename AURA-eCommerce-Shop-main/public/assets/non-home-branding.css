@@ -197,7 +197,16 @@ body.theme-paper .paper-opener::before {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: url('/assets/OPAR-ui-mockup-templates/assets/section-bg-paper.png') center / cover no-repeat;
+  background-color: transparent;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url('/assets/OPAR-ui-mockup-templates/assets/section-bg-paper.png');
+  background-image: image-set(
+    url('/assets/brand/web/section-bg-paper.avif') type('image/avif'),
+    url('/assets/brand/web/section-bg-paper.webp') type('image/webp'),
+    url('/assets/OPAR-ui-mockup-templates/assets/section-bg-paper.png') type('image/png')
+  );
   opacity: .45;
 }
 body.theme-paper .paper-opener__mark {
@@ -230,7 +239,15 @@ body.theme-paper .empty-mount::before {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: url('/assets/OPAR-ui-mockup-templates/assets/section-bg-paper.png') center / cover no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url('/assets/OPAR-ui-mockup-templates/assets/section-bg-paper.png');
+  background-image: image-set(
+    url('/assets/brand/web/section-bg-paper.avif') type('image/avif'),
+    url('/assets/brand/web/section-bg-paper.webp') type('image/webp'),
+    url('/assets/OPAR-ui-mockup-templates/assets/section-bg-paper.png') type('image/png')
+  );
   opacity: .24;
   mix-blend-mode: multiply;
 }

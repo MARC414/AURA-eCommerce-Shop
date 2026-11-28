@@ -126,6 +126,8 @@ let imageWithoutDimensions = 0;
 let imageEager = 0;
 const externalResources = new Set();
 const languages = new Map();
+const seenCanonicals = new Map();
+const seenDescriptions = new Map();
 
 for (const route of generatedRoutes) {
   const file = routes.get(route).file;
@@ -146,7 +148,28 @@ for (const route of generatedRoutes) {
   if (!title || !title[1].trim()) problem(`${where}: no <title>`);
 
   const description = /<meta name="description" content="([^"]*)"/.exec(html);
-  if (!description || !description[1].trim()) problem(`${where}: no meta description`);
+  if (!description || !description[1].trim()) {
+    problem(`${where}: no meta description`);
+  } else {
+    const descKey = description[1].trim();
+    if (seenDescriptions.has(descKey)) {
+      problem(`${where}: duplicate meta description (matches ${seenDescriptions.get(descKey)})`);
+    } else {
+      seenDescriptions.set(descKey, where);
+    }
+  }
+
+  const canonical = /<link rel="canonical" href="([^"]*)">/.exec(html);
+  if (!canonical || !canonical[1].trim()) {
+    problem(`${where}: no <link rel="canonical">`);
+  } else {
+    const canonKey = canonical[1].trim();
+    if (seenCanonicals.has(canonKey)) {
+      problem(`${where}: duplicate canonical "${canonKey}" (matches ${seenCanonicals.get(canonKey)})`);
+    } else {
+      seenCanonicals.set(canonKey, where);
+    }
+  }
 
   // The static pages must not need a runtime. A mount point here means the
   // React bundle is still doing a job that the generated markup should own.

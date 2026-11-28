@@ -15,13 +15,23 @@ import {
   renderStaticPage,
   renderHomePage,
   renderNotFoundPage,
-  foliage
+  foliage,
+  journal,
+  journalEntryPath,
+  validateJournalEntry,
+  renderJournalArchivePage,
+  renderJournalEntryPage,
+  resolveCanonicalUrl,
+  normalizeMetaDescription,
+  resolveDocumentSeo,
+  auditRenderedPages
 } from '../templates/product-pages.mjs';
 
 const products = JSON.parse(await readFile(new URL('../data/pilot-products.json', import.meta.url), 'utf8'));
 const site = JSON.parse(await readFile(new URL('../data/site.json', import.meta.url), 'utf8'));
 const sitePages = JSON.parse(await readFile(new URL('../data/pages.json', import.meta.url), 'utf8'));
 const collections = JSON.parse(await readFile(new URL('../data/collections.json', import.meta.url), 'utf8'));
+const journalEntries = JSON.parse(await readFile(new URL('../data/journal.json', import.meta.url), 'utf8'));
 
 const shopProduct = products.find(product => product.model === 'dropshipping');
 const affiliateProduct = products.find(product => product.model === 'affiliate');
@@ -268,7 +278,7 @@ test('the product enhancement script uses the shared store and no network calls'
 });
 
 test('product pages emit canonical, Product/Breadcrumb/FAQPage JSON-LD, and omit offers when unpriced', () => {
-  assert.match(shopPage, /<link rel="canonical" href="\/shop\/turmeric-cleansing-soap\/">/);
+  assert.ok(shopPage.includes(`<link rel="canonical" href="${resolveCanonicalUrl('/shop/turmeric-cleansing-soap/')}">`));
   assert.match(shopPage, /application\/ld\+json/);
   assert.match(shopPage, /"@type":"Product"/);
   assert.match(shopPage, /"@type":"BreadcrumbList"/);
@@ -302,7 +312,7 @@ test('supplement structured data parses cleanly with construction PreOrder offer
   const product = graph.find(node => node['@type'] === 'Product');
   assert.equal(product.name, ashwagandhaProduct.name);
   assert.equal(product.sku, 'CJHP232030301AZ');
-  assert.equal(product.url, '/shop/ashwagandha-with-black-pepper/');
+  assert.equal(product.url, resolveCanonicalUrl('/shop/ashwagandha-with-black-pepper/'));
   assert.equal(product.offers?.price, '18.00');
   assert.equal(product.offers?.availability, 'https://schema.org/OutOfStock');
   for (const key of ['brand', 'image', 'aggregateRating', 'review']) {
@@ -1367,7 +1377,7 @@ test('Live Warm Paper commercial architecture: pure Paper PDPs, Paper orbit imag
   for (const pageHtml of [shopPage, affiliatePage, aloePage, ashwagandhaPage]) {
     assert.match(pageHtml, /<body class="theme-paper v2-doc">/);
     assert.doesNotMatch(pageHtml, /reference-product__details/);
-    assert.match(pageHtml, /class="paper-pause"[^>]*><img src="\/assets\/OPAR-brand-assets\/opar-medallion-paper-1200\.png"/);
+    assert.match(pageHtml, /class="paper-pause"[^>]*><picture><source type="image\/avif" srcset="\/assets\/brand\/web\/opar-medallion-paper-400\.avif"><source type="image\/webp" srcset="\/assets\/brand\/web\/opar-medallion-paper-400\.webp"><img src="\/assets\/OPAR-brand-assets\/opar-medallion-paper-1200\.png"/);
   }
 
   // Non-home stylesheet defines rectangular buttons, framed cards, and Warm Paper PDP surfaces scoped to theme-paper
@@ -1457,5 +1467,324 @@ test('Promoted Herbarium & Apothecary site serves root URLs with Trust & Clarity
   const searchIndex = await readFile(new URL('../public/assets/search-index.json', import.meta.url), 'utf8');
   assert.doesNotMatch(sitemap + searchIndex, /\/v2\//);
 });
+
+test('Room Clarity Drawer, AVIF/WebP asset speed pass, and Moss Nocturne Journal archive/reader architecture', async () => {
+  // 1. Shop Room Clarity Drawer & refined notice styling
+  const shopHub = renderCollection('dropshipping', products);
+  assert.match(shopHub, /<section class="v2-room-strip" data-shop-room-strip hidden/);
+  assert.match(shopHub, /<script type="application\/json" data-shop-rooms-data>[\s\S]*"herbal-botanicals"[\s\S]*"everyday-care"/);
+  const shopJs = await readFile(new URL('../public/assets/shop-page.js', import.meta.url), 'utf8');
+  assert.match(shopJs, /function updateRoomStrip\(roomSlug\)/);
+  assert.match(shopJs, /roomStripEl\.hidden\s*=\s*false/);
+
+  const v2Css = await readFile(new URL('../public/assets/v2-editorial.css', import.meta.url), 'utf8');
+  assert.match(v2Css, /\.v2-room-strip\s*\{/);
+  const noticeBlock = /\.v2-sample-notice\s*\{[^}]*\}/.exec(v2Css)?.[0] || '';
+  assert.doesNotMatch(noticeBlock, /border-left/, 'v2-sample-notice uses clean 1px frame without colored left bar');
+
+  // 2. Derived AVIF/WebP assets exist on disk and are wired via <picture> & CSS image-set()
+  const derivedFiles = [
+    '../public/assets/brand/web/section-bg-paper.avif',
+    '../public/assets/brand/web/section-bg-paper.webp',
+    '../public/assets/brand/web/section-bg-ground.avif',
+    '../public/assets/brand/web/section-bg-ground.webp',
+    '../public/assets/brand/web/opar-medallion-paper-400.avif',
+    '../public/assets/brand/web/opar-medallion-paper-400.webp',
+    '../public/assets/brand/web/opar-medallion-ground-400.avif',
+    '../public/assets/brand/web/opar-medallion-ground-400.webp',
+    '../public/assets/products/aliexpress-turmeric-soap.avif',
+    '../public/assets/products/aliexpress-turmeric-soap.webp',
+    '../public/assets/products/aliexpress-turmeric-soap-800.avif',
+    '../public/assets/products/aliexpress-turmeric-soap-800.webp',
+    '../public/assets/products/aliexpress-turmeric-soap-800.jpg'
+  ];
+  for (const rel of derivedFiles) {
+    assert.ok(existsSync(new URL(rel, import.meta.url)), `Missing derived web asset: ${rel}`);
+  }
+  const nonHomeCss = await readFile(new URL('../public/assets/non-home-branding.css', import.meta.url), 'utf8');
+  assert.match(nonHomeCss, /section-bg-paper\.avif/);
+  assert.match(nonHomeCss, /section-bg-paper\.webp/);
+  assert.match(v2Css, /section-bg-ground\.avif/);
+  assert.match(v2Css, /section-bg-ground\.webp/);
+  assert.match(homePage, /class="room-index__figure"><picture><source type="image\/avif" srcset="\/assets\/products\/studio-herbal-botanicals-800\.avif"/);
+  assert.match(shopPage, /srcset="\/assets\/products\/aliexpress-turmeric-soap-800\.avif 800w, \/assets\/products\/aliexpress-turmeric-soap\.avif 1000w"/);
+
+  // 3. Moss Nocturne Journal archive (/journal/ & desks) + standalone essay reader
+  assert.equal(journalEntries.length, 3);
+  const journalRoot = renderStaticPage(pageAt('/journal/'));
+  const journalPlants = renderStaticPage(pageAt('/journal/plants-and-practice/'));
+  assert.match(journalRoot, /class="v2-journal-desk-nav"/);
+  assert.match(journalRoot, /class="v2-journal-lead"/);
+  assert.equal((journalRoot.match(/<article class="v2-journal-card"/g) || []).length, 2);
+  assert.match(journalPlants, /aria-current="page">Plants &amp; practice</);
+  assert.match(journalPlants, /class="v2-journal-lead"/);
+
+  const emptyDeskHtml = renderJournalArchivePage(pageAt('/journal/mind-and-body/'), []);
+  assert.match(emptyDeskHtml, /class="v2-journal-empty"/);
+  assert.match(emptyDeskHtml, /Notes for this desk are in preparation\./);
+
+  for (const entry of journalEntries) {
+    validateJournalEntry(entry);
+    const entryRoute = journalEntryPath(entry);
+    const entryHtml = renderJournalEntryPage(entry, journalEntries);
+    assert.match(entryHtml, /"@type":"Article"/);
+    assert.match(entryHtml, /"@type":"BreadcrumbList"/);
+    assert.match(entryHtml, /class="v2-dropcap"/);
+    assert.match(entryHtml, /class="v2-provenance-ledger"/);
+    assert.match(entryHtml, /Observed &amp; Verified Fact/);
+    assert.match(entryHtml, /Attributed Tradition/);
+    assert.match(entryHtml, /Withheld Claims/);
+    assert.match(entryHtml, /class="v2-journal-citations"/);
+    assert.ok(entryHtml.includes(escapeHtml(entry.provenance.verifiedFact)));
+    assert.ok(existsSync(new URL(`../public${entryRoute}index.html`, import.meta.url)), `Generated journal route missing: ${entryRoute}`);
+  }
+
+  // Reject forbidden cure / clinical claims during journal validation
+  assert.throws(() => validateJournalEntry({
+    ...journalEntries[0],
+    sections: [{ heading: 'Bad', paragraphs: ['This root cures insomnia overnight.'] }]
+  }), /prohibited claim wording/);
+
+  // Sitemap & Search index include Journal essays
+  const sitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8');
+  const searchIndex = await readFile(new URL('../public/assets/search-index.json', import.meta.url), 'utf8');
+  for (const entry of journalEntries) {
+    const entryRoute = journalEntryPath(entry);
+    assert.ok(sitemap.includes(`<loc>${entryRoute}</loc>`), `Sitemap missing ${entryRoute}`);
+    assert.ok(searchIndex.includes(entryRoute), `Search index missing ${entryRoute}`);
+  }
+});
+
+test('Pre-launch Compliance & FAQ section details supplier verification, INCI listings, safety reports, and live register status', async () => {
+  const helpPage = renderStaticPage(pageAt('/help/'));
+  const sourcingPage = renderStaticPage(pageAt('/about/sourcing/'));
+  const policiesPage = renderStaticPage(pageAt('/policies/'));
+  const shopHub = renderCollection('dropshipping', products);
+
+  assert.match(helpPage, /<section class="content-block v2-compliance-faq" id="compliance-faq"/);
+  assert.match(helpPage, /<h2 id="compliance-faq-heading">Compliance &amp; FAQ<\/h2>/);
+  assert.match(helpPage, /01 · Supplier verification/);
+  assert.match(helpPage, /02 · INCI ingredient listings/);
+  assert.match(helpPage, /03 · Safety reports &amp; lab COAs/);
+  assert.match(helpPage, /class="v2-compliance-table"[^>]*aria-label="Product compliance register status"/);
+  assert.match(helpPage, /0 \/ 7[\s\S]*0 \/ 5[\s\S]*0 \/ 9[\s\S]*0 \/ 10/);
+  assert.match(helpPage, /href="\/shop\/aloe-vera-soap\/#compliance-section"/);
+  assert.match(helpPage, /href="\/shop\/ashwagandha-with-black-pepper\/#compliance-section"/);
+  assert.match(helpPage, /class="faq-list v2-compliance-faq-list"/);
+  assert.match(helpPage, /How does OPAR verify suppliers and manufacturers\?/);
+  assert.match(helpPage, /How does OPAR handle INCI ingredient listings and Supplement Facts\?/);
+  assert.match(helpPage, /How does OPAR manage cosmetic safety reports \(CPSRs\) and batch laboratory testing\?/);
+  assert.match(helpPage, /"@type":"FAQPage"/);
+
+  // Cross-links across customer journey
+  assert.match(sourcingPage, /href="\/help\/#compliance-faq"/);
+  assert.match(policiesPage, /href="\/help\/#compliance-faq"/);
+  assert.match(shopHub, /href="\/help\/#compliance-faq"/);
+  assert.match(shopPage, /href="\/help\/#compliance-faq"/);
+  assert.match(aloePage, /href="\/help\/#compliance-faq"/);
+});
+
+test('Core Web Vitals optimization: body-end deferred scripts, LCP protection, lazy offscreen media, and cwv-loader runtime', async () => {
+  // 1. All page scripts are placed after </footer> before </body>, leaving <head> script-free (aside from JSON-LD)
+  for (const doc of [homePage, shopPage, aloePage, ashwagandhaPage, affiliatePage]) {
+    const headHtml = doc.slice(0, doc.indexOf('</head>'));
+    assert.doesNotMatch(headHtml, /<script src=/, 'external scripts must not sit in <head>');
+    const afterFooter = doc.slice(doc.indexOf('</footer>'));
+    assert.match(afterFooter, /<script src="\/assets\/cart\.js" defer><\/script>/);
+    assert.match(afterFooter, /<script src="\/assets\/site\.js" defer><\/script>/);
+    assert.match(afterFooter, /<script src="\/assets\/v2-editorial\.js" defer><\/script>/);
+    assert.match(afterFooter, /<script src="\/assets\/cwv-loader\.js" async fetchpriority="low"><\/script>/);
+  }
+
+  // 2. Primary photographed PDP keeps fetchpriority="high" on LCP image, sized for desktop column,
+  //    while below-the-fold habitat plate, medallion pause, and related product cards stay lazy.
+  assert.match(shopPage, /sizes="\(min-width: 1025px\) 520px, \(min-width: 761px\) 46vw, 92vw"[\s\S]*?<img data-main-image[^>]*fetchpriority="high"/);
+  assert.match(shopPage, /class="v2-habitat-plate"[\s\S]*loading="lazy"/);
+  assert.match(shopPage, /class="paper-pause"[\s\S]*loading="lazy"/);
+  assert.match(shopPage, /class="related-section"[\s\S]*loading="lazy"/);
+
+  // 3. Empty-mount PDPs must NOT attach fetchpriority="high" to hidden placeholder SVGs
+  for (const emptyPdp of [aloePage, ashwagandhaPage, affiliatePage]) {
+    const mainTag = emptyPdp.match(/<img[^>]*data-main-image[^>]*>/)?.[0] || '';
+    assert.match(mainTag, /\bhidden\b/);
+    assert.match(mainTag, /\bloading="lazy"/);
+    assert.doesNotMatch(mainTag, /fetchpriority="high"/);
+  }
+
+  // 4. Asset scripts & stylesheet implement idle deferral and content-visibility
+  const cwvJs = await readFile(new URL('../public/assets/cwv-loader.js', import.meta.url), 'utf8');
+  const v2Js = await readFile(new URL('../public/assets/v2-editorial.js', import.meta.url), 'utf8');
+  const productJs = await readFile(new URL('../public/assets/product-pages.js', import.meta.url), 'utf8');
+  const v2Css = await readFile(new URL('../public/assets/v2-editorial.css', import.meta.url), 'utf8');
+
+  assert.match(cwvJs, /window\.OparCwv\s*=/);
+  assert.match(cwvJs, /IntersectionObserver/);
+  assert.match(cwvJs, /requestIdleCallback/);
+  assert.match(v2Js, /scheduleIdle/);
+  assert.match(productJs, /scheduleNonCritical/);
+  assert.match(v2Css, /content-visibility:\s*auto/);
+
+  // 5. Execute cwv-loader.js against a lightweight DOM mock to verify runtime behavior
+  const makeImg = ({ main = false, hidden = false, inRelated = false, top = 1200, loading = '', fetchpriority = '' } = {}) => {
+    const attrs = new Map();
+    if (main) attrs.set('data-main-image', '');
+    if (hidden) attrs.set('hidden', '');
+    if (loading) attrs.set('loading', loading);
+    if (fetchpriority) attrs.set('fetchpriority', fetchpriority);
+    let decoded = false;
+    return {
+      hidden,
+      complete: true,
+      naturalWidth: 800,
+      classList: { contains: () => false },
+      hasAttribute: k => attrs.has(k),
+      getAttribute: k => attrs.get(k) ?? null,
+      setAttribute: (k, v) => attrs.set(k, String(v)),
+      removeAttribute: k => attrs.delete(k),
+      closest: sel => (inRelated && sel.includes('.related-section')) ? {} : null,
+      getBoundingClientRect: () => ({ top, width: hidden ? 0 : 320, height: hidden ? 0 : 320 }),
+      decode: () => { decoded = true; return Promise.resolve(); },
+      get decoded() { return decoded; }
+    };
+  };
+
+  const mainLcp = makeImg({ main: true, hidden: false, top: 140, fetchpriority: 'high' });
+  const hiddenPlaceholder = makeImg({ main: true, hidden: true, top: 140, fetchpriority: 'high' });
+  const relatedImg = makeImg({ inRelated: true, top: 1800 });
+  const iframeMock = {
+    attrs: new Map(),
+    getAttribute(k) { return this.attrs.get(k) ?? null; },
+    setAttribute(k, v) { this.attrs.set(k, String(v)); }
+  };
+  let observedTargets = [];
+  let ioCallback = null;
+  const fakeDoc = {
+    querySelectorAll: sel => {
+      if (sel === 'img') return [mainLcp, hiddenPlaceholder, relatedImg];
+      if (sel === 'iframe') return [iframeMock];
+      if (sel.includes('.related-section img')) return [relatedImg];
+      return [];
+    }
+  };
+  const fakeWin = {
+    innerHeight: 900,
+    requestIdleCallback: fn => fn(),
+    setTimeout: fn => fn(),
+    IntersectionObserver: function (cb) {
+      ioCallback = cb;
+      this.observe = el => observedTargets.push(el);
+      this.unobserve = () => {};
+    },
+    Image: function () { return {}; }
+  };
+  new Function('window', 'document', cwvJs)(fakeWin, fakeDoc);
+
+  assert.equal(mainLcp.getAttribute('loading'), null, 'visible LCP photo stays eager');
+  assert.equal(mainLcp.getAttribute('fetchpriority'), 'high');
+  assert.equal(hiddenPlaceholder.getAttribute('fetchpriority'), 'low', 'hidden placeholder loses high priority');
+  assert.equal(hiddenPlaceholder.getAttribute('loading'), 'lazy');
+  assert.equal(relatedImg.getAttribute('loading'), 'lazy');
+  assert.equal(relatedImg.getAttribute('fetchpriority'), 'low');
+  assert.equal(iframeMock.getAttribute('loading'), 'lazy');
+  assert.equal(observedTargets.length, 1);
+
+  ioCallback([{ isIntersecting: true, target: relatedImg }]);
+  assert.equal(relatedImg.getAttribute('data-cwv-observed'), 'true');
+  assert.equal(relatedImg.decoded, true);
+});
+
+test('Standardized SEO service injects unique 120-160 char meta descriptions and dynamic canonicals across all templates', async () => {
+  // 1. Dynamic canonical URL normalization (both origin-configured and preview root-relative)
+  assert.equal(resolveCanonicalUrl('shop/turmeric-cleansing-soap', { origin: '' }), '/shop/turmeric-cleansing-soap/');
+  assert.equal(resolveCanonicalUrl('/404.html', { origin: '' }), '/404.html');
+  assert.equal(
+    resolveCanonicalUrl('/shop/turmeric-cleansing-soap', { origin: 'https://opar.shop/' }),
+    'https://opar.shop/shop/turmeric-cleansing-soap/'
+  );
+  const absDoc = resolveDocumentSeo({
+    title: 'Turmeric Bar',
+    description: 'Clean botanical bar.',
+    canonical: '/shop/turmeric-cleansing-soap/',
+    origin: 'https://opar.shop',
+    seo: { context: 'Everyday Care folio at OPAR with invoice-first inquiry.' }
+  });
+  assert.equal(absDoc.canonical, 'https://opar.shop/shop/turmeric-cleansing-soap/');
+  assert.ok(absDoc.description.length >= 120 && absDoc.description.length <= 160);
+
+  // 2. Render every customer route + 404 + brand-preview specimens and audit uniqueness & length
+  const allCustomerPages = [
+    { path: '/', html: homePage },
+    ...products.map(p => ({
+      path: productPath(p),
+      html: p.model === 'affiliate' ? renderAffiliatePage(p, products) : renderDropshippingPage(p, products)
+    })),
+    { path: '/shop/', html: renderCollection('dropshipping', products) },
+    { path: '/discover/', html: renderCollection('affiliate', products) },
+    ...collections.map(c => ({ path: `/shop/${c.slug}/`, html: renderCategoryPage(c, products) })),
+    ...sitePages.map(p => ({ path: p.path, html: renderStaticPage(p) })),
+    ...journalEntries.map(e => ({ path: journalEntryPath(e), html: renderJournalEntryPage(e, journalEntries) })),
+    { path: '/404.html', html: renderNotFoundPage() }
+  ];
+
+  const audit = auditRenderedPages(allCustomerPages);
+  assert.equal(audit.total, allCustomerPages.length);
+  assert.deepEqual(audit.shortDescriptions, [], 'all rendered routes meet 120+ char SEO description floor');
+  assert.deepEqual(audit.longDescriptions, [], 'no rendered route exceeds 160 char SEO description ceiling');
+
+  // 3. Homepage, product, and journal OG types & Schema.org structured data alignment
+  assert.match(homePage, /"@type":"WebSite"/);
+  assert.ok(homePage.includes(`<link rel="canonical" href="${resolveCanonicalUrl('/')}">`));
+  assert.match(homePage, /property="og:type" content="website"/);
+  assert.match(shopPage, /property="og:type" content="product"/);
+  assert.ok(shopPage.includes(`property="og:url" content="${resolveCanonicalUrl('/shop/turmeric-cleansing-soap/')}"`));
+  const journalEssayHtml = renderJournalEntryPage(journalEntries[0], journalEntries);
+  assert.match(journalEssayHtml, /property="og:type" content="article"/);
+  assert.ok(renderNotFoundPage().includes(`<link rel="canonical" href="${resolveCanonicalUrl('/404.html')}">`));
+
+  // 4. Reject duplicate canonical or duplicate meta description across pages
+  assert.throws(() => auditRenderedPages([
+    { path: '/a/', html: '<link rel="canonical" href="/a/"><meta name="description" content="Same text here">' },
+    { path: '/b/', html: '<link rel="canonical" href="/b/"><meta name="description" content="Same text here">' }
+  ]), /duplicate meta description/i);
+  assert.throws(() => auditRenderedPages([
+    { path: '/a/', html: '<link rel="canonical" href="/same/"><meta name="description" content="Unique A">' },
+    { path: '/b/', html: '<link rel="canonical" href="/same/"><meta name="description" content="Unique B">' }
+  ]), /duplicate canonical/i);
+
+  // 5. Description sanitizer strips no medical/efficacy claims and rejects prohibited wording
+  assert.throws(() => normalizeMetaDescription('This oil cures illness rapidly.'), /prohibited claim wording/i);
+
+  // 6. Client runtime site.js syncs canonical & og:url dynamically to active window.location.origin
+  const siteJs = await readFile(new URL('../public/assets/site.js', import.meta.url), 'utf8');
+  const canonAttrs = new Map([['href', '/shop/turmeric-cleansing-soap/']]);
+  const ogAttrs = new Map([['content', '/shop/turmeric-cleansing-soap/']]);
+  const canonEl = {
+    getAttribute: k => canonAttrs.get(k) ?? null,
+    setAttribute: (k, v) => canonAttrs.set(k, String(v))
+  };
+  const ogEl = {
+    getAttribute: k => ogAttrs.get(k) ?? null,
+    setAttribute: (k, v) => ogAttrs.set(k, String(v))
+  };
+  const noop = () => {};
+  const fakeWin = {
+    location: { origin: 'https://opar.shop', pathname: '/shop/turmeric-cleansing-soap/' },
+    localStorage: { getItem: () => null },
+    addEventListener: noop
+  };
+  const fakeDoc = {
+    head: { appendChild: noop },
+    querySelectorAll: () => [],
+    addEventListener: noop,
+    querySelector: sel => sel === 'link[rel="canonical"]' ? canonEl : sel === 'meta[property="og:url"]' ? ogEl : null
+  };
+  new Function('window', 'document', siteJs)(fakeWin, fakeDoc);
+  assert.equal(canonEl.getAttribute('href'), 'https://opar.shop/shop/turmeric-cleansing-soap/');
+  assert.equal(ogEl.getAttribute('content'), 'https://opar.shop/shop/turmeric-cleansing-soap/');
+});
+
+
+
+
 
 

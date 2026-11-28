@@ -125,6 +125,36 @@
     }), 'item in wishlist', 'items in wishlist');
   }
 
+  function syncCanonical() {
+    if (!window.location || !window.location.origin || window.location.origin === 'null') return null;
+    var origin = window.location.origin.replace(/\/+$/, '');
+    var canonLink = document.querySelector('link[rel="canonical"]');
+    var ogUrl = document.querySelector('meta[property="og:url"]');
+    var href = canonLink ? (canonLink.getAttribute('href') || '').trim() : '';
+    var resolved = href
+      ? (href.indexOf('/') === 0 ? origin + href : href)
+      : origin + window.location.pathname;
+    if (!canonLink) {
+      canonLink = document.createElement('link');
+      canonLink.setAttribute('rel', 'canonical');
+      if (document.head) document.head.appendChild(canonLink);
+    }
+    if (canonLink.getAttribute('href') !== resolved) {
+      canonLink.setAttribute('href', resolved);
+    }
+    if (ogUrl) {
+      var ogHref = (ogUrl.getAttribute('content') || '').trim();
+      var nextOg = ogHref ? (ogHref.indexOf('/') === 0 ? origin + ogHref : ogHref) : resolved;
+      if (ogUrl.getAttribute('content') !== nextOg) {
+        ogUrl.setAttribute('content', nextOg);
+      }
+    }
+    return resolved;
+  }
+
+  window.OparSeo = { syncCanonical: syncCanonical };
+  syncCanonical();
+
   refresh();
   window.addEventListener('aura_cart_updated', refresh);
   window.addEventListener('aura_wishlist_updated', refresh);

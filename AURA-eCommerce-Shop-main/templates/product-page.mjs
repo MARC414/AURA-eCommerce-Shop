@@ -13,7 +13,8 @@ import {
   icons,
   documentPage,
   whatsappLink,
-  whatsappDisclosure
+  whatsappDisclosure,
+  medallionPictureMarkup
 } from './chrome.mjs';
 
 const complianceRegister = JSON.parse(readFileSync(new URL('../data/compliance.json', import.meta.url), 'utf8'));
@@ -197,13 +198,14 @@ function pictureMarkup(image, { width = 1200, height = 1200, alt = '', lazy = fa
   const loadAttr = lazy ? 'loading="lazy"' : 'fetchpriority="high"';
   const imgTag = `<img ${attrs ? `${attrs} ` : ''}src="${escapeHtml(image.src)}" alt="${escapeHtml(alt)}" width="${Number(image.width) || width}" height="${Number(image.height) || height}" ${loadAttr} decoding="async" data-fallback-empty="true">`;
   if (image.srcAvif || image.srcWebp) {
+    const fullWidth = Number(image.width) || 1200;
     const avifSrcset = image.src800Avif && image.srcAvif
-      ? `${escapeHtml(image.src800Avif)} 800w, ${escapeHtml(image.srcAvif)} 1200w`
+      ? `${escapeHtml(image.src800Avif)} 800w, ${escapeHtml(image.srcAvif)} ${fullWidth}w`
       : escapeHtml(image.srcAvif || '');
     const webpSrcset = image.src800Webp && image.srcWebp
-      ? `${escapeHtml(image.src800Webp)} 800w, ${escapeHtml(image.srcWebp)} 1200w`
+      ? `${escapeHtml(image.src800Webp)} 800w, ${escapeHtml(image.srcWebp)} ${fullWidth}w`
       : escapeHtml(image.srcWebp || '');
-    const sizes = lazy ? '(min-width: 1101px) 360px, (min-width: 761px) 44vw, 90vw' : '(min-width: 861px) 52vw, 92vw';
+    const sizes = lazy ? '(min-width: 1101px) 360px, (min-width: 761px) 44vw, 90vw' : '(min-width: 1025px) 520px, (min-width: 761px) 46vw, 92vw';
     return `<picture>
       ${avifSrcset ? `<source type="image/avif" srcset="${avifSrcset}" sizes="${sizes}">` : ''}
       ${webpSrcset ? `<source type="image/webp" srcset="${webpSrcset}" sizes="${sizes}">` : ''}
@@ -287,6 +289,7 @@ function gallery(product, { useSpecimenMount = true } = {}) {
           width: 1200,
           height: 1200,
           alt: isFirstEmpty ? '' : first.alt,
+          lazy: isFirstEmpty,
           attrs: `data-main-image${isFirstEmpty ? ' hidden' : ''}`
         })}
         ${emptyMountMarkup(product.category, { hidden: !isFirstEmpty, product: useSpecimenMount ? product : null })}
@@ -563,6 +566,7 @@ function complianceAccordions(product, complianceRecord) {
               : ''}
             <p class="small-note"><strong>Reviewed by:</strong> Not yet reviewed by a named person · <strong>Last updated:</strong> <time datetime="${escapeHtml(lastUpdated)}">${escapeHtml(lastUpdated)}</time></p>
             <div class="content-links">
+              <a class="text-link" href="/help/#compliance-faq">Compliance &amp; FAQ ${arrow}</a>
               <a class="text-link" href="/about/sourcing/">Read sourcing standards ${arrow}</a>
               <a class="text-link" href="/policies/health-disclaimer/">Health disclaimer ${arrow}</a>
               <a class="text-link" href="/contact/">Report a question ${arrow}</a>
@@ -750,6 +754,14 @@ function productDocument(product, products, actions, documentOptions = {}) {
   const layoutClass = referenceLayout ? 'product-layout reference-product' : 'product-layout v2-folio-layout';
   const infoClass = referenceLayout ? 'product-information reference-product__details' : 'product-information v2-folio-sheet';
 
+  const verifiedCount = complianceRecord
+    ? (complianceRecord.items || []).filter(item => item.status === 'verified').length
+    : 0;
+  const totalChecks = complianceRecord ? (complianceRecord.items || []).length : 0;
+  const productContext = product.model === 'affiliate'
+    ? `${product.category} partner offer via ${product.sourceName} with transparent provenance.`
+    : `${product.category} folio at ${BRAND}${totalChecks ? ` (${verifiedCount} of ${totalChecks} checks verified)` : ''} with invoice-first inquiry.`;
+
   return documentPage({
     title: seoTitle,
     description: seoDescription,
@@ -760,6 +772,11 @@ function productDocument(product, products, actions, documentOptions = {}) {
     keywords: product.seo?.keywords?.join(', ') || null,
     image: photograph?.src || null,
     scripts: ['/assets/product-pages.js'],
+    seo: {
+      type: 'product',
+      ogType: 'product',
+      context: productContext
+    },
     ...shellOptions,
     content: `
       <div class="page-shell${referenceLayout ? ' reference-product-shell' : ''}">
@@ -786,7 +803,7 @@ function productDocument(product, products, actions, documentOptions = {}) {
           </div>
         </article>
         ${folioDetails(product, complianceRecord)}
-        ${referenceLayout ? '<div class="page-shell reference-product__following">' : '<div class="paper-pause" aria-hidden="true"><img src="/assets/OPAR-brand-assets/opar-medallion-paper-1200.png" alt="" width="72" height="72" loading="lazy" decoding="async"></div>'}
+        ${referenceLayout ? '<div class="page-shell reference-product__following">' : `<div class="paper-pause" aria-hidden="true">${medallionPictureMarkup('paper', { width: 72, height: 72 })}</div>`}
         ${related(product, products)}${referenceLayout ? '</div>' : ''}
       </div>`
   });

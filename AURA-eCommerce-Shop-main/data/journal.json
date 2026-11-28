@@ -1,0 +1,167 @@
+[
+  {
+    "id": "jrn-01-reading-botanical-labels",
+    "slug": "reading-botanical-labels-whole-root-and-rhizome",
+    "desk": "plants-and-practice",
+    "deskLabel": "Plants & practice",
+    "deskHref": "/journal/plants-and-practice/",
+    "title": "Reading a botanical label: whole root, extract ratios, and missing batches",
+    "kicker": "Plants & practice · Botanical provenance",
+    "deck": "Why net capsule weight, supplier listing attributes, and laboratory Certificates of Analysis must be read as three separate facts.",
+    "author": "OPAR Editorial Desk",
+    "publishedDate": "2026-11-26",
+    "readingMinutes": 4,
+    "provenanceBasis": "House Herbarium Note · Label Audit",
+    "featured": true,
+    "relatedProduct": {
+      "label": "Ashwagandha with Black Pepper folio",
+      "href": "/shop/ashwagandha-with-black-pepper/",
+      "note": "Catalogued for format and label inspection — this note carries no dosing advice or outcome claim."
+    },
+    "sections": [
+      {
+        "heading": "Gross weight is not active botanical weight",
+        "paragraphs": [
+          "Across wholesale listings, one of the most frequent reading errors starts at the top of a specification table. Automated marketplace metadata routinely merges container mass with fill weight: a bottle described as 113 g at shipping is counting amber HDPE or glass, desiccant, cap, and outer capsule shells alongside the ground root inside.",
+          "Before any botanical item enters OPAR's Herbal Botanicals shelf, the packing weight is separated from the Supplement Facts or INCI declaration. Both numbers stay visible side by side so a reader knows whether a figure belongs to a parcel carrier or to the plant itself."
+        ]
+      },
+      {
+        "heading": "Whole root versus standardised extract",
+        "paragraphs": [
+          "Classical South Asian materia medica texts, including the Charaka Samhita, record Withania somnifera prepared simply as washed, shade-dried, and stone-milled whole root churna. Modern commercial supply often blends whole root powder with solvent-concentrated leaf or root extracts, or pairs black pepper fruit with concentrated piperine.",
+          "Because 'black pepper fruit' and 'standardised piperine extract' behave differently on a label—and carry different safety considerations for people taking prescription medication—supplier listing blurbs cannot substitute for batch-level laboratory certificates."
+        ]
+      },
+      {
+        "heading": "What stays on the shelf while paperwork catches up",
+        "paragraphs": [
+          "Where a label artwork PDF names a serving amount (for instance, two pullulan capsules listing 1,300 mg ashwagandha root and 10 mg black pepper fruit) but has not yet supplied a matching batch Certificate of Analysis, OPAR lists the figure explicitly as label-stated rather than verified, and opens no live payment checkout until independent documentation closes the file."
+        ]
+      }
+    ],
+    "provenance": {
+      "verifiedFact": "Supplement Facts label artwork checked for serving count (60 pullulan capsules / 30 servings), conflicting marketplace 'Powder' category flag corrected in product specifications, and gross shipping weight (113 g) distinguished from per-serving botanical mass.",
+      "attributedTradition": "Described in the classical Charaka Samhita rasayana tradition as a grounding autumn-harvested root preparation, recorded strictly as historical ethnobotanical context rather than clinical evidence.",
+      "withheldOutcome": "No claims regarding serum cortisol, stress relief, sleep depth, cognitive endurance, immunity, or organic certification are made or implied on this house desk."
+    },
+    "citations": [
+      "OPAR Product Intake & Label Audit Record: cmp-ashwagandha-black-pepper (reviewed November 2026).",
+      "Classical attribution reference: Charaka Samhita, Chikitsasthana 1.1 (Rasayana chapters) — historical materia medica classification only."
+    ],
+    "seo": {
+      "title": "Reading a botanical label: whole root & batch paperwork",
+      "description": "How OPAR separates gross parcel weight, supplier category metadata, and label-stated botanical serving figures during intake review.",
+      "keywords": [
+        "botanical label reading",
+        "whole root vs extract",
+        "withania somnifera label audit",
+        "supplement provenance"
+      ]
+    }
+  },
+  {
+    "id": "jrn-02-attention-and-daily-rest",
+    "slug": "paced-attention-and-ordinary-rest",
+    "desk": "mind-and-body",
+    "deskLabel": "Mind & body",
+    "deskHref": "/journal/mind-and-body/",
+    "title": "Paced attention, quiet rooms, and leaving medicine out of prose",
+    "kicker": "Mind & body · Daily discipline",
+    "deck": "How ordinary intervals of breath, morning light, and reduced sensory clutter are recorded without medicalising everyday rest.",
+    "author": "OPAR Editorial Desk",
+    "publishedDate": "2026-11-26",
+    "readingMinutes": 3,
+    "provenanceBasis": "House Practice Note · Non-Clinical",
+    "featured": false,
+    "relatedProduct": {
+      "label": "Enter Perennis Library",
+      "href": "/perennis/",
+      "note": "Read free texts and calm listening studies kept separate from shop checkout."
+    },
+    "sections": [
+      {
+        "heading": "Why small intervals hold better than grand resolutions",
+        "paragraphs": [
+          "Most writing on rest arrives dressed in emergency urgency: protocols timed to the second, wearable scores, and promises that a cushion or herbal jar will recalibrate a nervous system in a week. Experience inside real homes suggests the opposite. Attention steadies around unremarkable, repeatable borders—ten minutes near a morning window before opening messages, or setting a phone outside the bedroom after dusk."
+        ]
+      },
+      {
+        "heading": "Keeping practice honest by refusing diagnosis",
+        "paragraphs": [
+          "Writing about slow nasal exhalation, posture on a firm cork block, or reading twenty unhurried pages on paper should never trespass on a physician's chair. Breath work and quiet rooms help structure an ordinary day; they are not clinical interventions for insomnia, mood disorders, or cardiovascular disease.",
+          "Whenever a commercial shop blurs practice habits with diagnostic promise, both the reader's judgement and plain prose suffer."
+        ]
+      }
+    ],
+    "provenance": {
+      "verifiedFact": "Reflective practice essay outlining non-clinical daily pacing, morning daylight cues, and screen-free reading borders.",
+      "attributedTradition": "Draws in spirit on classical Yoga and Perennis reading traditions where posture (asana) and regulated breath (pranayama) serve mental steadiness prior to study.",
+      "withheldOutcome": "Makes no diagnostic claim regarding insomnia, anxiety, depression, cortisol, blood pressure, or clinical recovery."
+    },
+    "citations": [
+      "OPAR Editorial Publishing Charter: separation of practice writing from medical advice."
+    ],
+    "seo": {
+      "title": "Paced attention and leaving medicine out of practice prose",
+      "description": "Notes on ordinary daily rest, quiet rooms, and keeping non-clinical writing clearly separated from medical promises.",
+      "keywords": [
+        "mind and body practice",
+        "daily quiet rest",
+        "non clinical attention habits"
+      ]
+    }
+  },
+  {
+    "id": "jrn-03-objects-made-to-be-used",
+    "slug": "objects-made-to-be-used-not-performed",
+    "desk": "worldly-and-divine",
+    "deskLabel": "Worldly & divine",
+    "deskHref": "/journal/worldly-and-divine/",
+    "title": "Objects made to be used, not performed",
+    "kicker": "Worldly & divine · Material ethics",
+    "deck": "Why plain cleansing bars, carved timber vessels, and a free public library belong under the same quiet roof.",
+    "author": "OPAR Editorial Desk",
+    "publishedDate": "2026-11-26",
+    "readingMinutes": 3,
+    "provenanceBasis": "House Charter · Material Study",
+    "featured": false,
+    "relatedProduct": {
+      "label": "Explore Quiet Living room",
+      "href": "/shop/quiet-living/",
+      "note": "Simple utility objects selected for material honesty."
+    },
+    "sections": [
+      {
+        "heading": "Against the theatre of austerity",
+        "paragraphs": [
+          "Modern minimalist retail often turns restraint into another performance: overpriced grey stone bowls that dare never hold water, or solemn spiritual language glued onto factory soap bars. Yet well-made domestic goods are worldly things—bars that dissolve cleanly at a sink, hardwood vessels that collect pocket keys, thick cotton mats worn pale by bare heels.",
+          "Nothing loses dignity by having a practical use and a straightforward written price."
+        ]
+      },
+      {
+        "heading": "Two rooms side by side",
+        "paragraphs": [
+          "OPAR keeps the library and the shop clearly partitioned so neither has to mimic the other. Perennis preserves texts and classical acoustic recordings where attribution and rights are clean, free to read without a basket nearby. The shop catalogues tactile objects slowly—waiting on real makers, real photographs, and confirmed shipping invoices before asking anyone to settle."
+        ]
+      }
+    ],
+    "provenance": {
+      "verifiedFact": "Documents OPAR's structural separation between no-charge library/editorial preservation (Moss Nocturne) and invoice-confirmed commercial folios (Warm Paper).",
+      "attributedTradition": "Informed by South Asian and monastic household traditions where practical craft utility and contemplative study occupy adjacent rooms rather than opposing worlds.",
+      "withheldOutcome": "Contains no sustainability certifications, carbon-offset claims, or unverified artisan guild badges."
+    },
+    "citations": [
+      "OPAR Architectural House Split Charter & Sourcing Standards (/about/sourcing/)."
+    ],
+    "seo": {
+      "title": "Objects made to be used, not performed · Worldly & divine",
+      "description": "Why domestic utility objects and free cultural reading live together under clear boundaries inside OPAR.",
+      "keywords": [
+        "conscious objects",
+        "quiet living material honesty",
+        "ethics of slow commerce"
+      ]
+    }
+  }
+]

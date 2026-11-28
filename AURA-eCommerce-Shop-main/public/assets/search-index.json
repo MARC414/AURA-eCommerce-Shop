@@ -488,5 +488,42 @@
       "Client care · Order tracking",
       "Track order"
     ]
+  },
+  {
+    "title": "Reading a botanical label: whole root, extract ratios, and missing batches",
+    "description": "Why net capsule weight, supplier listing attributes, and laboratory Certificates of Analysis must be read as three separate facts.",
+    "href": "/journal/plants-and-practice/reading-botanical-labels-whole-root-and-rhizome/",
+    "type": "Journal",
+    "keywords": [
+      "Plants & practice",
+      "botanical label reading",
+      "whole root vs extract",
+      "withania somnifera label audit",
+      "supplement provenance"
+    ]
+  },
+  {
+    "title": "Paced attention, quiet rooms, and leaving medicine out of prose",
+    "description": "How ordinary intervals of breath, morning light, and reduced sensory clutter are recorded without medicalising everyday rest.",
+    "href": "/journal/mind-and-body/paced-attention-and-ordinary-rest/",
+    "type": "Journal",
+    "keywords": [
+      "Mind & body",
+      "mind and body practice",
+      "daily quiet rest",
+      "non clinical attention habits"
+    ]
+  },
+  {
+    "title": "Objects made to be used, not performed",
+    "description": "Why plain cleansing bars, carved timber vessels, and a free public library belong under the same quiet roof.",
+    "href": "/journal/worldly-and-divine/objects-made-to-be-used-not-performed/",
+    "type": "Journal",
+    "keywords": [
+      "Worldly & divine",
+      "conscious objects",
+      "quiet living material honesty",
+      "ethics of slow commerce"
+    ]
   }
 ]

@@ -31,7 +31,22 @@ function attachImageFallback(image) {
   if (!image.hidden && image.complete && image.naturalWidth === 0) fallback();
 }
 
-document.querySelectorAll('img[data-fallback], img[data-fallback-empty="true"]').forEach(attachImageFallback);
+const scheduleNonCritical = fn => {
+  if (window.OparCwv && typeof window.OparCwv.whenIdle === 'function') {
+    window.OparCwv.whenIdle(fn, 1200);
+  } else if (typeof window.requestIdleCallback === 'function') {
+    window.requestIdleCallback(fn, { timeout: 1200 });
+  } else {
+    window.setTimeout(fn, 1);
+  }
+};
+
+document.querySelectorAll('img[data-main-image]').forEach(attachImageFallback);
+scheduleNonCritical(() => {
+  document.querySelectorAll('img[data-fallback], img[data-fallback-empty="true"]').forEach(img => {
+    if (!img.hasAttribute('data-main-image')) attachImageFallback(img);
+  });
+});
 
 document.querySelectorAll('[data-gallery]').forEach(gallery => {
   const mount = gallery.querySelector('[data-main-mount]') || gallery.querySelector('.main-image');

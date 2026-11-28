@@ -22,12 +22,12 @@ const MONOGRAPH_GROUND = {
 };
 
 const ROOM_IMAGES = {
-  'herbal-botanicals': { src: '/assets/products/studio-herbal-botanicals-800.jpg', alt: 'Amber botanical apothecary vessel' },
-  'everyday-care': { src: '/assets/products/studio-everyday-care-800.jpg', alt: 'Cold-process matte cleansing bar' },
-  'showpieces': { src: '/assets/products/studio-showpieces-800.jpg', alt: 'Hand-turned hardwood vessel' },
-  'yoga-practice': { src: '/assets/products/studio-yoga-practice-800.jpg', alt: 'Rolled woven mat and cork block' },
-  'art-craft': { src: '/assets/products/studio-art-craft-800.jpg', alt: 'Ceramic studio craft vase' },
-  'quiet-living': { src: '/assets/products/studio-quiet-living-800.jpg', alt: 'Linen cloth and stoneware dish' }
+  'herbal-botanicals': { slug: 'herbal-botanicals', src: '/assets/products/studio-herbal-botanicals-800.jpg', avif: '/assets/products/studio-herbal-botanicals-800.avif', webp: '/assets/products/studio-herbal-botanicals-800.webp', alt: 'Amber botanical apothecary vessel' },
+  'everyday-care': { slug: 'everyday-care', src: '/assets/products/studio-everyday-care-800.jpg', avif: '/assets/products/studio-everyday-care-800.avif', webp: '/assets/products/studio-everyday-care-800.webp', alt: 'Cold-process matte cleansing bar' },
+  'showpieces': { slug: 'showpieces', src: '/assets/products/studio-showpieces-800.jpg', avif: '/assets/products/studio-showpieces-800.avif', webp: '/assets/products/studio-showpieces-800.webp', alt: 'Hand-turned hardwood vessel' },
+  'yoga-practice': { slug: 'yoga-practice', src: '/assets/products/studio-yoga-practice-800.jpg', avif: '/assets/products/studio-yoga-practice-800.avif', webp: '/assets/products/studio-yoga-practice-800.webp', alt: 'Rolled woven mat and cork block' },
+  'art-craft': { slug: 'art-craft', src: '/assets/products/studio-art-craft-800.jpg', avif: '/assets/products/studio-art-craft-800.avif', webp: '/assets/products/studio-art-craft-800.webp', alt: 'Ceramic studio craft vase' },
+  'quiet-living': { slug: 'quiet-living', src: '/assets/products/studio-quiet-living-800.jpg', avif: '/assets/products/studio-quiet-living-800.avif', webp: '/assets/products/studio-quiet-living-800.webp', alt: 'Linen cloth and stoneware dish' }
 };
 
 const SHELF_SLUGS = ['turmeric-cleansing-soap', 'ashwagandha-with-black-pepper', 'turmeric-cleansing-pads'];
@@ -125,7 +125,7 @@ function rooms() {
   const items = collections.map((room, index) => {
     const img = ROOM_IMAGES[room.slug];
     const figure = img
-      ? `<span class="room-index__figure"><img src="${escapeHtml(img.src)}" alt="${escapeHtml(img.alt)}" width="120" height="120" loading="lazy" decoding="async"></span>`
+      ? `<span class="room-index__figure"><picture><source type="image/avif" srcset="${escapeHtml(img.avif)}"><source type="image/webp" srcset="${escapeHtml(img.webp)}"><img src="${escapeHtml(img.src)}" alt="${escapeHtml(img.alt)}" width="120" height="120" loading="lazy" decoding="async"></picture></span>`
       : '';
     return `
           <li>
@@ -366,6 +366,10 @@ export function renderHomePage(products = []) {
     canonical: '/',
     theme: null,
     image: HERO_IMAGE,
+    seo: {
+      type: 'home',
+      context: `Explore ${products.length} curated pieces across ${collections.length} rooms, Perennis free books and sound, and Journal notes.`
+    },
     preload: [{ as: 'image', href: HERO_IMAGE_AVIF, type: 'image/avif', fetchpriority: 'high' }],
     scripts: ['/assets/newsletter-page.js'],
     content: `${hero()}${featured(products)}${rooms()}${monograph()}${newsletter()}`

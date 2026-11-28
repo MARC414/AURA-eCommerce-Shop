@@ -11,13 +11,25 @@
  */
 
 import { readFileSync } from 'node:fs';
+import { resolveDocumentSeo, renderSeoHeadTags } from './seo-service.mjs';
 
 export const site = JSON.parse(readFileSync(new URL('../data/site.json', import.meta.url), 'utf8'));
 export const collections = JSON.parse(readFileSync(new URL('../data/collections.json', import.meta.url), 'utf8'));
 export const brand = JSON.parse(readFileSync(new URL('../data/brand.json', import.meta.url), 'utf8'));
 export const pages = JSON.parse(readFileSync(new URL('../data/pages.json', import.meta.url), 'utf8'));
 export const foliage = JSON.parse(readFileSync(new URL('../data/foliage.json', import.meta.url), 'utf8'));
+export const journal = JSON.parse(readFileSync(new URL('../data/journal.json', import.meta.url), 'utf8'));
 export const BRAND = brand.name;
+
+export function medallionPictureMarkup(variant = 'paper', { className = '', alt = '', width = 72, height = 72, lazy = true } = {}) {
+  const key = variant === 'ground' ? 'ground' : 'paper';
+  const avif = `/assets/brand/web/opar-medallion-${key}-400.avif`;
+  const webp = `/assets/brand/web/opar-medallion-${key}-400.webp`;
+  const fallback = `/assets/OPAR-brand-assets/opar-medallion-${key}-1200.png`;
+  const cls = className ? ` class="${escapeHtml(className)}"` : '';
+  const load = lazy ? ' loading="lazy"' : '';
+  return `<picture><source type="image/avif" srcset="${avif}"><source type="image/webp" srcset="${webp}"><img${cls} src="${fallback}" alt="${escapeHtml(alt)}" width="${width}" height="${height}"${load} decoding="async"></picture>`;
+}
 
 /**
  * Launch switch: generated pages are noindex until a real domain and absolute
@@ -209,7 +221,7 @@ function footer(emblem = brand.logo.assetPathOnDark, includeSplitBand = true) {
     <footer class="${includeSplitBand ? 'site-footer v2-split-footer' : 'site-footer'}">${splitBand}
       <div class="footer-top">
         <div class="footer-brand">
-          <a class="wordmark" href="${escapeHtml(site.brand.homeHref)}" aria-label="${escapeHtml(site.brand.name)} home"><img class="wordmark-emblem" src="${escapeHtml(emblem)}" alt="${escapeHtml(brand.logo.altText)}" width="28" height="28">${escapeHtml(site.brand.wordmark)}</a>
+          <a class="wordmark" href="${escapeHtml(site.brand.homeHref)}" aria-label="${escapeHtml(site.brand.name)} home"><img class="wordmark-emblem" src="${escapeHtml(emblem)}" alt="${escapeHtml(brand.logo.altText)}" width="28" height="28" loading="lazy" decoding="async">${escapeHtml(site.brand.wordmark)}</a>
           <p>${escapeHtml(site.brand.description)}<br>${escapeHtml(site.brand.tagline)}</p>
           <p class="footer-whatsapp"><a class="text-link" href="${escapeHtml(waHref)}" target="_blank" rel="noopener noreferrer">WhatsApp inquiry desk ${external}</a><span class="footer-whatsapp__note">${escapeHtml(waNote)}</span></p>
         </div>
@@ -223,15 +235,25 @@ function footer(emblem = brand.logo.assetPathOnDark, includeSplitBand = true) {
     </footer>`;
 }
 
-export function documentPage({ title, description, active = null, content, canonical = null, jsonLd = null, keywords = null, image = null, theme = null, scripts = [], preload = [], robots = null, identity = null, stylesheets = [], bodyClass = '', previewLabel = '' }) {
-  const jsonLdTag = jsonLd
-    ? `\n  <script type="application/ld+json">${JSON.stringify(jsonLd).replace(/<\//g, '<\\/')}</script>`
-    : '';
+export function documentPage({ title, description, active = null, content, canonical = null, route = null, jsonLd = null, keywords = null, image = null, theme = null, scripts = [], preload = [], robots = null, identity = null, stylesheets = [], bodyClass = '', previewLabel = '', seo = null }) {
   const preloadTags = preload.map(item =>
     `<link rel="preload" as="${escapeHtml(item.as)}" href="${escapeHtml(item.href)}"${item.type ? ` type="${escapeHtml(item.type)}"` : ''}${item.fetchpriority ? ` fetchpriority="${escapeHtml(item.fetchpriority)}"` : ''}>\n  `
   ).join('');
-  const robotsValue = robots || (INDEXABLE ? 'index, follow' : 'noindex, follow');
   const isSpecimen = Boolean(previewLabel || identity);
+  const resolvedSeo = resolveDocumentSeo({
+    title,
+    description,
+    canonical: canonical ?? route,
+    route,
+    brandName: BRAND,
+    keywords,
+    image,
+    robots,
+    indexable: INDEXABLE,
+    jsonLd,
+    previewLabel,
+    seo
+  });
   const logo = identity
     ? { ...brand.logo, ...identity }
     : { ...brand.logo, assetPathOnLight: '/assets/brand/web/opar-mark-green.svg' };
@@ -250,40 +272,31 @@ export function documentPage({ title, description, active = null, content, canon
     ? `\n  <aside class="brand-preview-notice" role="note"><span>${escapeHtml(previewLabel)}</span><a href="/brand-preview/#dual-surface-review">Back to comparisons</a></aside>`
     : '';
   const themeColor = theme === 'theme-paper' ? '#F4F2EE' : '#2F332B';
-  const ogType = jsonLd && (Array.isArray(jsonLd) ? jsonLd.some(n => n['@type'] === 'Product') : jsonLd['@type'] === 'Product')
-    ? 'product'
-    : 'website';
   const allScripts = isSpecimen
     ? ['/assets/cart.js', '/assets/site.js', ...scripts]
     : ['/assets/cart.js', '/assets/site.js', ...scripts, '/assets/v2-editorial.js'];
+  const cwvTag = isSpecimen
+    ? ''
+    : '\n  <script src="/assets/cwv-loader.js" async fetchpriority="low"></script>';
   return `<!DOCTYPE html>
 <html lang="en">
 <!-- Generated by scripts/generate-product-pages.mjs. Edit the data or shared templates, not this file. -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${escapeHtml(title)} — ${escapeHtml(BRAND)}</title>
-  <meta name="description" content="${escapeHtml(description)}">
-  ${keywords ? `<meta name="keywords" content="${escapeHtml(keywords)}">\n  ` : ''}${canonical ? `<link rel="canonical" href="${escapeHtml(canonical)}">\n  ` : ''}<meta name="robots" content="${escapeHtml(robotsValue)}">
-  <meta property="og:type" content="${ogType}">
-  <meta property="og:site_name" content="${escapeHtml(BRAND)}">
-  <meta property="og:title" content="${escapeHtml(title)} — ${escapeHtml(BRAND)}">
-  <meta property="og:description" content="${escapeHtml(description)}">
-  ${image ? `<meta property="og:image" content="${escapeHtml(image)}">\n  ` : ''}${canonical ? `<meta property="og:url" content="${escapeHtml(canonical)}">\n  ` : ''}<meta name="twitter:card" content="${image ? 'summary_large_image' : 'summary'}">
-  <meta name="twitter:title" content="${escapeHtml(title)} — ${escapeHtml(BRAND)}">
-  <meta name="twitter:description" content="${escapeHtml(description)}">
-  ${image ? `<meta name="twitter:image" content="${escapeHtml(image)}">\n  ` : ''}<meta name="theme-color" content="${escapeHtml(themeColor)}">${jsonLdTag}
+  ${renderSeoHeadTags(resolvedSeo, escapeHtml)}
+  <meta name="theme-color" content="${escapeHtml(themeColor)}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="${escapeHtml(brand.typography.googleFontsHref)}" rel="stylesheet">
   ${iconTags}
   ${preloadTags}<link rel="stylesheet" href="/assets/product-pages.css">${additionalStyles}
-  ${allScripts.map(src => `<script src="${escapeHtml(src)}" defer></script>`).join('\n  ')}
 </head>
 <body${bodyClasses ? ` class="${escapeHtml(bodyClasses)}"` : ''}>
   ${header(active, headerEmblem, theme === 'theme-paper' ? identity?.headerLockupOnLight : identity?.headerLockupOnDark)}${previewNotice}
   <main id="main-content" tabindex="-1">${content}</main>
   ${footer(logo.assetPathOnDark, !isSpecimen)}
+  ${allScripts.map(src => `<script src="${escapeHtml(src)}" defer></script>`).join('\n  ')}${cwvTag}
 </body>
 </html>
 `.replace(/[\t ]+$/gm, '');

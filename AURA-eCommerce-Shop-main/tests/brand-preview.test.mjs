@@ -6,11 +6,12 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { createHash } from 'node:crypto';
 import { documentPage, brand } from '../templates/chrome.mjs';
-import { MODELS, productPath, renderCollection, renderCategoryPage, renderAffiliatePage, renderDropshippingPage, renderStaticPage, renderHomePage, renderNotFoundPage } from '../templates/product-pages.mjs';
+import { MODELS, productPath, renderCollection, renderCategoryPage, renderAffiliatePage, renderDropshippingPage, renderStaticPage, renderHomePage, renderNotFoundPage, journalEntryPath, renderJournalEntryPage } from '../templates/product-pages.mjs';
 
 const data = name => JSON.parse(readFileSync(new URL(`../data/${name}.json`, import.meta.url), 'utf8'));
 const products = data('pilot-products');
 const pages = data('pages');
+const journalEntries = data('journal');
 const sha = text => createHash('sha256').update(text.replace(/\r\n/g, '\n')).digest('hex');
 const fixture = JSON.parse(readFileSync(new URL('./fixtures/homepage-freeze.json', import.meta.url), 'utf8'));
 const identity = {
@@ -33,6 +34,7 @@ test('promoted customer output keeps route parity, preserves frozen shared CSS, 
     ...Object.entries(MODELS).map(([model, definition]) => [definition.path, renderCollection(model, products)]),
     ...data('collections').map(c => [`/shop/${c.slug}/`, renderCategoryPage(c, products)]),
     ...pages.map(p => [p.path, renderStaticPage(p)]),
+    ...journalEntries.map(entry => [journalEntryPath(entry), renderJournalEntryPage(entry, journalEntries)]),
     ['/404.html', renderNotFoundPage()]
   ];
   assert.equal(docs.length, defaultFixture.routes);

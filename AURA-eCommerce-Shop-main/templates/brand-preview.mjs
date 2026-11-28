@@ -75,6 +75,7 @@ export function renderBrandPreviewDocuments(products, pages) {
     html: sample.render({
       theme: sample.theme,
       identity: previewIdentity,
+      canonical: `/brand-preview/${sample.file}`,
       bodyClass: 'brand-preview-document opar-reference-document',
       stylesheets: ['/assets/brand-preview.css', '/assets/opar-template-preview.css'],
       ...(sample.layout ? { referenceLayout: sample.layout } : {}),

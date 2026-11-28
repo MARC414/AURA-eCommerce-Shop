@@ -2,13 +2,14 @@ import { readFile, mkdir, writeFile, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { MODELS, validateProduct, productPath, renderDropshippingPage, renderAffiliatePage, renderCollection, renderCategoryPage, renderStaticPage, renderHomePage, renderNotFoundPage } from '../templates/product-pages.mjs';
+import { MODELS, validateProduct, productPath, renderDropshippingPage, renderAffiliatePage, renderCollection, renderCategoryPage, renderStaticPage, renderHomePage, renderNotFoundPage, journalEntryPath, validateJournalEntry, renderJournalEntryPage, auditRenderedPages } from '../templates/product-pages.mjs';
 import { generateBrandPreview } from './generate-brand-preview.mjs';
 
 const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 const products = JSON.parse(await readFile(join(projectRoot, 'data/pilot-products.json'), 'utf8'));
 const collections = JSON.parse(await readFile(join(projectRoot, 'data/collections.json'), 'utf8'));
 const sitePages = JSON.parse(await readFile(join(projectRoot, 'data/pages.json'), 'utf8'));
+const journalEntries = JSON.parse(await readFile(join(projectRoot, 'data/journal.json'), 'utf8'));
 const brand = JSON.parse(await readFile(join(projectRoot, 'data/brand.json'), 'utf8'));
 const BRAND = brand.name;
 const paths = new Set();
@@ -50,6 +51,14 @@ for (const page of sitePages) {
   pages.push({ path: page.path, html: renderStaticPage(page) });
 }
 
+for (const entry of journalEntries) {
+  validateJournalEntry(entry);
+  const path = journalEntryPath(entry);
+  if (paths.has(path)) throw new Error(`Duplicate journal path: ${path}`);
+  paths.add(path);
+  pages.push({ path, html: renderJournalEntryPage(entry, journalEntries) });
+}
+
 const allPaths = new Set();
 for (const page of pages) {
   if (allPaths.has(page.path)) throw new Error(`Duplicate page path: ${page.path}`);
@@ -57,6 +66,9 @@ for (const page of pages) {
 }
 
 const notFoundHtml = renderNotFoundPage();
+
+const seoAudit = auditRenderedPages([...pages, { path: '/404.html', html: notFoundHtml }]);
+console.log(`SEO audit passed: ${seoAudit.total} documents have unique canonicals and unique meta descriptions.`);
 
 // Rule: never ship an internal link to a page that does not exist. `/` is now
 // one of the generated pages, so it is resolved like any other instead of being
@@ -138,7 +150,14 @@ const searchIndex = [
       href: page.path,
       type: sectionLabel(page),
       keywords: [page.eyebrow, page.label]
-    }))
+    })),
+  ...journalEntries.map(entry => ({
+    title: entry.title,
+    description: entry.deck,
+    href: journalEntryPath(entry),
+    type: 'Journal',
+    keywords: [entry.deskLabel, ...(entry.seo?.keywords || [])]
+  }))
 ];
 await writeFile(join(projectRoot, 'public/assets/search-index.json'), `${JSON.stringify(searchIndex, null, 2)}\n`, 'utf8');
 console.log(`Generated /assets/search-index.json (${searchIndex.length} entries)`);

@@ -4,6 +4,7 @@
  * is static; the behaviour is in public/assets/*.js.
  */
 
+import { readFileSync } from 'node:fs';
 import {
   BRAND,
   escapeHtml,
@@ -11,9 +12,58 @@ import {
   external,
   documentPage,
   whatsappLink,
-  whatsappDisclosure
+  whatsappDisclosure,
+  medallionPictureMarkup,
+  journal,
+  site
 } from './chrome.mjs';
 import { renderReferenceHero, renderReferenceNewsletter } from './reference-layouts.mjs';
+
+const complianceRegister = JSON.parse(readFileSync(new URL('../data/compliance.json', import.meta.url), 'utf8'));
+const pilotProducts = JSON.parse(readFileSync(new URL('../data/pilot-products.json', import.meta.url), 'utf8'));
+
+const JOURNAL_DESKS = ['plants-and-practice', 'mind-and-body', 'worldly-and-divine'];
+const FORBIDDEN_JOURNAL_PATTERNS = [
+  /\banti[-\s]?acne\b/i,
+  /\bclinically\s+proven\b/i,
+  /\bcures?\b/i,
+  /\btreats?\s+(?:acne|anxiety|depression|disease|illness|insomnia)\b/i,
+  /\bverified\s+buyer\b/i,
+  /\b5[-\s]?star\b/i
+];
+
+export function journalEntryPath(entry) {
+  return `/journal/${entry.desk}/${entry.slug}/`;
+}
+
+export function validateJournalEntry(entry) {
+  if (!entry || typeof entry !== 'object') throw new Error('Journal entry must be an object.');
+  if (!JOURNAL_DESKS.includes(entry.desk)) throw new Error(`Unknown journal desk: ${entry.desk}`);
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(entry.slug || '')) throw new Error(`Invalid journal slug: ${entry.slug}`);
+  if (!entry.id || !entry.title || !entry.deck || !entry.deskLabel) {
+    throw new Error(`Journal entry ${entry.slug || entry.id} needs id, title, deck, and deskLabel.`);
+  }
+  if (!Array.isArray(entry.sections) || !entry.sections.length) {
+    throw new Error(`Journal entry ${entry.slug} needs at least one reading section.`);
+  }
+  if (!entry.provenance?.verifiedFact || !entry.provenance?.attributedTradition || !entry.provenance?.withheldOutcome) {
+    throw new Error(`Journal entry ${entry.slug} requires provenance triplet (verifiedFact, attributedTradition, withheldOutcome).`);
+  }
+  const text = [
+    entry.title,
+    entry.kicker,
+    entry.deck,
+    ...entry.sections.flatMap(sec => [sec.heading, ...(sec.paragraphs || [])]),
+    entry.seo?.title,
+    entry.seo?.description
+  ].filter(Boolean).join(' ');
+  for (const pattern of FORBIDDEN_JOURNAL_PATTERNS) {
+    if (pattern.test(text)) {
+      throw new Error(`Journal entry ${entry.slug} contains prohibited claim wording (${pattern}).`);
+    }
+  }
+  return entry;
+}
 
 function checkoutSection() {
   const countries = ['United Kingdom', 'Ireland', 'France', 'Germany', 'Netherlands', 'Belgium', 'Spain', 'Italy', 'Portugal', 'Sweden', 'Denmark', 'Norway', 'Switzerland', 'United States', 'Canada', 'Australia', 'New Zealand', 'India', 'Bangladesh', 'Japan', 'Singapore', 'United Arab Emirates', 'Other'];
@@ -73,7 +123,7 @@ function checkoutSection() {
                   <h2>Reference <span data-checkout-reference data-v2-proforma-ref>—</span></h2>
                   <p class="small-note" data-v2-proforma-recipient></p>
                 </div>
-                <img class="v2-proforma__seal" src="/assets/OPAR-brand-assets/opar-medallion-paper-1200.png" alt="OPAR archival seal" width="64" height="64" loading="lazy" decoding="async">
+                ${medallionPictureMarkup('paper', { className: 'v2-proforma__seal', alt: 'OPAR archival seal', width: 64, height: 64 })}
               </div>
               <p class="v2-proforma__copy" data-checkout-confirmation-copy>Your request is saved in this browser. ${BRAND} replies with a written invoice before anything is paid.</p>
               <p class="small-note" data-checkout-confirmation-method></p>
@@ -184,7 +234,7 @@ function renderSacredMossPage(page, shellOptions) {
 
   const musicPlate = isMusic ? `
     <section class="v2-listening-plate" aria-labelledby="v2-listening-title">
-      <img class="v2-listening-seal" src="/assets/OPAR-brand-assets/opar-medallion-ground-1200.png" alt="OPAR double-ring listening seal" width="190" height="190" loading="lazy" decoding="async">
+      ${medallionPictureMarkup('ground', { className: 'v2-listening-seal', alt: 'OPAR double-ring listening seal', width: 190, height: 190 })}
       <span class="eyebrow">Dark Linen Acoustic Chamber · Consent-First Plate</span>
       <h2 id="v2-listening-title" class="v2-listening-title">Raga Yaman — Evening Alap Study</h2>
       <p class="v2-listening-credit">Attribution held at source &middot; Artist Channel Embed Slot</p>
@@ -217,6 +267,10 @@ function renderSacredMossPage(page, shellOptions) {
     canonical: page.path,
     active: page.section || null,
     theme: null,
+    seo: {
+      type: 'library',
+      context: `${page.label} inside Perennis, ${BRAND}'s free public reading and listening room with verified edition provenance.`
+    },
     ...shellOptions,
     content: `<div class="page-shell">
       <header class="v2-chapter-opener">
@@ -237,6 +291,330 @@ function renderSacredMossPage(page, shellOptions) {
   });
 }
 
+function journalMetaLine(entry) {
+  const parts = [
+    entry.deskLabel,
+    `${entry.readingMinutes || 3} min read`,
+    entry.publishedDate,
+    entry.provenanceBasis
+  ].filter(Boolean);
+  return `<div class="v2-journal-meta">${parts.map(p => `<span>${escapeHtml(p)}</span>`).join('<span class="v2-journal-meta__sep" aria-hidden="true">&middot;</span>')}</div>`;
+}
+
+function journalDeskNav(activeHref) {
+  const navGroup = site.nav.find(item => item.id === 'journal');
+  const items = navGroup?.children || [{ label: 'All writing', href: '/journal/' }];
+  return `<nav class="v2-journal-desk-nav" aria-label="Journal desks">${items.map(item => `<a href="${escapeHtml(item.href)}"${item.href === activeHref ? ' aria-current="page"' : ''}>${escapeHtml(item.label)}</a>`).join('')}</nav>`;
+}
+
+export function renderJournalArchivePage(page, journalEntries = journal, shellOptions = {}) {
+  const roman = ['I', 'II', 'III', 'IV', 'V'];
+  const parent = page.parent
+    ? `<li><a href="${escapeHtml(page.parent.href)}">${escapeHtml(page.parent.label)}</a></li>`
+    : '';
+  const deskMatch = /^\/journal\/([a-z-]+)\/$/.exec(page.path);
+  const deskSlug = deskMatch ? deskMatch[1] : null;
+  const scoped = deskSlug
+    ? journalEntries.filter(entry => entry.desk === deskSlug)
+    : journalEntries.slice();
+  const lead = scoped.find(entry => entry.featured) || scoped[0] || null;
+  const secondary = lead ? scoped.filter(entry => entry.id !== lead.id) : [];
+
+  const leadHtml = lead ? `
+    <article class="v2-journal-lead" aria-labelledby="lead-essay-heading">
+      <span class="eyebrow">${escapeHtml(lead.kicker || lead.deskLabel)}</span>
+      <h2 id="lead-essay-heading"><a href="${escapeHtml(journalEntryPath(lead))}">${escapeHtml(lead.title)}</a></h2>
+      <p class="v2-journal-lead__deck">${escapeHtml(lead.deck)}</p>
+      <div class="v2-journal-lead__foot">
+        ${journalMetaLine(lead)}
+        <a class="text-link" href="${escapeHtml(journalEntryPath(lead))}">Read note ${arrow}</a>
+      </div>
+    </article>` : `
+    <section class="v2-journal-empty" aria-labelledby="journal-empty-heading">
+      <span class="eyebrow">Publishing status</span>
+      <h2 id="journal-empty-heading">Notes for this desk are in preparation.</h2>
+      <p>Writing appears here only after botanical identification, edition provenance, and source attributions are recorded cleanly.</p>
+    </section>`;
+
+  const secondaryHtml = secondary.length ? `
+    <div class="v2-journal-grid">
+      ${secondary.map(entry => `
+        <article class="v2-journal-card">
+          <div>
+            <span class="eyebrow">${escapeHtml(entry.kicker || entry.deskLabel)}</span>
+            <h3><a href="${escapeHtml(journalEntryPath(entry))}">${escapeHtml(entry.title)}</a></h3>
+            <p class="v2-journal-card__deck">${escapeHtml(entry.deck)}</p>
+          </div>
+          <div class="v2-journal-card__foot">
+            ${journalMetaLine(entry)}
+            <a class="text-link" href="${escapeHtml(journalEntryPath(entry))}">Read note ${arrow}</a>
+          </div>
+        </article>`).join('')}
+    </div>` : '';
+
+  const blocksHtml = (page.blocks || []).map((section, idx) => `
+    <section class="v2-finepress-section">
+      <span class="v2-roman-numeral" aria-hidden="true">${roman[idx] || String(idx + 1)}</span>
+      ${section.heading ? `<h2>${escapeHtml(section.heading)}</h2>` : ''}
+      ${(section.paragraphs || []).map((p, pIdx) => `<p${pIdx === 0 ? ' class="v2-dropcap"' : ''}>${escapeHtml(p)}</p>`).join('')}
+      ${section.links ? `<div class="content-links">${section.links.map(l => `<a class="text-link" href="${escapeHtml(l.href)}">${escapeHtml(l.label)} ${arrow}</a>`).join('')}</div>` : ''}
+    </section>`).join('');
+
+  return documentPage({
+    title: page.title,
+    description: page.description,
+    canonical: page.path,
+    active: 'journal',
+    theme: null,
+    seo: {
+      type: 'journal-index',
+      context: `${scoped.length} documented notes in ${page.label}, separating observed fact from attributed tradition.`
+    },
+    ...shellOptions,
+    content: `<div class="page-shell">
+      <header class="v2-chapter-opener">
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>${parent}<li aria-current="page">${escapeHtml(page.label)}</li></ol></nav>
+        <div class="collection-heading">
+          <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>${escapeHtml(page.eyebrow)}</span>
+          <h1>${escapeHtml(page.heading)}</h1>
+          <p>${escapeHtml(page.intro)}</p>
+        </div>
+      </header>
+      ${journalDeskNav(page.path)}
+      ${leadHtml}
+      ${secondaryHtml}
+      <div class="v2-finepress">
+        ${blocksHtml}
+        ${page.note ? `<p class="page-note">${escapeHtml(page.note)}</p>` : ''}
+      </div>
+    </div>`
+  });
+}
+
+export function renderJournalEntryPage(entry, allEntries = journal, shellOptions = {}) {
+  validateJournalEntry(entry);
+  const canonical = journalEntryPath(entry);
+  const roman = ['I', 'II', 'III', 'IV', 'V'];
+  const siblings = allEntries.filter(item => item.desk === entry.desk && item.slug !== entry.slug);
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: entry.title,
+      description: entry.seo?.description || entry.deck,
+      articleSection: entry.deskLabel,
+      datePublished: entry.publishedDate,
+      author: { '@type': 'Organization', name: entry.author || `${BRAND} Editorial Desk` },
+      publisher: { '@type': 'Organization', name: BRAND },
+      url: canonical
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: '/' },
+        { '@type': 'ListItem', position: 2, name: 'Journal', item: '/journal/' },
+        { '@type': 'ListItem', position: 3, name: entry.deskLabel, item: entry.deskHref },
+        { '@type': 'ListItem', position: 4, name: entry.title, item: canonical }
+      ]
+    }
+  ];
+
+  const sectionsHtml = entry.sections.map((section, idx) => `
+    <section class="v2-finepress-section">
+      <span class="v2-roman-numeral" aria-hidden="true">${roman[idx] || String(idx + 1)}</span>
+      ${section.heading ? `<h2>${escapeHtml(section.heading)}</h2>` : ''}
+      ${(section.paragraphs || []).map((p, pIdx) => `<p${idx === 0 && pIdx === 0 ? ' class="v2-dropcap"' : ''}>${escapeHtml(p)}</p>`).join('')}
+    </section>`).join('');
+
+  const relationHtml = entry.relatedProduct ? `
+    <aside class="v2-journal-relation" aria-label="Related house section">
+      <div>
+        <span class="eyebrow">House Reference · Invitation only</span>
+        <p>${escapeHtml(entry.relatedProduct.note)}</p>
+      </div>
+      <a class="text-link" href="${escapeHtml(entry.relatedProduct.href)}">${escapeHtml(entry.relatedProduct.label)} ${arrow}</a>
+    </aside>` : '';
+
+  const citationsHtml = Array.isArray(entry.citations) && entry.citations.length ? `
+    <div class="v2-journal-citations">
+      <span class="eyebrow">References &amp; archival records</span>
+      <ol>${entry.citations.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ol>
+    </div>` : '';
+
+  const continueLinks = siblings.length
+    ? siblings.map(item => `<a class="text-link" href="${escapeHtml(journalEntryPath(item))}">${escapeHtml(item.title)} ${arrow}</a>`).join('')
+    : `<a class="text-link" href="${escapeHtml(entry.deskHref)}">More in ${escapeHtml(entry.deskLabel)} ${arrow}</a><a class="text-link" href="/journal/">All Journal notes ${arrow}</a>`;
+
+  return documentPage({
+    title: entry.seo?.title || entry.title,
+    description: entry.seo?.description || entry.deck,
+    canonical,
+    active: 'journal',
+    theme: null,
+    jsonLd,
+    keywords: entry.seo?.keywords?.join(', ') || null,
+    seo: {
+      type: 'article',
+      ogType: 'article',
+      context: `${entry.deskLabel} essay (${entry.readingMinutes || 3} min read) with observed fact and archival citations.`
+    },
+    ...shellOptions,
+    content: `<div class="page-shell">
+      <header class="v2-chapter-opener">
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/journal/">Journal</a></li><li><a href="${escapeHtml(entry.deskHref)}">${escapeHtml(entry.deskLabel)}</a></li><li aria-current="page">${escapeHtml(entry.title)}</li></ol></nav>
+        <div class="collection-heading">
+          <span class="home-overline"><span class="home-rule" aria-hidden="true"></span>${escapeHtml(entry.kicker || entry.deskLabel)}</span>
+          <h1>${escapeHtml(entry.title)}</h1>
+          <p>${escapeHtml(entry.deck)}</p>
+        </div>
+        ${journalMetaLine(entry)}
+      </header>
+      <article class="v2-finepress">
+        ${sectionsHtml}
+        <aside class="v2-provenance-ledger" aria-labelledby="provenance-ledger-heading">
+          <span class="eyebrow">Writing Charter · Provenance Split</span>
+          <h2 id="provenance-ledger-heading">Observed Fact, Tradition, and Withheld Outcomes</h2>
+          <dl class="v2-provenance-list">
+            <div class="v2-provenance-row"><dt>Observed &amp; Verified Fact</dt><dd>${escapeHtml(entry.provenance.verifiedFact)}</dd></div>
+            <div class="v2-provenance-row"><dt>Attributed Tradition</dt><dd>${escapeHtml(entry.provenance.attributedTradition)}</dd></div>
+            <div class="v2-provenance-row"><dt>Withheld Claims</dt><dd>${escapeHtml(entry.provenance.withheldOutcome)}</dd></div>
+          </dl>
+        </aside>
+        ${relationHtml}
+        ${citationsHtml}
+        <div class="content-links content-links-wide">${continueLinks}</div>
+      </article>
+    </div>`
+  });
+}
+
+function productHrefById(productId) {
+  const product = pilotProducts.find(item => item.id === productId);
+  if (!product) return null;
+  const prefix = product.model === 'affiliate' ? '/discover' : '/shop';
+  return `${prefix}/${product.slug}/#compliance-section`;
+}
+
+function renderComplianceFaqSection(page) {
+  if (!page.complianceShowcase && !(Array.isArray(page.complianceFaq) && page.complianceFaq.length)) return '';
+  const statusLabels = {
+    verified: 'Verified',
+    pending: 'Pending',
+    'not-provided': 'Not provided',
+    'not-applicable': 'Not applicable'
+  };
+  const pillars = [
+    {
+      index: '01 · Supplier verification',
+      title: 'Named makers & UK/EU Responsible Persons',
+      body: 'Marketplace listings frequently mask who actually manufactures an item. OPAR traces beyond reseller storefronts to the factory name, country of origin, and statutory Responsible Person—explicitly recording gaps such as malformed EU addresses or missing Great Britain representatives.'
+    },
+    {
+      index: '02 · INCI ingredient listings',
+      title: 'Ordered declarations over marketing blurbs',
+      body: 'Marketing highlights ("with tea tree oil and aloe") are not accepted as cosmetic ingredient disclosures. Regulated soaps and topicals require complete weight-ordered INCI lists; botanical supplements require per-serving Supplement Facts kept distinct from gross shipping weight and conflicting feed attributes.'
+    },
+    {
+      index: '03 · Safety reports & lab COAs',
+      title: 'Cosmetic CPSRs & batch Certificates of Analysis',
+      body: 'Topical cosmetics require a Cosmetic Product Safety Report (CPSR) and microbiological / heavy-metal testing prior to sale. Ingestible botanicals require a batch-specific third-party COA. Packaging PDF artwork or supplier badges are never treated as safety verification or organic certification.'
+    }
+  ];
+
+  const recordsHtml = (complianceRegister.records || []).map(record => {
+    const items = Array.isArray(record.items) ? record.items : [];
+    const verifiedCount = items.filter(item => item.status === 'verified').length;
+    const outstanding = items
+      .filter(item => item.status === 'not-provided' || item.status === 'pending')
+      .slice(0, 3)
+      .map(item => item.label)
+      .join(' · ');
+    const href = productHrefById(record.productId);
+    const rpSummary = record.responsiblePerson
+      ? `${record.responsiblePerson.name} (${record.responsiblePerson.status})`
+      : 'None verified';
+    return `<tr>
+      <th scope="row">${href ? `<a class="text-link" href="${escapeHtml(href)}">${escapeHtml(record.productName)} ${arrow}</a>` : escapeHtml(record.productName)}</th>
+      <td>${escapeHtml(record.riskTier || 'regulated')}</td>
+      <td class="v2-compliance-num">${verifiedCount} / ${items.length}</td>
+      <td>${escapeHtml(rpSummary)}</td>
+      <td>${escapeHtml(outstanding || 'None')}</td>
+    </tr>`;
+  }).join('');
+
+  const storeLevelHtml = (complianceRegister.storeLevel || []).map(control => `
+    <li>
+      <span class="v2-compliance-store__label">${escapeHtml(control.label)}</span>
+      <span class="v2-compliance-store__status">${escapeHtml(statusLabels[control.status] || control.status)}</span>
+      <p>${escapeHtml(control.note)}</p>
+    </li>`).join('');
+
+  const statusKeyHtml = Object.entries(complianceRegister.statusMeaning || {}).map(([key, meaning]) => `
+    <div>
+      <dt>${escapeHtml(statusLabels[key] || key)}</dt>
+      <dd>${escapeHtml(meaning)}</dd>
+    </div>`).join('');
+
+  const faqHtml = Array.isArray(page.complianceFaq) && page.complianceFaq.length ? `
+    <div class="v2-compliance-faq-subhead">
+      <span class="eyebrow">Verification questions answered</span>
+      <h3>Detailed Compliance &amp; Verification FAQ</h3>
+    </div>
+    <div class="faq-list v2-compliance-faq-list">
+      ${page.complianceFaq.map((item, idx) => `<details${idx === 0 ? ' open' : ''}><summary>${escapeHtml(item.question)}</summary><p>${escapeHtml(item.answer)}</p></details>`).join('')}
+    </div>` : '';
+
+  return `
+    <section class="content-block v2-compliance-faq" id="compliance-faq" aria-labelledby="compliance-faq-heading">
+      <div class="v2-compliance-faq__head">
+        <span class="eyebrow">Pre-launch trust initiative · Register reviewed ${escapeHtml(complianceRegister.lastReviewed || '')}</span>
+        <h2 id="compliance-faq-heading">Compliance &amp; FAQ</h2>
+        <p>${escapeHtml(complianceRegister.purpose)}</p>
+      </div>
+
+      <div class="v2-compliance-pillars">
+        ${pillars.map(pillar => `
+          <article class="v2-compliance-pillar">
+            <span class="eyebrow">${escapeHtml(pillar.index)}</span>
+            <h3>${escapeHtml(pillar.title)}</h3>
+            <p>${escapeHtml(pillar.body)}</p>
+          </article>`).join('')}
+      </div>
+
+      <div class="v2-compliance-register">
+        <div class="v2-compliance-register__head">
+          <div>
+            <span class="eyebrow">Live evidence snapshot</span>
+            <h3>Product &amp; Store-Level Verification Register</h3>
+          </div>
+          <a class="text-link" href="/policies/health-disclaimer/">Health disclaimer ${arrow}</a>
+        </div>
+        <dl class="v2-compliance-status-key">${statusKeyHtml}</dl>
+        <div class="v2-compliance-table-wrap">
+          <table class="v2-compliance-table" aria-label="Product compliance register status">
+            <thead>
+              <tr>
+                <th scope="col">Preview folio</th>
+                <th scope="col">Tier</th>
+                <th scope="col">Checks verified</th>
+                <th scope="col">Responsible person</th>
+                <th scope="col">Key outstanding files</th>
+              </tr>
+            </thead>
+            <tbody>${recordsHtml}</tbody>
+          </table>
+        </div>
+        <div class="v2-compliance-store">
+          <span class="eyebrow">Storewide controls (${(complianceRegister.storeLevel || []).length})</span>
+          <ul class="v2-compliance-store-list">${storeLevelHtml}</ul>
+        </div>
+      </div>
+
+      ${faqHtml}
+    </section>`;
+}
+
 /** Plain content pages plus cart, checkout, order-tracking, account, wishlist, search and newsletter apps. */
 export function renderStaticPage(page, documentOptions = {}) {
   const { referenceLayout = null, ...shellOptions } = documentOptions;
@@ -245,7 +623,10 @@ export function renderStaticPage(page, documentOptions = {}) {
   if (!page.title || !page.description || !page.label || !page.heading || !page.intro) {
     throw new Error(`Static page ${page.path} needs a title, description, label, heading, and intro.`);
   }
-  if (!referenceLayout && (page.section === 'perennis' || page.section === 'journal')) {
+  if (!referenceLayout && page.section === 'journal') {
+    return renderJournalArchivePage(page, journal, shellOptions);
+  }
+  if (!referenceLayout && page.section === 'perennis') {
     return renderSacredMossPage(page, shellOptions);
   }
   const parent = page.parent
@@ -314,6 +695,23 @@ export function renderStaticPage(page, documentOptions = {}) {
   const orderTracking = page.orderTracking ? orderSection() : '';
   const account = page.account ? accountSection() : '';
   const newsletter = page.newsletter ? newsletterSection() : '';
+  const complianceSection = renderComplianceFaqSection(page);
+  const allFaqs = [
+    ...(Array.isArray(page.faq) ? page.faq : []),
+    ...(Array.isArray(page.complianceFaq) ? page.complianceFaq : [])
+  ];
+  const faqJsonLd = allFaqs.length ? [{
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: allFaqs.map(item => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer
+      }
+    }))
+  }] : null;
   const pageScripts = [
     ...(page.search ? ['/assets/search.js'] : []),
     ...(page.cart ? ['/assets/cart-page.js'] : []),
@@ -332,7 +730,12 @@ export function renderStaticPage(page, documentOptions = {}) {
     canonical: page.path,
     active: page.section || null,
     theme: resolvedTheme,
+    jsonLd: faqJsonLd,
     scripts: pageScripts,
+    seo: {
+      type: 'page',
+      context: `${page.label} on ${BRAND} — transparent house standards, invoice-first inquiry, and client care.`
+    },
     ...shellOptions,
     content: `${referenceLayout === 'newsletter' ? renderReferenceNewsletter({ page, form: newsletter }) : referenceLayout ? renderReferenceHero({ surface: 'moss', eyebrow: page.eyebrow, heading: page.heading, intro: page.intro, action: page.links?.find(link => link.href.startsWith('/')) || null }) : ''}<div class="page-shell static-page">
       ${referenceLayout ? '' : resolvedTheme === 'theme-paper' ? `<header class="paper-opener">
@@ -349,7 +752,7 @@ export function renderStaticPage(page, documentOptions = {}) {
         <h1>${escapeHtml(page.heading)}</h1>
         <p>${escapeHtml(page.intro)}</p>
       </div>`}
-      ${search}${cart}${wishlist}${checkout}${orderTracking}${account}${referenceLayout === 'newsletter' ? '' : newsletter}${blocks}${links}${faq}
+      ${search}${cart}${wishlist}${checkout}${orderTracking}${account}${referenceLayout === 'newsletter' ? '' : newsletter}${blocks}${links}${faq}${complianceSection}
       ${page.note ? `<p class="page-note">${escapeHtml(page.note)}</p>` : ''}
     </div>`
   });
@@ -361,9 +764,14 @@ export function renderStaticPage(page, documentOptions = {}) {
 export function renderNotFoundPage() {
   return documentPage({
     title: 'Page not found (404)',
-    description: 'The requested page could not be found on OPAR. Browse the shop, search the catalogue or return home.',
+    description: 'The requested page could not be found on OPAR. Browse the six shop rooms, discover partner offers, or search the catalogue.',
+    canonical: '/404.html',
     robots: 'noindex, nofollow',
     theme: 'theme-paper',
+    seo: {
+      type: 'not-found',
+      context: 'Return home or track an existing browser-saved invoice request.'
+    },
     content: `<div class="page-shell static-page not-found-page">
       <header class="paper-opener">
         <img class="paper-opener__mark" src="/assets/brand/web/opar-mark-green.svg" alt="" aria-hidden="true" width="460" height="460" loading="lazy" decoding="async">

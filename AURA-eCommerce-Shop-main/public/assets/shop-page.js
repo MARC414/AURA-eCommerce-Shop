@@ -16,6 +16,23 @@
   var summaryEl = document.querySelector('[data-shop-active-summary]');
   var disclosureEl = document.querySelector('[data-shop-disclosure]');
   var resetButtons = Array.from(document.querySelectorAll('[data-shop-reset]'));
+  var roomStripEl = document.querySelector('[data-shop-room-strip]');
+  var roomDataEl = document.querySelector('[data-shop-rooms-data]');
+  var roomMap = {};
+  if (roomDataEl && roomDataEl.textContent) {
+    try {
+      roomMap = JSON.parse(roomDataEl.textContent);
+    } catch (e) {
+      roomMap = {};
+    }
+  }
+  var roomAvifEl = roomStripEl ? roomStripEl.querySelector('[data-room-avif]') : null;
+  var roomWebpEl = roomStripEl ? roomStripEl.querySelector('[data-room-webp]') : null;
+  var roomImgEl = roomStripEl ? roomStripEl.querySelector('[data-room-img]') : null;
+  var roomEyebrowEl = roomStripEl ? roomStripEl.querySelector('[data-room-eyebrow]') : null;
+  var roomHeadingEl = roomStripEl ? roomStripEl.querySelector('[data-room-heading]') : null;
+  var roomIntroEl = roomStripEl ? roomStripEl.querySelector('[data-room-intro]') : null;
+  var roomLinkEl = roomStripEl ? roomStripEl.querySelector('[data-room-link]') : null;
 
   var defaults = {
     room: 'all',
@@ -92,6 +109,29 @@
     return labelText || fallback;
   }
 
+  function updateRoomStrip(roomSlug) {
+    if (!roomStripEl) return;
+    var roomInfo = roomSlug && roomSlug !== 'all' ? roomMap[roomSlug] : null;
+    if (!roomInfo) {
+      roomStripEl.hidden = true;
+      return;
+    }
+    if (roomAvifEl) roomAvifEl.setAttribute('srcset', roomInfo.avif || '');
+    if (roomWebpEl) roomWebpEl.setAttribute('srcset', roomInfo.webp || '');
+    if (roomImgEl) {
+      roomImgEl.setAttribute('src', roomInfo.jpg || '');
+      roomImgEl.setAttribute('alt', roomInfo.alt || roomInfo.heading || '');
+    }
+    if (roomEyebrowEl) roomEyebrowEl.textContent = roomInfo.eyebrow || roomInfo.label || '';
+    if (roomHeadingEl) roomHeadingEl.textContent = roomInfo.heading || '';
+    if (roomIntroEl) roomIntroEl.textContent = roomInfo.intro || '';
+    if (roomLinkEl) {
+      roomLinkEl.setAttribute('href', roomInfo.href || '/shop/');
+      roomLinkEl.textContent = 'Open ' + (roomInfo.label || 'room') + ' page →';
+    }
+    roomStripEl.hidden = false;
+  }
+
   function render() {
     var state = currentState();
     var visibleCount = 0;
@@ -123,6 +163,8 @@
       if (show) visibleCount++;
       grid.appendChild(card);
     });
+
+    updateRoomStrip(state.room);
 
     if (countEl) {
       countEl.textContent = 'Showing ' + visibleCount + ' of ' + totalCount + (totalCount === 1 ? ' piece' : ' pieces');

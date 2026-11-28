@@ -297,6 +297,18 @@
         "paragraphs": [
           "Origin, material, dimensions, care and the supplier or maker are listed where they are known. Where something is still being confirmed, the page says so instead of filling the gap with a claim."
         ]
+      },
+      {
+        "heading": "Compliance & FAQ protocol",
+        "paragraphs": [
+          "Every regulated cosmetic and botanical supplement preview is governed by OPAR's live compliance register: tracing beyond marketplace resellers to named manufacturers, separating full weight-ordered INCI lists and Supplement Facts from promotional summaries, and holding safety reports (CPSR or batch COAs) before live trading opens."
+        ],
+        "links": [
+          {
+            "label": "Read Compliance & FAQ",
+            "href": "/help/#compliance-faq"
+          }
+        ]
       }
     ]
   },
@@ -437,6 +449,33 @@
         "question": "How do I look up my invoice request?",
         "answer": "Visit Track order (/order/) and enter both your invoice reference and the email address used at checkout. Lookups check browser-local construction storage on your current device until a server backend connects."
       }
+    ],
+    "complianceShowcase": true,
+    "complianceFaq": [
+      {
+        "question": "How does OPAR verify suppliers and manufacturers?",
+        "answer": "OPAR traces beyond marketplace storefront names to confirm the legal manufacturer identity, facility country of origin, and applicable Responsible Person appointments (keeping EU and Great Britain / UK appointments separate). Where a listing cites an EU representative with a malformed address or lacks a UK Responsible Person, the gap stays visible in the product Verification File and live trading remains closed."
+      },
+      {
+        "question": "How does OPAR handle INCI ingredient listings and Supplement Facts?",
+        "answer": "For cosmetic soaps and topical items, marketing ingredient highlights (such as naming niacinamide, tea tree oil, or aloe without concentration order) are never treated as a valid declaration. OPAR requires a complete, weight-ordered INCI list before opening live sales. For ingestible botanicals, label artwork figures—such as capsule count and per-serving botanical mass—are recorded explicitly as label-stated and separated from gross parcel weight or conflicting marketplace category tags."
+      },
+      {
+        "question": "How does OPAR manage cosmetic safety reports (CPSRs) and batch laboratory testing?",
+        "answer": "Cosmetics intended for UK or EU customers require a Cosmetic Product Safety Report (CPSR), batch-code inspection, and microbiological and heavy-metal testing. Botanical supplements require batch-specific third-party Certificates of Analysis (COAs) covering botanical identity, active amounts, microbiology, and contaminants. Every missing report is logged as not-provided or pending in OPAR's public register rather than hidden."
+      },
+      {
+        "question": "Does supplier label artwork or a marketplace badge count as organic or safety certification?",
+        "answer": "No. A one-page label PDF proves what is printed on packaging artwork; it is not an organic certificate, allergen guarantee, or laboratory test report. OPAR strips unverified supplier phrases—including anti-acne, skin lightening, organic certification, or clinically proven claims—and logs them under excluded supplier wording on each product page."
+      },
+      {
+        "question": "Why are preview items with 0 verified safety checks visible in the Shop?",
+        "answer": "During pre-launch construction, OPAR publishes selected previews alongside their exact verification score (for example, 0 of 9 checks verified) and keeps card checkout disabled. Customers can inspect the honest evidence ledger, compare rooms, and test the written-invoice inquiry workflow without any payment credential collection."
+      },
+      {
+        "question": "How do partner offers differ from OPAR shop compliance?",
+        "answer": "Partner offers (marked Discover / Partner offer) are sold and fulfilled on external merchants' websites, where the merchant holds seller obligations for pricing, shipping, and product compliance. Even there, OPAR withholds unverified efficacy, price, or stock claims from its introductory copy."
+      }
     ]
   },
   {
@@ -496,6 +535,10 @@
       {
         "label": "Health disclaimer",
         "href": "/policies/health-disclaimer/"
+      },
+      {
+        "label": "Compliance & FAQ",
+        "href": "/help/#compliance-faq"
       }
     ]
   },

@@ -28,6 +28,13 @@
     "images": [
       {
         "src": "/assets/products/aliexpress-turmeric-soap.jpg",
+        "srcAvif": "/assets/products/aliexpress-turmeric-soap.avif",
+        "srcWebp": "/assets/products/aliexpress-turmeric-soap.webp",
+        "src800Avif": "/assets/products/aliexpress-turmeric-soap-800.avif",
+        "src800Webp": "/assets/products/aliexpress-turmeric-soap-800.webp",
+        "src800Jpg": "/assets/products/aliexpress-turmeric-soap-800.jpg",
+        "width": 1000,
+        "height": 1000,
         "sourceImageUrl": "https://ae-pic-a1.aliexpress-media.com/kf/S4dd8e3668bf44d19a2ffae3bcb663949g.jpg",
         "alt": "Supplier listing photograph of the selected turmeric soap",
         "caption": "Supplier photograph of the wrapped bar. The printed pack label is the supplier's own wording and is not repeated as an OPAR claim. OPAR's own photography is added before launch."
