@@ -356,9 +356,9 @@
     ],
     "crossLinks": [
       { "label": "Herbal Botanicals room", "href": "/shop/herbal-botanicals/" },
-      { "label": "Plants & practice journal", "href": "/journal/plants-and-practice/" },
-      { "label": "Health disclaimer", "href": "/policies/health-disclaimer/" },
-      { "label": "Sourcing & makers", "href": "/about/sourcing/" }
+      { "label": "Ashwagandha extract & safety guide", "href": "/journal/plants-and-practice/ashwagandha-extracts-dosage-safety-guide/" },
+      { "label": "Botanical label audit note", "href": "/journal/plants-and-practice/reading-botanical-labels-whole-root-and-rhizome/" },
+      { "label": "Compliance & FAQ", "href": "/help/#compliance-faq" }
     ],
     "faq": [
       {

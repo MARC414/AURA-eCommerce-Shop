@@ -49,11 +49,29 @@ export function validateJournalEntry(entry) {
   if (!entry.provenance?.verifiedFact || !entry.provenance?.attributedTradition || !entry.provenance?.withheldOutcome) {
     throw new Error(`Journal entry ${entry.slug} requires provenance triplet (verifiedFact, attributedTradition, withheldOutcome).`);
   }
+  if (Array.isArray(entry.sourceArchive)) {
+    for (const group of entry.sourceArchive) {
+      for (const item of group.items || []) {
+        if (item.url && !/^https?:\/\//i.test(item.url)) {
+          throw new Error(`Journal entry ${entry.slug} source URL must use HTTP or HTTPS: ${item.url}`);
+        }
+      }
+    }
+  }
   const text = [
     entry.title,
     entry.kicker,
     entry.deck,
-    ...entry.sections.flatMap(sec => [sec.heading, ...(sec.paragraphs || [])]),
+    entry.quickAnswer?.summary,
+    ...entry.sections.flatMap(sec => [
+      sec.heading,
+      ...(sec.paragraphs || []),
+      ...(sec.tables || []).flatMap(tbl => [tbl.caption, ...(tbl.headers || []), ...(tbl.rows || []).flat()]),
+      ...(sec.lists || []).flatMap(list => [list.title, ...(list.items || []).map(i => typeof i === 'string' ? i : `${i.label || ''} ${i.detail || ''}`)]),
+      sec.callout?.title,
+      sec.callout?.text
+    ]),
+    ...(entry.faq || []).flatMap(item => [item.question, item.answer]),
     entry.seo?.title,
     entry.seo?.description
   ].filter(Boolean).join(' ');
@@ -391,23 +409,96 @@ export function renderJournalArchivePage(page, journalEntries = journal, shellOp
   });
 }
 
+function toRomanNumeral(num) {
+  const numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI'];
+  return numerals[num] || String(num + 1);
+}
+
+function renderJournalList(list) {
+  const titleHtml = list.title ? `<h3 class="v2-journal-subhead">${escapeHtml(list.title)}</h3>` : '';
+  const style = list.style || 'bullets';
+  const tag = style === 'steps' ? 'ol' : 'ul';
+  const cls = `v2-journal-list v2-journal-list--${escapeHtml(style)}`;
+  const itemsHtml = (list.items || []).map(item => {
+    if (typeof item === 'string') {
+      return `<li>${escapeHtml(item)}</li>`;
+    }
+    const label = item.label ? `<strong>${escapeHtml(item.label)}</strong>` : '';
+    const arrowText = item.result ? ` <span class="v2-journal-list__arrow" aria-hidden="true">&rarr;</span> <span class="v2-journal-list__result">${escapeHtml(item.result)}</span>` : '';
+    const detail = item.detail ? `<span class="v2-journal-list__detail">${escapeHtml(item.detail)}</span>` : '';
+    return `<li>${label}${arrowText}${detail}</li>`;
+  }).join('');
+  return `${titleHtml}<${tag} class="${cls}">${itemsHtml}</${tag}>`;
+}
+
+function renderJournalTable(table) {
+  const captionHtml = table.caption ? `<caption class="v2-journal-table__cap">${escapeHtml(table.caption)}</caption>` : '';
+  const headersHtml = (table.headers || []).map(h => `<th scope="col">${escapeHtml(h)}</th>`).join('');
+  const rowsHtml = (table.rows || []).map(row => `<tr>${row.map((cell, cIdx) => {
+    const isRowHead = cIdx === 0;
+    const isNumeric = /^[\d+$~.<>≥£%-]/.test(String(cell || '').trim());
+    const cls = isNumeric ? ' class="v2-journal-num"' : '';
+    return isRowHead ? `<th scope="row">${escapeHtml(cell)}</th>` : `<td${cls}>${escapeHtml(cell)}</td>`;
+  }).join('')}</tr>`).join('');
+  return `
+    <div class="v2-journal-table-wrap">
+      <table class="v2-journal-table">
+        ${captionHtml}
+        <thead><tr>${headersHtml}</tr></thead>
+        <tbody>${rowsHtml}</tbody>
+      </table>
+    </div>`;
+}
+
+function renderJournalBridge(bridge) {
+  if (!bridge) return '';
+  const links = [];
+  if (bridge.primaryLink?.href) {
+    links.push(`<a class="text-link" href="${escapeHtml(bridge.primaryLink.href)}">${escapeHtml(bridge.primaryLink.label)} ${arrow}</a>`);
+  }
+  if (bridge.secondaryLink?.href) {
+    links.push(`<a class="text-link" href="${escapeHtml(bridge.secondaryLink.href)}">${escapeHtml(bridge.secondaryLink.label)} ${arrow}</a>`);
+  }
+  return `
+    <aside class="v2-journal-bridge" aria-label="${escapeHtml(bridge.eyebrow || 'OPAR Product Bridge')}">
+      <div class="v2-journal-bridge__copy">
+        ${bridge.eyebrow ? `<span class="eyebrow">${escapeHtml(bridge.eyebrow)}</span>` : ''}
+        ${bridge.title ? `<h3>${escapeHtml(bridge.title)}</h3>` : ''}
+        ${bridge.body ? `<p>${escapeHtml(bridge.body)}</p>` : ''}
+      </div>
+      ${links.length ? `<div class="v2-journal-bridge__links">${links.join('')}</div>` : ''}
+    </aside>`;
+}
+
 export function renderJournalEntryPage(entry, allEntries = journal, shellOptions = {}) {
   validateJournalEntry(entry);
   const canonical = journalEntryPath(entry);
-  const roman = ['I', 'II', 'III', 'IV', 'V'];
   const siblings = allEntries.filter(item => item.desk === entry.desk && item.slug !== entry.slug);
+  const archiveUrls = Array.isArray(entry.sourceArchive)
+    ? entry.sourceArchive.flatMap(group => (group.items || []).map(item => item.url).filter(Boolean))
+    : [];
+
+  const articleLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: entry.title,
+    description: entry.seo?.description || entry.deck,
+    articleSection: entry.deskLabel,
+    datePublished: entry.publishedDate,
+    dateModified: entry.updatedDate || entry.publishedDate,
+    author: { '@type': 'Organization', name: entry.author || `${BRAND} Editorial Desk` },
+    publisher: { '@type': 'Organization', name: BRAND },
+    url: canonical
+  };
+  if (Array.isArray(entry.seo?.keywords) && entry.seo.keywords.length) {
+    articleLd.keywords = entry.seo.keywords.join(', ');
+  }
+  if (archiveUrls.length) {
+    articleLd.citation = archiveUrls;
+  }
+
   const jsonLd = [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Article',
-      headline: entry.title,
-      description: entry.seo?.description || entry.deck,
-      articleSection: entry.deskLabel,
-      datePublished: entry.publishedDate,
-      author: { '@type': 'Organization', name: entry.author || `${BRAND} Editorial Desk` },
-      publisher: { '@type': 'Organization', name: BRAND },
-      url: canonical
-    },
+    articleLd,
     {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
@@ -420,12 +511,95 @@ export function renderJournalEntryPage(entry, allEntries = journal, shellOptions
     }
   ];
 
-  const sectionsHtml = entry.sections.map((section, idx) => `
-    <section class="v2-finepress-section">
-      <span class="v2-roman-numeral" aria-hidden="true">${roman[idx] || String(idx + 1)}</span>
+  if (Array.isArray(entry.faq) && entry.faq.length) {
+    jsonLd.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: entry.faq.map(item => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer
+        }
+      }))
+    });
+  }
+
+  const noticeHtml = entry.editorialNotice ? `
+    <aside class="v2-journal-notice" role="note" aria-label="Editorial and medical scope notice">
+      <span class="eyebrow">${escapeHtml(entry.editorialNotice.eyebrow || 'Editorial Scope · Educational Synthesis')}</span>
+      <p>${escapeHtml(entry.editorialNotice.body)}</p>
+    </aside>` : '';
+
+  const quickAnswerHtml = entry.quickAnswer ? `
+    <section class="v2-journal-quick-answer" aria-labelledby="quick-answer-heading">
+      <span class="eyebrow">${escapeHtml(entry.quickAnswer.eyebrow || 'Quick Answer · AEO Summary')}</span>
+      <h2 id="quick-answer-heading">${escapeHtml(entry.quickAnswer.heading)}</h2>
+      <p>${escapeHtml(entry.quickAnswer.summary)}</p>
+      ${Array.isArray(entry.quickAnswer.points) && entry.quickAnswer.points.length ? `
+        <dl class="v2-journal-quick-grid">
+          ${entry.quickAnswer.points.map(pt => `<div><dt>${escapeHtml(pt.label)}</dt><dd>${escapeHtml(pt.value)}</dd></div>`).join('')}
+        </dl>` : ''}
+    </section>` : '';
+
+  const tocItems = entry.sections
+    .filter(sec => sec.id && sec.heading)
+    .map((sec, idx) => ({ id: sec.id, label: sec.tocLabel || sec.heading, num: String(idx + 1).padStart(2, '0') }));
+  if (Array.isArray(entry.faq) && entry.faq.length) {
+    tocItems.push({ id: 'sec-faq', label: 'Frequently asked questions', num: String(tocItems.length + 1).padStart(2, '0') });
+  }
+  if (Array.isArray(entry.sourceArchive) && entry.sourceArchive.length) {
+    tocItems.push({ id: 'source-verification-archive', label: 'Tiered source & verification archive', num: String(tocItems.length + 1).padStart(2, '0') });
+  }
+
+  const tocHtml = entry.showToc && tocItems.length > 2 ? `
+    <nav class="v2-journal-toc" aria-label="Article contents">
+      <span class="eyebrow">Contents · Jump to section</span>
+      <ol>
+        ${tocItems.map(item => `<li><a href="#${escapeHtml(item.id)}"><span class="v2-journal-toc__num">${escapeHtml(item.num)}</span><span>${escapeHtml(item.label)}</span></a></li>`).join('')}
+      </ol>
+    </nav>` : '';
+
+  const sectionsHtml = entry.sections.map((section, idx) => {
+    const idAttr = section.id ? ` id="${escapeHtml(section.id)}"` : '';
+    const paragraphsHtml = (section.paragraphs || [])
+      .map((p, pIdx) => `<p${idx === 0 && pIdx === 0 ? ' class="v2-dropcap"' : ''}>${escapeHtml(p)}</p>`)
+      .join('');
+    const tablesHtml = (section.tables || []).map(renderJournalTable).join('');
+    const listsHtml = (section.lists || []).map(renderJournalList).join('');
+    const calloutHtml = section.callout ? `
+      <aside class="v2-journal-callout" role="note">
+        ${section.callout.eyebrow ? `<span class="eyebrow">${escapeHtml(section.callout.eyebrow)}</span>` : ''}
+        ${section.callout.title ? `<h3>${escapeHtml(section.callout.title)}</h3>` : ''}
+        <p>${escapeHtml(section.callout.text)}</p>
+      </aside>` : '';
+    const bridgeHtml = renderJournalBridge(section.productBridge);
+
+    return `
+    <section class="v2-finepress-section"${idAttr}>
+      <span class="v2-roman-numeral" aria-hidden="true">${toRomanNumeral(idx)}</span>
       ${section.heading ? `<h2>${escapeHtml(section.heading)}</h2>` : ''}
-      ${(section.paragraphs || []).map((p, pIdx) => `<p${idx === 0 && pIdx === 0 ? ' class="v2-dropcap"' : ''}>${escapeHtml(p)}</p>`).join('')}
-    </section>`).join('');
+      ${paragraphsHtml}
+      ${listsHtml}
+      ${tablesHtml}
+      ${calloutHtml}
+      ${bridgeHtml}
+    </section>`;
+  }).join('');
+
+  const faqHtml = Array.isArray(entry.faq) && entry.faq.length ? `
+    <section class="v2-finepress-section v2-journal-faq" id="sec-faq" aria-labelledby="journal-faq-heading">
+      <span class="v2-roman-numeral" aria-hidden="true">${toRomanNumeral(entry.sections.length)}</span>
+      <h2 id="journal-faq-heading">${escapeHtml(entry.faqHeading || 'Frequently asked questions')}</h2>
+      <div class="v2-journal-faq-list">
+        ${entry.faq.map((item, fIdx) => `
+          <details${fIdx === 0 ? ' open' : ''}>
+            <summary>${escapeHtml(item.question)}</summary>
+            <p>${escapeHtml(item.answer)}</p>
+          </details>`).join('')}
+      </div>
+    </section>` : '';
 
   const relationHtml = entry.relatedProduct ? `
     <aside class="v2-journal-relation" aria-label="Related house section">
@@ -435,6 +609,35 @@ export function renderJournalEntryPage(entry, allEntries = journal, shellOptions
       </div>
       <a class="text-link" href="${escapeHtml(entry.relatedProduct.href)}">${escapeHtml(entry.relatedProduct.label)} ${arrow}</a>
     </aside>` : '';
+
+  const totalSourceCount = Array.isArray(entry.sourceArchive)
+    ? entry.sourceArchive.reduce((sum, group) => sum + (group.items ? group.items.length : 0), 0)
+    : 0;
+
+  const sourceArchiveHtml = Array.isArray(entry.sourceArchive) && entry.sourceArchive.length ? `
+    <section class="v2-journal-archive-wrap" aria-label="Source verification archive">
+      <details class="v2-source-archive" id="source-verification-archive">
+        <summary>
+          <span class="v2-source-archive__title">Tiered Source &amp; Verification URL Archive</span>
+          <span class="v2-source-archive__count">${totalSourceCount} stored links · open to inspect</span>
+        </summary>
+        <div class="v2-source-archive__body">
+          <p class="v2-source-archive__intro">Every primary trial, pharmacokinetic paper, safety warning, and market benchmark referenced during editorial planning is retained here by evidence tier for ongoing compliance verification.</p>
+          ${entry.sourceArchive.map(group => `
+            <div class="v2-source-tier">
+              <h3>${escapeHtml(group.tier)}</h3>
+              ${group.note ? `<p class="v2-source-tier__note">${escapeHtml(group.note)}</p>` : ''}
+              <ol>
+                ${(group.items || []).map(item => `
+                  <li>
+                    <span class="v2-source-tier__cit">${escapeHtml(item.citation)}</span>
+                    ${item.url ? `<a class="v2-source-tier__url" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.url)} ${external}</a>` : ''}
+                  </li>`).join('')}
+              </ol>
+            </div>`).join('')}
+        </div>
+      </details>
+    </section>` : '';
 
   const citationsHtml = Array.isArray(entry.citations) && entry.citations.length ? `
     <div class="v2-journal-citations">
@@ -471,7 +674,11 @@ export function renderJournalEntryPage(entry, allEntries = journal, shellOptions
         ${journalMetaLine(entry)}
       </header>
       <article class="v2-finepress">
+        ${noticeHtml}
+        ${quickAnswerHtml}
+        ${tocHtml}
         ${sectionsHtml}
+        ${faqHtml}
         <aside class="v2-provenance-ledger" aria-labelledby="provenance-ledger-heading">
           <span class="eyebrow">Writing Charter · Provenance Split</span>
           <h2 id="provenance-ledger-heading">Observed Fact, Tradition, and Withheld Outcomes</h2>
@@ -482,6 +689,7 @@ export function renderJournalEntryPage(entry, allEntries = journal, shellOptions
           </dl>
         </aside>
         ${relationHtml}
+        ${sourceArchiveHtml}
         ${citationsHtml}
         <div class="content-links content-links-wide">${continueLinks}</div>
       </article>

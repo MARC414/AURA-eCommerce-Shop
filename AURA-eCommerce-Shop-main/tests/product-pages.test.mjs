@@ -1510,12 +1510,12 @@ test('Room Clarity Drawer, AVIF/WebP asset speed pass, and Moss Nocturne Journal
   assert.match(shopPage, /srcset="\/assets\/products\/aliexpress-turmeric-soap-800\.avif 800w, \/assets\/products\/aliexpress-turmeric-soap\.avif 1000w"/);
 
   // 3. Moss Nocturne Journal archive (/journal/ & desks) + standalone essay reader
-  assert.equal(journalEntries.length, 3);
+  assert.equal(journalEntries.length, 4);
   const journalRoot = renderStaticPage(pageAt('/journal/'));
   const journalPlants = renderStaticPage(pageAt('/journal/plants-and-practice/'));
   assert.match(journalRoot, /class="v2-journal-desk-nav"/);
   assert.match(journalRoot, /class="v2-journal-lead"/);
-  assert.equal((journalRoot.match(/<article class="v2-journal-card"/g) || []).length, 2);
+  assert.equal((journalRoot.match(/<article class="v2-journal-card"/g) || []).length, 3);
   assert.match(journalPlants, /aria-current="page">Plants &amp; practice</);
   assert.match(journalPlants, /class="v2-journal-lead"/);
 
@@ -1782,6 +1782,64 @@ test('Standardized SEO service injects unique 120-160 char meta descriptions and
   assert.equal(canonEl.getAttribute('href'), 'https://opar.shop/shop/turmeric-cleansing-soap/');
   assert.equal(ogEl.getAttribute('content'), 'https://opar.shop/shop/turmeric-cleansing-soap/');
 });
+
+test('Flagship Ashwagandha guide renders inside Plants & practice with AEO/SEO schema, structured tables, OPAR product bridges, and tiered 32-URL archive', () => {
+  const guide = journalEntries.find(e => e.slug === 'ashwagandha-extracts-dosage-safety-guide');
+  assert.ok(guide, 'flagship Ashwagandha guide exists in journal.json');
+  assert.equal(guide.desk, 'plants-and-practice');
+  assert.equal(guide.featured, true);
+  validateJournalEntry(guide);
+
+  const guideRoute = journalEntryPath(guide);
+  assert.equal(guideRoute, '/journal/plants-and-practice/ashwagandha-extracts-dosage-safety-guide/');
+  const guideHtml = renderJournalEntryPage(guide, journalEntries);
+
+  // 1. Featured lead card inside /journal/plants-and-practice/ alongside companion label note
+  const plantsHtml = renderStaticPage(pageAt('/journal/plants-and-practice/'));
+  assert.match(plantsHtml, new RegExp(`class="v2-journal-lead"[\\s\\S]*?${guideRoute}`));
+  assert.match(plantsHtml, /reading-botanical-labels-whole-root-and-rhizome/);
+
+  // 2. On-page SEO + AEO quick answer + chapter TOC + JSON-LD Article, BreadcrumbList & FAQPage
+  const descMatch = guideHtml.match(/<meta name="description" content="([^"]*)">/);
+  assert.ok(descMatch && descMatch[1].length >= 120 && descMatch[1].length <= 160);
+  assert.match(guideHtml, /class="v2-journal-notice"/);
+  assert.match(guideHtml, /class="v2-journal-quick-answer"/);
+  assert.match(guideHtml, /class="v2-journal-toc"/);
+  assert.match(guideHtml, /"@type":"Article"/);
+  assert.match(guideHtml, /"@type":"BreadcrumbList"/);
+  assert.match(guideHtml, /"@type":"FAQPage"/);
+  assert.match(guideHtml, /Can I take ashwagandha with an SSRI or SNRI\?/);
+
+  // 3. Structured tables & content integrity (KSM-66, Sensoril, Shoden, Zenroot, safety, ConsumerLab)
+  assert.ok((guideHtml.match(/<table class="v2-journal-table">/g) || []).length >= 7);
+  assert.match(guideHtml, /KSM-66/);
+  assert.match(guideHtml, /Sensoril/);
+  assert.match(guideHtml, /Shoden/);
+  assert.match(guideHtml, /Zenroot/);
+  assert.match(guideHtml, /PMC10746415/);
+  assert.match(guideHtml, /ConsumerLab/);
+
+  // 4. Contextual OPAR product & room links while keeping external third-party brands unlinked
+  assert.match(guideHtml, /href="\/shop\/ashwagandha-with-black-pepper\/"/);
+  assert.match(guideHtml, /href="\/shop\/herbal-botanicals\/"/);
+  assert.match(guideHtml, /href="\/help\/#compliance-faq"/);
+  assert.match(guideHtml, /href="\/shop\/"/);
+  assert.match(guideHtml, /href="\/discover\/"/);
+  assert.doesNotMatch(guideHtml, /href="https?:\/\/(?:www\.)?(?:livemomentous|transparentlabs|thorne|bulksupplements|nootropicsdepot)\./i);
+
+  // 5. Tiered collapsible source URL archive retains all 32 verification URLs
+  assert.match(guideHtml, /<details class="v2-source-archive" id="source-verification-archive">/);
+  assert.match(guideHtml, /32 stored links/);
+  assert.match(guideHtml, /https:\/\/pmc\.ncbi\.nlm\.nih\.gov\/articles\/PMC13436050\//);
+  assert.match(guideHtml, /https:\/\/www\.ncbi\.nlm\.nih\.gov\/books\/NBK547858\//);
+  assert.match(guideHtml, /https:\/\/www\.drugs\.com\/npp\/ashwagandha\.html/);
+  assert.match(guideHtml, /https:\/\/www\.who\.int\/publications\/i\/item\/9789241545536/);
+
+  // 6. Bidirectional link from Ashwagandha product folio back to the flagship guide
+  assert.ok(ashwagandhaPage.includes(`href="${guideRoute}"`));
+  assert.ok(existsSync(new URL(`../public${guideRoute}index.html`, import.meta.url)), 'Generated flagship Ashwagandha guide HTML exists');
+});
+
 
 
 

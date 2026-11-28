@@ -268,6 +268,15 @@ export function renderSeoHeadTags(seo, escapeHtml) {
   <meta name="twitter:description" content="${escapeHtml(seo.description)}">${twitterImageTag}${jsonLdTag}`;
 }
 
+function decodeBasicEntities(value = '') {
+  return String(value)
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
 export function createSeoRegistry() {
   const canonicals = new Map();
   const descriptions = new Map();
@@ -282,8 +291,8 @@ export function createSeoRegistry() {
       if (!descriptionMatch || !descriptionMatch[1].trim()) {
         throw new Error(`SEO error: ${routePath} is missing a meta description.`);
       }
-      const canon = canonicalMatch[1].trim();
-      const desc = descriptionMatch[1].trim();
+      const canon = decodeBasicEntities(canonicalMatch[1].trim());
+      const desc = decodeBasicEntities(descriptionMatch[1].trim());
       if (canonicals.has(canon)) {
         throw new Error(`SEO duplicate canonical "${canon}" on ${routePath} (already used by ${canonicals.get(canon)}).`);
       }
